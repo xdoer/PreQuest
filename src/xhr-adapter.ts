@@ -1,13 +1,6 @@
-interface Adapter {
-  method: string
-  url: string
-  timeout: number
-  withCredentials: boolean
-  headers: Record<string, string>
-  responseType: XMLHttpRequestResponseType
-}
+import { AdapterConfig } from './types'
 
-export function adapter(config: Adapter) {
+export function adapter(config: Required<AdapterConfig>) {
   const { method, url, headers, timeout, withCredentials, responseType } = config
 
   return new Promise((resolve, reject) => {
