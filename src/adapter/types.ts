@@ -1,11 +1,8 @@
-export interface Config {
+export interface AdapterConfig {
   method?: string
-  path?: string
-  baseURL?: string
+  url?: string
   timeout?: number
   withCredentials?: boolean
   headers?: Record<string, string>
   responseType?: XMLHttpRequestResponseType
 }
-
-export type ReqMethods = 'get' | 'post'

@@ -1,31 +1,30 @@
-import { adapter } from './xhr-adapter'
+import { xmlAdapter } from './adapter'
+import { OnionModel } from './onion'
+import { mergeConfig } from './utils'
+import { Config, ReqMethods } from './types'
 
-type ReqMethods = 'get' | 'post'
 const reqMethods: ReqMethods[] = ['get', 'post']
 
-interface Config {
-  baseURL?: string
-}
-
-export class Axis {
+export class Axis extends OnionModel {
   config: Config = {}
 
   get: any
   post: any
 
   constructor(config?: any) {
-    this.config = Object.assign({}, this.config, config)
+    super()
+    this.config = mergeConfig(this.config, config)
     this.init()
   }
 
   init() {
     reqMethods.forEach(method => {
       this[method] = async (url: string, config: Config) => {
-        const axisConfig = Object.assign({}, this.config, config)
+        const axisConfig = mergeConfig(this.config, config)
         const adapterConfig = {
           ...axisConfig,
           url: axisConfig.baseURL + url,
-          method,
+          method: method.toUpperCase(),
         }
         return this.getAdapter(adapterConfig)
       }
@@ -33,7 +32,6 @@ export class Axis {
   }
 
   getAdapter(config: any) {
-    // TODO: 执行中间件
-    return adapter(config)
+    return this.exec(config, () => xmlAdapter(config))
   }
 }

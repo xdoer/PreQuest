@@ -1,6 +1,6 @@
 import { AdapterConfig } from './types'
 
-export function adapter(config: Required<AdapterConfig>) {
+export function xmlAdapter(config: Required<AdapterConfig>) {
   const { method, url, headers, timeout, withCredentials, responseType } = config
 
   return new Promise((resolve, reject) => {

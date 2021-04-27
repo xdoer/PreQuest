@@ -3,6 +3,18 @@ import { Axis } from '../../../src'
 
 const axis = new Axis()
 
+axis
+  .use(async (ctx, next) => {
+    console.log(1)
+    await next()
+    console.log(2, ctx)
+  })
+  .use(async (ctx, next) => {
+    console.log(3, ctx)
+    await next()
+    console.log(4)
+  })
+
 axis.config.baseURL = 'https://www.baidu.com'
 
 function App() {
