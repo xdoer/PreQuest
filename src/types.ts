@@ -10,3 +10,11 @@ export interface Config {
 }
 
 export type ReqMethods = 'get' | 'post'
+
+// export interface Context {
+
+// }
+
+export type Context = Record<string, any>
+
+export type MiddlewareCallback = (ctx: Context, next: any) => any

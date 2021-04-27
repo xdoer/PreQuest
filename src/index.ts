@@ -1,14 +1,17 @@
-import { OnionModel } from './onion'
+import { Middleware } from './Middleware'
+import { Interceptor } from './Interceptor'
 import { mergeConfig } from './utils'
 import { Config, ReqMethods } from './types'
 
 const reqMethods: ReqMethods[] = ['get', 'post']
 
-export class Axis extends OnionModel {
+export class Axis extends Middleware {
   config: Config = {}
 
   get: any
   post: any
+
+  interceptor = new Interceptor()
 
   constructor(config?: Config) {
     super()
@@ -31,8 +34,8 @@ export class Axis extends OnionModel {
   }
 
   getAdapter(config: any) {
-    return this.exec(config, (ctx) => {
-      ctx.response = this.config.adapter(config)
+    return this.exec(config, async (ctx) => {
+      ctx.response = await this.config.adapter(config)
     })
   }
 }
