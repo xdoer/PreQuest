@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import { Axis } from '../../../src'
+import { xmlAdapter } from '../../../src/adapter'
 
-const axis = new Axis()
+const axis = new Axis({ adapter: xmlAdapter })
 
 axis
   .use(async (ctx, next) => {
@@ -15,19 +16,18 @@ axis
     console.log(4)
   })
 
-axis.config.baseURL = 'https://www.baidu.com'
+axis.config.baseURL = 'http://localhost:10086'
 
 function App() {
-
   useEffect(() => {
     async function req() {
       try {
-        const xxx = await axis.get('/aaa', {
+        const xxx = await axis.get('/', {
           method: 'post',
-          // url: 'https://www.baidu.com',
-          baseURL: 'https://jd.com',
+          // url: '/',
+          // baseURL: 'https://jd.com',
           headers: {
-            token: '1234455667777877777777'
+            // token: '1234455667777877777777'
           },
           timeout: 5000,
           withCredentials: false,

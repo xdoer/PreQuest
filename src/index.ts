@@ -1,4 +1,3 @@
-import { xmlAdapter } from './adapter'
 import { OnionModel } from './onion'
 import { mergeConfig } from './utils'
 import { Config, ReqMethods } from './types'
@@ -11,9 +10,9 @@ export class Axis extends OnionModel {
   get: any
   post: any
 
-  constructor(config?: any) {
+  constructor(config?: Config) {
     super()
-    this.config = mergeConfig(this.config, config)
+    this.config = mergeConfig(this.config, config || {})
     this.init()
   }
 
@@ -32,6 +31,8 @@ export class Axis extends OnionModel {
   }
 
   getAdapter(config: any) {
-    return this.exec(config, () => xmlAdapter(config))
+    return this.exec(config, (ctx) => {
+      ctx.response = this.config.adapter(config)
+    })
   }
 }

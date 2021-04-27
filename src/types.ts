@@ -1,6 +1,7 @@
 export interface Config {
   method?: string
   path?: string
+  adapter?: any
   baseURL?: string
   timeout?: number
   withCredentials?: boolean
