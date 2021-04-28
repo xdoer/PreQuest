@@ -5,7 +5,7 @@ import { Config, ReqMethods } from './types'
 
 const reqMethods: ReqMethods[] = ['get', 'post']
 
-export class Axis extends Middleware {
+export class PreQuest extends Middleware {
   config: Config = {}
 
   get: any

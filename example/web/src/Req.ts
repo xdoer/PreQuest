@@ -1,7 +1,7 @@
-import { Axis } from '../../../src'
+import { PreQuest } from '../../../src'
 import { xmlAdapter } from '../../../src/adapter'
 
-const axis = new Axis({ adapter: xmlAdapter })
+const axis = new PreQuest({ adapter: xmlAdapter })
 
 // 洋葱模式，中间件
 axis
