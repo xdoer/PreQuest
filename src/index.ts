@@ -11,12 +11,15 @@ export class Axis extends Middleware {
   get: any
   post: any
 
-  interceptor = new Interceptor()
-
   constructor(config?: Config) {
     super()
     this.config = mergeConfig(this.config, config || {})
     this.init()
+  }
+
+  interceptor = {
+    request: new Interceptor(),
+    response: new Interceptor()
   }
 
   init() {
@@ -28,14 +31,20 @@ export class Axis extends Middleware {
           url: axisConfig.baseURL + url,
           method: method.toUpperCase(),
         }
-        return this.getAdapter(adapterConfig)
+        return this.request(adapterConfig)
       }
     })
   }
 
-  getAdapter(config: any) {
-    return this.exec(config, async (ctx) => {
-      ctx.response = await this.config.adapter(config)
-    })
+  request(config: Config) {
+    return this.interceptor.request
+      .exec(config)
+      .then(res => this.exec(res, async (ctx) => {
+        ctx.response = await this.config.adapter(res)
+      }))
+      .then(res => this.interceptor.response.exec(res))
+      .catch(e => {
+        console.log(e)
+      })
   }
 }

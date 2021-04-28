@@ -1,18 +1,23 @@
+type SuccessHandler = (res: any) => any
+type ErrorHandler = (err: any) => any
+
+interface Handles {
+  successHandler: SuccessHandler
+  errorHandler?: ErrorHandler
+}
+
 export class Interceptor {
-  reqHandles: any[] = []
+  handles: Handles[] = []
 
-  request = {
-    use() {
-
-    }
-  }
-  response = {
-    use() {
-
-    }
+  use(successHandler: SuccessHandler, errorHandler: ErrorHandler) {
+    this.handles.push({ successHandler, errorHandler })
+    return this
   }
 
-  use() {
-
+  exec(params: any) {
+    return this.handles.reduce((t, c) => {
+      t.then((res) => c.successHandler(res)).catch(e => c.errorHandler?.(e))
+      return t
+    }, Promise.resolve(params))
   }
 }
