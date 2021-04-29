@@ -21,7 +21,8 @@ export function xmlAdapter(config: Required<AdapterConfig>) {
       }
     })
 
-    xhr.addEventListener('timeout', () => {
+    xhr.addEventListener('timeout', (e) => {
+      console.log('触发超时', e, xhr)
       reject(xhr.statusText)
     })
 

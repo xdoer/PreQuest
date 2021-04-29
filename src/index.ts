@@ -1,7 +1,7 @@
 import { Middleware } from './Middleware'
 import { Interceptor } from './Interceptor'
 import { mergeConfig } from './utils'
-import { Config, ReqMethods } from './types'
+import { Config, ReqMethods, RequestOption, ResponseSchema } from './types'
 
 const reqMethods: ReqMethods[] = ['get', 'post']
 
@@ -36,9 +36,9 @@ export class PreQuest extends Middleware {
     })
   }
 
-  request(config: Config) {
+  request(options: RequestOption): Promise<ResponseSchema> {
     return this.interceptor.request
-      .exec(config)
+      .exec(options)
       .then(res => this.exec(res, async (ctx) => {
         ctx.response = await this.config.adapter(res)
       }))
