@@ -5,10 +5,19 @@ function App() {
   useEffect(() => {
     async function req() {
       try {
-        const xxx = await axis.get('/', {
-          method: 'GET',
+        const xxx = await axis.post('/api', {
+          // method: 'POST',
+          // params: {
+          //   a: 1,
+          //   b: 2,
+          // },
+          body: {
+            a: 1,
+            b: 11
+          },
           // baseURL: 'https://jd.com',
           headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
             // token: '1234455667777877777777'
           },
           timeout: 5000,

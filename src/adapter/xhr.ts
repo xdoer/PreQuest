@@ -1,7 +1,7 @@
 import { RequestOption, ResponseSchema } from '../types'
 
 export function xmlAdapter(url: string, config: Required<RequestOption>): Promise<ResponseSchema> {
-  const { method, headers, timeout, withCredentials, responseType } = config
+  const { method, headers, timeout, withCredentials, responseType, body } = config
 
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
@@ -33,16 +33,15 @@ export function xmlAdapter(url: string, config: Required<RequestOption>): Promis
       resolve(getResponse(xhr))
     }
 
-    xhr.addEventListener('timeout', (e) => {
-      console.log('触发超时', e, xhr)
-      reject(xhr.statusText)
+    xhr.addEventListener('timeout', () => {
+      reject(getResponse(xhr))
     })
 
     xhr.addEventListener('error', () => {
-      reject(xhr.statusText)
+      reject(getResponse(xhr))
     })
 
-    xhr.send()
+    xhr.send(body)
   })
 }
 

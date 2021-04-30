@@ -31,6 +31,7 @@ axis.interceptor.request
     return res
   }, (e) => {
     console.log('请求失败拦截器2', e)
+    // Promise.reject(e)
   })
 
 axis.interceptor.response
@@ -39,12 +40,14 @@ axis.interceptor.response
     return res
   }, (e) => {
     console.log('响应失败拦截器1', e);
+    Promise.reject(e)
   })
   .use((res) => {
     console.log('响应成功拦截器2', res)
     return res
   }, (e) => {
     console.log('响应失败拦截器2', e);
+    Promise.reject(e)
   })
 
 export { axis }

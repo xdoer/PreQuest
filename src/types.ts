@@ -1,10 +1,10 @@
+export type CommonObject = Record<string, string>
+
 // 适配器请求选项
 export interface RequestOption {
   method?: string
 
   body?: any
-
-  params?: Record<string, string>
 
   headers?: Record<string, any>
 
@@ -17,7 +17,9 @@ export interface RequestOption {
 
 // PreQuest 配置项
 export interface Config extends RequestOption {
+  path?: string
   baseURL?: string
+  params?: CommonObject
   adapter?: Adapter
 }
 
