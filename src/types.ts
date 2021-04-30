@@ -1,19 +1,9 @@
-
+// 适配器请求选项
 export interface RequestOption {
-  // 'method' is the request method to be used when making the request
   method?: string
 
-  // 'data' is the data to be sent as the request body
-  // Only applicable for request methods 'PUT', 'POST', and 'PATCH'
-  // Must be of one of the following types:
-  // 1. string, plain object, ArrayBuffer, ArrayBufferView, URLSearchParams
-  // 2. Browser only: FormData, File, Blob
-  // 3. Node only: Stream
   body?: any
 
-  // 'params' are the URL parameters to be sent with request
-  // Must be a plain object
-  // params?: Record<string, string> | URLSearchParams
   params?: Record<string, string>
 
   headers?: Record<string, any>
@@ -22,39 +12,34 @@ export interface RequestOption {
 
   withCredentials?: boolean
 
-  responseType?: XMLHttpRequestResponseType
+  responseType?: 'arraybuffer' | 'document' | 'json' | 'text'
 }
 
-export interface ResponseSchema {
-  // 'data' is the response that was provided by the server
-  data: Record<string, any>
+// PreQuest 配置项
+export interface Config extends RequestOption {
+  baseURL?: string
+  adapter?: Adapter
+}
 
-  // 'status' is the HTTP status code from the server response
+export type Adapter = (url: string, options: RequestOption) => Promise<ResponseSchema>
+
+// 适配器响应数据类型
+export interface ResponseSchema {
+
+  data: any
+
   status: number
 
-  // 'statusText' is the HTTP status message from the server response
   statusText: string
 
-  // 'headers' the headers that the server responded with
-  // All header names are lower cased
   headers: Record<string, any>
 }
 
-export interface Config {
-  method?: string
-  path?: string
-  adapter?: any
-  baseURL?: string
-  timeout?: number
-  withCredentials?: boolean
-  headers?: Record<string, string>
-  responseType?: XMLHttpRequestResponseType
-  body?: any
-  params?: any
-}
-
+// 请求方式
 export type ReqMethods = 'get' | 'post'
 
+// 上下文
 export type Context = Record<string, any>
 
-export type MiddlewareCallback = (ctx: Context, next: any) => any
+// 中间件回调
+export type MiddlewareCallback = (ctx: Context, next: any) => Promise<any>

@@ -6,8 +6,7 @@ function App() {
     async function req() {
       try {
         const xxx = await axis.get('/', {
-          method: 'post',
-          // url: '/',
+          method: 'GET',
           // baseURL: 'https://jd.com',
           headers: {
             // token: '1234455667777877777777'

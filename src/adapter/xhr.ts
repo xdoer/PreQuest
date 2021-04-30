@@ -1,7 +1,7 @@
-import { AdapterConfig } from './types'
+import { RequestOption, ResponseSchema } from '../types'
 
-export function xmlAdapter(config: Required<AdapterConfig>) {
-  const { method, url, headers, timeout, withCredentials, responseType } = config
+export function xmlAdapter(url: string, config: Required<RequestOption>): Promise<ResponseSchema> {
+  const { method, headers, timeout, withCredentials, responseType } = config
 
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
@@ -15,11 +15,23 @@ export function xmlAdapter(config: Required<AdapterConfig>) {
     // set headers
     Object.entries(headers).forEach(([key, value]) => xhr.setRequestHeader(key, value))
 
-    xhr.addEventListener('load', () => {
-      if (xhr.readyState === 4) {
-        resolve(xhr.responseText)
-      }
-    })
+    if (xhr.onloadend) {
+      xhr.addEventListener('loadend', () => {
+        if (xhr.readyState === 4) {
+          onloadend()
+        }
+      })
+    } else {
+      xhr.addEventListener('readystatechange', () => {
+        if (xhr.readyState === 4) {
+          setTimeout(onloadend)
+        }
+      })
+    }
+
+    function onloadend() {
+      resolve(getResponse(xhr))
+    }
 
     xhr.addEventListener('timeout', (e) => {
       console.log('触发超时', e, xhr)
@@ -32,4 +44,24 @@ export function xmlAdapter(config: Required<AdapterConfig>) {
 
     xhr.send()
   })
+}
+
+function getResponse(ctx: XMLHttpRequest): ResponseSchema {
+  const { responseText, status, statusText } = ctx
+  return {
+    data: responseText, status, statusText, headers: parseHeaders(ctx)
+  }
+}
+
+function parseHeaders(ctx: XMLHttpRequest) {
+  const headersStr = ctx.getAllResponseHeaders()
+  const headersArr = headersStr?.trim()?.split(/[\r\n]+/).filter(Boolean)
+
+  return headersArr.reduce((headers, line) => {
+    const parts = line.split(': ')
+    const key = parts.shift()
+    const value = parts.join(': ')
+
+    return { ...headers, [key!]: value }
+  }, {} as any)
 }

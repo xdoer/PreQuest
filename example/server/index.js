@@ -1,12 +1,12 @@
 const { createServer } = require('http');
 
 const app = createServer((req, res) => {
-  res.setHeader('Access-Control-Allow-Methods', 'OPTIONS,POST,GET');
-  res.setHeader('Access-Control-Allow-Origin', '*');
-
   if (req.method === 'GET') {
     if (req.url === '/') {
-      res.writeHead(200);
+      res.writeHead(200, {
+        'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
+        'Access-Control-Allow-Origin': '*',
+      });
       res.end('1');
     }
   }
