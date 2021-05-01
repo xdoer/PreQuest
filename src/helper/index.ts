@@ -1,18 +1,17 @@
 import { stringify } from 'qs';
-import { CommonObject, Request, Config, AdapterRequest } from './types'
-import { elementType } from './utils'
+import { elementType } from '../utils'
 
-export function mergeConfig(...args: Config[]): Config {
-  return args.reduce((t, c) => ({ ...t, ...c }), {} as Config)
+export function mergeConfig<T>(...args: T[]): T {
+  return args.reduce((t, c) => ({ ...t, ...c }), {} as T)
 }
 
-export function createReqUrl(baseURL: string, path: string, params: CommonObject = {}) {
+export function createReqUrl(baseURL: string, path: string, params: Record<string, string>) {
   const paramArr = Object.entries(params).map(([key, value]) => `${key}=${encodeURI(value)}`)
   const paramStr = paramArr.join('&')
   return `${baseURL}${path}${paramStr ? '?' + paramStr : ''}`
 }
 
-export function formatBody(config: Request) {
+export function formatBody(config: any) {
   const { headers, data, requestType } = config
   const bodyType = elementType(data)
 
@@ -38,5 +37,5 @@ export function formatBody(config: Request) {
 
 export function handleReqOptions(config: Request) {
   const { baseURL, path, params, ...options } = formatBody(config)
-  return { url: createReqUrl(baseURL!, path!, params), options: options as AdapterRequest }
+  return { url: createReqUrl(baseURL!, path!, params), options: options as any }
 }

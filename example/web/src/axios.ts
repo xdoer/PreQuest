@@ -1,7 +1,8 @@
 import axios from 'axios'
 import request from 'umi-request'
-import { PreQuest } from '../../../src'
-import { xmlAdapter, fetchAdapter } from '../../../src/adapter'
+// import { PreQuest } from '../../../src'
+// import { xmlAdapter, fetchAdapter } from '../../../src/adapter'
+import { xhrAdapter } from '../../../src/adapter/xhr'
 
 const baseURL = 'http://localhost:10000'
 
@@ -35,40 +36,48 @@ export function createUmiRequest() {
 }
 
 export function createXMLPreQuest() {
-  const axis = new PreQuest({
-    adapter: xmlAdapter({ withCredentials: false, responseType: 'json' }),
-    baseURL: 'http://localhost:10000',
-    requestType: 'json',
-    injectAdapterInstance() {
-      return Promise.resolve(new XMLHttpRequest())
-    }
+  const adapter = xhrAdapter({
+    baseURL: 'http://localhost:10000'
   })
 
-  return axis.post('/api', { data: { a: '1' } }).then(res => { console.log('----preQuest', res) }).catch(e => console.log('----preQuest', e))
+  adapter.use
 }
 
-export function createFetchPreQuest() {
-  const axis = new PreQuest({
-    adapter: fetchAdapter({
-      parseBody(ctx) {
-        return ctx.json()
-      }
-    }),
-    timeout: 1000,
-    baseURL: 'http://localhost:10000',
-    requestType: 'json',
-    injectAdapterInstance(url, config) {
-      const { method, headers, data } = config
+// export function createXMLPreQuest() {
+//   const axis = new PreQuest({
+//     adapter: xmlAdapter({ withCredentials: false, responseType: 'json' }),
+//     baseURL: 'http://localhost:10000',
+//     requestType: 'json',
+//     injectAdapterInstance() {
+//       return Promise.resolve(new XMLHttpRequest())
+//     }
+//   })
 
-      const options = {
-        body: data,
-        headers,
-        method,
-      }
+//   return axis.post('/api', { data: { a: '1' } }).then(res => { console.log('----preQuest', res) }).catch(e => console.log('----preQuest', e))
+// }
 
-      return fetch(url, options)
-    }
-  })
+// export function createFetchPreQuest() {
+//   const axis = new PreQuest({
+//     adapter: fetchAdapter({
+//       parseBody(ctx) {
+//         return ctx.json()
+//       }
+//     }),
+//     timeout: 1000,
+//     baseURL: 'http://localhost:10000',
+//     requestType: 'json',
+//     injectAdapterInstance(url, config) {
+//       const { method, headers, data } = config
 
-  return axis.post('/api', { data: { a: '1' } }).then(res => { console.log('----preQuest', res) }).catch(e => console.log('----preQuest', e))
-}
+//       const options = {
+//         body: data,
+//         headers,
+//         method,
+//       }
+
+//       return fetch(url, options)
+//     }
+//   })
+
+//   return axis.post('/api', { data: { a: '1' } }).then(res => { console.log('----preQuest', res) }).catch(e => console.log('----preQuest', e))
+// }

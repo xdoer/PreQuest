@@ -1,10 +1,7 @@
-import { PreQuest } from '../../../src'
-import { xmlAdapter } from '../../../src/adapter'
+import { xhrAdapter } from '../../../src/adapter/xhr'
+import { fetchAdapter } from '../../../src/adapter/fetch'
 
-const axis = new PreQuest({
-  // adapter: xmlAdapter,
-  adapter: xmlAdapter
-})
+const axis = fetchAdapter({ baseURL: 'http://localhost:10000' })
 
 // 洋葱模式，中间件
 axis
@@ -18,8 +15,6 @@ axis
     await next()
     console.log(4)
   })
-
-axis.config.baseURL = 'http://localhost:10000'
 
 // 拦截器
 axis.interceptor.request

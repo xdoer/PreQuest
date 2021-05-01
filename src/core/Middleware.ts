@@ -1,9 +1,9 @@
 import { Context, MiddlewareCallback } from './types'
 
-export class Middleware {
-  cbs: MiddlewareCallback[] = []
+export class Middleware<T, N> {
+  protected cbs: MiddlewareCallback<T, N>[] = []
 
-  exec(ctx: Context, next: MiddlewareCallback) {
+  protected exec(ctx: Context<T, N>, next: MiddlewareCallback<T, N>) {
     let times = -1
     const dispatch = (pointer = 0): Promise<any> => {
       if (this.cbs.length < pointer) return Promise.resolve()
@@ -18,7 +18,7 @@ export class Middleware {
     return dispatch()
   }
 
-  use(cb: MiddlewareCallback) {
+  use(cb: MiddlewareCallback<T, N>) {
     this.cbs.push(cb)
     return this
   }
