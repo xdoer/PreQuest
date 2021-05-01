@@ -1,22 +1,16 @@
 import { Middleware } from './Middleware'
 import { Interceptor } from './Interceptor'
-import { mergeConfig } from './utils'
-import { Config, ReqMethods, ResponseSchema, CommonObject } from './types'
+import { METHODS, defaultConfig } from './constant'
+import { handleReqOptions, mergeConfig } from './helper'
+import { Response, Context, Config, Methods } from './types'
 
-const reqMethods: ReqMethods[] = ['get', 'post']
-
-export class PreQuest extends Middleware {
-  config: Config = {
-    method: 'GET'
-  }
-
-  get: any
-  post: any
+class _PreQuest extends Middleware {
+  config: Config
 
   constructor(config?: Config) {
     super()
-    this.config = mergeConfig(this.config, config || {})
-    this.init()
+    this.config = mergeConfig(defaultConfig, config!)
+    this.mountMethods()
   }
 
   interceptor = {
@@ -24,24 +18,26 @@ export class PreQuest extends Middleware {
     response: new Interceptor()
   }
 
-  init() {
-    reqMethods.forEach(method => {
-      this[method] = (path: string, config: Config) => {
-        return this.request(mergeConfig(this.config, config, { path, method }))
+  mountMethods() {
+    const preQuest = <Methods>(this as unknown)
+    METHODS.forEach(method => {
+      preQuest[method] = (path: string, config?: Config) => {
+        const { adapter, ...request } = mergeConfig(this.config, config!, { path, method }) || {}
+        if (!adapter) throw new Error('Not Find Adapter')
+        return this.request({ adapter, request, response: {} })
       }
     })
   }
 
-  request(config: Config): Promise<ResponseSchema> {
-    return Promise.resolve(config)
-      .then(res => this.interceptor.request.exec(res))
-      .then(res => {
-        const { url, adapter, options } = handleReqOptions(res)
+  request(ctx: Context): Promise<Response> {
+    return Promise.resolve()
+      .then(() => this.interceptor.request.exec(ctx.request))
+      .then(() => {
         return new Promise((resolve, reject) => {
-          // 执行中间件
-          return this.exec(res, async (ctx) => {
+          return this.exec(ctx, async (ctx) => {
             try {
-              const response = await adapter(url, options)
+              const { url, options } = handleReqOptions(ctx.request)
+              const response = await ctx.adapter(url, options)
               ctx.response = response
               resolve(response)
             } catch (e) {
@@ -50,20 +46,9 @@ export class PreQuest extends Middleware {
           })
         })
       })
-      .then(res => this.interceptor.response.exec(res))
+      .then(() => this.interceptor.response.exec(ctx.response))
       .catch(e => console.log('捕获报错', e))
   }
 }
 
-function createReqUrl(baseURL: string, path: string, params: CommonObject = {}) {
-  const paramArr = Object.entries(params).map(([key, value]) => `${key}=${encodeURI(value)}`)
-  const paramStr = paramArr.join('&')
-  return `${baseURL}${path}${paramStr ? '?' + paramStr : ''}`
-}
-
-function handleReqOptions(config: Config) {
-  const { baseURL, path, params, adapter, body, ...options } = config
-  if (!adapter) throw new Error('Not Find Adapter')
-  console.log('查看body', body)
-  return { url: createReqUrl(baseURL!, path!, params), options, adapter }
-}
+export const PreQuest = _PreQuest as _PreQuest & { new(config?: Config): _PreQuest & Methods }

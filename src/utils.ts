@@ -1,5 +1,6 @@
-import { Config } from './types'
-
-export function mergeConfig(...args: Config[]) {
-  return args.reduce((t, c) => ({ ...t, ...c }), {} as Config)
+export const elementType = (ele: any) => {
+  const typeStr = Object.prototype.toString.call(ele)
+  const reg = /^\[object\s([A-Za-z]+)\]$/
+  reg.test(typeStr)
+  return RegExp.$1.toLowerCase()
 }

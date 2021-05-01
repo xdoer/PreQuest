@@ -1,34 +1,31 @@
-import { AdapterConfig } from './types'
+import { AdapterRequest, Response } from '../types'
 
-export function fetchAdapter(config: Required<AdapterConfig>) {
-  const { method, url, headers, timeout, withCredentials, responseType } = config
+interface Opt {
+  parseBody(ctx: globalThis.Response): Promise<any>
+}
 
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
+export function fetchAdapter(opt: Opt) {
+  const { parseBody } = opt
+  return async function (url: string, config: Required<AdapterRequest>): Promise<Response> {
+    const { method, headers, timeout, data, injectAdapterInstance } = config
 
-    xhr.open(method, url, true)
+    const options = {
+      body: data,
+      headers,
+      method,
+    }
 
-    xhr.timeout = timeout
-    xhr.withCredentials = withCredentials
-    xhr.responseType = responseType
+    const instance = injectAdapterInstance?.(url, config) || fetch(url, options)
 
-    // set headers
-    Object.entries(headers).forEach(([key, value]) => xhr.setRequestHeader(key, value))
+    const res = await (timeout ? Promise.race([timeoutThrow(timeout), instance]) : instance)
 
-    xhr.addEventListener('load', () => {
-      if (xhr.readyState === 4) {
-        resolve(xhr.responseText)
-      }
-    })
+    const { status, statusText } = res
+    const resData = await parseBody(res)
 
-    xhr.addEventListener('timeout', () => {
-      reject(xhr.statusText)
-    })
+    return { headers: res.headers, data: resData, status, statusText }
+  }
+}
 
-    xhr.addEventListener('error', () => {
-      reject(xhr.statusText)
-    })
-
-    xhr.send()
-  })
+function timeoutThrow(timeout: number) {
+  return new Promise((_, reject) => setTimeout(reject, timeout))
 }

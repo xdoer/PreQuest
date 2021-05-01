@@ -1,7 +1,10 @@
 import { PreQuest } from '../../../src'
 import { xmlAdapter } from '../../../src/adapter'
 
-const axis = new PreQuest({ adapter: xmlAdapter })
+const axis = new PreQuest({
+  // adapter: xmlAdapter,
+  adapter: xmlAdapter
+})
 
 // 洋葱模式，中间件
 axis
@@ -16,7 +19,7 @@ axis
     console.log(4)
   })
 
-axis.config.baseURL = 'http://localhost:10086'
+axis.config.baseURL = 'http://localhost:10000'
 
 // 拦截器
 axis.interceptor.request

@@ -1,32 +1,38 @@
+import { METHODS } from './constant'
+
+export type Methods = { [k in typeof METHODS[number]]: (path: string, option: Config) => Promise<Response> }
+
 export type CommonObject = Record<string, string>
 
 // 适配器请求选项
-export interface RequestOption {
-  method?: string
+export interface AdapterRequest {
+  method: string
 
-  body?: any
+  data: any
 
-  headers?: Record<string, any>
+  headers: Record<string, any>
 
-  timeout?: number
+  timeout: number
 
-  withCredentials?: boolean
-
-  responseType?: 'arraybuffer' | 'document' | 'json' | 'text'
+  injectAdapterInstance?(url: string, opt: AdapterRequest): Promise<any>
 }
 
 // PreQuest 配置项
-export interface Config extends RequestOption {
+export interface Request extends Partial<AdapterRequest> {
   path?: string
   baseURL?: string
   params?: CommonObject
+  requestType?: 'json' | 'form' | ({} & string)
+}
+
+export interface Config extends Request {
   adapter?: Adapter
 }
 
-export type Adapter = (url: string, options: RequestOption) => Promise<ResponseSchema>
+export type Adapter = (url: string, options: AdapterRequest) => Promise<Response>
 
 // 适配器响应数据类型
-export interface ResponseSchema {
+export interface Response {
 
   data: any
 
@@ -37,11 +43,12 @@ export interface ResponseSchema {
   headers: Record<string, any>
 }
 
-// 请求方式
-export type ReqMethods = 'get' | 'post'
-
 // 上下文
-export type Context = Record<string, any>
+export interface Context {
+  request: Request
+  response: Partial<Response>
+  adapter: Adapter
+}
 
 // 中间件回调
-export type MiddlewareCallback = (ctx: Context, next: any) => Promise<any>
+export type MiddlewareCallback = (ctx: Context, next: () => Promise<any>) => Promise<any>

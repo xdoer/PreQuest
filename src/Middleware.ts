@@ -5,14 +5,11 @@ export class Middleware {
 
   exec(ctx: Context, next: MiddlewareCallback) {
     let times = -1
-    const dispatch = (pointer = 0) => {
-      // 中间件和回调函数已遍历完
-      if (this.cbs.length < pointer) return
+    const dispatch = (pointer = 0): Promise<any> => {
+      if (this.cbs.length < pointer) return Promise.resolve()
 
-      // 当前要执行的中间件
       const fn = this.cbs[pointer] || next
 
-      // next 回调执行次数
       if (pointer <= times) throw new Error('next function only can be called once')
       times = pointer
 
