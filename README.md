@@ -15,7 +15,7 @@ import { PreQuest } from 'src/core';
 interface Request {
   baseURL: string;
   path: string;
-  params: Record<string, string>
+  params: Record<string, string>;
 }
 
 // 响应类型
@@ -27,7 +27,7 @@ interface Response {
 function createFetchInstance(opt: Partial<Request>) {
   return PreQuest.createInstance<Request, Response, Error>(
     // 请求实例
-    async adapter(option) {
+    async function adapter(option) {
       const { baseURL, path } = option;
       const url = baseURL + path;
       return { data: await fetch(url).then(res => res.json()) };
