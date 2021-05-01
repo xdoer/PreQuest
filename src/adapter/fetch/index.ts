@@ -5,10 +5,8 @@ import { stringify } from 'qs'
 export const defaultOption: Request = { method: 'get', headers: { Accept: 'application/json' }, responseType: 'text' }
 
 export function fetchAdapter(options: Request) {
-  return PreQuest.createInstance<Request, Response, Error>({
-    ...defaultOption,
-    ...options,
-    async adapter(config) {
+  return PreQuest.createInstance<Request, Response, Error>(
+    async function adapter(config) {
       const { method, headers, timeout, data, baseURL, path } = config as Required<Request>
       const url = baseURL + path
 
@@ -24,8 +22,9 @@ export function fetchAdapter(options: Request) {
       const resData = await res.json()
 
       return { headers: res.headers, data: resData, status, statusText }
-    }
-  })
+    },
+    options
+  )
 }
 
 function timeoutThrow(timeout: number) {

@@ -4,10 +4,8 @@ import { Request, Response } from './types'
 export const defaultOption: Request = { method: 'get', headers: { Accept: 'application/json' }, responseType: 'text' }
 
 export function xhrAdapter(options: Request) {
-  return PreQuest.createInstance<Request, Response, Error>({
-    ...defaultOption,
-    ...options,
-    adapter(options) {
+  return PreQuest.createInstance<Request, Response, Error>(
+    function adapter(options) {
       const { method, headers, timeout, data, baseURL, path, withCredentials, responseType } = (options || {}) as Required<Request>
       const url = baseURL + path
 
@@ -56,8 +54,9 @@ export function xhrAdapter(options: Request) {
 
         xhr.send(data)
       })
-    }
-  })
+    },
+    options
+  )
 }
 
 function getResponse(ctx: XMLHttpRequest, responseType?: string): Response {

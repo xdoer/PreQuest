@@ -1,8 +1,8 @@
 export type Method = 'get' | 'post' | 'delete' | 'put' | 'patch' | 'head' | 'options'
 
-export type Methods<T, N> = { [k in Method]: (path: string, option?: Config<T, N>) => Promise<N> }
+export type Methods<T, N> = { [k in Method]: (path: string, option?: Config<T>) => Promise<N> }
 
-export type Config<T, N> = Partial<T & { adapter?: Adapter<T, N> }>
+export type Config<T> = Partial<T>
 
 export type RequestOption<T> = T & {
   path: string
