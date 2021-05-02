@@ -1,11 +1,17 @@
 import { Response } from './types'
 
-export function getResponse(ctx: XMLHttpRequest, responseType?: string): Response {
+export function createResponse(ctx: XMLHttpRequest, responseType?: string): Response {
   const { responseText, status, statusText, response } = ctx
   const data = !responseType || responseType === 'text' || responseType === 'json' ? responseText : response
   return {
     data, status, statusText, headers: parseHeaders(ctx)
   }
+}
+
+// TODO: 更多信息
+export function createError(message: string) {
+  const error = new Error(message)
+  return error
 }
 
 export function parseHeaders(ctx: XMLHttpRequest) {

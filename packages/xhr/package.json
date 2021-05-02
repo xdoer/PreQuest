@@ -31,7 +31,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "@prequest/adapter-xhr",
+  "name": "@prequest/xhr",
   "author": "xdoer",
   "repository": {
     "type": "git",
@@ -41,19 +41,21 @@
     "url": "https://github.com/xdoer/PreQuest/issues"
   },
   "homepage": "https://github.com/xdoer/PreQuest#readme",
-  "module": "dist/adapter-xhr.esm.js",
+  "module": "dist/xhr.esm.js",
   "size-limit": [
     {
-      "path": "dist/adapter-xhr.cjs.production.min.js",
+      "path": "dist/xhr.cjs.production.min.js",
       "limit": "10 KB"
     },
     {
-      "path": "dist/adapter-xhr.esm.js",
+      "path": "dist/xhr.esm.js",
       "limit": "10 KB"
     }
   ],
   "dependencies": {
-    "@prequest/core": "0.1.0"
+    "@prequest/core": "0.1.0",
+    "@prequest/types": "0.1.0",
+    "@prequest/helper": "0.1.0"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",

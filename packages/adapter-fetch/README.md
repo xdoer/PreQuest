@@ -1,1 +1,0 @@
-# @prequest/adapter-fetch

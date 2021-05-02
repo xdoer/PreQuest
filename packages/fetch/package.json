@@ -31,7 +31,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "@prequest/adapter-fetch",
+  "name": "@prequest/fetch",
   "author": "xdoer",
   "repository": {
     "type": "git",
@@ -41,17 +41,22 @@
     "url": "https://github.com/xdoer/PreQuest/issues"
   },
   "homepage": "https://github.com/xdoer/PreQuest#readme",
-  "module": "dist/adapter-fetch.esm.js",
+  "module": "dist/fetch.esm.js",
   "size-limit": [
     {
-      "path": "dist/adapter-fetch.cjs.production.min.js",
+      "path": "dist/fetch.cjs.production.min.js",
       "limit": "10 KB"
     },
     {
-      "path": "dist/adapter-fetch.esm.js",
+      "path": "dist/fetch.esm.js",
       "limit": "10 KB"
     }
   ],
+  "dependencies": {
+    "@prequest/core": "0.1.0",
+    "@prequest/types": "0.1.0",
+    "@prequest/helper": "0.1.0"
+  },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",
     "husky": "^6.0.0",

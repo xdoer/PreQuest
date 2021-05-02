@@ -1,6 +1,6 @@
 import { Middleware } from './Middleware'
 import { METHODS } from './constant'
-import { mergeConfig } from './helper'
+import { merge } from './helper'
 import { Context, Config, MethodsCallback, RequestOption, Adapter } from '@prequest/types'
 
 export class PreQuest<T, N> extends Middleware<T, N> {
@@ -14,7 +14,7 @@ export class PreQuest<T, N> extends Middleware<T, N> {
     const preQuest = <MethodsCallback<T, N>>(this as unknown)
     METHODS.forEach((method) => {
       preQuest[method] = (path: string, config?: Config<T>) => {
-        const request = mergeConfig(this.config, config!, { path, method } as any)
+        const request = merge(this.config, config!, { path, method } as any)
         return this.controller({ request: request as RequestOption<T>, response: {} as N })
       }
     })

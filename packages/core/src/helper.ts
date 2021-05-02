@@ -1,3 +1,3 @@
-export function mergeConfig<T>(...args: T[]): T {
-  return args.reduce((t, c) => ({ ...t, ...c }), {} as T)
+export function merge<T>(...args: T[]): T {
+  return Object.assign({}, ...args)
 }

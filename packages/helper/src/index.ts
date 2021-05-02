@@ -1,43 +1,46 @@
 import { stringify } from 'qs';
 import { elementType } from '@prequest/utils'
+import { BaseOption, CommonObject } from '@prequest/types'
 
-export const defaultOption = { method: 'get', headers: { Accept: 'application/json' }, responseType: 'text' }
-
-export function mergeConfig<T>(...args: T[]): T {
-  return args.reduce((t, c) => ({ ...t, ...c }), {} as T)
+export const baseOption: BaseOption = {
+  path: '/',
+  method: 'get',
+  headers: {
+    Accept: 'application/json'
+  },
+  responseType: 'json',
+  params: {},
 }
 
-export function createReqUrl(baseURL: string, path: string, params: Record<string, string>) {
-  const paramArr = Object.entries(params).map(([key, value]) => `${key}=${encodeURI(value)}`)
-  const paramStr = paramArr.join('&')
-  return `${baseURL}${path}${paramStr ? '?' + paramStr : ''}`
+export const merge = (...args: Record<string, any>[]) => Object.assign({}, ...args)
+
+export function createRequestUrl<T>(ctx: T & { baseURL?: string, path: string, params?: any }): string {
+  const { baseURL, path, params } = ctx
+
+  let url = ''
+  if (baseURL) url += baseURL
+  if (path) url += path
+  if (params) url += `?${stringify(params)}`
+
+  return url
 }
 
-export function formatBody(config: any) {
-  const { headers, data, requestType } = config
-  const bodyType = elementType(data)
+// 参考: https://github.com/umijs/umi-request/blob/master/src/middleware/simplePost.js
+export function formatRequestBodyAndHeaders<T>(ctx: T & { headers: CommonObject, data: any, requestType: 'json' | 'form' | ({} & string) }) {
+  const bodyType = elementType(ctx.data)
 
-  // 参考: https://github.com/umijs/umi-request/blob/master/src/middleware/simplePost.js
+  const headers: CommonObject = {}
+  let data = null
+
   if (bodyType === 'object' || bodyType === 'array') {
-    if (requestType === 'json') {
-      config.headers = {
-        'Content-Type': 'application/json;charset=UTF-8',
-        ...headers,
-      }
-      config.data = JSON.stringify(data);
+    if (ctx.requestType === 'json') {
+      headers['Content-Type'] = 'application/json;charset=UTF-8'
+      data = JSON.stringify(ctx.data);
     } else {
-      config.headers = {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-        ...headers,
-      };
-      config.data = stringify(data, { arrayFormat: 'repeat', strictNullHandling: true });
+      headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
+      data = stringify(ctx.data, { arrayFormat: 'repeat', strictNullHandling: true });
     }
   }
 
-  return config
-}
-
-export function handleReqOptions(config: Request) {
-  const { baseURL, path, params, ...options } = formatBody(config)
-  return { url: createReqUrl(baseURL!, path!, params), options: options as any }
+  return { data, headers: merge(headers, ctx.headers) }
 }

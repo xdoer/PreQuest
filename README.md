@@ -18,7 +18,7 @@ PreQuest 中将发出请求的部分叫做请求过程 `adapter`, 这是一个�
 
 实现自己的请求库，需要对 `@prequest/core` 进行二次封装。
 
-封装示例: [@prequest/adapter-fetch](./packages/adapter-fetch/src/index.ts)
+封装示例: [@prequest/fetch](./packages/fetch/src/index.ts)
 
 使用示例: [example](./examples/web/src/Req.ts)
 
@@ -45,7 +45,7 @@ instance.use(async (ctx, next) => {
 instance['get'|'post'|...](path, opt)
 ```
 
-### @prequest/adapter-fetch
+### @prequest/fetch
 
 适配器。适配器中需要实现具体的请求过程。适配器参数和响应会通过中间件进行传递和处理。
 
@@ -87,6 +87,7 @@ instance.use(interceptor.run)
 
 ## TODO
 
+- [] 全局中间件
 - [] 加解密中间件
 - [] 完善 xhr 和 fetch 适配器
 - [] 添加 Node、小程序 适配器

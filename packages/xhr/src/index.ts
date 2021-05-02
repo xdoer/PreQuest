@@ -1,13 +1,17 @@
 import { PreQuest } from "@prequest/core"
+import { baseOption, createRequestUrl, formatRequestBodyAndHeaders, merge } from '@prequest/helper'
 import { Request, Response } from './types'
-import { getResponse } from './helper'
+import { createError, createResponse } from './helper'
 
 export * from './types'
+export * from '@prequest/core'
 
-export default (options: Request) => {
+export const prequest = (options: Request) => {
   function adapter(options: Request): Promise<Response> {
-    const { method, headers, timeout, data, baseURL, path, withCredentials, responseType } = (options || {}) as Required<Request>
-    const url = baseURL + path
+    const finalOptions = (options || {}) as Required<Request>
+    const url = createRequestUrl(finalOptions)
+    const { data, headers } = formatRequestBodyAndHeaders(finalOptions)
+    const { method, timeout, withCredentials, responseType } = finalOptions
 
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest()
@@ -24,7 +28,7 @@ export default (options: Request) => {
       }
 
       // set headers
-      Object.entries(headers).forEach(([key, value]) => xhr.setRequestHeader(key, value))
+      Object.entries(headers).forEach(([key, value]) => xhr.setRequestHeader(key, <string>value))
 
       if (xhr.onloadend) {
         xhr.addEventListener('loadend', () => {
@@ -41,20 +45,20 @@ export default (options: Request) => {
       }
 
       function onloadend() {
-        resolve(getResponse(xhr, responseType))
+        resolve(createResponse(xhr, responseType))
       }
 
       xhr.addEventListener('timeout', () => {
-        reject(getResponse(xhr, responseType))
+        reject(createError('请求超时'))
       })
 
       xhr.addEventListener('error', () => {
-        reject(getResponse(xhr, responseType))
+        reject(createError('请求错误'))
       })
 
       xhr.send(data)
     })
   }
 
-  return PreQuest.createInstance<Request, Response>(adapter, options)
+  return PreQuest.createInstance<Request, Response>(adapter, merge(baseOption, options))
 }

@@ -1,9 +1,5 @@
-import fetchAdapter from '@prequest/adapter-fetch'
-import xhrAdapter, { Request, Response } from '@prequest/adapter-xhr'
 import { InterceptorMiddleware } from '@prequest/middleware-interceptor'
-
-const axis = xhrAdapter({ baseURL: 'http://localhost:10000', responseType: 'text', headers: {} })
-// const axis = fetchAdapter({ baseURL: 'http://localhost:10000', responseType: 'text', headers: {} })
+import { Request, Response } from '@prequest/xhr'
 
 const interceptor = new InterceptorMiddleware<Request, Response, Error>()
 
@@ -39,20 +35,4 @@ interceptor.response
     Promise.reject(e)
   })
 
-axis.use(interceptor.run)
-
-// 洋葱模式，中间件
-axis
-  .use(async (ctx, next) => {
-    console.log(1)
-    await next()
-    console.log(2, ctx)
-  })
-  .use(async (ctx, next) => {
-    console.log(3, ctx)
-    await next()
-    console.log(4)
-  })
-
-
-export { axis }
+export { interceptor }
