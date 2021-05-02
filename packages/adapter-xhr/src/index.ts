@@ -2,6 +2,8 @@ import { PreQuest } from "@prequest/core"
 import { Request, Response } from './types'
 import { getResponse } from './helper'
 
+export * from './types'
+
 export default (options: Request) => {
   function adapter(options: Request): Promise<Response> {
     const { method, headers, timeout, data, baseURL, path, withCredentials, responseType } = (options || {}) as Required<Request>

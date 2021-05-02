@@ -1,6 +1,8 @@
 import { PreQuest } from '@prequest/core'
 import { Request, Response } from './types'
 
+export * from './types'
+
 export default (options: Request) => {
 
   async function adapter(config: Request) {

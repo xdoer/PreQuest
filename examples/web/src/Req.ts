@@ -1,11 +1,11 @@
 import fetchAdapter from '@prequest/adapter-fetch'
-import xhrAdapter from '@prequest/adapter-xhr'
+import xhrAdapter, { Request, Response } from '@prequest/adapter-xhr'
 import { InterceptorMiddleware } from '@prequest/middleware-interceptor'
 
 const axis = xhrAdapter({ baseURL: 'http://localhost:10000', responseType: 'text', headers: {} })
 // const axis = fetchAdapter({ baseURL: 'http://localhost:10000', responseType: 'text', headers: {} })
 
-const interceptor = new InterceptorMiddleware()
+const interceptor = new InterceptorMiddleware<Request, Response, Error>()
 
 // 拦截器
 interceptor.request
