@@ -87,7 +87,7 @@ instance.use(interceptor.run)
 
 ## TODO
 
-- [] 全局中间件
+- [x] 支持全局中间件
 - [] 加解密中间件
 - [] 完善 xhr 和 fetch 适配器
 - [] 添加 Node、小程序 适配器
