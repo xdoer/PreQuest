@@ -39,7 +39,7 @@ export function createXMLPreQuest() {
     baseURL: 'http://localhost:10000'
   })
 
-  return adapter.get('/api', { params: { a: '1' } })
+  return adapter.post('/api', { params: { a: '1' }, data: { a: '1' }, requestType: 'json' })
 }
 
 export function createFetchPreQuest() {
