@@ -1,7 +1,6 @@
 import { Request, Response, PreQuest } from '@prequest/xhr'
 import { interceptor } from './interceptor'
 
-
 PreQuest.use<Request, Response>(interceptor.run)
 
 PreQuest.use<Request, Response>(async (ctx, next) => {

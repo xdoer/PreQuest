@@ -5,7 +5,7 @@ import './middleware'
 const xxx = ['axios', 'umi', 'preQuest-xml', 'preQuest-fetch']
 
 function App() {
-  const [a, setA] = useState(3)
+  const [a, setA] = useState(2)
 
   useEffect(() => {
     switch (a % 4) {
@@ -17,6 +17,7 @@ function App() {
         break
       case 2:
         createXMLPreQuest()
+        break
       case 3:
         createFetchPreQuest()
     }
