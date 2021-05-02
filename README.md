@@ -69,12 +69,12 @@ const interceptor = new InterceptorMiddleware()
 
 interceptor.request.use(
   (request) => {
-    if(!request.path) throw New Error('Can not find path')
+    if (!request.path) throw new Error('Can not find path')
     request.path = '/prefix' + request.path
     return request
   },
   (e) => {
-    console.log(e)  // Can not find path
+    console.log(e) // Can not find path
   }
 )
 
