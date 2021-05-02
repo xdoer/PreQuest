@@ -1,0 +1,14 @@
+{
+  "version": "0.1.0",
+  "license": "MIT",
+  "name": "@prequest/types",
+  "author": "xdoer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xdoer/PreQuest.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xdoer/PreQuest/issues"
+  },
+  "homepage": "https://github.com/xdoer/PreQuest#readme"
+}
