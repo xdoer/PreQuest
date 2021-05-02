@@ -20,7 +20,7 @@ PreQuest 中将发出请求的部分叫做请求过程 `adapter`, 这是一个�
 
 封装示例: [@prequest/fetch](./packages/fetch/src/index.ts)
 
-使用示例: [example](./examples/web/src/Req.ts)
+使用示例: [example](./examples/web/src/request.ts)
 
 ### @prequest/core
 
