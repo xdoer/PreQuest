@@ -60,7 +60,8 @@ prequest.post('/api', { data: { a: 1 } })
 
 ## TODO
 
-- [x] 支持全局中间件
+- [x] 全局中间件
+- [x] 全局配置
 - [ ] 加解密中间件
 - [ ] 完善 xhr 和 fetch 适配器
 - [ ] 添加 Node、小程序 适配器

@@ -8,3 +8,5 @@ PreQuest.use<Request, Response>(async (ctx, next) => {
   await next()
   console.log('全局中间件-响应', ctx.response)
 })
+
+PreQuest.defaults.baseURL = 'http://localhost:10000'

@@ -3,11 +3,9 @@ import request from 'umi-request'
 import { prequest as xhrPrequest } from '@prequest/xhr'
 import * as fetchAdapter from '@prequest/fetch'
 
-const baseURL = 'http://localhost:10000'
-
 export function createAxios() {
   const instance = axios.create({
-    baseURL: baseURL,
+    baseURL: 'http://localhost:10000',
     timeout: 1000,
     responseType: 'json',
     headers: {
@@ -35,17 +33,12 @@ export function createUmiRequest() {
 }
 
 export function createXMLPreQuest() {
-  const adapter = xhrPrequest({
-    baseURL: 'http://localhost:10000'
-  })
-
+  const adapter = xhrPrequest({})
   return adapter.post('/api', { params: { a: '1' }, data: { a: '1' }, requestType: 'json' })
 }
 
 export function createFetchPreQuest() {
-  const adapter = fetchAdapter.prequest({
-    baseURL: 'http://localhost:10000'
-  })
+  const adapter = fetchAdapter.prequest({})
 
   adapter.use(async (ctx, next) => {
     console.log('fetch 实例中间件-请求', ctx.request)

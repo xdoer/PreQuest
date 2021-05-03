@@ -4,10 +4,12 @@ export type MethodsCallback<T, N> = { [k in Method]: (path: string, option?: Con
 
 export type Config<T> = Partial<T>
 
-export type RequestOption<T> = T & {
+export interface PreQuestInjectOption {
   path: string
   method: string
 }
+
+export type RequestOption<T> = T & PreQuestInjectOption
 
 export type Adapter<T, N> = (options: RequestOption<T>) => Promise<N>
 

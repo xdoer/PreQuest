@@ -1,24 +1,32 @@
 import { Middleware } from './Middleware'
 import { METHODS } from './constant'
 import { merge } from './helper'
-import { Context, Config, MethodsCallback, RequestOption, Adapter } from '@prequest/types'
+import { Context, Config, MethodsCallback, RequestOption, Adapter, PreQuestInjectOption } from '@prequest/types'
 
 export class PreQuest<T, N> extends Middleware<T, N> {
 
   constructor(private adapter: Adapter<T, N>, private config?: Config<T>) {
     super()
-    this.mountMethods()
+    this.config = merge(PreQuest.defaults, this.config)
+    this.mountShortMethods()
   }
 
-  private mountMethods() {
+  private mountShortMethods() {
     const preQuest = <MethodsCallback<T, N>>(this as unknown)
     METHODS.forEach((method) => {
       preQuest[method] = (path: string, config?: Config<T>) => {
         // 将 path, method 注入，以便中间件可以拿到和处理
-        const request = merge(this.config, config!, { path, method } as any)
-        return this.controller({ request: request as RequestOption<T>, response: {} as N })
+        const request = <RequestOption<T>>merge(this.config, config!, { path, method } as any)
+        const response = <N>{}
+        return this.controller({ request, response })
       }
     })
+  }
+
+  request(config: Config<T> & PreQuestInjectOption) {
+    const request = <RequestOption<T>>merge(this.config, config!)
+    const response = <N>{}
+    return this.controller({ request, response })
   }
 
   private controller(ctx: Context<T, N>): Promise<N> {
@@ -34,6 +42,8 @@ export class PreQuest<T, N> extends Middleware<T, N> {
       })
     })
   }
+
+  static defaults: any = {}
 
   static createInstance<T, N>(adapter: Adapter<T, N>, config?: Config<T>) {
     return new PreQuest<T, N>(adapter, config) as PreQuest<T, N> & MethodsCallback<T, N>
