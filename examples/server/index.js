@@ -1,31 +1,40 @@
-const { createServer } = require('http');
+const Koa = require('koa')
+const Router = require('@koa/router')
+const bodyParser = require('koa-bodyparser')
 
-const app = createServer((req, res) => {
-  res.writeHead(200, {
-    'Access-Control-Allow-Credentials': true, //允许后端发送cookie
-    'Access-Control-Allow-Origin': req.headers.origin || '*', //任意域名都可以访问,或者基于我请求头里面的域
-    'Access-Control-Allow-Headers': 'X-Requested-With,Content-Type', //设置请求头格式和类型
-    'Access-Control-Allow-Methods': 'PUT,POST,GET,DELETE,OPTIONS', //允许支持的请求方式
-    // 'Content-Type': 'application/text; charset=utf-8', //默认与允许的文本格式json和编码格式
-  });
+const app = new Koa()
+const router = new Router()
 
-  if (req.method === 'OPTIONS') {
-    res.end();
+app.use(bodyParser())
+
+app.use(async (ctx, next) => {
+  ctx.set('Access-Control-Allow-Origin', '*')
+  ctx.set(
+    'Access-Control-Allow-Headers',
+    'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild'
+  )
+  ctx.set('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS')
+  if (ctx.method == 'OPTIONS') {
+    ctx.body = 200
+  } else {
+    await next()
   }
+})
 
-  if (req.method === 'GET') {
-    if (/\/api\??/i.test(req.url)) {
-      res.end('1');
+router
+  .get('/api', (ctx) => {
+    ctx.body = {
+      a: 1,
+      b: 2,
     }
-  }
-
-  if (req.method === 'POST') {
-    if (/\/api\??/i.test(req.url)) {
-      res.end('1');
+  })
+  .post('/api', (ctx) => {
+    ctx.body = {
+      a: 1,
+      b: 2,
     }
-  }
-});
+  })
 
-app.listen(10000, () => {
-  console.log('server is begin');
-});
+app.use(router.routes()).use(router.allowedMethods())
+
+app.listen(10000, () => console.log('server is start'))

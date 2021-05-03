@@ -34,7 +34,7 @@ export function createUmiRequest() {
 
 export function createXMLPreQuest() {
   const adapter = xhrPrequest({})
-  return adapter.post('/api', { params: { a: '1' }, data: { a: '1' }, requestType: 'json' })
+  return adapter.post('/api', { data: { a: '1' }, requestType: 'json' })
 }
 
 export function createFetchPreQuest() {

@@ -14,7 +14,7 @@
 
 ## 设计原理
 
-PreQuest 核心代码非常简单。它内置了经典的 koa 洋葱模型，并且为不同的请求方式提供了快捷入口，同时预留了一个底层内核的适配器接口，和一些请求库的个性化配置入口。使用时，只需要传入一个适配器，就可以使用。
+PreQuest 核心代码非常简单。它内置了经典的 koa 洋葱模型，并且为不同的请求方式提供了快捷入口，同时预留了一个底层内核的适配器接口，和适配器的配置入口。使用时，只需要传入一个适配器，就可以使用。
 
 查看[Demo](#Example)
 
@@ -35,13 +35,16 @@ function adapter(opt) {
   return fetch(url, { ...options, method }).then((res) => res.json())
 }
 
+function createRequest(opt) {
+  return PreQuest.createInstance(adapter, opt)
+}
+
+// -----------------------------使用----------------------------------
+
 // 自定义配置项
 const opt = { baseURL: 'http://localhost:3000' }
 
-// 将请求内核 adapter 和请求库个性化配置 opt (可选)传入
-const prequest = PreQuest.createInstance(adapter, opt)
-
-// -----------------------------使用----------------------------------
+const prequest = createRequest(opt)
 
 // 中间件
 prequest.use(async (ctx, next) => {
@@ -62,7 +65,6 @@ prequest.post('/api', { data: { a: 1 } })
 
 - [x] 全局中间件
 - [x] 全局配置
-- [ ] 加解密中间件
 - [ ] 完善 xhr 和 fetch 适配器
 - [ ] 添加 Node、小程序 适配器
 - [ ] GraphQL 支持
