@@ -1,8 +1,6 @@
 import { BaseOption } from '@prequest/types'
 
 export interface Request extends BaseOption {
-  baseURL?: string
-  timeout?: number
   withCredentials?: boolean
   requestType?: 'json' | 'form' | ({} & string)
   responseType?: XMLHttpRequestResponseType

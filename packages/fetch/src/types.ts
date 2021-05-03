@@ -1,14 +1,7 @@
-export type CommonObject = Record<string, any>
+import { BaseOption } from '@prequest/types'
 
-export interface Request {
-  path?: string
-  baseURL?: string
-  params?: CommonObject
+export interface Request extends BaseOption {
   requestType?: 'json' | 'form' | ({} & string)
-  method?: string
-  data?: any
-  headers?: Record<string, any>
-  timeout?: number
   responseType?: XMLHttpRequestResponseType
 }
 

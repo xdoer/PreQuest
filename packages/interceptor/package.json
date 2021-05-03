@@ -31,7 +31,7 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
-  "name": "@prequest/middleware-interceptor",
+  "name": "@prequest/interceptor",
   "author": "xdoer",
   "repository": {
     "type": "git",
@@ -41,14 +41,14 @@
     "url": "https://github.com/xdoer/PreQuest/issues"
   },
   "homepage": "https://github.com/xdoer/PreQuest#readme",
-  "module": "dist/middleware-interceptor.esm.js",
+  "module": "dist/interceptor.esm.js",
   "size-limit": [
     {
-      "path": "dist/middleware-interceptor.cjs.production.min.js",
+      "path": "dist/interceptor.cjs.production.min.js",
       "limit": "10 KB"
     },
     {
-      "path": "dist/middleware-interceptor.esm.js",
+      "path": "dist/interceptor.esm.js",
       "limit": "10 KB"
     }
   ],

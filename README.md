@@ -1,89 +1,62 @@
 # PreQuest
 
-一个模块化可插拔的请求库。
+为你的请求库提供模块化可插拔的解决方案。
 
 ## 简介
 
-最近想写一个可以适配多平台的请求库，在做 xhr 和 fetch 的适配时发现二者的参数、响应、回调函数等差别很大。如果请求库想要抹平平台和环境差异，就需要统一的传参和响应类型，那么势必会在请求库内部做大量的判断，但这样也无法做到全平台全环境兼容，此外还会屏蔽掉底层 API 的特有的功能。
+最近想写一个可以适配多平台的请求库，在研究 xhr 和 fetch 发现二者的参数、响应、回调函数等差别很大。想到如果上层请求库想要抹平底层差异，需要统一的传参和响应格式，那么势必会在请求库内部做大量的判断，这样不但费时费力，还会屏蔽掉底层请求内核的特有功能。
 
-研究了 axios 和 umi-request 发现，上层请求库基本包含了拦截器、中间件和快捷请求等几个通用的，与请求过程基本无关的功能。
+研究 axios 和 umi-request 时发现，上层请求库其实基本都包含了拦截器、中间件和快捷请求等几个通用的，与具体请求过程无关的功能。然后通过暴露传参，可以让用户接触请求内核的差异化功能。比如在 axios 中，它的请求配置参数列表中，罗列了很多 [node 专属](https://axios-http.com/docs/req_config)的参数，那对于只需要在 web 环境中运行的 axios 来说，参数多少有些冗余，并且如果 axios 支持的平台越来越多(比如小程序、ReactNative)，那么参数冗余也将越来越大。
 
-换个思路来想，既然实现一个统一全平台的请求库基本是不可能任务，那么是否可以有一个库可以很方便的为底层 API 赋予中间件、快捷请求等通用的功能，并且提供一个机制，让开发者可以接触和使用底层 API 的差异化功能？
+换个思路来想，既然实现一个适配多平台的统一的请求库有这些问题，那么是否可以从底向上的，提供一种方式可以很方便的为底层请求内核赋予上层请求库拦截器、中间件、快捷请求等几个通用功能，并且保留不同请求内核的差异化？
 
-PreQuest 就是这样一个项目。
+**PreQuest 就是这样一个项目。它可以基于不同的请求内核，提供一致的中间件、快捷请求、拦截器等功能的体验。**
 
-PreQuest 中将发出请求的部分叫做请求过程 `adapter`, 这是一个与底层 API 接触交互的函数。无关请求的部分封装在了 `@prequest/core` 包中，它为 `adapter` 赋予了中间件和添加快捷请求入口的功能。通过中间件，可以很方便的对请求和响应进行拦截。
+## 设计原理
 
-## 包
+PreQuest 核心代码非常简单。它内置了经典的 koa 洋葱模型，并且为不同的请求方式提供了快捷入口，同时预留了一个底层内核的适配器接口，和一些请求库的个性化配置入口。使用时，只需要传入一个适配器，就可以使用。
 
-实现自己的请求库，需要对 `@prequest/core` 进行二次封装。
+查看[Demo](#Example)
 
-封装示例: [@prequest/fetch](./packages/fetch/src/index.ts)
+为了最小化的不侵入开发者请求库的个性化参数，PreQuest 没有内置诸如 baseURL, header 这样通用的配置项，但考虑到这些配置项大部分请求库都支持，因而 PreQuest 提供了 helper 包，来处理通用化配置项。此外需要注意的是，PreQuest 考虑到开发者可能有在中间件修改请求路径和方式的需求，所以将 **path** 和 **method** 两个字段混入到个性化配置中。示例参阅: [@prequest/fetch](./packages/fetch/src/index.ts)
 
-使用示例: [example](./examples/web/src/request.ts)
+中间件模型可以满足大部分的业务需求，比如: 请求头添加 token，输入日志，错误处理，加解密请求等等。PreQuest 项目也会提供一些解决方案，开发者只需要安装对应的包，并将其注入到中间件模型中即可使用。
 
-### @prequest/core
-
-PreQuest 核心包。内置 koa 中间件模型，同时为请求方法添加快捷方式。负责对 `adapter` 请求前的参数和请求后的响应进行拦截和处理。
-
-使用示例:
+## Example
 
 ```ts
 import { PreQuest } from '@prequest/core'
 
-// adapter 实现具体的请求过程，opt 请求参数将在中间件中传递
-const instance = PreQuest.createInstance<CustomRequest, CustomResponse>(adapter, opt)
+// -----------------------------封装----------------------------------
+function adapter(opt) {
+  // path 与 method 由 PreQuest 注入
+  const { path, method, baseURL, ...options } = opt
+  const url = baseURL + path
+  return fetch(url, { ...options, method }).then((res) => res.json())
+}
+
+// 自定义配置项
+const opt = { baseURL: 'http://localhost:3000' }
+
+// 将请求内核 adapter 和请求库个性化配置 opt (可选)传入
+const prequest = PreQuest.createInstance(adapter, opt)
+
+// -----------------------------使用----------------------------------
 
 // 中间件
-instance.use(async (ctx, next) => {
+prequest.use(async (ctx, next) => {
+  // ctx.request 为传入的 opt
   console.log(ctx.request)
+
   await next()
+
+  // ctx.response 为 adapter 的响应内容
   console.log(ctx.response)
 })
 
-// 快捷请求
-instance['get'|'post'|...](path, opt)
+// 调用
+prequest.post('/api', { data: { a: 1 } })
 ```
-
-### @prequest/fetch
-
-适配器。适配器中需要实现具体的请求过程。适配器参数和响应会通过中间件进行传递和处理。
-
-示例:
-
-```ts
-function adapter(opt: CustomRequest) {
-  const { url, ...options } = opt
-  return fetch(url, options).json()
-}
-```
-
-### @prequest/middleware-interceptor
-
-拦截器。拦截器提供了类似 axios 的拦截器的功能。
-
-```ts
-import { InterceptorMiddleware } from '@prequest/middleware-interceptor'
-
-const interceptor = new InterceptorMiddleware()
-
-interceptor.request.use(
-  (request) => {
-    if (!request.path) throw new Error('Can not find path')
-    request.path = '/prefix' + request.path
-    return request
-  },
-  (e) => {
-    console.log(e) // Can not find path
-  }
-)
-
-instance.use(interceptor.run)
-```
-
-### @prequest/helper
-
-助手包。包中包含了请求过程中通用的一个辅助函数，比如拼接 URL，解析 Body，合并参数等
 
 ## TODO
 

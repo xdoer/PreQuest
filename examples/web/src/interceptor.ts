@@ -1,4 +1,4 @@
-import { InterceptorMiddleware } from '@prequest/middleware-interceptor'
+import { InterceptorMiddleware } from '@prequest/interceptor'
 import { Request, Response } from '@prequest/xhr'
 
 const interceptor = new InterceptorMiddleware<Request, Response, Error>()

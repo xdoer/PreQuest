@@ -14,6 +14,7 @@ export class PreQuest<T, N> extends Middleware<T, N> {
     const preQuest = <MethodsCallback<T, N>>(this as unknown)
     METHODS.forEach((method) => {
       preQuest[method] = (path: string, config?: Config<T>) => {
+        // 将 path, method 注入，以便中间件可以拿到和处理
         const request = merge(this.config, config!, { path, method } as any)
         return this.controller({ request: request as RequestOption<T>, response: {} as N })
       }
