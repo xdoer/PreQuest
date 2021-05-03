@@ -8,8 +8,7 @@ export const baseOption: BaseOption = {
   headers: {
     Accept: 'application/json'
   },
-  responseType: 'json',
-  params: {},
+  responseType: 'json'
 }
 
 export const merge = (...args: Record<string, any>[]) => Object.assign({}, ...args)

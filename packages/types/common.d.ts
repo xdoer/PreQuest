@@ -1,1 +1,1 @@
-export type CommonObject = Record<string, string>
+export type CommonObject = Record<string, any>

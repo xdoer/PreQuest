@@ -23,7 +23,7 @@ export class PreQuest<T, N> extends Middleware<T, N> {
     })
   }
 
-  request(config: Config<T> & PreQuestInjectOption) {
+  request(config: Config<T> & { path: string }) {
     const request = <RequestOption<T>>merge(this.config, config!)
     const response = <N>{}
     return this.controller({ request, response })
