@@ -1,7 +1,7 @@
 import { Middleware } from './Middleware'
 import { METHODS } from './constant'
 import { merge } from './helper'
-import { Context, Config, MethodsCallback, RequestOption, Adapter, PreQuestInjectOption } from '@prequest/types'
+import { Context, Config, MethodsCallback, RequestOption, Adapter } from '@prequest/types'
 
 export class PreQuest<T, N> extends Middleware<T, N> {
 
