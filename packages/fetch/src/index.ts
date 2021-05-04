@@ -5,13 +5,13 @@ import { baseOption, createRequestUrl, formatRequestBodyAndHeaders, merge } from
 export * from './types'
 export * from '@prequest/core'
 
-const prequest = (options: Request) => {
+const create = (options: Request) => {
   return PreQuest.createInstance<Request, Response>(adapter, merge(baseOption, options))
 }
 
-export { prequest }
+export { create }
 
-export default prequest
+export default create
 
 function timeoutThrow(timeout: number) {
   return new Promise((_, reject) => setTimeout(reject, timeout))

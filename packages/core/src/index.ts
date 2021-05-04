@@ -13,10 +13,10 @@ export class PreQuest<T, N> extends Middleware<T, N> {
 
   private mountShortMethods() {
     const preQuest = <MethodsCallback<T, N>>(this as unknown)
+
     METHODS.forEach((method) => {
       preQuest[method] = (path: string, config?: Config<T>) => {
-        // 将 path, method 注入，以便中间件可以拿到和处理
-        const request = <RequestOption<T>>merge(this.config, config!, { path, method } as any)
+        const request = <RequestOption<T>>merge({ path, method } as any, this.config, config!)
         const response = <N>{}
         return this.controller({ request, response })
       }

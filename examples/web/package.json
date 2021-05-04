@@ -13,7 +13,8 @@
     "@prequest/core": "0.1.0",
     "@prequest/xhr": "0.1.0",
     "@prequest/fetch": "0.1.0",
-    "@prequest/interceptor": "0.1.0"
+    "@prequest/interceptor": "0.1.0",
+    "@prequest/graphql": "0.1.0"
   },
   "devDependencies": {
     "@types/react": "^17.0.0",

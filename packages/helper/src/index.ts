@@ -29,7 +29,7 @@ export function formatRequestBodyAndHeaders<T>(ctx: T & { headers: CommonObject,
   const bodyType = elementType(ctx.data)
 
   const headers: CommonObject = {}
-  let data = null
+  let data = ctx.data
 
   if (bodyType === 'object' || bodyType === 'array') {
     if (ctx.requestType === 'json') {

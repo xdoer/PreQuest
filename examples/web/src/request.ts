@@ -2,6 +2,7 @@ import axios from 'axios'
 import request from 'umi-request'
 import { prequest as xhrPrequest } from '@prequest/xhr'
 import * as fetchAdapter from '@prequest/fetch'
+import { graphql } from '@prequest/graphql'
 
 export function createAxios() {
   const instance = axios.create({
@@ -22,6 +23,7 @@ export function createUmiRequest() {
       data: {
         name: 'Mike',
       },
+      requestType: 'json',
       responseType: 'json',
     })
     .then(function (response) {
@@ -47,4 +49,17 @@ export function createFetchPreQuest() {
   })
 
   return adapter.post('/api', { data: { a: 1 } })
+}
+
+export function createGraphqlPreQuest() {
+  const query = `
+    {
+      me {
+        name
+      }
+    }
+  `
+  const instance = xhrPrequest({})
+  const request = graphql(instance as any)
+  return request(query, { name: 'ha' }, { path: '/api' })
 }
