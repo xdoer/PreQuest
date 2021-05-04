@@ -54,11 +54,11 @@
   ],
   "dependencies": {
     "@prequest/utils": "0.1.0",
+    "@prequest/types": "0.1.0",
     "qs": "^6.10.1"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",
-    "@prequest/types": "0.1.0",
     "@types/qs": "^6.9.6",
     "husky": "^6.0.0",
     "size-limit": "^4.10.2",

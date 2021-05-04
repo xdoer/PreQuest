@@ -53,7 +53,8 @@
     }
   ],
   "dependencies": {
-    "@prequest/types": "0.1.0"
+    "@prequest/types": "0.1.0",
+    "@prequest/utils": "0.1.0"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",

@@ -1,5 +1,5 @@
 import { stringify } from 'qs';
-import { elementType } from '@prequest/utils'
+import { elementType, merge } from '@prequest/utils'
 import { BaseOption, CommonObject } from '@prequest/types'
 
 export const baseOption: BaseOption = {
@@ -10,8 +10,6 @@ export const baseOption: BaseOption = {
   },
   responseType: 'json'
 }
-
-export const merge = (...args: Record<string, any>[]) => Object.assign({}, ...args)
 
 export function createRequestUrl<T>(ctx: T & { baseURL?: string, path: string, params?: any }): string {
   const { baseURL, path, params } = ctx

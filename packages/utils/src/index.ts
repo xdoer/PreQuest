@@ -4,3 +4,5 @@ export const elementType = (ele: any) => {
   reg.test(typeStr)
   return RegExp.$1.toLowerCase()
 }
+
+export const merge = (...args: (Record<string, any> | undefined)[]) => Object.assign({}, ...args)

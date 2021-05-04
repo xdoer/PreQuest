@@ -1,6 +1,7 @@
 import { PreQuest } from '@prequest/core'
 import { Request, Response } from './types'
-import { baseOption, createRequestUrl, formatRequestBodyAndHeaders, merge } from '@prequest/helper'
+import { baseOption, createRequestUrl, formatRequestBodyAndHeaders } from '@prequest/helper'
+import { merge } from '@prequest/utils'
 
 export * from './types'
 export * from '@prequest/core'

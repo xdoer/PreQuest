@@ -1,6 +1,6 @@
 import { PreQuest } from '@prequest/core'
 import { CommonObject, MethodsCallback } from '@prequest/types'
-import { merge } from './helper'
+import { merge } from '@prequest/utils'
 
 type PreQuestInstance<T, N> = PreQuest<T, N> & MethodsCallback<T, N>
 
