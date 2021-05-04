@@ -1,6 +1,6 @@
 *.log
 .DS_Store
 node_modules
-$node_modules
+miniprogram_npm
+miniprogram_dist
 dist
-yarn.lock

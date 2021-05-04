@@ -28,7 +28,7 @@ router
       b: 2,
     }
   })
-  .post('/api', (ctx) => {
+  .post('/api', async (ctx) => {
     ctx.body = {
       a: 1,
       b: 2,

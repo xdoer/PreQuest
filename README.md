@@ -52,7 +52,7 @@ wx.request({
 import { PreQuest } from '@prequest/core'
 
 function adapter(opt) {
-  // 这里的 path 与 method 由 PreQuest 注入，当然也可以由用户传入
+  // 这里的 path 与 method 由 PreQuest 注入，也可以由用户传入覆盖
   const { path, method, baseURL, ...options } = opt
   const url = baseURL + path
   return new Promise((resolve, reject) => {
@@ -74,8 +74,11 @@ function create(opt) {
 使用
 
 ```ts
-// 自定义配置项
-const opt = { baseURL: 'http://localhost:3000' }
+// 全局配置项
+PreQuest.defaults.baseURL = 'http://localhost:3000'
+
+// 实例配置项
+const opt = { baseURL: 'http://localhost:3001' }
 const prequest = create(opt)
 
 // 中间件
@@ -154,6 +157,8 @@ request(query, { name: 'prequest' }).then((res) => console.log(res))
 
 - [x] 全局中间件
 - [x] 全局配置
-- [ ] 完善 xhr 和 fetch 适配器
-- [ ] 添加 Node、小程序 适配器
 - [x] GraphQL 支持
+- [x] 小程序 适配器（支持各平台小程序）
+- [ ] 完善 xhr 适配器
+- [ ] 完善 fetch 适配器
+- [ ] 添加 Node 端适配器
