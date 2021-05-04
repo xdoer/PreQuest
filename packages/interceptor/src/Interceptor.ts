@@ -14,7 +14,7 @@ export class Interceptor<T, N> {
     return this
   }
 
-  exec(params: T): Promise<T> {
-    return this.handles.reduce((t, c) => t.then(c.successHandler, c.errorHandler as any), Promise.resolve(params))
+  exec(params: T): Promise<void | T> {
+    return this.handles.reduce((t, c, idx) => t.then(c.successHandler, this.handles[idx - 1]?.errorHandler as any), Promise.resolve(params)).catch(this.handles[this.handles.length - 1].errorHandler)
   }
 }
