@@ -104,11 +104,18 @@ function adapter(opt) {
   // ...some code
 }
 
+// 全局拦截器注册
+const interceptor = new InterceptorMiddleware()
+PreQuest.use(interceptor.run)
+PreQuest.interceptor = interceptor
+
 export function create(opt) {
   const instance = PreQuest.createInstance(adapter, opt)
+  // 实例拦截器
   const interceptor = new InterceptorMiddleware()
   instance.use(interceptor.run)
   instance.interceptor = interceptor
+
   return instance
 }
 ```
