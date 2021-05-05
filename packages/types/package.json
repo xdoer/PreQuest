@@ -1,5 +1,5 @@
 {
-  "version": "0.1.1",
+  "version": "0.1.2",
   "license": "MIT",
   "name": "@prequest/types",
   "author": "xdoer",
@@ -10,5 +10,6 @@
   "bugs": {
     "url": "https://github.com/xdoer/PreQuest/issues"
   },
-  "homepage": "https://github.com/xdoer/PreQuest#readme"
+  "homepage": "https://github.com/xdoer/PreQuest#readme",
+  "gitHead": "128926b6d6d65f019d1f2c05cc23fa3e729192e9"
 }
