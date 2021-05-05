@@ -1,6 +1,6 @@
 {
   "name": "node",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,7 @@
   "keywords": [],
   "author": "Thomas Trainset",
   "dependencies": {
-    "@prequest/node": "0.1.0"
+    "@prequest/node": "^0.1.1"
   },
   "license": "ISC"
 }

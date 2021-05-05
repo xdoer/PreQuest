@@ -1,20 +1,20 @@
 {
   "name": "web",
-  "version": "0.0.0",
+  "version": "0.1.1",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build"
   },
   "dependencies": {
+    "@prequest/core": "^0.1.1",
+    "@prequest/fetch": "^0.1.1",
+    "@prequest/graphql": "^0.1.1",
+    "@prequest/interceptor": "^0.1.1",
+    "@prequest/xhr": "^0.1.1",
     "axios": "^0.21.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
-    "umi-request": "^1.3.5",
-    "@prequest/core": "0.1.0",
-    "@prequest/xhr": "0.1.0",
-    "@prequest/fetch": "0.1.0",
-    "@prequest/interceptor": "0.1.0",
-    "@prequest/graphql": "0.1.0"
+    "umi-request": "^1.3.5"
   },
   "devDependencies": {
     "@types/react": "^17.0.0",

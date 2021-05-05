@@ -1,6 +1,16 @@
 {
-  "packages": [
-    "packages/*"
-  ],
-  "version": "0.0.0"
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "command": {
+    "publish": {
+      "ignoreChanges": [
+        "ignored-file",
+        "*.md",
+        "*.tsconfg.json"
+      ],
+      "message": "chore(release): publish",
+      "registry": "http://registry.npmjs.org"
+    }
+  },
+  "version": "0.1.1"
 }
