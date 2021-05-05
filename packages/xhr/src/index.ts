@@ -19,7 +19,7 @@ function adapter(options: Request): Promise<Response> {
   const finalOptions = (options || {}) as Required<Request>
   const url = createRequestUrl(finalOptions)
   const { data, headers } = formatRequestBodyAndHeaders(finalOptions)
-  const { timeout, withCredentials, responseType, method } = finalOptions
+  const { timeout, withCredentials, responseType, method, getRequestInstance } = finalOptions
 
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
@@ -63,6 +63,8 @@ function adapter(options: Request): Promise<Response> {
     xhr.addEventListener('error', () => {
       reject(createError('请求错误'))
     })
+
+    getRequestInstance?.(xhr)
 
     xhr.send(data)
   })

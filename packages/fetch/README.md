@@ -35,8 +35,6 @@ PreQuest.use(async (ctx, next) => {
 
 // instance config options
 const opt = { baseURL: 'http://localhost:3001' };
-
-// pass in native request core, so you can use this library in different miniprogram platform.
 const instance = createPreQuest(opt);
 
 // instance middleware

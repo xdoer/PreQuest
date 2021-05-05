@@ -161,6 +161,6 @@ request(query, { name: 'prequest' }).then((res) => console.log(res))
 - [x] 全局配置
 - [x] GraphQL 支持
 - [x] 小程序 适配器（支持各平台小程序、支持快应用）
+- [x] 完善 fetch 适配器
 - [ ] 完善 xhr 适配器
-- [ ] 完善 fetch 适配器
 - [ ] 添加 Node 端适配器

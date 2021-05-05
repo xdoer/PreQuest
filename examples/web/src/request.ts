@@ -34,9 +34,19 @@ export function createUmiRequest() {
     });
 }
 
-export function createXMLPreQuest() {
+export async function createXMLPreQuest() {
   const adapter = createPreQuest({})
-  return adapter.post('/api', { data: { a: '1' }, requestType: 'json' })
+  let request: XMLHttpRequest
+  const xxx = adapter.post('/api', {
+    data: { a: '1' },
+    requestType: 'json',
+    getRequestInstance(instance) {
+      request = instance
+    }
+  })
+  console.log('查看响应值')
+  setTimeout(() => request.abort())
+  return xxx
 }
 
 export function createFetchPreQuest() {

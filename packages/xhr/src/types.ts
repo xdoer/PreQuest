@@ -4,6 +4,7 @@ export interface Request extends BaseOption {
   withCredentials?: boolean
   requestType?: 'json' | 'form' | ({} & string)
   responseType?: XMLHttpRequestResponseType
+  getRequestInstance?(instance: XMLHttpRequest): void
 }
 
 export interface Response {
