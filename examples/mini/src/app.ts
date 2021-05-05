@@ -1,12 +1,12 @@
 import Taro from '@tarojs/taro'
 import { Component } from 'react'
-import { create } from '@prequest/miniprogram'
+import { createPreQuest } from '@prequest/miniprogram'
 
 import './app.css'
 
 let requestInstance
 
-const xx = create(Taro.request, {
+const xx = createPreQuest(Taro.request, {
   getRequestInstance(instance) {
     requestInstance = instance
   }

@@ -7,7 +7,7 @@ interface Handles<T, N> {
 }
 
 export class Interceptor<T, N> {
-  protected handles: Handles<T, N>[] = []
+  private handles: Handles<T, N>[] = []
 
   use(successHandler: SuccessHandler<T>, errorHandler?: ErrorHandler<N>) {
     this.handles.push({ successHandler, errorHandler })

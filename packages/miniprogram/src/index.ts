@@ -1,26 +1,26 @@
 import { PreQuest } from '@prequest/core'
 import { createRequestUrl } from '@prequest/helper'
-import { Request, Response } from './types'
+import { Request, Response, RequestCore } from './types'
 
 export * from './types'
 
-function create(request: any, instanceOpt?: Request) {
+function createPreQuest(request: RequestCore, instanceOpt?: Request) {
   return PreQuest.createInstance<Request, Response>(adapter(request), instanceOpt)
 }
 
-export { create }
+export { createPreQuest }
 
-export default create
+export default createPreQuest
 
-function adapter(request: any) {
+function adapter(request: RequestCore) {
   return (opt: Request): Promise<Response> => {
     const finalOption = (opt || {}) as Required<Request>
     const url = createRequestUrl(finalOption)
-    const { getRequestInstance = () => { } } = finalOption
+    const { getRequestInstance = () => { }, ...rest } = finalOption
 
     return new Promise((resolve, reject) => {
       getRequestInstance(request({
-        ...finalOption,
+        ...rest,
         url,
         success: resolve,
         fail: reject

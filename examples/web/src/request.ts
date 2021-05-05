@@ -40,7 +40,7 @@ export function createXMLPreQuest() {
 }
 
 export function createFetchPreQuest() {
-  const adapter = fetchAdapter.create({})
+  const adapter = fetchAdapter.createPreQuest({})
 
   adapter.use(async (ctx, next) => {
     console.log('fetch 实例中间件-请求', ctx.request)

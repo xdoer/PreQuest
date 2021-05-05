@@ -6,13 +6,13 @@ import { merge } from '@prequest/utils'
 export * from './types'
 export * from '@prequest/core'
 
-const create = (options: Request) => {
+const createPreQuest = (options: Request) => {
   return PreQuest.createInstance<Request, Response>(adapter, merge(baseOption, options))
 }
 
-export { create }
+export { createPreQuest }
 
-export default create
+export default createPreQuest
 
 function timeoutThrow(timeout: number) {
   return new Promise((_, reject) => setTimeout(reject, timeout))

@@ -8,10 +8,10 @@ export class PreQuest<T, N> extends Middleware<T, N> {
   constructor(private adapter: Adapter<T, N>, private config?: Config<T>) {
     super()
     this.config = merge(PreQuest.defaults, this.config)
-    this.mountShortMethods()
+    this.mount()
   }
 
-  private mountShortMethods() {
+  private mount() {
     const preQuest = <MethodsCallback<T, N>>(this as unknown)
 
     METHODS.forEach((method) => {

@@ -6,7 +6,7 @@
 
 最近想写一个可以适配多平台的请求库，在研究 xhr 和 fetch 发现二者的参数、响应、回调函数等差别很大。想到如果上层请求库想要抹平底层差异，需要统一的传参和响应格式，那么势必会在请求库内部做大量的判断，这样不但费时费力，还会屏蔽掉底层请求内核的特有功能。
 
-研究 axios 和 umi-request 时发现，上层请求库其实基本都包含了拦截器、中间件和快捷请求等几个通用的，与具体请求过程无关的功能。然后通过传参，让用户接触底层请求内核。问题在于，不同的底层内核，支持的参数是不一样的，上层库可能做一些处理，抹平一些参数的差异化，但对于底层内核的特有的功能，要么放弃，要么在参数列表中加入一些具体内核的特有的参数。比如在 axios 中，它的请求配置参数列表中，罗列了很多 [node 专属](https://axios-http.com/docs/req_config)的参数，那对于只需要在 web 环境中运行的 axios 来说，参数多少有些冗余，并且如果 axios 支持的平台越来越多(比如小程序、ReactNative)，那么参数冗余也将越来越大。
+研究 axios 和 umi-request 时发现，上层请求库其实基本都包含了拦截器、中间件和快捷请求等几个通用的，与具体请求过程无关的功能。然后通过传参，让用户接触底层请求内核。问题在于，不同的底层内核，支持的参数是不一样的，上层库可能做一些处理，抹平一些参数的差异化，但对于底层内核的特有的功能，要么放弃，要么在参数列表中加入一些具体内核的特有的参数。比如在 axios 中，它的请求配置参数列表中，罗列了很多 [node 专属](https://axios-http.com/docs/req_config)的参数，那对于只需要在 web 环境中运行的 axios 来说，参数多少有些冗余，并且如果 axios 要支持其他请求内核(比如小程序)，那么参数冗余也将越来越大，扩展性也差。
 
 换个思路来想，既然实现一个适配多平台的统一的请求库有这些问题，那么是否可以从底向上的，针对不同的请求内核，提供一种方式可以很方便的为其赋予上层请求库拦截器、中间件、快捷请求等几个通用功能，并且保留不同请求内核的差异化？
 
@@ -66,7 +66,7 @@ function adapter(opt) {
   })
 }
 
-function create(opt) {
+function createPreQuest(opt) {
   return PreQuest.createInstance(adapter, opt)
 }
 ```
@@ -79,7 +79,7 @@ PreQuest.defaults.baseURL = 'http://localhost:3000'
 
 // 实例配置项
 const opt = { baseURL: 'http://localhost:3001' }
-const prequest = create(opt)
+const prequest = createPreQuest(opt)
 
 // 中间件
 prequest.use(async (ctx, next) => {
@@ -92,6 +92,8 @@ prequest.use(async (ctx, next) => {
 prequest.request({ path: '/api', method: 'post', data: { a: 1 } })
 prequest.post('/api', { data: { a: 1 } })
 ```
+
+实际上，如果 wx.request 方法由用户端传入的话，那么这个请求库可以适配绝大部分小程序框架，和一些类小程序框架(快应用)。详情请查阅[@prequest/miniprogram](./packages/miniprogram/src/index.ts)
 
 ### 拦截器
 
@@ -112,7 +114,7 @@ const interceptor = new InterceptorMiddleware()
 PreQuest.use(interceptor.run)
 PreQuest.interceptor = interceptor
 
-export function create(opt) {
+export function createPreQuest(opt) {
   const instance = PreQuest.createInstance(adapter, opt)
   // 实例拦截器
   const interceptor = new InterceptorMiddleware()
@@ -126,7 +128,7 @@ export function create(opt) {
 使用
 
 ```ts
-const instance = create()
+const instance = createPreQuest()
 instance.interceptor.request.use(
   (opt) => modify(opt),
   (e) => handle(e)
@@ -138,7 +140,7 @@ instance.interceptor.request.use(
 GraphQL 请求实则是一个 http post 请求的语法糖
 
 ```ts
-import { create } from '@prequest/fetch'
+import { createPreQuest } from '@prequest/fetch'
 
 const query = `
   {
@@ -148,7 +150,7 @@ const query = `
   }
 `
 // 传入一个 PreQuest 的实例
-const request = graphql(create({ path: '/graphql' }))
+const request = graphql(createPreQuest({ path: '/graphql' }))
 
 request(query, { name: 'prequest' }).then((res) => console.log(res))
 ```
@@ -158,7 +160,7 @@ request(query, { name: 'prequest' }).then((res) => console.log(res))
 - [x] 全局中间件
 - [x] 全局配置
 - [x] GraphQL 支持
-- [x] 小程序 适配器（支持各平台小程序）
+- [x] 小程序 适配器（支持各平台小程序、支持快应用）
 - [ ] 完善 xhr 适配器
 - [ ] 完善 fetch 适配器
 - [ ] 添加 Node 端适配器

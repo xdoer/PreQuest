@@ -1,103 +1,115 @@
-# TSDX User Guide
+# @prequest/miniprogram
 
-Congrats! You just saved yourself hours of work by bootstrapping this project with TSDX. Let’s get you oriented with what’s here and how to use it.
+A Modern MiniProgram Request Library.
 
-> This TSDX setup is meant for developing libraries (not apps!) that can be published to NPM. If you’re looking to build a Node app, you could use `ts-node-dev`, plain `ts-node`, or simple `tsc`.
+## Example
 
-> If you’re new to TypeScript, checkout [this handy cheatsheet](https://devhints.io/typescript)
+### Native Request
 
-## Commands
+First, let us see the demo which call a request by native api.
 
-TSDX scaffolds your new library inside `/src`.
+```ts
+const requestInstance = wx.request({
+  url: 'http://localhost:3000/api',
+  method: 'post',
+  data: {
+    x: '',
+  },
+  header: {
+    'content-type': 'application/json',
+  },
+  success(res) {
+    console.log(res.data);
+  },
+});
 
-To run TSDX, use:
-
-```bash
-npm start # or yarn start
+requestInstance.abort();
 ```
 
-This builds to `/dist` and runs the project in watch mode so any edits you save inside `src` causes a rebuild to `/dist`.
+### Basic Usage
 
-To do a one-off build, use `npm run build` or `yarn build`.
+How to use this library ?
 
-To run tests, use `npm test` or `yarn test`.
+```ts
+import { createPreQuest, PreQuest } from '@prequest/miniprogram';
 
-## Configuration
+// global config
+PreQuest.defaults.baseURL = 'http://localhost:3000';
 
-Code quality is set up for you with `prettier`, `husky`, and `lint-staged`. Adjust the respective fields in `package.json` accordingly.
+// global middleware
+PreQuest.use(async (ctx, next) => {
+  // modify request params
+  console.log(ctx.request);
+  await next();
+  // handle response error or modify response data
+  console.log(ctx.response);
+});
 
-### Jest
+// instance config options
+const opt = { baseURL: 'http://localhost:3001' };
 
-Jest tests are set up to run with `npm test` or `yarn test`.
+// pass in native request core, so you can use this library in different miniprogram platform.
+const instance = createPreQuest(wx.request, opt);
 
-### Bundle Analysis
+// instance middleware
+instance.use(async (ctx, next) => {
+  ctx.request.path = '/prefix' + ctx.request.path;
+  await next();
+  ctx.response = JSON.parse(ctx.response);
+});
 
-[`size-limit`](https://github.com/ai/size-limit) is set up to calculate the real cost of your library with `npm run size` and visualize the bundle with `npm run analyze`.
+// request
+instance.request({ path: '/api' });
 
-#### Setup Files
-
-This is the folder structure we set up for you:
-
-```txt
-/src
-  index.tsx       # EDIT THIS
-/test
-  blah.test.tsx   # EDIT THIS
-.gitignore
-package.json
-README.md         # EDIT THIS
-tsconfig.json
+// request by alias
+instance.get('/api');
 ```
 
-### Rollup
+### Interceptor
 
-TSDX uses [Rollup](https://rollupjs.org) as a bundler and generates multiple rollup configs for various module formats and build settings. See [Optimizations](#optimizations) for details.
+If you want to use interceptor like axios, you may need this, or middleware can meet you demand.
 
-### TypeScript
+```ts
+import { PreQuest, createPreQuest } from '@prequest/miniprogram';
+import { interceptorMiddleware } from '@prequest/interceptor';
 
-`tsconfig.json` is set up to interpret `dom` and `esnext` types, as well as `react` for `jsx`. Adjust according to your needs.
+// create Interceptor instance
+const interceptor = new Interceptor();
 
-## Continuous Integration
+// use
+interceptor.request.use(
+  requestOpt => modify(requestOpt),
+  err => handleErr(err)
+);
 
-### GitHub Actions
+// mount global interceptor middleware
+PreQuest.use(interceptor.run);
 
-Two actions are added by default:
-
-- `main` which installs deps w/ cache, lints, tests, and builds on all pushes against a Node and OS matrix
-- `size` which comments cost comparison of your library on every pull request using [`size-limit`](https://github.com/ai/size-limit)
-
-## Optimizations
-
-Please see the main `tsdx` [optimizations docs](https://github.com/palmerhq/tsdx#optimizations). In particular, know that you can take advantage of development-only optimizations:
-
-```js
-// ./types/index.d.ts
-declare var __DEV__: boolean;
-
-// inside your code...
-if (__DEV__) {
-  console.log('foo');
-}
+// or you can mount it to prequest instance
+const instance = createPreQuest(wx.request);
+instance.use(interceptor.run);
 ```
 
-You can also choose to install and use [invariant](https://github.com/palmerhq/tsdx#invariant) and [warning](https://github.com/palmerhq/tsdx#warning) functions.
+### Request Instance
 
-## Module Formats
+How to get native request instance so you can do something like abort ?
 
-CJS, ESModules, and UMD module formats are supported.
+```ts
+import { PreQuest, createPreQuest } from '@prequest/miniprogram';
 
-The appropriate paths are configured in `package.json` and `dist/index.js` accordingly. Please report if any issues are found.
+const instance = createPreQuest(wx.request);
 
-## Named Exports
+let requestInstance;
 
-Per Palmer Group guidelines, [always use named exports.](https://github.com/palmerhq/typescript#exports) Code split inside your React app instead of your React library.
+instance.request({
+  path: '/api',
+  getRequestInstance(nativeRequestInstance) {
+    requestInstance = nativeRequestInstance;
+  },
+});
 
-## Including Styles
-
-There are many ways to ship styles, including with CSS-in-JS. TSDX has no opinion on this, configure how you like.
-
-For vanilla CSS, you can include it at the root directory and add it to the `files` section in your `package.json`, so that it can be imported separately by your users and run through their bundler's loader.
-
-## Publishing to NPM
-
-We recommend using [np](https://github.com/sindresorhus/np).
+// must call requestInstance in next event loop
+setTimeout(() => {
+  requestInstance.abort();
+});
+```
