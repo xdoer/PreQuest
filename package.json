@@ -12,7 +12,14 @@
     "publish": "lerna publish --force-publish=*",
     "prepare": "husky install"
   },
+  "lint-staged": {
+    "*.ts?(x)": [
+      "prettier --parser=typescript --write"
+    ]
+  },
   "devDependencies": {
-    "lerna": "^3.22.1"
+    "husky": "^6.0.0",
+    "lerna": "^3.22.1",
+    "lint-staged": "^10.5.4"
   }
 }

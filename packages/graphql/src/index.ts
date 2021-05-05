@@ -16,7 +16,7 @@ export function graphql<T, N>(instance: PreQuestInstance<T & { data: CommonObjec
     return instance.post('/graphql', {
       data: JSON.stringify({ query, variables }),
       headers: merge(defaultHeaders, headers),
-      ...other
+      ...other,
     } as any)
   }
 }

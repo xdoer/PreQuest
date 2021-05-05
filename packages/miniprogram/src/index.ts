@@ -16,15 +16,17 @@ function adapter(request: RequestCore) {
   return (opt: Request): Promise<Response> => {
     const finalOption = (opt || {}) as Required<Request>
     const url = createRequestUrl(finalOption)
-    const { getRequestInstance = () => { }, ...rest } = finalOption
+    const { getRequestInstance = () => {}, ...rest } = finalOption
 
     return new Promise((resolve, reject) => {
-      getRequestInstance(request({
-        ...rest,
-        url,
-        success: resolve,
-        fail: reject
-      }))
+      getRequestInstance(
+        request({
+          ...rest,
+          url,
+          success: resolve,
+          fail: reject,
+        })
+      )
     })
   }
 }

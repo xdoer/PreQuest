@@ -130,8 +130,8 @@ export function createPreQuest(opt) {
 ```ts
 const instance = createPreQuest()
 instance.interceptor.request.use(
-  (opt) => modify(opt),
-  (e) => handle(e)
+  opt => modify(opt),
+  e => handle(e)
 )
 ```
 
@@ -152,7 +152,7 @@ const query = `
 // 传入一个 PreQuest 的实例
 const request = graphql(createPreQuest({ path: '/graphql' }))
 
-request(query, { name: 'prequest' }).then((res) => console.log(res))
+request(query, { name: 'prequest' }).then(res => console.log(res))
 ```
 
 ## TODO

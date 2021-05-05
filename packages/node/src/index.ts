@@ -18,10 +18,10 @@ function adapter(options: Request): Promise<Response> {
   const request = protocol === 'https' ? https.request : http.request
 
   return new Promise((resolve, reject) => {
-    const req = request(options, (res) => {
+    const req = request(options, res => {
       const { statusCode, headers } = res
       let data = ''
-      res.on('data', (d) => data += d)
+      res.on('data', d => (data += d))
       res.on('end', () => resolve({ data: JSON.parse(data), status: statusCode!, headers }))
       res.on('error', reject)
     })

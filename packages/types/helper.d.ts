@@ -9,5 +9,5 @@ export interface BaseOption {
   params?: CommonObject
   data?: CommonObject
   headers?: CommonObject
-  responseType?: "json" | "text" | "arraybuffer" | ({} & string)
+  responseType?: 'json' | 'text' | 'arraybuffer' | ({} & string)
 }

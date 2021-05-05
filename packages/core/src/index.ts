@@ -4,7 +4,6 @@ import { merge } from '@prequest/utils'
 import { Context, Config, MethodsCallback, RequestOption, Adapter } from '@prequest/types'
 
 export class PreQuest<T, N> extends Middleware<T, N> {
-
   constructor(private adapter: Adapter<T, N>, private config?: Config<T>) {
     super()
     this.config = merge(PreQuest.defaults, this.config)
@@ -14,7 +13,7 @@ export class PreQuest<T, N> extends Middleware<T, N> {
   private mount() {
     const preQuest = <MethodsCallback<T, N>>(this as unknown)
 
-    METHODS.forEach((method) => {
+    METHODS.forEach(method => {
       preQuest[method] = (path: string, config?: Config<T>) => {
         const request = <RequestOption<T>>merge(this.config, { path, method } as any, config!)
         const response = <N>{}
@@ -31,7 +30,7 @@ export class PreQuest<T, N> extends Middleware<T, N> {
 
   private controller(ctx: Context<T, N>): Promise<N> {
     return new Promise((resolve, reject) => {
-      return this.exec(ctx, async (ctx) => {
+      return this.exec(ctx, async ctx => {
         try {
           const response = await this.adapter(ctx.request)
           ctx.response = response
