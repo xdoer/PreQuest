@@ -1,8 +1,9 @@
 import { BaseOption } from '@prequest/types'
 
-export interface Request extends BaseOption {
+type Options = BaseOption & Partial<globalThis.Request>
+
+export interface Request extends Options {
   requestType?: 'json' | 'form' | ({} & string)
-  responseType?: XMLHttpRequestResponseType
 }
 
 export interface Response {

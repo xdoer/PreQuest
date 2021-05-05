@@ -5,7 +5,7 @@ import './middleware'
 const xxx = ['axios', 'umi', 'preQuest-xml', 'preQuest-fetch', 'graphql']
 
 function App() {
-  const [a, setA] = useState(4)
+  const [a, setA] = useState(3)
 
   useEffect(() => {
     switch (a % 5) {

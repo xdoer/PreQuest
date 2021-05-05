@@ -16,7 +16,7 @@ export class PreQuest<T, N> extends Middleware<T, N> {
 
     METHODS.forEach((method) => {
       preQuest[method] = (path: string, config?: Config<T>) => {
-        const request = <RequestOption<T>>merge({ path, method } as any, this.config, config!)
+        const request = <RequestOption<T>>merge(this.config, { path, method } as any, config!)
         const response = <N>{}
         return this.controller({ request, response })
       }

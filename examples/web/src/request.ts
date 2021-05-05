@@ -1,6 +1,6 @@
 import axios from 'axios'
 import request from 'umi-request'
-import { create as xhrPrequest } from '@prequest/xhr'
+import { createPreQuest } from '@prequest/xhr'
 import * as fetchAdapter from '@prequest/fetch'
 import { graphql } from '@prequest/graphql'
 
@@ -35,12 +35,12 @@ export function createUmiRequest() {
 }
 
 export function createXMLPreQuest() {
-  const adapter = xhrPrequest({})
+  const adapter = createPreQuest({})
   return adapter.post('/api', { data: { a: '1' }, requestType: 'json' })
 }
 
 export function createFetchPreQuest() {
-  const adapter = fetchAdapter.createPreQuest({})
+  const adapter = fetchAdapter.createPreQuest()
 
   adapter.use(async (ctx, next) => {
     console.log('fetch 实例中间件-请求', ctx.request)
@@ -59,7 +59,7 @@ export function createGraphqlPreQuest() {
       }
     }
   `
-  const instance = xhrPrequest({})
+  const instance = createPreQuest({})
   const request = graphql(instance as any)
   return request(query, { name: 'ha' }, { path: '/api' })
 }

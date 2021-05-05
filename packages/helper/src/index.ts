@@ -41,3 +41,9 @@ export function formatRequestBodyAndHeaders<T>(ctx: T & { headers: CommonObject,
 
   return { data, headers: merge(headers, ctx.headers) }
 }
+
+// TODO: 更多信息
+export function createError(message: string) {
+  const error = new Error(message)
+  return error
+}
