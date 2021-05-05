@@ -28,8 +28,8 @@ async function adapter(options: Request) {
   }
 
   const res = await (timeout ? Promise.race([timeoutThrow(timeout), fetch(url, config)]) : fetch(url, config)) as globalThis.Response
+  const resData = await parseResBody(res, options)
   const { status, statusText } = res
-  const resData = await parseResBody(res.clone(), options)
 
   return { headers: res.headers, data: resData, status, statusText }
 }
