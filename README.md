@@ -1,6 +1,8 @@
 # PreQuest
 
-![logo](logo.png)
+<div align=center>
+<img src="logo.png" width="100%" height="100%" />
+</div>
 
 Provide A Modular And Pluggable Solution For Your Http Request.
 
@@ -19,7 +21,7 @@ So how to use this library ?
 
 ## Example
 
-A simple example.
+A very simple example.
 
 ```ts
 const adapter = opt => {
