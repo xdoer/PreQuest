@@ -13,7 +13,7 @@ A modular and pluggable solution for native http request.
 
 ## Introduction
 
-If you use axios、umi-request or some other http request library, you may don't need this. But if you use native request api like XMLHttpRequest, fetch and so on, This library can add middleware, interceptor, global config, request alias and some modern feature to native request api easily.
+If you use axios、umi-request or some other http request library, you may don't need this. But if you use native request api like fetch、miniprogram request、node http module and so on, This library can add middleware, interceptor, global config, request alias and some modern feature to native request api easily.
 
 ## Example
 
