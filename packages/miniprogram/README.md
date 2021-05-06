@@ -67,7 +67,7 @@ instance.get('/api')
 
 ### Interceptor
 
-If you want to use interceptor like axios, you may need this, or middleware can meet you demand.
+If you want to use interceptor like axios, you may need this, or middleware can meet your demand.
 
 ```ts
 import { PreQuest, createPreQuest } from '@prequest/miniprogram'
@@ -78,8 +78,8 @@ const interceptor = new Interceptor()
 
 // use
 interceptor.request.use(
-  (requestOpt) => modify(requestOpt),
-  (err) => handleErr(err)
+  requestOpt => modify(requestOpt),
+  err => handleErr(err)
 )
 
 // mount global interceptor middleware
@@ -89,6 +89,8 @@ PreQuest.use(interceptor.run)
 const instance = createPreQuest(wx.request)
 instance.use(interceptor.run)
 ```
+
+More Detail: [@prequest/interceptor](https://github.com/xdoer/PreQuest/blob/main/packages/interceptor/README.md)
 
 ### Request Instance
 

@@ -9,6 +9,15 @@
   "engines": {
     "node": ">=10"
   },
+  "keywords": [
+    "http",
+    "request",
+    "XMLHttpRequest",
+    "fetch",
+    "https",
+    "middleware",
+    "interceptor"
+  ],
   "miniprogram": "dist",
   "scripts": {
     "start": "tsdx watch --verbose",
@@ -23,12 +32,6 @@
     "hooks": {
       "pre-commit": "tsdx lint"
     }
-  },
-  "prettier": {
-    "printWidth": 100,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "es5"
   },
   "name": "@prequest/miniprogram",
   "author": "xdoer",

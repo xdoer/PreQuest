@@ -45,6 +45,8 @@ export class PreQuest<T, N> extends Middleware<T, N> {
   static defaults: any = {}
 
   static createInstance<T, N>(adapter: Adapter<T, N>, config?: Config<T>) {
-    return new PreQuest<T, N>(adapter, config) as PreQuest<T, N> & MethodsCallback<T, N>
+    return new PreQuest<T, N>(adapter, config) as PreQuestInstance<T, N>
   }
 }
+
+export type PreQuestInstance<T, N> = PreQuest<T, N> & MethodsCallback<T, N>

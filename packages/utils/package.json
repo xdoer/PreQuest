@@ -9,6 +9,15 @@
   "engines": {
     "node": ">=10"
   },
+  "keywords": [
+    "http",
+    "request",
+    "XMLHttpRequest",
+    "fetch",
+    "https",
+    "middleware",
+    "interceptor"
+  ],
   "scripts": {
     "start": "tsdx watch --verbose",
     "build": "tsdx build",
@@ -22,12 +31,6 @@
     "hooks": {
       "pre-commit": "tsdx lint"
     }
-  },
-  "prettier": {
-    "printWidth": 100,
-    "semi": false,
-    "singleQuote": true,
-    "trailingComma": "es5"
   },
   "name": "@prequest/utils",
   "author": "xdoer",

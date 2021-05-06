@@ -1,21 +1,20 @@
-import { PreQuest } from '@prequest/core'
-import { CommonObject, MethodsCallback } from '@prequest/types'
+import { PreQuestInstance } from '@prequest/core'
+import { CommonObject } from '@prequest/types'
 import { merge } from '@prequest/utils'
-
-type PreQuestInstance<T, N> = PreQuest<T, N> & MethodsCallback<T, N>
 
 const defaultHeaders = {
   Accept: 'application/json',
   'Content-Type': 'application/json;charset=UTF-8',
 }
 
-export function graphql<T, N>(instance: PreQuestInstance<T & { data: CommonObject }, N>) {
+export function graphql<T, N>(instance: PreQuestInstance<T, N>) {
   return (query: string, variables: CommonObject, opt?: T) => {
-    const { headers, ...other } = (opt || {}) as any
-
+    const { headers, data, ...other } = (opt || {}) as any
+    const finalData = merge({ query, variables }, data)
+    const finalHeaders = merge(defaultHeaders, headers)
     return instance.post('/graphql', {
-      data: JSON.stringify({ query, variables }),
-      headers: merge(defaultHeaders, headers),
+      data: JSON.stringify(finalData),
+      headers: finalHeaders,
       ...other,
     } as any)
   }
