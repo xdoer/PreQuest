@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "@prequest/example-web",
   "version": "0.1.1",
   "scripts": {
     "dev": "vite",

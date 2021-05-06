@@ -1,7 +1,6 @@
 {
-  "name": "mini",
+  "name": "@prequest/example-miniprogram",
   "version": "0.1.1",
-  "private": true,
   "description": "mini-demo",
   "templateInfo": {
     "name": "default",
