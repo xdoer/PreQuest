@@ -3,6 +3,9 @@ import http from 'http'
 import https from 'https'
 import { Request, Response } from './types'
 
+export * from './types'
+export * from '@prequest/core'
+
 const createPreQuest = (options?: Request) => {
   return PreQuest.createInstance<Request, Response>(adapter, options)
 }
@@ -12,7 +15,6 @@ export { createPreQuest }
 export default createPreQuest
 
 function adapter(options: Request): Promise<Response> {
-  // TODO: 先根据端口判断请求的协议
   const { protocol = 'https:' } = options
 
   const request = protocol === 'https' ? https.request : http.request

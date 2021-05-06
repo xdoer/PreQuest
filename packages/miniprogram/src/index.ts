@@ -3,6 +3,7 @@ import { createRequestUrl } from '@prequest/helper'
 import { Request, Response, RequestCore } from './types'
 
 export * from './types'
+export * from '@prequest/core'
 
 function createPreQuest(request: RequestCore, instanceOpt?: Request) {
   return PreQuest.createInstance<Request, Response>(adapter(request), instanceOpt)
