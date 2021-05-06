@@ -22,8 +22,8 @@ function adapter(request: RequestCore) {
     return new Promise((resolve, reject) => {
       getRequestInstance(
         request({
-          ...rest,
           url,
+          ...rest,
           success: resolve,
           fail: reject,
         })

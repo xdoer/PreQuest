@@ -1,3 +1,5 @@
+import deepmerge from 'deepmerge'
+
 export const elementType = (ele: any) => {
   const typeStr = Object.prototype.toString.call(ele)
   const reg = /^\[object\s([A-Za-z]+)\]$/
@@ -5,4 +7,5 @@ export const elementType = (ele: any) => {
   return RegExp.$1.toLowerCase()
 }
 
-export const merge = (...args: (Record<string, any> | undefined)[]) => Object.assign({}, ...args)
+export const merge = (...args: (Record<string, any> | undefined)[]) =>
+  deepmerge.all(args.filter(Boolean) as any)

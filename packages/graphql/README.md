@@ -27,5 +27,10 @@ const query = `
     }
   }
 `
-request(query, { name: 'prequest' }, { ...opts }).then(res => console.log(res))
+
+const variables = { name: 'prequest' }
+
+const opt = { path: '/graphql' }
+
+request(query, variables, opt).then(res => console.log(res))
 ```

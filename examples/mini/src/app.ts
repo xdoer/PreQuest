@@ -1,34 +1,45 @@
-import Taro from '@tarojs/taro'
-import { Component } from 'react'
+import { useEffect } from "react"
 import { createPreQuest } from '@prequest/miniprogram'
+import { graphql } from '@prequest/graphql'
+import Taro from '@tarojs/taro'
 
-import './app.css'
-
-let requestInstance
-
-const xx = createPreQuest(Taro.request, {
-  getRequestInstance(instance) {
-    requestInstance = instance
-  }
+const instance = createPreQuest(Taro.request, {
+  baseURL: 'http://localhost:10000',
+  path: '/graphql',
 })
 
-xx.post('http://localhost:10000/api').then(e => console.log('xx', e))
+const instance2 = createPreQuest(Taro.request, {
+  baseURL: 'http://localhost:10000',
+})
 
-class App extends Component {
+const request = graphql(instance)
 
-  componentDidMount() {
-  }
 
-  componentDidShow() { }
+export default function App(props: any) {
 
-  componentDidHide() { }
+  useEffect(() => {
+    request(CONFIG)
+      .then(res => {
+        console.log('查看响应', res)
+      })
+      .catch(e => {
+        console.log('查看报错', e)
+      })
 
-  componentDidCatchError() { }
+    instance2.get('/api').then(res => {
+      console.log('查看restful', res)
+    })
+  }, [])
 
-  // this.props.children 是将要会渲染的页面
-  render() {
-    return this.props.children
-  }
+  return props.children
 }
 
-export default App
+export const CONFIG = `
+query config($config: String){
+    config(config: $config){
+        id
+        config
+        showUpdatedTime
+    }
+}
+`;

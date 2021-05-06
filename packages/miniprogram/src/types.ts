@@ -1,10 +1,18 @@
-import { BaseOption, CommonObject } from '@prequest/types'
+import { CommonObject, Method } from '@prequest/types'
 
 export type RequestCore = any
 
-export interface Request extends BaseOption {
+export interface Request {
+  path?: string
+  method?: Method
+  baseURL?: string
+  timeout?: number
+  params?: CommonObject
+  data?: CommonObject
+  responseType?: 'json' | 'text' | 'arraybuffer' | ({} & string)
+  header?: CommonObject
   dataType?: 'json' | ({} & string)
-  getRequestInstance(instance: any): void
+  getRequestInstance?(instance: any): void
 }
 
 export interface Response {

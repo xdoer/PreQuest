@@ -1,6 +1,6 @@
 {
   "name": "@prequest/example-miniprogram",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "mini-demo",
   "templateInfo": {
     "name": "default",
@@ -35,7 +35,8 @@
   "author": "",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
-    "@prequest/miniprogram": "^0.1.1",
+    "@prequest/miniprogram": "^0.1.3",
+    "@prequest/graphql": "^0.1.3",
     "@tarojs/components": "3.2.1",
     "@tarojs/react": "3.2.1",
     "@tarojs/runtime": "3.2.1",
