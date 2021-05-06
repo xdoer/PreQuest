@@ -1,6 +1,6 @@
 # @prequest/core
 
-Provide A Modular And Pluggable Solution For Your Http Request.
+Provide A Modular And Pluggable Solution For Your Native Http Request.
 
 ## Introduction
 
