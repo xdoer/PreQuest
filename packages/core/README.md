@@ -33,7 +33,7 @@ const prequest = createPreQuest(adapter, opt)
 prequest.get('/api')
 ```
 
-## Detail
+## More Detail
 
 ### Define A Adapter Function
 
@@ -62,7 +62,7 @@ Then: Implement this function
 const adapter: Adapter = opt => nativeRequestCore(opt)
 ```
 
-PreQuest will merge `PreQuest.defaults`, `createPreQuest(adapter, opt)` and `instance.get('/api', opt)` three part's request options, and travel it to all middleware, finally inject `adapter` function. If you don't what is meaning, see blow.
+PreQuest will merge `PreQuest.defaults`, `createPreQuest(adapter, opt)` and `instance.get('/api', opt)` three part's request options, and travel it to all middleware, finally inject `adapter` function. If you don't know what is meaning, see blow.
 
 ### Create A PreQuest Instance
 

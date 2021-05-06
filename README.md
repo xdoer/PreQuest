@@ -15,15 +15,12 @@ Provide A Modular And Pluggable Solution For Your Http Request.
 
 If you use axios、umi-request or some other http request library, you may don't need this. But if you use native request api like XMLHttpRequest, fetch and so on, This library can add middleware, interceptor, global config, request alias and some modern feature to native request api easily.
 
-This library does not contain a native request core which mean that you can't call a http request according this.
-
-So how to use this library ?
-
 ## Example
 
 A very simple example.
 
 ```ts
+// you just need to implement the adapter function which include native request core.
 const adapter = opt => {
   const { path, baseURL, ...rest } = opt
   return fetch(baseURL + path, rest).then(res => res.json())
@@ -31,7 +28,23 @@ const adapter = opt => {
 
 const prequest = createPreQuest(adapter, { baseURL: 'http://localhost:3000' })
 
+// do a http request
+prequest.request({
+  path: '/api',
+  method: 'get',
+})
+
+// request alias
 prequest.get('/api')
+
+// instance middleware
+prequest.use(async (ctx, next) => {})
+
+// global request options
+PreQuest.defaults.baseURL = 'http://localhost:3000'
+
+// global middleware
+PreQuest.use(async (ctx, next) => {})
 ```
 
 ## More Details
