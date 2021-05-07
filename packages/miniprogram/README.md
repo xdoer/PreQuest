@@ -2,11 +2,21 @@
 
 A Modern MiniProgram Request Library.
 
-## Example
+## Introduction
+
+This is a http request library based on PreQuest for miniprogram and quickapp platform. This library add middleware, interceptor, global config, request alias and some other feature to native request.
+
+## Install
+
+```bash
+npm install @prequest/miniprogram
+```
+
+## Usage
 
 ### Native Request
 
-First, let us see the demo which call a request by native api.
+First, let us see the demo how to call a http request by native api.
 
 ```ts
 const requestInstance = wx.request({
@@ -28,7 +38,15 @@ requestInstance.abort()
 
 ### Basic Usage
 
-How to use this library ?
+```ts
+import { createPreQuest, PreQuest } from '@prequest/miniprogram'
+
+const instance = createPreQuest(wx.request)
+
+instance.get('http://localhost:3000/api')
+```
+
+### Advanced Usage
 
 ```ts
 import { createPreQuest, PreQuest } from '@prequest/miniprogram'
@@ -92,7 +110,7 @@ instance.use(interceptor.run)
 
 More Detail: [@prequest/interceptor](https://github.com/xdoer/PreQuest/blob/main/packages/interceptor/README.md)
 
-### Request Instance
+### Native Request Instance
 
 How to get native request instance so you can do something like abort ?
 
@@ -115,3 +133,57 @@ setTimeout(() => {
   requestInstance.abort()
 })
 ```
+
+## Request Options
+
+| Option Name        | Type                              | Default | Required | Meaning                                 | Example                 |
+| ------------------ | --------------------------------- | ------- | -------- | --------------------------------------- | ----------------------- |
+| path               | string                            | none    | Y        | server interface path                   | /api                    |
+| method             | string                            | GET     | N        | request method                          | post                    |
+| baseURL            | string                            | none    | N        | base server interface address           | 'http://localhost:3000' |
+| getRequestInstance | (nativeRequestInstance) => void   | none    | N        | get native request instance             |                         |
+| timeout            | number                            | none    | N        | request timeout                         | 5000                    |
+| params             | object                            | none    | N        | url parameters                          | { id: 10}               |
+| data               | object                            | none    | N        | the data to be sent as the request body | { id: 10}               |
+| responseType       | json \| text \| arraybuffer \|... | none    | N        | response data type                      | json                    |
+| header             | object                            | none    | N        | set the request header                  | { token: 'aaaaa'}       |
+| dataType           | json \| ...                       | none    | N        | returned data format                    | json                    |
+
+NOTICE: If you call a request by alias like `instance.get('/api')` , you don't need pass `method` and `path` into options.
+
+---
+
+You can add some other options which native request api support. This part of options will be pass into native request options directly.
+
+If you use typescript, you can define the options you want to attach, and pass it into `createPreQuest`. So you can get intelliSense when coding.
+
+For example:
+
+```ts
+interface Request {
+  enableHttp2?: boolean
+  enableCache?: boolean
+}
+
+interface Response {
+  header: any
+  cookies: string[]
+  profile: any
+}
+
+const instance = createPreQuest<Request, Response>(wx.request, {
+  baseURL: 'http://localhost:3000'
+  enableHttp2: true // You can get intelliSense here
+})
+
+// You can get intelliSense here
+instance.use(async (ctx, next) => {
+  ctx.request.enableHttp2
+  await next()
+  ctx.response.header
+})
+```
+
+## Custom
+
+If you want to custom your miniprogram library, it's very easy when use [@prequest/core](https://github.com/xdoer/PreQuest/tree/main/packages/core) project. Please check our code for details.

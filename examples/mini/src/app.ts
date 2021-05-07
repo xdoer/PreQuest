@@ -3,9 +3,14 @@ import { createPreQuest } from '@prequest/miniprogram'
 import { graphql } from '@prequest/graphql'
 import Taro from '@tarojs/taro'
 
-const instance = createPreQuest(Taro.request, {
+interface Request {
+  enableCache?: boolean
+}
+
+const instance = createPreQuest<Request, any>(Taro.request, {
   baseURL: 'http://localhost:10000',
   path: '/graphql',
+  enableCache: true
 })
 
 const instance2 = createPreQuest(Taro.request, {
@@ -13,7 +18,6 @@ const instance2 = createPreQuest(Taro.request, {
 })
 
 const request = graphql(instance)
-
 
 export default function App(props: any) {
 

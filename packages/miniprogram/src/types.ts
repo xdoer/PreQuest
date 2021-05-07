@@ -8,7 +8,7 @@ export interface Request {
   baseURL?: string
   timeout?: number
   params?: CommonObject
-  data?: CommonObject
+  data?: CommonObject | string | ArrayBuffer
   responseType?: 'json' | 'text' | 'arraybuffer' | ({} & string)
   header?: CommonObject
   dataType?: 'json' | ({} & string)

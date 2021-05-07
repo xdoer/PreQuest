@@ -20,17 +20,10 @@ npm install @prequest/core
 
 ## Quick Start
 
-Define a adapter function that contain native request core
-
 ```ts
 const adapter = opt => nativeRequestCore(opt)
-```
-
-Create PreQuest instance and initiate an http request
-
-```ts
-const prequest = createPreQuest(adapter, opt)
-prequest.get('/api')
+const prequest = createPreQuest(adapter)
+prequest.get('http://localhost:3000/api').then(res => console.log(res))
 ```
 
 ## More Detail
@@ -60,9 +53,14 @@ Then: Implement this function
 
 ```ts
 const adapter: Adapter = opt => nativeRequestCore(opt)
+
+/**
+ * eg:
+ * const nativeRequestCore = (opt) => fetch(opt).then(res => res.json())
+ * /
 ```
 
-PreQuest will merge `PreQuest.defaults`, `createPreQuest(adapter, opt)` and `instance.get('/api', opt)` three part's request options, and travel it to all middleware, finally inject `adapter` function. If you don't know what is meaning, see blow.
+PreQuest will merge `PreQuest.defaults`, `createPreQuest(adapter, opt)` and `instance.get('/api', opt)` three part's request options, and travel it to all middleware, finally inject `adapter` function. If you don't know what's this meaning, see blow.
 
 ### Create A PreQuest Instance
 
@@ -100,7 +98,7 @@ prequest.use(async (ctx, next) => {
 })
 ```
 
-[Notice]: if you want to use interceptor like axios, see this: [@prequest/interceptor](https://github.com/xdoer/PreQuest/blob/main/packages/interceptor/README.md)
+**Notice**: if you want to use interceptor like axios, see this: [@prequest/interceptor](https://github.com/xdoer/PreQuest/blob/main/packages/interceptor/README.md)
 
 ### Global Config And Middleware
 

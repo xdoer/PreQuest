@@ -5,16 +5,16 @@ import { Request, Response, RequestCore } from './types'
 export * from './types'
 export * from '@prequest/core'
 
-function createPreQuest(request: RequestCore, instanceOpt?: Request) {
-  return PreQuest.createInstance<Request, Response>(adapter(request), instanceOpt)
+function createPreQuest<T, N>(request: RequestCore, instanceOpt?: Request & T) {
+  return PreQuest.createInstance<Request & T, Response & N>(adapter<T, N>(request), instanceOpt)
 }
 
 export { createPreQuest }
 
 export default createPreQuest
 
-function adapter(request: RequestCore) {
-  return (opt: Request): Promise<Response> => {
+function adapter<T, N>(request: RequestCore) {
+  return (opt: Request & T): Promise<Response & N> => {
     const finalOption = (opt || {}) as Required<Request>
     const url = createRequestUrl(finalOption)
     const { getRequestInstance = () => {}, ...rest } = finalOption
