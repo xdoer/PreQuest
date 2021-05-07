@@ -6,7 +6,7 @@ A Interceptor Middleware For PreQuest
 
 ### Define Types
 
-First, you need define Request, Response, Error types, so that you can get smart prompt in coding. If you don't use typescript, ignore this.
+First, you need define Request, Response, Error types, so that you can get intellisense when coding. If you don't use typescript, ignore this.
 
 ```ts
 interface Request {
