@@ -6,13 +6,11 @@ import { Request, Response } from './types'
 export * from './types'
 export * from '@prequest/core'
 
-const createPreQuest = (options?: Request) => {
+const create = (options?: Request) => {
   return PreQuest.createInstance<Request, Response>(adapter, options)
 }
 
-export { createPreQuest }
-
-export default createPreQuest
+export { create }
 
 function adapter(options: Request): Promise<Response> {
   const { protocol = 'https:' } = options

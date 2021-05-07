@@ -16,7 +16,7 @@ npm install @prequest/miniprogram
 
 ### Native Request
 
-First, let us see the demo how to call a http request by native api.
+First, let us see the demo how to performing a post request by native api.
 
 ```ts
 const requestInstance = wx.request({
@@ -39,9 +39,9 @@ requestInstance.abort()
 ### Basic Usage
 
 ```ts
-import { createPreQuest, PreQuest } from '@prequest/miniprogram'
+import { create, PreQuest } from '@prequest/miniprogram'
 
-const instance = createPreQuest(wx.request)
+const instance = create(wx.request)
 
 instance.get('http://localhost:3000/api')
 ```
@@ -49,7 +49,7 @@ instance.get('http://localhost:3000/api')
 ### Advanced Usage
 
 ```ts
-import { createPreQuest, PreQuest } from '@prequest/miniprogram'
+import { create, PreQuest } from '@prequest/miniprogram'
 
 // global config
 PreQuest.defaults.baseURL = 'http://localhost:3000'
@@ -67,7 +67,7 @@ PreQuest.use(async (ctx, next) => {
 const opt = { baseURL: 'http://localhost:3001' }
 
 // pass in native request core, so you can use this library in different miniprogram platform.
-const instance = createPreQuest(wx.request, opt)
+const instance = create(wx.request, opt)
 
 // instance middleware
 instance.use(async (ctx, next) => {
@@ -88,7 +88,7 @@ instance.get('/api')
 If you want to use interceptor like axios, you may need this, or middleware can meet your demand.
 
 ```ts
-import { PreQuest, createPreQuest } from '@prequest/miniprogram'
+import { PreQuest, create } from '@prequest/miniprogram'
 import { interceptorMiddleware } from '@prequest/interceptor'
 
 // create Interceptor instance
@@ -104,7 +104,7 @@ interceptor.request.use(
 PreQuest.use(interceptor.run)
 
 // or you can mount it to prequest instance
-const instance = createPreQuest(wx.request)
+const instance = create(wx.request)
 instance.use(interceptor.run)
 ```
 
@@ -115,9 +115,9 @@ More Detail: [@prequest/interceptor](https://github.com/xdoer/PreQuest/blob/main
 How to get native request instance so you can do something like abort ?
 
 ```ts
-import { PreQuest, createPreQuest } from '@prequest/miniprogram'
+import { PreQuest, create } from '@prequest/miniprogram'
 
-const instance = createPreQuest(wx.request)
+const instance = create(wx.request)
 
 let requestInstance
 
@@ -149,13 +149,13 @@ setTimeout(() => {
 | header             | object                            | none    | N        | set the request header                  | { token: 'aaaaa'}       |
 | dataType           | json \| ...                       | none    | N        | returned data format                    | json                    |
 
-NOTICE: If you call a request by alias like `instance.get('/api')` , you don't need pass `method` and `path` into options.
+**NOTICE**: If you performing a request by alias like `instance.get('/api')` , you don't need pass `method` and `path` into options.
 
 ---
 
 You can add some other options which native request api support. This part of options will be pass into native request options directly.
 
-If you use typescript, you can define the options you want to attach, and pass it into `createPreQuest`. So you can get intelliSense when coding.
+If you use typescript, you can define the options you want to attach, and pass it into `create`. So you can get intelliSense when coding.
 
 For example:
 
@@ -171,7 +171,7 @@ interface Response {
   profile: any
 }
 
-const instance = createPreQuest<Request, Response>(wx.request, {
+const instance = create<Request, Response>(wx.request, {
   baseURL: 'http://localhost:3000'
   enableHttp2: true // You can get intelliSense here
 })

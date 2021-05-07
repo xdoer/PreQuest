@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { createPreQuest } from '@prequest/miniprogram'
+import { create } from '@prequest/miniprogram'
 import { graphql } from '@prequest/graphql'
 import Taro from '@tarojs/taro'
 
@@ -7,13 +7,13 @@ interface Request {
   enableCache?: boolean
 }
 
-const instance = createPreQuest<Request, any>(Taro.request, {
+const instance = create<Request, any>(Taro.request, {
   baseURL: 'http://localhost:10000',
   path: '/graphql',
   enableCache: true
 })
 
-const instance2 = createPreQuest(Taro.request, {
+const instance2 = create(Taro.request, {
   baseURL: 'http://localhost:10000',
 })
 

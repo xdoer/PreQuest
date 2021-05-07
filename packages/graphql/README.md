@@ -15,10 +15,10 @@ npm install @prequest/graphql
 ## Usage
 
 ```ts
-import { createPreQuest } from '@prequest/core'
+import { create } from '@prequest/core'
 import { graphql } from '@prequest/graphql'
 
-const request = graphql(createPreQuest(adapter, { path: '/graphql' }))
+const request = graphql(create(adapter, { path: '/graphql' }))
 
 const query = `
   {

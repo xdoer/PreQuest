@@ -21,8 +21,12 @@ npm install @prequest/core
 ## Quick Start
 
 ```ts
+import { create } from '@prequest/miniprogram'
+
+// you need implement this function with a native request core like XMLHttpRequest, fetch ...
 const adapter = opt => nativeRequestCore(opt)
-const prequest = createPreQuest(adapter)
+
+const prequest = create(adapter)
 prequest.get('http://localhost:3000/api').then(res => console.log(res))
 ```
 
@@ -60,17 +64,17 @@ const adapter: Adapter = opt => nativeRequestCore(opt)
  * /
 ```
 
-PreQuest will merge `PreQuest.defaults`, `createPreQuest(adapter, opt)` and `instance.get('/api', opt)` three part's request options, and travel it to all middleware, finally inject `adapter` function. If you don't know what's this meaning, see blow.
+PreQuest will merge `PreQuest.defaults`, `create(adapter, opt)` and `instance.get('/api', opt)` three part's request options, and travel it to all middleware, finally inject `adapter` function. If you don't know what's this meaning, see blow.
 
 ### Create A PreQuest Instance
 
 Create a PreQuest instance with your adapter.
 
 ```ts
-import { createPreQuest } from '@prequest/core'
+import { create } from '@prequest/core'
 
 const opt = { baseURL: 'http://localhost:3000' }
-const prequest = createPreQuest<Request, Response>(adapter, opt)
+const prequest = create<Request, Response>(adapter, opt)
 ```
 
 Then, you can call a http request with this instance.

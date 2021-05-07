@@ -7,13 +7,11 @@ import { createError, createResponse } from './helper'
 export * from './types'
 export * from '@prequest/core'
 
-const createPreQuest = (options: Request) => {
+const create = (options: Request) => {
   return PreQuest.createInstance<Request, Response>(adapter, merge(baseOption, options))
 }
 
-export { createPreQuest }
-
-export default createPreQuest
+export { create }
 
 function adapter(options: Request): Promise<Response> {
   const finalOptions = (options || {}) as Required<Request>

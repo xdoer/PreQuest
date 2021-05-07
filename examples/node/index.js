@@ -1,6 +1,6 @@
-const { createPreQuest } = require('@prequest/node')
+const { create } = require('@prequest/node')
 
-const instance = createPreQuest()
+const instance = create()
 
 instance
   .get('/api', {

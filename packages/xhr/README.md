@@ -27,7 +27,7 @@ xhr.send()
 How to use this library ?
 
 ```ts
-import { createPreQuest, PreQuest } from '@prequest/fetch'
+import { create, PreQuest } from '@prequest/fetch'
 
 // global config
 PreQuest.defaults.baseURL = 'http://localhost:3000'
@@ -43,7 +43,7 @@ PreQuest.use(async (ctx, next) => {
 
 // instance config options
 const opt = { baseURL: 'http://localhost:3001' }
-const instance = createPreQuest(opt)
+const instance = create(opt)
 
 // instance middleware
 instance.use(async (ctx, next) => {
@@ -64,7 +64,7 @@ instance.get('/api')
 If you want to use interceptor like axios, you may need this, or middleware can meet your demand.
 
 ```ts
-import { PreQuest, createPreQuest } from '@prequest/xhr'
+import { PreQuest, create } from '@prequest/xhr'
 import { interceptorMiddleware } from '@prequest/interceptor'
 
 // create Interceptor instance
@@ -80,7 +80,7 @@ interceptor.request.use(
 PreQuest.use(interceptor.run)
 
 // or you can mount it to prequest instance
-const instance = createPreQuest()
+const instance = create()
 instance.use(interceptor.run)
 ```
 
@@ -91,9 +91,9 @@ More Detail: [@prequest/interceptor](https://github.com/xdoer/PreQuest/blob/main
 How to abort a request?
 
 ```ts
-import { createPreQuest } from '@prequest/xhr'
+import { create } from '@prequest/xhr'
 
-const instance = createPreQuest()
+const instance = create()
 
 let nativeRequestInstance
 instance.post('/api', {

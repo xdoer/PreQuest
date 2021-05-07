@@ -20,13 +20,15 @@ If you use axios、umi-request or some other http request library, you may don't
 A very simple example.
 
 ```ts
+import { create } from '@prequest/core'
+
 // you just need to implement the adapter function which include native request core.
 const adapter = opt => {
   const { path, baseURL, ...rest } = opt
   return fetch(baseURL + path, rest).then(res => res.json())
 }
 
-const prequest = createPreQuest(adapter, { baseURL: 'http://localhost:3000' })
+const prequest = create(adapter, { baseURL: 'http://localhost:3000' })
 
 // do a http request
 prequest.request({

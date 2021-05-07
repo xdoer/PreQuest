@@ -5,13 +5,11 @@ import { Request, Response, RequestCore } from './types'
 export * from './types'
 export * from '@prequest/core'
 
-function createPreQuest<T, N>(request: RequestCore, instanceOpt?: Request & T) {
+function create<T, N>(request: RequestCore, instanceOpt?: Request & T) {
   return PreQuest.createInstance<Request & T, Response & N>(adapter<T, N>(request), instanceOpt)
 }
 
-export { createPreQuest }
-
-export default createPreQuest
+export { create }
 
 function adapter<T, N>(request: RequestCore) {
   return (opt: Request & T): Promise<Response & N> => {

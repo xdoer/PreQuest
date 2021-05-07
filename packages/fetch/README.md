@@ -19,7 +19,7 @@ fetch('http://localhost:3000', { ...opt })
 How to use this library ?
 
 ```ts
-import { createPreQuest, PreQuest } from '@prequest/fetch'
+import { create, PreQuest } from '@prequest/fetch'
 
 // global config
 PreQuest.defaults.baseURL = 'http://localhost:3000'
@@ -35,7 +35,7 @@ PreQuest.use(async (ctx, next) => {
 
 // instance config options
 const opt = { baseURL: 'http://localhost:3001' }
-const instance = createPreQuest(opt)
+const instance = create(opt)
 
 // instance middleware
 instance.use(async (ctx, next) => {
@@ -56,7 +56,7 @@ instance.get('/api')
 If you want to use interceptor like axios, you may need this, or middleware can meet your demand.
 
 ```ts
-import { PreQuest, createPreQuest } from '@prequest/fetch'
+import { PreQuest, create } from '@prequest/fetch'
 import { interceptorMiddleware } from '@prequest/interceptor'
 
 // create Interceptor instance
@@ -72,7 +72,7 @@ interceptor.request.use(
 PreQuest.use(interceptor.run)
 
 // or you can mount it to prequest instance
-const instance = createPreQuest()
+const instance = create()
 instance.use(interceptor.run)
 ```
 
@@ -83,12 +83,12 @@ More Detail: [@prequest/interceptor](https://github.com/xdoer/PreQuest/blob/main
 How to abort a request?
 
 ```ts
-import { createPreQuest } from '@prequest/fetch'
+import { create } from '@prequest/fetch'
 
 const controller = new AbortController()
 const signal = controller.signal
 
-const instance = createPreQuest()
+const instance = create()
 
 instance.post('/api', { signal })
 
