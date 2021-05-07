@@ -22,8 +22,9 @@ export class PreQuest<T, N> extends Middleware<T, N> {
     })
   }
 
-  request(config: Config<T> & { path: string }) {
-    const request = <RequestOption<T>>merge(this.config, config!)
+  request(path: string | Config<T>, config?: Config<T>) {
+    const opt = typeof path === 'string' ? merge({ path }, config) : path
+    const request = <RequestOption<T>>merge(this.config, opt)
     const response = <N>{}
     return this.controller({ request, response })
   }
