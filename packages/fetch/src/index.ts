@@ -1,4 +1,4 @@
-import { PreQuest } from '@prequest/core'
+import { PreQuest, PreQuestInstance } from '@prequest/core'
 import { Request, Response } from './types'
 import { baseOption, createRequestUrl, formatRequestBodyAndHeaders } from '@prequest/helper'
 import { merge } from '@prequest/utils'
@@ -7,11 +7,17 @@ import { timeoutThrow, parseResBody } from './helper'
 export * from './types'
 export * from '@prequest/core'
 
-const create = (options?: Request) => {
-  return PreQuest.createInstance<Request, Response>(adapter, merge(baseOption, options))
+class PreQuestFetch extends PreQuest<Request, Response> {
+  constructor() {
+    super(adapter)
+  }
+
+  create = (options?: Request) => {
+    return PreQuest.createInstance<Request, Response>(adapter, merge(baseOption, options))
+  }
 }
 
-export { create }
+export default new PreQuestFetch() as PreQuestFetch & PreQuestInstance<Request, Response>
 
 async function adapter(options: Request) {
   const finalOptions = (options || {}) as Required<Request>
@@ -23,7 +29,7 @@ async function adapter(options: Request) {
     ...rest,
     body: data,
     headers,
-  }
+  } as any
 
   const res = (await (timeout
     ? Promise.race([timeoutThrow(timeout), fetch(url, config)])
