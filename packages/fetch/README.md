@@ -2,24 +2,29 @@
 
 A Modern Request Library Based On Fetch API.
 
-## Example
+## Introduction
 
-### Native Fetch
+This is a http request library based on PreQuest. This library add middleware, interceptor, global config, request alias and some other feature to `fetch` request api.
 
-First, let us see how to use native fetch.
+## Install
 
-```ts
-fetch('http://localhost:3000', { ...opt })
-  .then(res => res.json())
-  .then(resInfo => console.log(resInfo))
+```bash
+npm install @prequest/fetch
 ```
 
-### Basic Usage
-
-How to use this library ?
+## Basic Usage
 
 ```ts
-import { create, PreQuest } from '@prequest/fetch'
+import { prequest } from '@prequest/fetch'
+
+prequest('http://localhost:10000/api')
+prequest.post('http://localhost:10000/api')
+```
+
+## Advanced Usage
+
+```ts
+import { prequest, PreQuest, create } from '@prequest/fetch'
 
 // global config
 PreQuest.defaults.baseURL = 'http://localhost:3000'
@@ -33,30 +38,33 @@ PreQuest.use(async (ctx, next) => {
   console.log(ctx.response)
 })
 
-// instance config options
-const opt = { baseURL: 'http://localhost:3001' }
-const instance = create(opt)
-
 // instance middleware
-instance.use(async (ctx, next) => {
+prequest.use(async (ctx, next) => {
   ctx.request.path = '/prefix' + ctx.request.path
   await next()
   ctx.response = JSON.parse(ctx.response)
 })
 
 // request
-instance.request({ path: '/api' })
+prequest({ path: '/api' })
 
 // request by alias
+prequest.get('/api')
+
+// create instance
+const opt = { baseURL: 'http://localhost:3001' }
+const instance = create(opt)
+
+// request by instance
 instance.get('/api')
 ```
 
-### Interceptor
+## Interceptor
 
 If you want to use interceptor like axios, you may need this, or middleware can meet your demand.
 
 ```ts
-import { PreQuest, create } from '@prequest/fetch'
+import { PreQuest, create, prequest } from '@prequest/fetch'
 import { interceptorMiddleware } from '@prequest/interceptor'
 
 // create Interceptor instance
@@ -72,25 +80,26 @@ interceptor.request.use(
 PreQuest.use(interceptor.run)
 
 // or you can mount it to prequest instance
+prequest.use(interceptor.run)
+
+// or you can mount it to custom prequest instance
 const instance = create()
 instance.use(interceptor.run)
 ```
 
 More Detail: [@prequest/interceptor](https://github.com/xdoer/PreQuest/blob/main/packages/interceptor/README.md)
 
-### Abort
+## Abort
 
 How to abort a request?
 
 ```ts
-import { create } from '@prequest/fetch'
+import { prequest } from '@prequest/fetch'
 
 const controller = new AbortController()
 const signal = controller.signal
 
-const instance = create()
-
-instance.post('/api', { signal })
+prequest.post('/api', { signal })
 
 setTimeout(() => {
   controller.abort()

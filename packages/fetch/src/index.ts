@@ -1,41 +1,18 @@
-import { PreQuest, PreQuestInstance } from '@prequest/core'
 import { Request, Response } from './types'
-import { baseOption, createRequestUrl, formatRequestBodyAndHeaders } from '@prequest/helper'
-import { merge } from '@prequest/utils'
-import { timeoutThrow, parseResBody } from './helper'
+import { PreQuest, PreQuestInstance } from './PreQuest'
+import { create } from './create'
 
-export * from './types'
-export * from '@prequest/core'
+const instance = new PreQuest()
 
-class PreQuestFetch extends PreQuest<Request, Response> {
-  constructor() {
-    super(adapter)
-  }
+const prequest: PreQuestInstance = new Proxy(function() {} as any, {
+  get(_, name) {
+    return Reflect.get(instance, name)
+  },
+  apply(_, __, args) {
+    return Reflect.apply(instance.request, instance, args)
+  },
+})
 
-  create = (options?: Request) => {
-    return PreQuest.createInstance<Request, Response>(adapter, merge(baseOption, options))
-  }
-}
+export { create, prequest, PreQuest, Request, Response, PreQuestInstance }
 
-export default new PreQuestFetch() as PreQuestFetch & PreQuestInstance<Request, Response>
-
-async function adapter(options: Request) {
-  const finalOptions = (options || {}) as Required<Request>
-  const url = createRequestUrl(finalOptions)
-  const { data, headers } = formatRequestBodyAndHeaders(finalOptions)
-  const { timeout, ...rest } = finalOptions
-
-  const config = {
-    ...rest,
-    body: data,
-    headers,
-  } as any
-
-  const res = (await (timeout
-    ? Promise.race([timeoutThrow(timeout), fetch(url, config)])
-    : fetch(url, config))) as globalThis.Response
-  const resData = await parseResBody(res, options)
-  const { status, statusText } = res
-
-  return { headers: res.headers, data: resData, status, statusText }
-}
+export default prequest
