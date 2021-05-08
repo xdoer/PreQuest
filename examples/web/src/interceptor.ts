@@ -1,5 +1,5 @@
 import { InterceptorMiddleware } from '@prequest/interceptor'
-import { Request, Response } from '@prequest/xhr'
+import { Request, Response } from '@prequest/fetch'
 
 const interceptor = new InterceptorMiddleware<Request, Response, Error>()
 

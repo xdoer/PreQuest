@@ -1,7 +1,7 @@
 import axios from 'axios'
 import request from 'umi-request'
 import { create } from '@prequest/xhr'
-import * as fetchAdapter from '@prequest/fetch'
+import { prequest } from '@prequest/fetch'
 import { graphql } from '@prequest/graphql'
 
 export function createAxios() {
@@ -15,6 +15,19 @@ export function createAxios() {
     }
   });
   return instance.post('/api', { a: 1, b: 2 }).then(res => { console.log('----axios', res) }).catch(e => console.log('----axios---error', e))
+}
+
+
+export async function createFetchPreQuest() {
+  prequest('http://localhost:10000/api', {
+    method: 'post',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json;charset=UTF-8',
+    }
+  }).then(res => {
+    console.log('哈哈哈', res)
+  })
 }
 
 export function createUmiRequest() {
@@ -47,18 +60,6 @@ export async function createXMLPreQuest() {
   console.log('查看响应值')
   setTimeout(() => request.abort())
   return xxx
-}
-
-export function createFetchPreQuest() {
-  const adapter = fetchAdapter.create()
-
-  adapter.use(async (ctx, next) => {
-    console.log('fetch 实例中间件-请求', ctx.request)
-    await next()
-    console.log('fetch 实例中间件-响应', ctx.response)
-  })
-
-  return adapter.post('/api', { data: { a: 1 } })
 }
 
 export function createGraphqlPreQuest() {
