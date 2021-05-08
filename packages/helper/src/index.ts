@@ -17,11 +17,29 @@ export function createRequestUrl<T>(
   const { baseURL, path, params } = ctx
 
   let url = ''
-  if (baseURL) url += baseURL
-  if (path) url += path
-  if (params) url += `?${stringify(params)}`
+
+  if (isAbsoluteURL(path)) {
+    url += path
+  } else {
+    if (baseURL) url += baseURL
+    if (path) url += path
+  }
+
+  if (params && !isEmpty(params)) url += `?${stringify(params)}`
 
   return url
+}
+
+export function isEmpty(value: any) {
+  const type = elementType(value)
+  switch (type) {
+    case 'object':
+      return !Object.keys(type).length
+    case 'array':
+      return !type.length
+    default:
+      return !type
+  }
 }
 
 // 参考: https://github.com/umijs/umi-request/blob/master/src/middleware/simplePost.js
@@ -57,4 +75,9 @@ export function formatRequestBodyAndHeaders<T>(
 export function createError(message: string) {
   const error = new Error(message)
   return error
+}
+
+// reference: https://github.com/axios/axios/blob/master/lib/helpers/isAbsoluteURL.js
+export function isAbsoluteURL(url: string) {
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url)
 }

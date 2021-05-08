@@ -1,4 +1,4 @@
-import { PreQuest } from '@prequest/core'
+import { PreQuestBase } from '@prequest/core'
 import http from 'http'
 import https from 'https'
 import { Request, Response } from './types'
@@ -7,7 +7,7 @@ export * from './types'
 export * from '@prequest/core'
 
 const create = (options?: Request) => {
-  return PreQuest.createInstance<Request, Response>(adapter, options)
+  return PreQuestBase.createInstance<Request, Response>(adapter, options)
 }
 
 export { create }

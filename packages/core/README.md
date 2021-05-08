@@ -109,13 +109,13 @@ prequest.use(async (ctx, next) => {
 You can add global request options and use global middleware to intercept request and response.
 
 ```ts
-import { PreQuest } from '@prequest/core'
+import { PreQuestBase } from '@prequest/core'
 
 // global request option
-PreQuest.defaults.baseURL = 'http://localhost:3000'
+PreQuestBase.defaults.baseURL = 'http://localhost:3000'
 
 // global middleware
-PreQuest.use<Request, Response>(async (ctx, next) => {
+PreQuestBase.use<Request, Response>(async (ctx, next) => {
   // modify request options
   ctx.request.path = '/prefix' + ctx.request.path
   await next()

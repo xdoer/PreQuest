@@ -1,4 +1,4 @@
-import { PreQuest } from '@prequest/core'
+import { PreQuestBase } from '@prequest/core'
 import { createRequestUrl } from '@prequest/helper'
 import { Request, Response, RequestCore } from './types'
 
@@ -6,7 +6,7 @@ export * from './types'
 export * from '@prequest/core'
 
 function create<T, N>(request: RequestCore, instanceOpt?: Request & T) {
-  return PreQuest.createInstance<Request & T, Response & N>(adapter<T, N>(request), instanceOpt)
+  return PreQuestBase.createInstance<Request & T, Response & N>(adapter<T, N>(request), instanceOpt)
 }
 
 export { create }

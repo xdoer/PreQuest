@@ -1,4 +1,4 @@
-import { PreQuest } from '@prequest/core'
+import { PreQuestBase } from '@prequest/core'
 import { baseOption, createRequestUrl, formatRequestBodyAndHeaders } from '@prequest/helper'
 import { merge } from '@prequest/utils'
 import { Request, Response } from './types'
@@ -8,7 +8,7 @@ export * from './types'
 export * from '@prequest/core'
 
 const create = (options: Request) => {
-  return PreQuest.createInstance<Request, Response>(adapter, merge(baseOption, options))
+  return PreQuestBase.createInstance<Request, Response>(adapter, merge(baseOption, options))
 }
 
 export { create }

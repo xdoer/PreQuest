@@ -1,8 +1,8 @@
-import { PreQuestInstance } from '@prequest/core'
+import { PreQuestBaseInstance } from '@prequest/core'
 import { CommonObject } from '@prequest/types'
 import { merge } from '@prequest/utils'
 
-export function graphql<T, N>(instance: PreQuestInstance<T, N>) {
+export function graphql<T, N>(instance: PreQuestBaseInstance<T, N>) {
   return (query: string, variables?: CommonObject, opt?: T) => {
     const { data, ...rest } = (opt || {}) as any
     const finalData = merge({ query, variables }, data)

@@ -56,10 +56,10 @@ interceptor.response.use(
 PreQuest provide two types of middleware, global middleware and instance middleware.
 
 ```ts
-import { PreQuest, create } from '@prequest/core'
+import { PreQuestBase, create } from '@prequest/core'
 
 // For global middleware.
-PreQuest.use(interceptor.run)
+PreQuestBase.use(interceptor.run)
 
 // For instance middleware
 const instance = create(adapter)
