@@ -3,10 +3,10 @@ import { METHODS } from './constant'
 import { merge } from '@prequest/utils'
 import { Context, Config, MethodsCallback, RequestOption, Adapter } from '@prequest/types'
 
-export class PreQuestBase<T, N> extends Middleware<T, N> {
+export class PreQuest<T, N> extends Middleware<T, N> {
   constructor(private adapter: Adapter<T, N>, private config?: Config<T>) {
     super()
-    this.config = merge(PreQuestBase.defaults, this.config)
+    this.config = merge(PreQuest.defaults, this.config)
     this.mount()
   }
 
@@ -36,11 +36,23 @@ export class PreQuestBase<T, N> extends Middleware<T, N> {
     }).then(() => ctx.response)
   }
 
-  static defaults: any = {}
+  static defaults = {}
 
-  static createInstance<T, N>(adapter: Adapter<T, N>, config?: Config<T>) {
-    return new PreQuestBase<T, N>(adapter, config) as PreQuestBaseInstance<T, N>
+  static create<T, N>(adapter: Adapter<T, N>, config?: Config<T>): PreQuestInstance<T, N> {
+    const instance = new PreQuest<T, N>(adapter, config) as PreQuestBaseInstance<T, N>
+
+    return new Proxy(function() {} as any, {
+      get(_, name) {
+        return Reflect.get(instance, name)
+      },
+      apply(_, __, args) {
+        return Reflect.apply(instance.request, instance, args)
+      },
+    })
   }
 }
 
-export type PreQuestBaseInstance<T, N> = PreQuestBase<T, N> & MethodsCallback<T, N>
+type PreQuestBaseInstance<T, N> = PreQuest<T, N> & MethodsCallback<T, N>
+
+export type PreQuestInstance<T, N> = PreQuestBaseInstance<T, N> &
+  ((path: string | T, config?: T) => Promise<N>)

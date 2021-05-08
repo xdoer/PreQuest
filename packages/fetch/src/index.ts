@@ -1,17 +1,8 @@
 import { Request, Response } from './types'
-import { PreQuest, PreQuestInstance } from './PreQuest'
+import { PreQuest, PreQuestInstance } from '@prequest/core'
 import { create } from './create'
 
-const instance = new PreQuest()
-
-const prequest: PreQuestInstance = new Proxy(function() {} as any, {
-  get(_, name) {
-    return Reflect.get(instance, name)
-  },
-  apply(_, __, args) {
-    return Reflect.apply(instance.request, instance, args)
-  },
-})
+const prequest = create()
 
 export { create, prequest, PreQuest, Request, Response, PreQuestInstance }
 

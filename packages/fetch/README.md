@@ -17,14 +17,17 @@ npm install @prequest/fetch
 ```ts
 import { prequest } from '@prequest/fetch'
 
-prequest('http://localhost:10000/api')
+prequest('http://localhost:10000/api', { method: 'post' })
+
 prequest.post('http://localhost:10000/api')
 ```
 
 ## Advanced Usage
 
+### Global Config
+
 ```ts
-import { prequest, PreQuest, create } from '@prequest/fetch'
+import { PreQuest } from '@prequest/fetch'
 
 // global config
 PreQuest.defaults.baseURL = 'http://localhost:3000'
@@ -37,6 +40,12 @@ PreQuest.use(async (ctx, next) => {
   // handle response error or modify response data
   console.log(ctx.response)
 })
+```
+
+### Instance Config
+
+```ts
+import { prequest } from '@prequest/fetch'
 
 // instance middleware
 prequest.use(async (ctx, next) => {
@@ -46,14 +55,30 @@ prequest.use(async (ctx, next) => {
 })
 
 // request
-prequest({ path: '/api' })
+prequest({ path: '/api', baseURL: 'http://localhost:3001/api' })
 
 // request by alias
-prequest.get('/api')
+prequest.get('/api', { baseURL: 'http://localhost:3001/api' })
+```
+
+### Custom Instance
+
+```ts
+import { create } from '@prequest/fetch'
 
 // create instance
 const opt = { baseURL: 'http://localhost:3001' }
 const instance = create(opt)
+
+// instance middleware
+instance.use(async (ctx, next) => {
+  ctx.request.path = '/prefix' + ctx.request.path
+  await next()
+  ctx.response = JSON.parse(ctx.response)
+})
+
+// request
+instance({ path: '/api', baseURL: 'http://localhost:3001/api' })
 
 // request by instance
 instance.get('/api')

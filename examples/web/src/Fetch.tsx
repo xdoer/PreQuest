@@ -5,7 +5,7 @@ export const FetchComponent: FC<{}> = ({ }) => {
   const [value, setValue] = useState('空')
 
   function reqClain() {
-    prequest('http://localhost:10000/api')
+    prequest('http://localhost:10000/api', {})
       .then(res => {
         console.log('查看值', res)
         setValue(JSON.stringify(res))

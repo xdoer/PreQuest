@@ -6,7 +6,7 @@ A modular and pluggable solution for native http request.
 
 If you use axios、umi-request or some other http request library, you may don't need this. But if you use native request api like XMLHttpRequest, fetch and so on, This library can add middleware, interceptor, global config, request alias and some modern feature to it easily.
 
-This library does not contain a native request core which mean that you can't call a http request according this.
+This library does not contain a native request core which mean that you can't perform a http request according this.
 
 But how to use this ?
 
@@ -18,19 +18,22 @@ Let see blow.
 npm install @prequest/core
 ```
 
-## Quick Start
+## Basic Usage
 
 ```ts
-import { create } from '@prequest/miniprogram'
+import { PreQuest } from '@prequest/core'
 
 // you need implement this function with a native request core like XMLHttpRequest, fetch ...
+// eg: const nativeRequestCore = (opt) => fetch(opt).then(res => res.json())
 const adapter = opt => nativeRequestCore(opt)
 
-const prequest = create(adapter)
-prequest.get('http://localhost:3000/api').then(res => console.log(res))
+const prequest = PreQuest.create(adapter)
+prequest('http://localhost:3000/api')
+prequest.get('http://localhost:3000/api')
+prequest.request('http://localhost:3000/api')
 ```
 
-## More Detail
+## Advanced Usage
 
 ### Define A Adapter Function
 
@@ -57,35 +60,33 @@ Then: Implement this function
 
 ```ts
 const adapter: Adapter = opt => nativeRequestCore(opt)
-
-/**
- * eg:
- * const nativeRequestCore = (opt) => fetch(opt).then(res => res.json())
- * /
 ```
 
-PreQuest will merge `PreQuest.defaults`, `create(adapter, opt)` and `instance.get('/api', opt)` three part's request options, and travel it to all middleware, finally inject `adapter` function. If you don't know what's this meaning, see blow.
+PreQuest will merge `PreQuest.defaults`, `PreQuest.create(adapter, opt)` and `instance.get('/api', opt)` three part's request options, and travel it to all middleware, finally inject `adapter` function. If you don't know what's this meaning, see blow.
 
-### Create A PreQuest Instance
+### Perform A Http Request
 
 Create a PreQuest instance with your adapter.
 
 ```ts
-import { create } from '@prequest/core'
+import { PreQuest } from '@prequest/core'
 
 const opt = { baseURL: 'http://localhost:3000' }
-const prequest = create<Request, Response>(adapter, opt)
+const prequest = PreQuest.create<Request, Response>(adapter, opt)
 ```
 
-Then, you can call a http request with this instance.
+Then, you can perform a http request with this instance.
 
 ```ts
 // use request api
-prequest.request({ path: '/api', method: 'get' })
+prequest.request({ path: '/api', method: 'post' })
+
+// prequest.request shortcut
+prequest({ path: '/api', method: 'post' })
 
 // use request alias
 // support get、post、delete、put、patch、head、options
-prequest.get('/api')
+prequest.post('/api')
 ```
 
 ### Intercept Request And Response
@@ -109,13 +110,13 @@ prequest.use(async (ctx, next) => {
 You can add global request options and use global middleware to intercept request and response.
 
 ```ts
-import { PreQuestBase } from '@prequest/core'
+import { PreQuest } from '@prequest/core'
 
 // global request option
-PreQuestBase.defaults.baseURL = 'http://localhost:3000'
+PreQuest.defaults.baseURL = 'http://localhost:3000'
 
 // global middleware
-PreQuestBase.use<Request, Response>(async (ctx, next) => {
+PreQuest.use<Request, Response>(async (ctx, next) => {
   // modify request options
   ctx.request.path = '/prefix' + ctx.request.path
   await next()
@@ -128,7 +129,7 @@ PreQuestBase.use<Request, Response>(async (ctx, next) => {
 
 There are several demo for reference.
 
-> - [@prequest/xhr](https://github.com/xdoer/PreQuest/blob/main/packages/xhr/README.md). A request library base on XMLHttpRequest api.
 > - [@prequest/fetch](https://github.com/xdoer/PreQuest/blob/main/packages/fetch/README.md). A request library base on fetch api.
+> - [@prequest/xhr](https://github.com/xdoer/PreQuest/blob/main/packages/xhr/README.md). A request library base on XMLHttpRequest api.
 > - [@prequest/miniprogram](https://github.com/xdoer/PreQuest/blob/main/packages/miniprogram/README.md). A request library base on miniprogram or quickapp.
 > - [@prequest/node](https://github.com/xdoer/PreQuest/blob/main/packages/node/README.md). A request library base on node http and https api.
