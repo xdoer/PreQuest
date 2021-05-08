@@ -12,9 +12,7 @@ This is a http request library based on PreQuest for miniprogram and quickapp pl
 npm install @prequest/miniprogram
 ```
 
-## Usage
-
-### Native Request
+## Native Request
 
 First, let us see the demo how to performing a post request by native api.
 
@@ -36,17 +34,20 @@ const requestInstance = wx.request({
 requestInstance.abort()
 ```
 
-### Basic Usage
+## Basic Usage
 
 ```ts
 import { create, PreQuest } from '@prequest/miniprogram'
 
-const instance = create(wx.request)
+const prequest = create(wx.request)
 
-instance.get('http://localhost:3000/api')
+prequest('http://localhost:3000/api')
+prequest.get('http://localhost:3000/api')
 ```
 
-### Advanced Usage
+## Advanced Usage
+
+### Global Config
 
 ```ts
 import { create, PreQuest } from '@prequest/miniprogram'
@@ -62,7 +63,11 @@ PreQuest.use(async (ctx, next) => {
   // handle response error or modify response data
   console.log(ctx.response)
 })
+```
 
+### Instance Config
+
+```ts
 // instance config options
 const opt = { baseURL: 'http://localhost:3001' }
 
@@ -78,6 +83,9 @@ instance.use(async (ctx, next) => {
 
 // request
 instance.request({ path: '/api' })
+
+// instance.request shortcut
+instance('/api')
 
 // request by alias
 instance.get('/api')
@@ -186,4 +194,4 @@ instance.use(async (ctx, next) => {
 
 ## Custom
 
-If you want to custom your miniprogram library, it's very easy when use [@prequest/core](https://github.com/xdoer/PreQuest/tree/main/packages/core) project. Please check our code for details.
+If you want to custom your miniprogram library, it's very easy when use [@prequest/core](https://github.com/xdoer/PreQuest/tree/main/packages/core) project. Check our code for details.

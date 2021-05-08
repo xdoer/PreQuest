@@ -6,7 +6,7 @@ A Interceptor Middleware For PreQuest
 
 ### Define Types
 
-First, you need define Request, Response, Error types, so that you can get intellisense when coding. If you don't use typescript, ignore this.
+First, you need define Request, Response, Error types, so that you can get intellisense when coding.
 
 ```ts
 interface Request {
@@ -56,12 +56,12 @@ interceptor.response.use(
 PreQuest provide two types of middleware, global middleware and instance middleware.
 
 ```ts
-import { PreQuest, create } from '@prequest/core'
+import { PreQuest } from '@prequest/core'
 
 // For global middleware.
 PreQuest.use(interceptor.run)
 
 // For instance middleware
-const instance = create(adapter)
+const instance = PreQuest.createInstance(adapter)
 instance.use(interceptor.run)
 ```

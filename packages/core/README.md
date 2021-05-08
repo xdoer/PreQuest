@@ -79,9 +79,11 @@ Then, you can perform a http request with this instance.
 
 ```ts
 // use request api
+prequest.request('/api', { method: 'post' })
 prequest.request({ path: '/api', method: 'post' })
 
 // prequest.request shortcut
+prequest('/api', { method: 'post' })
 prequest({ path: '/api', method: 'post' })
 
 // use request alias

@@ -55,6 +55,8 @@ prequest.use(async (ctx, next) => {
 })
 
 // request
+prequest('/api', { baseURL: 'http://localhost:3001/api' })
+
 prequest({ path: '/api', baseURL: 'http://localhost:3001/api' })
 
 // request by alias
@@ -78,6 +80,7 @@ instance.use(async (ctx, next) => {
 })
 
 // request
+instance('/api', { baseURL: 'http://localhost:3001/api' })
 instance({ path: '/api', baseURL: 'http://localhost:3001/api' })
 
 // request by instance
