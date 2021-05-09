@@ -26,7 +26,7 @@ const adapter = opt => {
   return fetch(baseURL + path, rest).then(res => res.json())
 }
 
-const prequest = PreQuest.createInstance(adapter, { baseURL: 'http://localhost:3000' })
+const prequest = PreQuest.create(adapter, { baseURL: 'http://localhost:3000' })
 
 // perform a http request
 prequest.request('/api', { method: 'get' })

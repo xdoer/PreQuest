@@ -17,7 +17,7 @@ npm install @prequest/graphql
 ```ts
 import { PreQuest } from '@prequest/core'
 
-const instance = PreQuest.createInstance(adapter, {
+const instance = PreQuest.create(adapter, {
   path: '/graphql',
   baseURL: 'http://localhost:3000',
 })

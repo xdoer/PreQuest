@@ -62,6 +62,6 @@ import { PreQuest } from '@prequest/core'
 PreQuest.use(interceptor.run)
 
 // For instance middleware
-const instance = PreQuest.createInstance(adapter)
+const instance = PreQuest.create(adapter)
 instance.use(interceptor.run)
 ```
