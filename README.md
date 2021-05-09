@@ -11,6 +11,8 @@ A modular and pluggable solution for native http request.
 [![NPM Downloads](https://img.shields.io/npm/dm/@prequest/core.svg?style=flat)](https://www.npmjs.com/package/@prequest/core)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
+英文 | [中文](./README_ZH-CN.md)
+
 ## Introduction
 
 If you use axios、umi-request or some other http request library, you may don't need this. But if you use native request api like fetch、miniprogram request、node http module and so on, This library can add middleware, interceptor, global config, request alias and some modern feature to native request api easily.

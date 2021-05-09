@@ -1,3 +1,5 @@
+英文 | [中文](./README_ZH-CN.md)
+
 # @prequest/core
 
 A modular and pluggable solution for native http request.
