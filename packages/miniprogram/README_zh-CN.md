@@ -1,4 +1,4 @@
-[英文](./README.md) | 中文
+[English](./README.md) | 中文
 
 # @prequest/miniprogram
 

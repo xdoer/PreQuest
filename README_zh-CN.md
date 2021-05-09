@@ -11,7 +11,7 @@
 [![NPM Downloads](https://img.shields.io/npm/dm/@prequest/core.svg?style=flat)](https://www.npmjs.com/package/@prequest/core)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-[英文](./README.md) | 中文
+[English](./README.md) | 中文
 
 ## 简介
 
