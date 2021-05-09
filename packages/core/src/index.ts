@@ -29,11 +29,11 @@ export class PreQuest<T, N> extends Middleware<T, N> {
     return this.controller({ request, response })
   }
 
-  private controller(ctx: Context<T, N>): Promise<N> {
-    return this.exec(ctx, async ctx => {
-      const response = await this.adapter(ctx.request)
-      ctx.response = response
-    }).then(() => ctx.response)
+  private async controller(ctx: Context<T, N>): Promise<N> {
+    await this.exec(ctx, async ctx => {
+      ctx.response = await this.adapter(ctx.request)
+    })
+    return ctx.response
   }
 
   static defaults = {}
