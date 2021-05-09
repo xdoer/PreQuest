@@ -39,11 +39,11 @@ export class PreQuest<T, N> extends Middleware<T, N> {
   static defaults = {}
 
   static create<T, N>(adapter: Adapter<T, N>, config?: Config<T>): PreQuestInstance<T, N> {
-    const instance = new PreQuest<T, N>(adapter, config) as PreQuestInstance<T, N>
+    const instance = new PreQuest<T, N>(adapter, config) as PreQuestBaseInstance<T, N>
 
-    return new Proxy(function() {} as any, {
+    return new Proxy(adapter as any, {
       get(_, name) {
-        return Reflect.get(instance, name)
+        return Reflect.get(instance, name) || Reflect.get(adapter, name)
       },
       apply(_, __, args) {
         return Reflect.apply(instance.request, instance, args)
@@ -52,7 +52,8 @@ export class PreQuest<T, N> extends Middleware<T, N> {
   }
 }
 
+type PreQuestFn<T, N> = (path: string | T, config?: T) => Promise<N>
+
 type PreQuestBaseInstance<T, N> = PreQuest<T, N> & MethodsCallback<T, N>
 
-export type PreQuestInstance<T, N> = PreQuestBaseInstance<T, N> &
-  ((path: string | T, config?: T) => Promise<N>)
+export type PreQuestInstance<T, N> = PreQuestBaseInstance<T, N> & PreQuestFn<T, N>
