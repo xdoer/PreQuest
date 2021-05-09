@@ -1,0 +1,69 @@
+{
+  "version": "0.1.4",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "keywords": [
+    "http",
+    "request",
+    "XMLHttpRequest",
+    "fetch",
+    "https",
+    "middleware",
+    "interceptor"
+  ],
+  "scripts": {
+    "start": "tsdx watch --verbose",
+    "build": "tsdx build",
+    "test": "tsdx test",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "name": "@prequest/wrapper",
+  "author": "xdoer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xdoer/PreQuest.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xdoer/PreQuest/issues"
+  },
+  "homepage": "https://github.com/xdoer/PreQuest#readme",
+  "module": "dist/wrapper.esm.js",
+  "size-limit": [
+    {
+      "path": "dist/wrapper.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/wrapper.esm.js",
+      "limit": "10 KB"
+    }
+  ],
+  "dependencies": {
+    "@prequest/core": "^0.1.4",
+    "@prequest/types": "^0.1.4"
+  },
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^4.10.2",
+    "husky": "^6.0.0",
+    "size-limit": "^4.10.2",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.2.0",
+    "typescript": "^4.2.4"
+  },
+  "gitHead": "128926b6d6d65f019d1f2c05cc23fa3e729192e9"
+}
