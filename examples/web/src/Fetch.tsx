@@ -1,8 +1,30 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useEffect, useState } from 'react'
 import { prequest, create } from '@prequest/fetch'
+import { adapter, fetchRe } from './proxy'
 
 export const FetchComponent: FC<{}> = ({ }) => {
   const [value, setValue] = useState('空')
+
+  useEffect(() => {
+    // adapter({ method: 'post', url: 'http://localhost:10000/api' }).then(res => {
+    //   console.log('查看响应', res)
+    // })
+    // fetchRe({ method: 'post', url: 'http://localhost:10000/api' }).then(res => {
+    //   console.log('查看响应2', res)
+    // })
+
+
+
+    fetchRe.use(async (ctx, next) => {
+      console.log('查看请求头', ctx.request)
+      await next()
+      console.log('查看响应', ctx.response)
+    }).post('http://localhost:10000/api', { url: 'http://localhost:10000/api' }).then(res => {
+      console.log('查看响应数据', res)
+    })
+
+
+  }, [])
 
   function reqClain() {
     prequest('http://localhost:10000/api', {})
