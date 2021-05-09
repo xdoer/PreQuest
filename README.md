@@ -61,6 +61,7 @@ For more details, please check the docs.
 > - [@prequest/miniprogram](https://github.com/xdoer/PreQuest/blob/main/packages/miniprogram/README.md).A request library base on miniprogram request api.
 > - [@prequest/graphql](https://github.com/xdoer/PreQuest/blob/main/packages/graphql/README.md).A Syntax Sugar For Post Http Request Based On PreQuest.
 > - [@prequest/interceptor](https://github.com/xdoer/PreQuest/blob/main/packages/interceptor/README.md).A Interceptor Middleware For PreQuest
+> - [@prequest/wrapper](https://github.com/xdoer/PreQuest/blob/main/packages/wrapper/README.md).A wrapper which can enhance the request method you defined.
 
 ## Development
 
