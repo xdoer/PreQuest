@@ -8,8 +8,8 @@ export class InterceptorMiddleware<T, N, E> {
   response = new Interceptor<N, E>()
 
   run: MiddlewareCallback<T, N> = async (ctx, next) => {
-    await this.request.exec(ctx.request)
+    ctx.request = await this.request.exec(ctx.request)
     await next()
-    await this.response.exec(ctx.response)
+    ctx.response = await this.response.exec(ctx.response)
   }
 }
