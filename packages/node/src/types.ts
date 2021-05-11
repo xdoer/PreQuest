@@ -1,6 +1,27 @@
-import https from 'https'
+import { BaseOption } from '@prequest/types'
 
-export interface Request extends https.RequestOptions {}
+interface Auth {
+  username: string
+  password: string
+}
+
+export interface Proxy {
+  protocol: string
+  host: string
+  port: string
+  auth: Auth
+}
+
+export interface Request extends BaseOption {
+  responseEncoding?: BufferEncoding
+  socketPath?: string
+  auth?: Auth
+  proxy?: Proxy
+  httpAgent?: any
+  httpsAgent?: any
+  maxRedirects?: number
+  maxBodyLength?: number
+}
 
 export interface Response {
   data: any
