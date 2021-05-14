@@ -51,6 +51,10 @@ export function adapter(options: Request): Promise<Response> {
       reject(createError('请求错误'))
     })
 
+    xhr.addEventListener('abort', () => {
+      reject(createError('拦截请求'))
+    })
+
     getRequestInstance?.(xhr)
 
     xhr.send(data)
