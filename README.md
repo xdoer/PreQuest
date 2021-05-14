@@ -44,6 +44,23 @@ prequest.get('/api')
 // instance middleware
 prequest.use(async (ctx, next) => {})
 
+// chain
+prequest
+  .use(async (ctx, next) => {
+    ctx.request.path = '/prefix' + ctx.request.path
+    await next()
+    ctx.response = JSON.parse(ctx.response as string)
+  })
+  .use(async (ctx, next) => {
+    ctx.request.path = '/prefix2' + ctx.request.path
+    await next()
+    ctx.response = JSON.stringify(ctx.response)
+  })
+  .post('http://localhost:10000/api')
+  .then(res => {
+    console.log(res)
+  })
+
 // global request options
 PreQuest.defaults.baseURL = 'http://localhost:3000'
 
