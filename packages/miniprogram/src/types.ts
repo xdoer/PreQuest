@@ -12,7 +12,7 @@ export interface Request {
   responseType?: 'json' | 'text' | 'arraybuffer' | ({} & string)
   header?: CommonObject
   dataType?: 'json' | ({} & string)
-  getRequestInstance?(instance: any): void
+  getNativeRequestInstance?(value: Promise<RequestCore>): void
 }
 
 export interface Response {

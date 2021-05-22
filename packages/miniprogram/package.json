@@ -18,7 +18,6 @@
     "middleware",
     "interceptor"
   ],
-  "miniprogram": "dist",
   "scripts": {
     "start": "tsdx watch --verbose",
     "build": "tsdx build",

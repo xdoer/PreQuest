@@ -129,35 +129,31 @@ import { PreQuest, create } from '@prequest/miniprogram'
 
 const instance = create(wx.request)
 
-let requestInstance
-
 instance.request({
   path: '/api',
-  getRequestInstance(nativeRequestInstance) {
-    requestInstance = nativeRequestInstance
+  getNativeRequestInstance(promise) {
+    promise.then(nativeRequest => {
+      // abort request
+      nativeRequest.abort()
+    })
   },
-})
-
-// must call requestInstance in next event loop
-setTimeout(() => {
-  requestInstance.abort()
 })
 ```
 
 ## Request Options
 
-| Option Name        | Type                              | Default | Required | Meaning                                 | Example                 |
-| ------------------ | --------------------------------- | ------- | -------- | --------------------------------------- | ----------------------- |
-| path               | string                            | none    | Y        | server interface path                   | /api                    |
-| method             | string                            | GET     | N        | request method                          | post                    |
-| baseURL            | string                            | none    | N        | base server interface address           | 'http://localhost:3000' |
-| getRequestInstance | (nativeRequestInstance) => void   | none    | N        | get native request instance             |                         |
-| timeout            | number                            | none    | N        | request timeout                         | 5000                    |
-| params             | object                            | none    | N        | url parameters                          | { id: 10}               |
-| data               | object                            | none    | N        | the data to be sent as the request body | { id: 10}               |
-| responseType       | json \| text \| arraybuffer \|... | none    | N        | response data type                      | json                    |
-| header             | object                            | none    | N        | set the request header                  | { token: 'aaaaa'}       |
-| dataType           | json \| ...                       | none    | N        | returned data format                    | json                    |
+| Option Name              | Type                                       | Default | Required | Meaning                                 | Example                 |
+| ------------------------ | ------------------------------------------ | ------- | -------- | --------------------------------------- | ----------------------- |
+| path                     | string                                     | none    | Y        | server interface path                   | /api                    |
+| method                   | string                                     | GET     | N        | request method                          | post                    |
+| baseURL                  | string                                     | none    | N        | base server interface address           | 'http://localhost:3000' |
+| getNativeRequestInstance | (value: Promise\<NativeInstance\>) => void | none    | N        | get native request instance             |                         |
+| timeout                  | number                                     | none    | N        | request timeout                         | 5000                    |
+| params                   | object                                     | none    | N        | url parameters                          | { id: 10}               |
+| data                     | object                                     | none    | N        | the data to be sent as the request body | { id: 10}               |
+| responseType             | json \| text \| arraybuffer \|...          | none    | N        | response data type                      | json                    |
+| header                   | object                                     | none    | N        | set the request header                  | { token: 'aaaaa'}       |
+| dataType                 | json \| ...                                | none    | N        | returned data format                    | json                    |
 
 **NOTICE**: If you performing a request by alias like `instance.get('/api')` , you don't need pass `method` and `path` into options.
 

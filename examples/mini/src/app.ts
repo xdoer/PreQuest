@@ -1,49 +1,29 @@
 import { useEffect } from "react"
 import { create } from '@prequest/miniprogram'
-import { graphql } from '@prequest/graphql'
-import Taro from '@tarojs/taro'
 
 interface Request {
   enableCache?: boolean
 }
 
-const instance = create<Request, any>(Taro.request, {
+const instance = create<Request, any>(wx.request, {
   baseURL: 'http://localhost:10000',
-  path: '/graphql',
   enableCache: true
 })
 
-const instance2 = create(Taro.request, {
-  baseURL: 'http://localhost:10000',
-})
-
-const request = graphql(instance)
-
 export default function App(props: any) {
-
   useEffect(() => {
-    request(CONFIG)
-      .then(res => {
-        console.log('查看响应', res)
-      })
-      .catch(e => {
-        console.log('查看报错', e)
-      })
-
-    instance2.get('/api').then(res => {
-      console.log('查看restful', res)
+    instance.get('/api', {
+      getNativeRequestInstance(native) {
+        native.then(res => {
+          console.log('拿到实例', res, res.abort())
+        })
+      }
+    }).then(res => {
+      console.log('查看结果', res)
+    }).catch(e => {
+      console.log('报错', e)
     })
   }, [])
 
   return props.children
 }
-
-export const CONFIG = `
-query config($config: String){
-    config(config: $config){
-        id
-        config
-        showUpdatedTime
-    }
-}
-`;
