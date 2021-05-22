@@ -1,5 +1,5 @@
 {
-  "version": "0.1.4",
+  "version": "0.1.6",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -53,7 +53,6 @@
       "limit": "10 KB"
     }
   ],
-  "dependencies": {},
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",
     "husky": "^6.0.0",

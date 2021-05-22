@@ -1,5 +1,5 @@
 {
-  "version": "0.1.4",
+  "version": "0.1.6",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -54,11 +54,11 @@
     }
   ],
   "dependencies": {
-    "@prequest/core": "^0.1.4",
-    "@prequest/helper": "^0.1.4",
-    "@prequest/types": "^0.1.4",
-    "@prequest/utils": "^0.1.4",
-    "@prequest/cancel-token": "^0.1.4"
+    "@prequest/cancel-token": "^0.1.6",
+    "@prequest/core": "^0.1.6",
+    "@prequest/helper": "^0.1.6",
+    "@prequest/types": "^0.1.6",
+    "@prequest/utils": "^0.1.6"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",
