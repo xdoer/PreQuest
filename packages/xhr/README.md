@@ -144,15 +144,35 @@ How to abort a request?
 
 ```ts
 import { prequest } from '@prequest/xhr'
+import { CancelToken } from '@prequest/cancel-token'
 
-let nativeRequestInstance
+const source = CancelToken.source()
+
 prequest.post('/api', {
-  getRequestInstance(instance) {
-    nativeRequestInstance = instance
+  cancelToken: source.token
+
+  getNativeRequestInstance(promise) {
+    promise.then(xhr => {
+      xhr.abort()
+    })
   },
 })
 
-setTimeout(() => {
-  nativeRequestInstance.abort()
+source.cancel()
+```
+
+### Get Native Request Instance
+
+How to get native request instance
+
+```ts
+import { prequest } from '@prequest/xhr'
+
+prequest.post('/api', {
+  getNativeRequestInstance(promise) {
+    promise.then(xhr => {
+      xhr.abort()
+    })
+  },
 })
 ```

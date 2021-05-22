@@ -1,10 +1,14 @@
 import { BaseOption } from '@prequest/types'
+import { CancelToken } from '@prequest/cancel-token'
 
 export interface Request extends BaseOption {
   withCredentials?: boolean
   requestType?: 'json' | 'form' | ({} & string)
   responseType?: XMLHttpRequestResponseType
-  getRequestInstance?(instance: XMLHttpRequest): void
+  getNativeRequestInstance?(promise: Promise<XMLHttpRequest>): void
+  cancelToken?: CancelToken
+  onDownloadProgress?(): void
+  onUploadProgress?(): void
 }
 
 export interface Response {

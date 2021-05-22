@@ -57,7 +57,8 @@
     "@prequest/core": "^0.1.4",
     "@prequest/helper": "^0.1.4",
     "@prequest/types": "^0.1.4",
-    "@prequest/utils": "^0.1.4"
+    "@prequest/utils": "^0.1.4",
+    "@prequest/cancel-token": "^0.1.4"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",

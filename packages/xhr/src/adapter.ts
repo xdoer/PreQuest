@@ -6,10 +6,22 @@ export function adapter(options: Request): Promise<Response> {
   const finalOptions = (options || {}) as Required<Request>
   const url = createRequestUrl(finalOptions)
   const { data, headers } = formatRequestBodyAndHeaders(finalOptions)
-  const { timeout, withCredentials, responseType, method, getRequestInstance } = finalOptions
+  const {
+    timeout,
+    withCredentials,
+    responseType,
+    method,
+    getNativeRequestInstance,
+    cancelToken,
+    onDownloadProgress,
+    onUploadProgress,
+  } = finalOptions
+
+  let resolvePromise: any
+  getNativeRequestInstance?.(new Promise(resolve => (resolvePromise = resolve)))
 
   return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
+    let xhr: any = new XMLHttpRequest()
     xhr.open(method, url, true)
     xhr.timeout = timeout
     xhr.withCredentials = withCredentials
@@ -51,11 +63,25 @@ export function adapter(options: Request): Promise<Response> {
       reject(createError('请求错误'))
     })
 
+    if (cancelToken) {
+      cancelToken.promise.then(cancel => {
+        if (!xhr) return
+
+        xhr.abort()
+        reject(cancel)
+        xhr = null
+      })
+    }
+
+    xhr.addEventListener('progress', onDownloadProgress)
+
+    xhr?.upload?.addEventListener('progress', onUploadProgress)
+
     xhr.addEventListener('abort', () => {
       reject(createError('拦截请求'))
     })
 
-    getRequestInstance?.(xhr)
+    resolvePromise?.(xhr)
 
     xhr.send(data)
   })
