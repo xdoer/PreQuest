@@ -6,7 +6,6 @@ import { Context, Config, MethodsCallback, RequestOption, Adapter } from '@prequ
 export class PreQuest<T, N> extends Middleware<T, N> {
   constructor(private adapter: Adapter<T, N>, private config?: Config<T>) {
     super()
-    this.config = merge(PreQuest.defaults, this.config)
     this.mount()
   }
 
@@ -15,7 +14,9 @@ export class PreQuest<T, N> extends Middleware<T, N> {
 
     METHODS.forEach(method => {
       preQuest[method] = (path: string, config?: Config<T>) => {
-        const request = <RequestOption<T>>merge(this.config, { path, method } as any, config!)
+        const request = <RequestOption<T>>(
+          merge(PreQuest.defaults, this.config, { path, method } as any, config!)
+        )
         const response = <N>{}
         return this.controller({ request, response })
       }
