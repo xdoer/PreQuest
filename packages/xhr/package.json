@@ -19,7 +19,7 @@
     "interceptor"
   ],
   "scripts": {
-    "start": "tsdx watch --verbose",
+    "start": "tsdx watch --verbose --format cjs,esm,umd --name pq",
     "build": "tsdx build --format cjs,esm,umd --name pq",
     "test": "tsdx test",
     "lint": "tsdx lint",
