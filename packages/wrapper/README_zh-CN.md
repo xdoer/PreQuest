@@ -1,8 +1,8 @@
-English | [中文](./README_zh-CN.md)
-
 # @prequest/wrapper
 
 一个可以赋予你定义的请求方法 PreQuest 能力的包装器。
+
+English | [中文](./README_zh-CN.md)
 
 ## 简介
 

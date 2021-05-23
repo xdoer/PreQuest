@@ -1,8 +1,8 @@
-English | [中文](./README_zh-CN.md)
-
 # @prequest/wrapper
 
 A wrapper which can enhance the request method you defined.
+
+English | [中文](./README_zh-CN.md)
 
 ## Introduction
 
