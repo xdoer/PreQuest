@@ -20,10 +20,10 @@
   ],
   "scripts": {
     "start": "tsdx watch --verbose",
-    "build": "tsdx build --format cjs,esm,umd",
+    "build": "tsdx build --format cjs,esm,umd --name pq",
     "test": "tsdx test",
     "lint": "tsdx lint",
-    "prepare": "tsdx build --format cjs,esm,umd",
+    "prepare": "tsdx build --format cjs,esm,umd --name pq",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
@@ -43,6 +43,7 @@
   },
   "homepage": "https://github.com/xdoer/PreQuest#readme",
   "module": "dist/xhr.esm.js",
+  "browser": "dist/xhr.umd.js",
   "size-limit": [
     {
       "path": "dist/xhr.cjs.production.min.js",
