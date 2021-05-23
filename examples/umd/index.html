@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script src="../../packages/xhr/dist/pq.umd.development.js"></script>
+    <script>
+      // global config
+      pq.PreQuest.defaults.baseURL = 'https://webspiderr.herokuapp.com'
+
+      // global middleware
+      pq.PreQuest.use(async (ctx, next) => {
+        console.log('global middleware --- request options', ctx.request)
+        await next()
+        console.log('global middleware --- response', ctx.response)
+      })
+
+      // instance middleware
+      pq.prequest.use(async (ctx, next) => {
+        console.log('instance middleware --- request options', ctx.request)
+        await next()
+        console.log('instance middleware --- response', ctx.response)
+        // modify response
+        const { data } = ctx.response
+        ctx.response.data = JSON.parse(data)
+      })
+
+      // base usage
+      pq.prequest(
+        '/crawl/api?user=xdoer&cid=73b1430d-faa0-44eb-899e-36cf5cbfaec8'
+      )
+        .then((res) => {
+          console.log('查看结果1', res)
+        })
+        .catch((e) => {
+          console.log('错误1', e)
+        })
+
+      // with method
+      pq.prequest
+        .get('/crawl/api?user=xdoer&cid=73b1430d-faa0-44eb-899e-36cf5cbfaec8')
+        .then((res) => {
+          console.log('查看结果2', res)
+        })
+        .catch((e) => {
+          console.log('错误2', e)
+        })
+
+      // create instance
+      const instance = pq.create({
+        baseURL: 'https://webspiderr.herokuapp.com/crawl'
+      })
+
+      // instance middleware
+      instance.use(async (ctx, next) => {
+        console.log('instance middleware --- request options', ctx.request)
+        await next()
+        console.log('instance middleware --- response', ctx.response)
+        ctx.response.data = 'middleware modify'
+      })
+
+      instance('/api?user=xdoer&cid=73b1430d-faa0-44eb-899e-36cf5cbfaec8')
+        .then((res) => {
+          console.log('查看结果3', res)
+        })
+        .catch((e) => {
+          console.log('错误3', e)
+        })
+    </script>
+  </body>
+</html>
