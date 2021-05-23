@@ -1,5 +1,5 @@
 {
-  "version": "0.1.7",
+  "version": "0.1.8",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -54,7 +54,7 @@
     }
   ],
   "dependencies": {
-    "@prequest/types": "^0.1.7"
+    "@prequest/types": "^0.1.8"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",
@@ -64,5 +64,5 @@
     "tslib": "^2.2.0",
     "typescript": "^4.2.4"
   },
-  "gitHead": "128926b6d6d65f019d1f2c05cc23fa3e729192e9"
+  "gitHead": "a74e0df950672e26cdc97f0d941109a9daeb1016"
 }
