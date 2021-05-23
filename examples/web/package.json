@@ -1,17 +1,18 @@
 {
   "name": "@prequest/example-web",
-  "version": "0.1.3",
+  "version": "0.2.3",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build"
   },
   "dependencies": {
-    "@prequest/core": "^0.1.3",
-    "@prequest/fetch": "^0.1.3",
-    "@prequest/graphql": "^0.1.3",
-    "@prequest/interceptor": "^0.1.3",
-    "@prequest/wrapper": "^0.1.3",
-    "@prequest/xhr": "^0.1.3",
+    "@prequest/core": "^0.2.3",
+    "@prequest/fetch": "^0.2.3",
+    "@prequest/graphql": "^0.2.3",
+    "@prequest/interceptor": "^0.2.3",
+    "@prequest/wrapper": "^0.2.3",
+    "@prequest/cache": "^0.2.3",
+    "@prequest/xhr": "^0.2.3",
     "axios": "^0.21.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
