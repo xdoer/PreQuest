@@ -8,9 +8,25 @@ This is a http request library based on PreQuest. This library add middleware, i
 
 ## Install
 
+### npm
+
 ```bash
 npm install @prequest/fetch
 ```
+
+### yarn
+
+```bash
+yarn @prequest/fetch
+```
+
+### jsDelivr CDN
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/@prequest/fetch@0.2.1/dist/pq.umd.development.min.js"></script>
+```
+
+NOTICE: You need use 'pq' namespace in browser.
 
 ## Basic Usage
 
