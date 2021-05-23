@@ -9,4 +9,4 @@ type PreQuestInstance<T, N> = PreQuest<T, N> & MethodsCallback<T, N>
 
 type Fn<T, N> = Adapter<T, N> & PreQuestInstance<T, N>
 
-export { PreQuest }
+export default wrapper
