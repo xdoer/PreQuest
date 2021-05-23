@@ -22,5 +22,5 @@ export interface Context<T, N> {
 
 export type MiddlewareCallback<T, N> = (
   ctx: Context<T, N>,
-  next: () => Promise<void>
-) => Promise<void>
+  next: () => Promise<any>
+) => Promise<any>
