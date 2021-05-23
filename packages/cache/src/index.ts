@@ -1,3 +1,5 @@
+import { MiddlewareCallback } from '@prequest/types'
+
 interface CacheKernel {
   get(id: string): Promise<any>
   set(id: string, value: any): void
@@ -6,13 +8,14 @@ interface CacheKernel {
 }
 
 // TODO: TTL
-interface Options {
+interface Options<T> {
   ttl: number
   cacheKernel: () => CacheKernel
+  validateCache: (opt: T) => boolean
 }
 
-export class Cache {
-  constructor(private opt?: Partial<Options>) {}
+export class Cache<T, N> {
+  constructor(private opt?: Partial<Options<T>>) {}
 
   cache = this.opt?.cacheKernel?.() || new Map()
 
@@ -20,7 +23,9 @@ export class Cache {
     return JSON.stringify(value)
   }
 
-  run = async (ctx: any, next: any) => {
+  run: MiddlewareCallback<T, N> = async (ctx, next) => {
+    if (this.opt?.validateCache?.(ctx.request)) return next()
+
     const id = this.getId(ctx.request)
     const response = await this.cache.get(id)
 

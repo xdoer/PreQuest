@@ -11,7 +11,11 @@ const cache = new Cache({
     get(key) {
       return localStorage.getItem(key)
     }
-  })
+  }),
+  validateCache(opt) {
+    console.log('查看参数', opt)
+    return false
+  }
 })
 
 fetchRe.use(cache.run)
