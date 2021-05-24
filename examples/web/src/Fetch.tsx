@@ -1,17 +1,10 @@
 import React, { FC, useEffect, useState } from 'react'
 import { prequest, create } from '@prequest/fetch'
 import { adapter, fetchRe } from './proxy'
-import { Cache } from '@prequest/cache'
+import { CacheMiddleware } from '@prequest/cache'
 
-const cache = new Cache({
-  cacheKernel: () => ({
-    set(key, value) {
-      localStorage.setItem(key, JSON.stringify(value))
-    },
-    get(key) {
-      return localStorage.getItem(key)
-    }
-  }),
+const cache = new CacheMiddleware({
+  ttl: 5000,
   validateCache(opt) {
     console.log('查看参数', opt)
     return false
