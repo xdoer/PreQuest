@@ -35,8 +35,7 @@
   "author": "",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
-    "@prequest/miniprogram": "^0.1.4",
-    "@prequest/graphql": "^0.1.4",
+    "@prequest/miniprogram": "^0.2.3",
     "@tarojs/components": "3.2.1",
     "@tarojs/react": "3.2.1",
     "@tarojs/runtime": "3.2.1",

@@ -22,7 +22,8 @@ app.use(async (ctx, next) => {
 })
 
 router
-  .get('/api', (ctx) => {
+  .get('/api', async (ctx) => {
+    await sleep()
     ctx.body = {
       a: 1,
       b: 2,
@@ -38,3 +39,11 @@ router
 app.use(router.routes()).use(router.allowedMethods())
 
 app.listen(10000, () => console.log('server is start'))
+
+const sleep = () => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve()
+    }, 5000)
+  })
+}

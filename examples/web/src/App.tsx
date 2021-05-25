@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import './middleware'
-import { FetchComponent } from './Fetch'
+// import { FetchComponent } from './Fetch'
+import { XhrComponent } from './Xhr'
 
 function App() {
 
   return (
     <div className="App">
-      <FetchComponent />
+      <XhrComponent />
     </div>
   )
 }
