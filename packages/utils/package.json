@@ -53,6 +53,10 @@
       "limit": "10 KB"
     }
   ],
+  "dependencies": {
+    "is-plain-object": "^5.0.0",
+    "deepmerge": "^4.2.2"
+  },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",
     "husky": "^6.0.0",
