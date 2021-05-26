@@ -9,8 +9,8 @@ export class CancelToken {
 
   promise = new Promise(resolve => (this.resolvePromise = resolve))
 
-  constructor(private executor: (cb: (v: string) => void) => void) {
-    this.executor((message: string) => {
+  constructor(private executor: (cb: (message?: string) => void) => void) {
+    this.executor((message?: string) => {
       if (this.reason) return
       this.reason = new Cancel(message)
       this.resolvePromise(this.reason)
