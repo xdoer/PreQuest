@@ -1,5 +1,5 @@
 import deepmerge from 'deepmerge'
-import isPlainObject from 'is-plain-object'
+import { isPlainObject } from 'is-plain-object'
 
 export const elementType = (ele: any) => {
   const typeStr = Object.prototype.toString.call(ele)
@@ -10,5 +10,5 @@ export const elementType = (ele: any) => {
 
 export const merge = (...args: (Record<string, any> | undefined)[]) =>
   deepmerge.all(args.filter(Boolean) as any, {
-    isMergeableObject: isPlainObject,
+    isMergeableObject: isPlainObject as any,
   })
