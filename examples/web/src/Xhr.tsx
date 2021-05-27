@@ -1,36 +1,35 @@
 import React, { FC, useEffect, useState } from 'react'
 import { prequest } from '@prequest/xhr'
 import { CancelToken } from '@prequest/cancel-token'
+import { Token } from './Token'
+
+const token = new Token()
+prequest.use(token.run)
 
 export const XhrComponent: FC<{}> = ({ }) => {
   const [data, setData] = useState('')
 
   useEffect(() => {
-    // let cancelToken: any = null
-
-    // const xxx = new CancelToken((v) => {
-    //   console.log('----1', v)
-    //   cancelToken = v
-    // })
-
-    // xxx.promise.then(e => {
-    //   console.log('----2', e)
-    // })
-
-    // console.log('----------', xxx)
-
-    // cancelToken('hahah')
-
-    const source = CancelToken.source()
-
     prequest
-      .get('http://localhost:10000/api', {
-        cancelToken: source.token
-      })
+      .get('http://localhost:10000/api', { headers: {} })
       .then(res => {
         console.log('chakanjieguo ', res)
       })
-    source.cancel()
+    prequest
+      .get('http://localhost:10000/api', { headers: {} })
+      .then(res => {
+        console.log('chakanjieguo ', res)
+      })
+    prequest
+      .get('http://localhost:10000/api', { headers: {} })
+      .then(res => {
+        console.log('chakanjieguo ', res)
+      })
+    prequest
+      .get('http://localhost:10000/api', { headers: {} })
+      .then(res => {
+        console.log('chakanjieguo ', res)
+      })
   }, [])
 
   return (
