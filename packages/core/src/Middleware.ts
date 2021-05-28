@@ -1,6 +1,7 @@
 import { Context, MiddlewareCallback } from '@prequest/types'
+import { Lock } from './Lock'
 
-export class Middleware<T, N> {
+export class Middleware<T, N> extends Lock {
   protected cbs: MiddlewareCallback<T, N>[] = []
 
   static globalCbs: any = []
@@ -16,8 +17,11 @@ export class Middleware<T, N> {
       if (pointer <= times) throw new Error('next function only can be called once')
       times = pointer
 
-      return fn(ctx, () => dispatch(++pointer))
+      const middleware = () => fn(ctx, () => dispatch(++pointer))
+
+      return this.on ? this.promise.then(() => middleware()) : middleware()
     }
+
     return dispatch()
   }
 

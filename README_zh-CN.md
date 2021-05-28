@@ -47,7 +47,22 @@ prequest({ path: '/api', method: 'get' })
 prequest.get('/api')
 
 // 实例中间件
-prequest.use(async (ctx, next) => {})
+let token = ''
+prequest.use(async (ctx, next) => {
+  if (!token) {
+    // 请求暂停
+    prequest.lock()
+
+    token = await PreQuest.create(adapter).get('/token')
+
+    // 恢复请求
+    prequest.unlock()
+  }
+
+  ctx.request.headers['token'] = token
+
+  await next()
+})
 
 // 全局请求的配置项
 PreQuest.defaults.baseURL = 'http://localhost:3000'

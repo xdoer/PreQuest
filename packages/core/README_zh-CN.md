@@ -1,12 +1,12 @@
-[English](./README.md) | 中文
-
 # @prequest/core
 
 为你的 Http 请求提供模块化可插拔的解决方案。
 
+[English](./README.md) | 中文
+
 ## Introduction
 
-如果你使用类似 axios、umi-request 或者其他请求库，或许你不需要这个。但如果你使用原生的请求 API(XMLHttpRequest、fetch、node http.request 或者 小程序，快应用原生请求)。这个库可以很方便的为这些原生请求 API 添加中间件、拦截器、全局配置、别名请求等等特性。
+如果你使用类似 axios、umi-request 或者其他请求库，或许你不需要这个。但如果你使用原生的请求 API(XMLHttpRequest、fetch、node http.request 或者 小程序，快应用原生请求)。这个库可以很方便的为这些原生请求 API 添加中间件、拦截器、全局配置、别名请求、请求暂停等等特性。
 
 这个库不包含原生请求的 API，这意味着你不能通过这个库进行 http 调用。
 
@@ -127,6 +127,36 @@ PreQuest.use<Request, Response>(async (ctx, next) => {
   ctx.response.data = JSON.parse(ctx.response.data)
 })
 ```
+
+### 暂停请求
+
+PreQuest 提供了便捷的机制来暂停和开启请求，你可以很方便的实现一些诸如添加接口认证等功能。
+
+```ts
+import { PreQuest } from '@prequest/core'
+
+const instance = PreQuest.create(adapter)
+const getTokenInstance = PreQuest.create(adapter)
+
+let token = ''
+instance.use(async (ctx, next) => {
+  if (!token) {
+    instance.lock()
+
+    token = await getTokenInstance('/token')
+
+    instance.unlock()
+  }
+  ctx.request.headers['token'] = token
+  await next()
+})
+
+instance.get('/a').then(...)
+instance.get('/b').then(...)
+instance.get('/c').then(...)
+```
+
+`lock` 方法将暂停实例中所有中间件的执行，暂停发起请求。 `unlock` 方法会恢复中间件和请求的执行。
 
 ## 更多
 
