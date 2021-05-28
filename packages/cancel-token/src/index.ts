@@ -3,9 +3,9 @@ import { Cancel } from './Cancel'
 export * from './isCancel'
 
 export class CancelToken {
-  reason?: Cancel
+  private reason?: Cancel
 
-  resolvePromise: any
+  private resolvePromise: any
 
   promise = new Promise(resolve => (this.resolvePromise = resolve))
 
