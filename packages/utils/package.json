@@ -1,5 +1,5 @@
 {
-  "version": "0.2.3",
+  "version": "0.2.4",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -54,8 +54,8 @@
     }
   ],
   "dependencies": {
-    "is-plain-object": "^5.0.0",
-    "deepmerge": "^4.2.2"
+    "deepmerge": "^4.2.2",
+    "is-plain-object": "^5.0.0"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",
