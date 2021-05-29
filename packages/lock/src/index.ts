@@ -6,7 +6,7 @@ export function createLockWrapper(lock = new Lock()) {
   return async function(fn: () => Promise<any>) {
     if (lock.on) return lock.promise
 
-    if (lock.value) return Promise.resolve(lock.value)
+    if (lock.value) return lock.value
 
     lock.on = true
 
@@ -16,6 +16,6 @@ export function createLockWrapper(lock = new Lock()) {
 
     lock.resolvePromise(lock.value)
 
-    return Promise.resolve(lock.value)
+    return lock.value
   }
 }
