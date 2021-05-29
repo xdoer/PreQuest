@@ -44,18 +44,6 @@ prequest.get('/api')
 // instance middleware
 let token = ''
 prequest.use(async (ctx, next) => {
-  if (!token) {
-    // request suspended
-    prequest.lock()
-
-    token = await PreQuest.create(adapter).get('/token')
-
-    // restore pause
-    prequest.unlock()
-  }
-
-  ctx.request.headers['token'] = token
-
   await next()
 })
 

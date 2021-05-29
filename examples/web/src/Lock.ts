@@ -1,7 +1,9 @@
 export class Lock {
   on = false
 
-  private resolvePromise: any
+  value: any
+
+  resolvePromise: any
   promise = new Promise(resolve => (this.resolvePromise = resolve))
 
   lock = () => {

@@ -4,7 +4,7 @@
 
 # PreQuest
 
-为你的 Http 请求提供模块化可插拔的解决方案。
+一个没有内核的请求库。
 
 [![npm](https://img.shields.io/npm/v/@prequest/core.svg)](https://www.npmjs.com/package/@prequest/core)
 [![Minzipped size](https://img.shields.io/bundlephobia/minzip/@prequest/core.svg)](https://bundlephobia.com/result?p=@prequest/core)
@@ -15,61 +15,112 @@
 
 ## 简介
 
-如果你使用类似 axios、umi-request 或者其他请求库，或许你不需要这个。但如果你使用原生的请求 API(XMLHttpRequest、fetch、node http.request 或者 小程序，快应用原生请求)。这个库可以很方便的为这些原生请求 API 添加中间件、拦截器、全局配置、别名请求等等特性。
+PreQuest 采用了请求内核与上层封装相分离的模式，针对不同的环境，提供了一致的中间件、拦截器、全局配置、别名请求等特性，并且完全保留了不同平台请求内核的差异化。
 
-## 示例
+## 使用示例
+
+### Adapter
+
+首先你需要定义一个 adapter 函数，这是一个包含原生 Http 请求的方法。
+
+```ts
+function ajax(params) {
+  const { path, method, baseURL, headers, ...other } = params
+
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest()
+
+    // ...
+  })
+}
+```
+
+上面的 ajax 实际就是一个 adapter 函数，函数只支持传入一个对象，返回一个 promise.
+
+**_注意: 本项目中已针对不同的平台，提供了不同的包_**
+
+### 创建实例
+
+使用 `PreQuest.create` 创建实例。
 
 ```ts
 import { PreQuest } from '@prequest/core'
 
-/**
- * 你只需要实现一个基于原生 API 的适配器
- * 这里基于你的实际需求，定义 opt 参数，但注意只能是一个对象。
- * 使用未指定参数的请求方式 `eg:prequest.post('/api')`, PreQuest 会向你的参数中混入`path` 和 `method` 参数。
- * */
-const adapter = opt => {
-  const { path, baseURL, ...rest } = opt
-  return fetch(baseURL + path, rest).then(res => res.json())
-}
+const prequest = PreQuest.create(ajax, { baseURL: 'http://localhost:3000' })
+```
 
-// 创建一个实例
-const prequest = PreQuest.create(adapter, { baseURL: 'http://localhost:3000' })
+### 执行请求
 
-// 进行 http 调用
+直接请求
+
+```ts
+prequest('/api')
+prequest({ path: '/api', method: 'get' })
+```
+
+别名请求
+
+```ts
 prequest.request('/api', { method: 'get' })
 prequest.request({ path: '/api', method: 'get' })
 
-// prequest 是 prequest.request 的别名
-prequest('/api', { method: 'get' })
-prequest({ path: '/api', method: 'get' })
-
-// 用别名请求
+// 'get', 'post', 'delete', 'put', 'patch', 'head', 'options'
 prequest.get('/api')
-
-// 实例中间件
-let token = ''
-prequest.use(async (ctx, next) => {
-  if (!token) {
-    // 请求暂停
-    prequest.lock()
-
-    token = await PreQuest.create(adapter).get('/token')
-
-    // 恢复请求
-    prequest.unlock()
-  }
-
-  ctx.request.headers['token'] = token
-
-  await next()
-})
-
-// 全局请求的配置项
-PreQuest.defaults.baseURL = 'http://localhost:3000'
-
-// 全局中间件
-PreQuest.use(async (ctx, next) => {})
+prequest.post('/api')
+prequest.delete('/api')
+prequest.put('/api')
+prequest.patch('/api')
+prequest.head('/api')
+prequest.options('/api')
 ```
+
+### 中间件
+
+PreQuest 支持实例中间件和全局中间件。
+
+实例中间件
+
+```ts
+prequest.use(async (ctx, next) => {
+  ctx.request.path = `/prefix` + ctx.request.path
+  await next()
+  ctx.response.body = JSON.parse(ctx.response.body)
+})
+```
+
+全局中间件
+
+```ts
+PreQuest.use(async (ctx, next) => {
+  console.log(ctx.request)
+  await next()
+  console.log(ctx.response)
+})
+```
+
+### 配置项
+
+全局配置项
+
+```ts
+PreQuest.defaults.baseURL = 'http://localhost:3000'
+```
+
+实例配置项
+
+```ts
+const prequest = PreQuest.create(ajax, { timeout: 5000 })
+```
+
+请求配置项
+
+```ts
+prequest('/api', { withCredentials: false })
+```
+
+PerQuest 会合并三个地方的配置项，经过中间件处理，最终注入到 adapter 函数中。以上示例中，PreQuest 会将 `{ baseURL: 'http://localhost:3000', timeout: 5000, path: '/api', withCredentials: false }` 注入到 adapter 函数。
+
+PreQuest 本身不参与任何参数的处理，所有配置的参数，需要开发者在中间件和 adapter 函数中进行接收和处理。
 
 ## 更多
 

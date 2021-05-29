@@ -129,38 +129,6 @@ PreQuest.use<Request, Response>(async (ctx, next) => {
 })
 ```
 
-### Request Pause
-
-PreQuest provides a convenient mechanism to pause and enable requests, you can easily implement some functions such as adding interface authentication.
-
-```ts
-import { PreQuest } from '@prequest/core'
-
-const instance = PreQuest.create(adapter)
-const getTokenInstance = PreQuest.create(adapter)
-
-let token = ''
-instance.use(async (ctx, next) => {
-  if (!token) {
-
-    instance.lock()
-
-    token = await getTokenInstance('/token')
-
-    instance.unlock()
-  }
-  ctx.request.headers['token'] = token
-  await next()
-})
-
-// request will be suspended until token is exist.
-instance.get('/a').then(...)
-instance.get('/b').then(...)
-instance.get('/c').then(...)
-```
-
-The execution of all middleware in the instance will be suspended when you perform `lock` method. `unLock` method can restore the execution of the middleware and requests.
-
 ## More Examples
 
 There are several demo for reference.

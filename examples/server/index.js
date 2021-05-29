@@ -21,13 +21,28 @@ app.use(async (ctx, next) => {
   }
 })
 
+let token = '' + Math.random()
+
+// setTimeout(() => {
+//   token = Math.random()
+// }, 10000)
+
 router
   .get('/api', async (ctx) => {
-    await sleep()
+    const [, innerToken] = ctx.request.url.match(/token=(.+)/) || []
+
+    // console.log('----', innerToken, token)
+
+    if(!innerToken) throw new Error('没有token')
+    if(innerToken !== token) throw new Error('token失效')
+
     ctx.body = {
       a: 1,
       b: 2,
     }
+  })
+  .get('/token', async (ctx) => {
+    ctx.body = { token }
   })
   .post('/api', async (ctx) => {
     ctx.body = {

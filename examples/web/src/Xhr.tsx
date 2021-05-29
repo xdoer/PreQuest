@@ -1,35 +1,62 @@
 import React, { FC, useEffect, useState } from 'react'
 import { prequest } from '@prequest/xhr'
-import { CancelToken } from '@prequest/cancel-token'
-import { Token } from './Token'
+import { prequest as fetch } from '@prequest/fetch'
+import { createLockWrapper, Lock } from '@prequest/lock'
 
-const token = new Token()
-prequest.use(token.run)
+const localWrapper = createLockWrapper()
+
+function getToken() {
+  return fetch('/token', { baseURL: 'http://localhost:10000' }).then(res => res.data.token)
+}
+
+prequest.use(async (ctx, next) => {
+  const token = await localWrapper(getToken)
+  ctx.request.params = { token }
+  await next()
+})
 
 export const XhrComponent: FC<{}> = ({ }) => {
   const [data, setData] = useState('')
 
   useEffect(() => {
     prequest
-      .get('http://localhost:10000/api', { headers: {} })
+      .get('http://localhost:10000/api', { params: { a: 1 } })
       .then(res => {
-        console.log('chakanjieguo ', res)
+        console.log(1, res)
+
+        // lock.value = null
+
+        // prequest
+        //   .get('http://localhost:10000/api')
+        //   .then(res => {
+        //     console.log('2 ', res)
+        //   })
       })
-    prequest
-      .get('http://localhost:10000/api', { headers: {} })
-      .then(res => {
-        console.log('chakanjieguo ', res)
-      })
-    prequest
-      .get('http://localhost:10000/api', { headers: {} })
-      .then(res => {
-        console.log('chakanjieguo ', res)
-      })
-    prequest
-      .get('http://localhost:10000/api', { headers: {} })
-      .then(res => {
-        console.log('chakanjieguo ', res)
-      })
+
+
+    // setTimeout(() => {
+    //   prequest
+    //     .get('http://localhost:10000/api')
+    //     .then(res => {
+    //       console.log('10s ', res)
+    //     })
+    //     .catch(e => {
+    //       console.log('查看报错1', e)
+    //       tokenLock.data = null
+
+    //       prequest
+    //         .get('http://localhost:10000/api')
+    //         .then(res => {
+    //           console.log('12s ', res)
+    //         })
+    //         .catch(e => {
+    //           console.log('查看报错2', e)
+    //         })
+
+    //     })
+
+    // }, 10000)
+
   }, [])
 
   return (
