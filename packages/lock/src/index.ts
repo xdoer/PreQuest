@@ -12,9 +12,9 @@ export function createLockWrapper(lock = new Lock()) {
 
     lock.value = await fn()
 
-    lock.on = false
-
     lock.resolvePromise(lock.value)
+
+    lock.on = false
 
     return lock.value
   }
