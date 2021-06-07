@@ -38,7 +38,7 @@ export class PreQuest<T, N> extends Middleware<T, N> {
     return ctx.response
   }
 
-  static defaults = {}
+  static defaults: any = {}
 
   static create<T, N>(adapter: Adapter<T, N>, config?: Config<T>): PreQuestInstance<T, N> {
     const instance = new PreQuest<T, N>(adapter, config) as PreQuestBaseInstance<T, N>
