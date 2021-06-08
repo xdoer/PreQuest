@@ -4,7 +4,7 @@
 
 # PreQuest
 
-一个没有内核的请求库。
+一个模块化，可插拔的请求库。
 
 [![npm](https://img.shields.io/npm/v/@prequest/core.svg)](https://www.npmjs.com/package/@prequest/core)
 [![Minzipped size](https://img.shields.io/bundlephobia/minzip/@prequest/core.svg)](https://bundlephobia.com/result?p=@prequest/core)
@@ -15,7 +15,7 @@
 
 ## 简介
 
-PreQuest 采用了请求内核与上层封装相分离的模式，针对不同的环境，提供了一致的中间件、拦截器、全局配置、别名请求等特性，并且完全保留了不同平台请求内核的差异化。
+PreQuest 采用了请求内核与上层封装相分离的模式，针对不同的环境，提供了一致的中间件、拦截器、全局配置、别名请求等功能。你可以基于本项目，做请求库的二次封装，或者直接使用仓库中针对不同平台，封装好的请求库。本项目中，针对一些常用功能，提供了插件化的配置，你可以针对你的应用场景，进行安装与应用。
 
 ## 使用示例
 
