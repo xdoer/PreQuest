@@ -1,22 +1,20 @@
-English | [中文](./README_zh-CN.md)
-
 # @prequest/miniprogram
 
-A module request library for miniprogram.
+一个模块化的小程序请求库.
 
-## Introduction
+## 简介
 
-This is a http request library based on PreQuest for miniprogram and quickapp platform. This library add middleware, interceptor, global config, request alias and some other feature to native request.
+这是一个基于 PreQuest 的小程序或快应用的请求库。这个库添加了中间件、拦截器、全局配置、请求别名等几个特性。
 
-## Install
+## 安装
 
 ```bash
 npm install @prequest/miniprogram
 ```
 
-## Native Request
+## 原生请求
 
-First, let us see the demo how to performing a post request by native api.
+首先，看一下原生请求的 demo
 
 ```ts
 const requestInstance = wx.request({
@@ -36,20 +34,21 @@ const requestInstance = wx.request({
 requestInstance.abort()
 ```
 
-## Basic Usage
+## 基本使用
 
 ```ts
 import { create, PreQuest } from '@prequest/miniprogram'
 
+// 传入原生方法。这样可以适配各个小程序平台
 const prequest = create(wx.request)
 
-prequest('http://localhost:3000/api')
-prequest.get('http://localhost:3000/api')
+prequest('http://localhost:3000/api').then(res => console.log(res))
+prequest.get('http://localhost:3000/api').then(res => console.log(res))
 ```
 
-## Advanced Usage
+## 高级使用
 
-### Global Config
+### 全局配置
 
 ```ts
 import { create, PreQuest } from '@prequest/miniprogram'
@@ -67,7 +66,7 @@ PreQuest.use(async (ctx, next) => {
 })
 ```
 
-### Instance Config
+### 实例配置
 
 ```ts
 // instance config options
@@ -93,9 +92,9 @@ instance('/api')
 instance.get('/api')
 ```
 
-### Interceptor
+### 拦截器
 
-If you want to use interceptor like axios, you may need this, or middleware can meet your demand.
+如果你想像 axios 一样使用拦截器
 
 ```ts
 import { PreQuest, create } from '@prequest/miniprogram'
@@ -104,25 +103,25 @@ import { interceptorMiddleware } from '@prequest/interceptor'
 // create Interceptor instance
 const interceptor = new Interceptor()
 
-// use
-interceptor.request.use(
-  requestOpt => modify(requestOpt),
-  err => handleErr(err)
-)
-
 // mount global interceptor middleware
 PreQuest.use(interceptor.run)
 
 // or you can mount it to prequest instance
 const instance = create(wx.request)
 instance.use(interceptor.run)
+
+// use
+interceptor.request.use(
+  requestOpt => modify(requestOpt),
+  err => handleErr(err)
+)
 ```
 
-More Detail: [@prequest/interceptor](https://github.com/xdoer/PreQuest/blob/main/packages/interceptor/README.md)
+更多请查看: [@prequest/interceptor](https://github.com/xdoer/PreQuest/blob/main/packages/interceptor/README.md)
 
-### Native Request Instance
+### 原生请求实例
 
-How to get native request instance so you can do something like abort ?
+怎样获得原生请求实例?
 
 ```ts
 import { PreQuest, create } from '@prequest/miniprogram'
@@ -133,14 +132,55 @@ instance.request({
   path: '/api',
   getNativeRequestInstance(promise) {
     promise.then(nativeRequest => {
-      // abort request
       nativeRequest.abort()
     })
   },
 })
 ```
 
-## Request Options
+### 取消请求
+
+可以使用上一段落中，获得原生实例请求的方式取消请求。
+
+此外，还可以使用 `cancelToken` 来取消请求
+
+方式一:
+
+```tsx
+import { PreQuest, create } from '@prequest/miniprogram'
+import { CancelToken } from '@prequest/cancel-token'
+
+const instance = create(wx.request)
+
+const source = CancelToken.source()
+
+instance.request({
+  path: '/api',
+  cancelToken: source.token,
+})
+
+source.cancel()
+```
+
+方式二:
+
+```tsx
+import { PreQuest, create } from '@prequest/miniprogram'
+import { CancelToken } from '@prequest/cancel-token'
+
+const instance = create(wx.request)
+
+let cancel
+
+instance.request({
+  path: '/api',
+  cancelToken: new CancelToken(c => (cancel = c)),
+})
+
+cancel()
+```
+
+## 请求配置项
 
 | Option Name              | Type                                       | Default | Required | Meaning                                 | Example                 |
 | ------------------------ | ------------------------------------------ | ------- | -------- | --------------------------------------- | ----------------------- |
@@ -148,6 +188,7 @@ instance.request({
 | method                   | string                                     | GET     | N        | request method                          | post                    |
 | baseURL                  | string                                     | none    | N        | base server interface address           | 'http://localhost:3000' |
 | getNativeRequestInstance | (value: Promise\<NativeInstance\>) => void | none    | N        | get native request instance             |                         |
+| cancelToken              | CancelToken                                | none    | N        | cancel a request                        |                         |
 | timeout                  | number                                     | none    | N        | request timeout                         | 5000                    |
 | params                   | object                                     | none    | N        | url parameters                          | { id: 10}               |
 | data                     | object                                     | none    | N        | the data to be sent as the request body | { id: 10}               |
@@ -155,15 +196,13 @@ instance.request({
 | header                   | object                                     | none    | N        | set the request header                  | { token: 'aaaaa'}       |
 | dataType                 | json \| ...                                | none    | N        | returned data format                    | json                    |
 
-**NOTICE**: If you performing a request by alias like `instance.get('/api')` , you don't need pass `method` and `path` into options.
+**注意**: 如果你用别名的方式调用一个 HTTP 请求， 就像 `instance.get('/api')` 这样， 那么你不需要传入 `path` 和 `method` 参数到选项中。
 
 ---
 
-You can add some other options which native request api support. This part of options will be pass into native request options directly.
+此外，你也可以添加一些原生 API 支持的配置项，这部分配置项将会直接传递到原生 API 方法中。
 
-If you use typescript, you can define the options you want to attach, and pass it into `create`. So you can get intelliSense when coding.
-
-For example:
+示例:
 
 ```ts
 interface Request {
@@ -190,6 +229,6 @@ instance.use(async (ctx, next) => {
 })
 ```
 
-## Custom
+## 自定义
 
-If you want to custom your miniprogram library, it's very easy when use [@prequest/core](https://github.com/xdoer/PreQuest/tree/main/packages/core) project. Check our code for details.
+如果你想自定义你的请求库，使用 [@prequest/core](https://github.com/xdoer/PreQuest/tree/main/packages/core) 项目会很方便、很容易的封装一个你的请求库。

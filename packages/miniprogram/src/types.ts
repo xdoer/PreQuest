@@ -1,3 +1,4 @@
+import { CancelToken } from '@prequest/cancel-token'
 import { CommonObject, Method } from '@prequest/types'
 
 export type RequestCore = any
@@ -13,6 +14,7 @@ export interface Request {
   header?: CommonObject
   dataType?: 'json' | ({} & string)
   getNativeRequestInstance?(value: Promise<RequestCore>): void
+  cancelToken?: CancelToken
 }
 
 export interface Response {
