@@ -4,8 +4,10 @@ export interface CacheValue<N> {
 }
 
 export interface CacheKernel {
-  get(id: string): any
-  set(id: string, value: any): void
+  get(id: any): any
+  set(id: any, value: any): void
+  delete(id: any): void
+  clear(): void
 }
 
 export interface Options<T> {
