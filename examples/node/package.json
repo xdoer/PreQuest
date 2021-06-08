@@ -9,7 +9,7 @@
   "keywords": [],
   "author": "Thomas Trainset",
   "dependencies": {
-    "@prequest/node": "^0.2.3"
+    "@prequest/node": "^0.2.4"
   },
   "license": "ISC"
 }

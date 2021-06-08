@@ -33,6 +33,9 @@
     "singleQuote": true,
     "trailingComma": "es5"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "name": "@prequest/use-request",
   "author": "Thomas Trainset",
   "module": "dist/use-request.esm.js",

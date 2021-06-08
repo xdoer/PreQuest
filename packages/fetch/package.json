@@ -32,6 +32,9 @@
       "pre-commit": "tsdx lint"
     }
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "name": "@prequest/fetch",
   "author": "xdoer",
   "repository": {
