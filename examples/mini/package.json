@@ -35,13 +35,15 @@
   "author": "",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
-    "@prequest/miniprogram": "^0.2.3",
+    "@prequest/miniprogram": "^0.2.4",
+    "@prequest/cancel-token": "^0.2.4",
     "@tarojs/components": "3.2.1",
     "@tarojs/react": "3.2.1",
     "@tarojs/runtime": "3.2.1",
     "@tarojs/taro": "3.2.1",
     "react": "^17.0.0",
-    "react-dom": "^17.0.0"
+    "react-dom": "^17.0.0",
+    "@tarojs/async-await": "^2.2.10"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",

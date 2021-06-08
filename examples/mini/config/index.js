@@ -1,3 +1,5 @@
+const path = require('path')
+
 const config = {
   projectName: 'mini',
   date: '2021-5-4',
@@ -17,6 +19,9 @@ const config = {
     ],
     options: {
     }
+  },
+  alias: {
+    'regenerator-runtime': path.resolve('../../../node_modules/regenerator-runtime'),
   },
   framework: 'react',
   mini: {
