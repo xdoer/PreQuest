@@ -98,10 +98,10 @@ instance.get('/api')
 
 ```ts
 import { PreQuest, create } from '@prequest/miniprogram'
-import { interceptorMiddleware } from '@prequest/interceptor'
+import { InterceptorMiddleware } from '@prequest/interceptor'
 
 // create Interceptor instance
-const interceptor = new Interceptor()
+const interceptor = new InterceptorMiddleware()
 
 // mount global interceptor middleware
 PreQuest.use(interceptor.run)
@@ -116,8 +116,6 @@ interceptor.request.use(
   err => handleErr(err)
 )
 ```
-
-更多请查看: [@prequest/interceptor](https://github.com/xdoer/PreQuest/blob/main/packages/interceptor/README.md)
 
 ### 原生请求实例
 
@@ -140,7 +138,7 @@ instance.request({
 
 ### 取消请求
 
-可以使用上一段落中，获得原生实例请求的方式取消请求。
+可以使用获得原生实例请求的方式取消请求。
 
 此外，还可以使用 `cancelToken` 来取消请求
 
@@ -165,7 +163,7 @@ source.cancel()
 方式二:
 
 ```tsx
-import { PreQuest, create } from '@prequest/miniprogram'
+import { create } from '@prequest/miniprogram'
 import { CancelToken } from '@prequest/cancel-token'
 
 const instance = create(wx.request)
@@ -178,6 +176,79 @@ instance.request({
 })
 
 cancel()
+```
+
+### 缓存数据
+
+缓存接口数据
+
+```ts
+import { create, Request, Response } from '@prequest/miniprogram'
+import { CacheMiddleware } from '@prequest/cache'
+
+const cacheMiddleware = new CacheMiddleware<Request, Response>({
+  ttl: 5000,
+  cacheId(opt) {
+    const { path, method } = opt
+    return `${method}-{path}`
+  },
+  validateCache(opt) {
+    const { path } = opt
+    if(path === '/api') return true
+    return false
+  },
+  cacheKernel() {
+    const map = new Map()
+    return {
+      set: map.set,
+      get: map.get,
+      clear: map.clear
+      delete: map.delete
+    }
+  }
+})
+
+const instance = create(wx.request)
+
+instance.use(cacheMiddleware.run)
+```
+
+### 刷新 Token
+
+静默刷新 token
+
+```tsx
+import { create, Request, Response } from '@prequest/miniprogram'
+import { createLockWrapper, Lock } from '@prequest/lock'
+
+const lockWrapper = createLockWrapper()
+const lock = new Lock()
+
+const wxRequest = create(wx.request)
+
+// 创建一个实例，该实例不会走中间件。否则会造成 bug
+const tokenRequest = create(wx.request)
+
+function getToken() {
+  return tokenRequest('http://localhost:3000/token').then(res => res.data.token)
+}
+
+wxRequest.use(async (ctx, next) => {
+  // lockWrapper 会将所有请求拦截在这里，直到获取到 token 之后才放行
+  const token = await lockWrapper(getToken, lock)
+  ctx.request.headers['Authorization'] = `bearer ${token}`
+  await next()
+})
+
+function getData() {
+  return wxRequest.get('/api').catch(e => {
+    // token 失效，需要将 lock.value 置为空，以便中间件重新生成 token
+    if (e.statusCode === '401') {
+      lock.value = null
+      getData()
+    }
+  })
+}
 ```
 
 ## 请求配置项
