@@ -3,7 +3,7 @@ import { Cancel } from './Cancel'
 export * from './isCancel'
 
 export class CancelToken {
-  private reason?: Cancel
+  reason?: Cancel
 
   private resolvePromise: any
 
