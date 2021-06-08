@@ -11,7 +11,7 @@ export function adapter<T, N>(request: RequestCore) {
     getNativeRequestInstance?.(new Promise(resolve => (resolvePromise = resolve)))
 
     return new Promise((resolve, reject) => {
-      let instance: any
+      let instance: RequestCore
       if (cancelToken) {
         // 执行请求时被取消
         cancelToken.promise.then(() => {
