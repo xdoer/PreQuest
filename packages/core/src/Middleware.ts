@@ -5,7 +5,11 @@ export class Middleware<T, N> {
 
   static globalCbs: any = []
 
-  protected exec(ctx: Context<T, N>, next: MiddlewareCallback<T, N>) {
+  protected exec(
+    ctx: Context<T, N>,
+    next: MiddlewareCallback<T, N>,
+    injectOpt: Record<string, any> = {}
+  ) {
     let times = -1
     const cbs = <MiddlewareCallback<T, N>[]>[...Middleware.globalCbs, ...this.cbs]
     const dispatch = (pointer = 0): Promise<any> => {
@@ -16,7 +20,7 @@ export class Middleware<T, N> {
       if (pointer <= times) throw new Error('next function only can be called once')
       times = pointer
 
-      return fn(ctx, () => dispatch(++pointer))
+      return fn(ctx, () => dispatch(++pointer), injectOpt)
     }
 
     return dispatch()

@@ -1,7 +1,14 @@
 import { Middleware } from './Middleware'
 import { METHODS } from './constant'
 import { merge } from '@prequest/utils'
-import { Context, Config, MethodsCallback, RequestOption, Adapter } from '@prequest/types'
+import {
+  Context,
+  Config,
+  MethodsCallback,
+  RequestOption,
+  Adapter,
+  MiddlewareInjectOptions,
+} from '@prequest/types'
 
 export class PreQuest<T, N> extends Middleware<T, N> {
   constructor(private adapter: Adapter<T, N>, private config?: Config<T>) {
@@ -18,7 +25,7 @@ export class PreQuest<T, N> extends Middleware<T, N> {
           merge(PreQuest.defaults, this.config, { path, method } as any, config!)
         )
         const response = <N>{}
-        return this.controller({ request, response })
+        return this.controller({ request, response, context: this })
       }
     })
   }
@@ -28,13 +35,17 @@ export class PreQuest<T, N> extends Middleware<T, N> {
       merge(PreQuest.defaults, this.config, typeof path === 'string' ? { path, ...config } : path)
     )
     const response = <N>{}
-    return this.controller({ request, response })
+    return this.controller({ request, response, context: this })
   }
 
-  private async controller(ctx: Context<T, N>): Promise<N> {
-    await this.exec(ctx, async ctx => {
-      ctx.response = await this.adapter(ctx.request)
-    })
+  async controller(ctx: Context<T, N>, opt: MiddlewareInjectOptions = {}): Promise<N> {
+    await this.exec(
+      ctx,
+      async ctx => {
+        ctx.response = await this.adapter(ctx.request)
+      },
+      opt
+    )
     return ctx.response
   }
 
