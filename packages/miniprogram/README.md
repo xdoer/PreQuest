@@ -211,6 +211,16 @@ const cacheMiddleware = new CacheMiddleware<Request, Response>({
 const instance = create(wx.request)
 
 instance.use(cacheMiddleware.run)
+
+// 只要成功接收到服务器返回，无论 statusCode 是多少，都会进入 success 回调，所以需要处理
+// https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html
+instance.use(async (ctx, next) => {
+  await next()
+  const { statusCode, data } = ctx.response
+  if(statusCode === 500) {
+    throw new Error(data)
+  }
+})
 ```
 
 ### 刷新 Token
