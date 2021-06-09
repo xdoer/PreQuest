@@ -251,6 +251,36 @@ function getData() {
 }
 ```
 
+### 错误重试
+
+```tsx
+import { create, Request, Response } from '@prequest/miniprogram'
+import { ErrorRetryMiddleware } from '@prequest/error-retry'
+import { isCancel } from '@prequest/cancel-token'
+
+const prequest = create(wx.request)
+
+const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>({
+  retryCount: 3,
+  retryControl(opt, error) {
+    const { method, path } = opt
+
+    // 使用 cancelToken 取消的请求不进行错误重试
+    if (isCancel(error)) return false
+
+    // 指定的路径不使用错误重试
+    if (path === '/api') return false
+
+    // get 请求使用错误重试
+    return method === 'get'
+  },
+})
+
+prequest.use(errorRetryMiddleware.run)
+
+prequest.get('/api')
+```
+
 ## 请求配置项
 
 | Option Name              | Type                                       | Default | Required | Meaning                                 | Example                 |
