@@ -56,11 +56,9 @@
       "limit": "10 KB"
     }
   ],
-  "dependencies": {
-    "@prequest/types": "^0.2.5"
-  },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",
+    "@prequest/types": "^0.2.5",
     "husky": "^6.0.0",
     "size-limit": "^4.10.2",
     "tsdx": "^0.14.1",
