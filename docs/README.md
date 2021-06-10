@@ -1,10 +1,10 @@
 <div align=center>
-<img src="https://raw.githubusercontent.com/xdoer/PreQuest/main/logo.png" width="100%" height="100%" />
+<img src="https://raw.githubusercontent.com/xdoer/PreQuest/main/logo.png" width="50%" height="50%" />
 </div>
 
 # PreQuest
 
-一个模块化，可插拔的请求库。
+一套模块化，可插拔的 JavaScript HTTP 请求解决方案。
 
 [![npm](https://img.shields.io/npm/v/@prequest/core.svg)](https://www.npmjs.com/package/@prequest/core)
 [![Minzipped size](https://img.shields.io/bundlephobia/minzip/@prequest/core.svg)](https://bundlephobia.com/result?p=@prequest/core)
@@ -13,159 +13,22 @@
 
 ## 简介
 
-PreQuest 采用了请求内核与上层封装相分离的模式，针对不同的环境，提供了一致的中间件、拦截器、全局配置、别名请求等功能。你可以基于本项目，做请求库的二次封装，或者直接使用仓库中针对不同平台，封装好的请求库。本项目中，针对一些常用功能，提供了插件化的配置，你可以针对你的应用场景，进行安装与应用。
+PreQuest 是一款模块化、可插拔的 JavaScript HTTP 请求解决方案。
 
-## 使用示例
+它采用了请求内核与上层封装相分离的模式，针对不同的 JS 环境，提供了一致的中间件、拦截器、全局配置等功能的体验，并且可以通过注册中间件的方式，为你的 HTTP 请求添加接口缓存、错误重试等功能。
 
-### Adapter
+此外，本项目中还针对一些常见的需求，给出了相应的解决方案，比如 Token 校验、React 中的 Request Hook 等等。
 
-首先你需要定义一个 adapter 函数，这是一个包含原生 Http 请求的方法。
+仓库中已经提供了针对不同平台封装好的请求库，你可以直接使用。或者你有一些特殊需求，你甚至可以基于本项目，做请求库的二次封装。
 
-```ts
-function ajax(params) {
-  const { path, method, baseURL, headers, ...other } = params
+## 异同
 
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest()
+PreQuest 与 axios、umi-request 的区别在于，PreQuest 并不是一个请求库，而是一套解决方案。
 
-    // ...
-  })
-}
-```
+对于库的开发者来说，你可以很容易的基于本项目，快速封装一个类似 axios 的请求库。
 
-上面的 ajax 实际就是一个 adapter 函数，函数只支持传入一个对象，返回一个 promise.
+对于业务用户来说，如果你的项目使用的是自己封装的原始 Http 请求, 那么你可以通过 [@prequest/wrapper](https://github.com/xdoer/PreQuest/tree/main/packages/wrapper) 很容易的迁移到 PreQuest 中；如果你使用的是 axios、umi-request 这类请求库，那么你可能会使用 [@prequest/lock](https://github.com/xdoer/PreQuest/tree/main/packages/lock) 进行无痛刷新 token 等；如果你新建了一个项目，你可以集成 [@prequest/xhr](https://github.com/xdoer/PreQuest/tree/main/packages/xhr) 等几个直接封装好的请求库。
 
-**_注意: 本项目中已针对不同的平台，提供了不同的包_**
+## 灵感
 
-### 创建实例
-
-使用 `PreQuest.create` 创建实例。
-
-```ts
-import { PreQuest } from '@prequest/core'
-
-const prequest = PreQuest.create(ajax, { baseURL: 'http://localhost:3000' })
-```
-
-### 执行请求
-
-直接请求
-
-```ts
-prequest('/api')
-prequest({ path: '/api', method: 'get' })
-```
-
-别名请求
-
-```ts
-prequest.request('/api', { method: 'get' })
-prequest.request({ path: '/api', method: 'get' })
-
-// 'get', 'post', 'delete', 'put', 'patch', 'head', 'options'
-prequest.get('/api')
-prequest.post('/api')
-prequest.delete('/api')
-prequest.put('/api')
-prequest.patch('/api')
-prequest.head('/api')
-prequest.options('/api')
-```
-
-### 中间件
-
-PreQuest 支持实例中间件和全局中间件。
-
-实例中间件
-
-```ts
-prequest.use(async (ctx, next) => {
-  ctx.request.path = `/prefix` + ctx.request.path
-  await next()
-  ctx.response.body = JSON.parse(ctx.response.body)
-})
-```
-
-全局中间件
-
-```ts
-PreQuest.use(async (ctx, next) => {
-  console.log(ctx.request)
-  await next()
-  console.log(ctx.response)
-})
-```
-
-### 配置项
-
-全局配置项
-
-```ts
-PreQuest.defaults.baseURL = 'http://localhost:3000'
-```
-
-实例配置项
-
-```ts
-const prequest = PreQuest.create(ajax, { timeout: 5000 })
-```
-
-请求配置项
-
-```ts
-prequest('/api', { withCredentials: false })
-```
-
-PerQuest 会合并三个地方的配置项，经过中间件处理，最终注入到 adapter 函数中。以上示例中，PreQuest 会将 `{ baseURL: 'http://localhost:3000', timeout: 5000, path: '/api', withCredentials: false }` 注入到 adapter 函数。
-
-PreQuest 本身不参与任何参数的处理，所有配置的参数，需要开发者在中间件和 adapter 函数中进行接收和处理。
-
-## 更多
-
-查询下列文档，获取更多信息
-
-### @prequest/core
-
-PreQuest 的核心能力。 内置 中间件， 别名请求，全局配置等功能。
-
-文档: [@prequest/core](https://github.com/xdoer/PreQuest/blob/main/packages/core/README.md).
-
-### @prequest/wrapper
-
-在基本不侵入你项目中现有的请求方法的前提下，赋予 ProQuest 的能力。
-
-文档: [@prequest/wrapper](https://github.com/xdoer/PreQuest/blob/main/packages/wrapper/README.md).
-
-### @prequest/interceptor
-
-PreQuest 拦截器。可以让你获得类似 axios 中的拦截器的体验。
-
-文档: [@prequest/interceptor](https://github.com/xdoer/PreQuest/blob/main/packages/interceptor/README.md).
-
-### @prequest/graphql
-
-Http Post 请求的语法糖。需配合一个 PreQuest 的实例使用。
-
-文档: [@prequest/graphql](https://github.com/xdoer/PreQuest/blob/main/packages/graphql/README.md)
-
-### @prequest/helper
-
-编写请求库的帮助函数。可以很方便的为请求库提供一些通用配置项。
-
-文档: [@prequest/helper](https://github.com/xdoer/PreQuest/blob/main/packages/helper/README.md)
-
-### 请求库
-
-几个基于 PreQuest 的请求库。
-
-> - [@prequest/xhr](https://github.com/xdoer/PreQuest/blob/main/packages/xhr/README.md). 基于 XMLHttpRequest 的请求库.
-> - [@prequest/fetch](https://github.com/xdoer/PreQuest/blob/main/packages/fetch/README.md). 基于 Fetch 的请求库
-> - [@prequest/miniprogram](https://github.com/xdoer/PreQuest/blob/main/packages/miniprogram/README.md). 为小程序，快应用定制的请求库。
-
-## Development
-
-- [Contributing Guide](/CONTRIBUTING.md)
-
-## License
-
-[MIT License](https://github.com/xdoer/PreQuest/blob/main/LICENSE)
+在写小程序的时候，发现并没有一个好用的类似 axios 的请求库，想基于 axios 封装一个小程序端用的请求库。在阅读 axios 和 umi-request 源码后发现，请求内核和上层架构其实完全可以分离开，axios 与 umi-request 等库可能基于品牌推广等缘由，将 web 端和 node 端的请求库杂糅到了一份代码里，导致请求参数冗余，且不好扩展，因而自己封装了 PreQuest，它采用 TypeScript 语法，用户可以针对不同的平台，基于自己的业务，快速封装一套高定制的请求库。

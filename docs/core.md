@@ -1,14 +1,6 @@
 # @prequest/core
 
-为你的 Http 请求提供模块化可插拔的解决方案。
-
-## Introduction
-
-如果你使用类似 axios、umi-request 或者其他请求库，或许你不需要这个。但如果你使用原生的请求 API(XMLHttpRequest、fetch、node http.request 或者 小程序，快应用原生请求)。这个库可以很方便的为这些原生请求 API 添加中间件、拦截器、全局配置、别名请求等等特性。
-
-这个库不包含原生请求的 API，这意味着你不能通过这个库进行 http 调用。
-
-既然如此，这个库怎么用？
+PreQuest 核心能力包。通过这个包，可以很容易封装一个请求库。
 
 ## 安装
 
@@ -16,31 +8,66 @@
 npm install @prequest/core
 ```
 
-## 基础用法
+## 快速入门
+
+你只需要封装一个 adapter 函数，将其传入到 PreQuest 中，就成功封装了一个请求库。
+
+### 封装
+
+下面的 demo，演示了最简单的封装
 
 ```ts
+<!-- myHttp.js -->
+
 import { PreQuest } from '@prequest/core'
 
-/**
- * 你需要实现一个基于原生请求 API 的适配器
- * 这里基于你的实际需求，定义 opt 参数，但注意只能是一个对象。
- * 使用未指定参数的请求方式 `eg:prequest.post('/api')`, PreQuest 会向你的参数中混入`path` 和 `method` 参数。
- * */
-const adapter = opt => nativeRequestCore(opt)
+const adapter = opt => {
+  const { path, ...options } = opt
+  return fetch(path, options).then(res => res.json())
+}
 
 const prequest = PreQuest.create(adapter)
-prequest('http://localhost:3000/api')
+
+export { prequest, PreQuest }
+```
+
+### 使用
+
+```ts
+import { prequest, PreQuest } from 'myHttp'
+
+// 全局配置
+PreQuest.defaults.headers = { token: '12345' }
+
+// 全局中间件
+PreQuest.use(async (ctx, next) => {
+  console.log(ctx.request)
+  await next()
+  console.log(ctx.response)
+})
+
+// 发起请求
+prequest('http://localhost:3000/api', {
+  method: 'get',
+})
+
 prequest.get('http://localhost:3000/api')
-prequest.request('http://localhost:3000/api')
+
+// 实例中间件
+prequest.use(async (ctx, next) => {
+  console.log(ctx.request)
+  await next()
+  console.log(ctx.response)
+})
 ```
 
 ## 高级用法
 
-### 定义适配器函数
+### 适配器
 
-你需要提供一个包含原生请求 API 的 `adapter` 方法。
+首先，根据需求，完成一个 `adapter` 函数。
 
-首先，你需要定义 `adapter` 函数类型
+定义请求和响应参数类型，以便用户在使用时，可以获得智能提示。
 
 ```ts
 interface Request {
@@ -57,17 +84,21 @@ interface Response {
 type Adapter = (opt: Request) => Promise<Response>
 ```
 
-接着，实现 `adapter` 函数
+接着，进行 `adapter` 函数实现
 
 ```ts
-const adapter: Adapter = opt => nativeRequestCore(opt)
+const adapter: Adapter = opt => {
+  const { path, baseURL, ...options } = opt
+  const url = baseURL + path
+  return fetch(url, options).then(res => res.json())
+}
 ```
 
-PreQuest 将会合并 `PreQuest.defaults`, `PreQuest.create(adapter, opt)` 和 `instance.get('/api', opt)` 这三个部分的对象，生成请求的配置项，最后传入到 `adapter` 函数中。如果你不明白这是什么意思，先接着往下看。
+PreQuest 将会合并 `PreQuest.defaults`, `PreQuest.create(adapter, opt)` 和 `instance.get('/api', opt)` 这三个部分的参数对象，生成请求的配置项，经过用户注册的中间件，最后传入到 `adapter` 函数中。
 
-### 执行一个 HTTP 请求
+### 创建实例
 
-用你定义的 `adapter` 函数创建一个 PreQuest 实例。
+用定义的 `adapter` 函数创建一个 PreQuest 实例。
 
 ```ts
 import { PreQuest } from '@prequest/core'
@@ -76,7 +107,9 @@ const opt = { baseURL: 'http://localhost:3000' }
 const prequest = PreQuest.create<Request, Response>(adapter, opt)
 ```
 
-接着，你就可以用这个实例进行 HTTP 请求。
+### 执行请求
+
+接着，就可以用这个实例进行 HTTP 请求。
 
 ```ts
 // 使用 request api
@@ -106,9 +139,7 @@ prequest.use(async (ctx, next) => {
 })
 ```
 
-**注意**: 如果你想使用类似 axios 中的拦截器，你可以看看这个: [@prequest/interceptor](https://github.com/xdoer/PreQuest/blob/main/packages/interceptor/README.md)
-
-### 全局配置和拦截器
+### 全局配置
 
 你可以添加全局配置项，并且使用全局中间件修改请求和响应。
 
@@ -125,12 +156,3 @@ PreQuest.use<Request, Response>(async (ctx, next) => {
   ctx.response.data = JSON.parse(ctx.response.data)
 })
 ```
-
-## 更多
-
-这里有几个基于 PreQuest 的请求库可以参考:
-
-> - [@prequest/fetch](https://github.com/xdoer/PreQuest/blob/main/packages/fetch/README.md). A request library base on fetch api.
-> - [@prequest/xhr](https://github.com/xdoer/PreQuest/blob/main/packages/xhr/README.md). A request library base on XMLHttpRequest api.
-> - [@prequest/miniprogram](https://github.com/xdoer/PreQuest/blob/main/packages/miniprogram/README.md). A request library base on miniprogram or quickapp.
-> - [@prequest/node](https://github.com/xdoer/PreQuest/blob/main/packages/node/README.md). A request library base on node http and https api.

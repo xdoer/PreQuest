@@ -1,4 +1,5 @@
-- [首页](/)
+- [基础](/)
+- [使用](/usage)
 - [内核](/core)
 - [缓存](/cache)
 - [cancel-token](/cancel-token)

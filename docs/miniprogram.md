@@ -1,10 +1,6 @@
 # @prequest/miniprogram
 
-一个模块化的小程序请求库.
-
-## 简介
-
-这是一个基于 PreQuest 的小程序或快应用的请求库。这个库添加了中间件、拦截器、全局配置、请求别名等几个特性。
+小程序请求库.
 
 ## 安装
 
@@ -144,7 +140,7 @@ instance.request({
 
 方式一:
 
-```tsx
+```ts
 import { PreQuest, create } from '@prequest/miniprogram'
 import { CancelToken } from '@prequest/cancel-token'
 
@@ -162,7 +158,7 @@ source.cancel()
 
 方式二:
 
-```tsx
+```ts
 import { create } from '@prequest/miniprogram'
 import { CancelToken } from '@prequest/cancel-token'
 
@@ -227,7 +223,7 @@ instance.use(async (ctx, next) => {
 
 静默刷新 token
 
-```tsx
+```ts
 import { create, Request, Response } from '@prequest/miniprogram'
 import { createLockWrapper, Lock } from '@prequest/lock'
 
@@ -263,7 +259,7 @@ function getData() {
 
 ### 错误重试
 
-```tsx
+```ts
 import { create, Request, Response } from '@prequest/miniprogram'
 import { ErrorRetryMiddleware } from '@prequest/error-retry'
 import { isCancel } from '@prequest/cancel-token'
@@ -339,7 +335,3 @@ instance.use(async (ctx, next) => {
   ctx.response.header
 })
 ```
-
-## 自定义
-
-如果你想自定义你的请求库，使用 [@prequest/core](https://github.com/xdoer/PreQuest/tree/main/packages/core) 项目会很方便、很容易的封装一个你的请求库。
