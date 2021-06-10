@@ -14,8 +14,8 @@ export class CacheMiddleware<T, N> {
     return Date.now() - timestamp > (this.opt?.ttl || 0)
   }
 
-  clear() {
-    this.cache.clear()
+  async clear() {
+    return this.cache.clear()
   }
 
   run: MiddlewareCallback<T, N> = async (ctx, next) => {
@@ -26,7 +26,7 @@ export class CacheMiddleware<T, N> {
 
     if (cache) {
       if (this.isExpired(cache.timestamp)) {
-        this.cache.delete(id)
+        await this.cache.delete(id)
       } else {
         ctx.response = cache.data
         return cache.data
