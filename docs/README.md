@@ -1,5 +1,5 @@
 <div align=center>
-<img src="logo.png" width="100%" height="100%" />
+<img src="https://github.com/xdoer/PreQuest/blob/main/logo.png" width="100%" height="100%" />
 </div>
 
 # PreQuest
