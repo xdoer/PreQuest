@@ -1,54 +1,38 @@
-# @prequest/cache
+# 缓存
 
-Cache Middleware For PreQuest.
+缓存中间件
 
-## Introduction
-
-You can use this library to cache response data.
-
-## Install
+## 安装
 
 ```bash
 npm install @prequest/cache
 ```
 
-## Usage
-
-### Define Types
-
-First, you need define Request, Response types, so you can get intellisense when coding.
-
-```ts
-interface Request {
-  path: string
-  method?: string
-  baseURL?: string
-}
-
-interface Response {
-  data: string
-  status: number
-}
-
-type Error = globalThis.Error
-```
-
-### Create Instance
+## 使用
 
 ```ts
 import { CacheMiddleware } from '@prequest/cache'
+import { Request, Response, prequest } from '@prequest/xhr'
 
-const cache = new CacheMiddleware<Request, Response>({
+const cacheMiddleware = new CacheMiddleware<Request, Response>({
+  // 5s 之后，缓存失效
   ttl: 5000,
+
+  // 缓存 ID, 默认直接 JSON.stringify 序列化 opt。你可以通过此函数，判断哪些请求是相同请求。
   cacheId(opt) {
     const { path, method } = opt
     return `${method}-{path}`
   },
+
+  // 校验哪些类型的请求需要缓存数据
   validateCache(opt) {
     const { path } = opt
     if(path === '/api') return true
+    if(method === 'get') return true
     return false
   },
+
+  // 缓存内核，默认使用 Map 数据结构存到内存。你可以通过此函数，自定义数据存储方式。
   cacheKernel() {
     const map = new Map()
     return {
@@ -59,41 +43,33 @@ const cache = new CacheMiddleware<Request, Response>({
     }
   }
 })
+
+// 注册中间件
+prequest.use(cacheMiddleware.run)
 ```
 
-### Mount Middleware
+## 配置项
 
-PreQuest provide two types of middleware, global middleware and instance middleware.
+### 实例配置项
 
-```ts
-import { PreQuest } from '@prequest/core'
+| Option Name   | Type                         | Default                                  | Required | Meaning  |
+| ------------- | ---------------------------- | ---------------------------------------- | -------- | -------- |
+| ttl           | number                       |                                          | false    | 缓存时间 |
+| cacheId       | (opt: RequestOpt) => any     | (opt: RequestOpt) => JSON.stringify(opt) | false    | 缓存 ID  |
+| validateCache | (opt: RequestOpt) => boolean |                                          | false    | 缓存策略 |
+| cacheKernel   | CacheKernel                  | Map                                      | false    | 存储内核 |
 
-// For global middleware.
-PreQuest.use(cache.run)
+### 存储内核
 
-// For instance middleware
-const instance = PreQuest.create(adapter)
-instance.use(cache.run)
-```
-
-## Options
-
-### Instance Options
-
-| Option Name   | Type                         | Default                                  | Required | Meaning             |
-| ------------- | ---------------------------- | ---------------------------------------- | -------- | ------------------- |
-| ttl           | number                       |                                          | false    | cache duration      |
-| cacheId       | (opt: RequestOpt) => any     | (opt: RequestOpt) => JSON.stringify(opt) | false    | judge same request  |
-| validateCache | (opt: RequestOpt) => boolean |                                          | false    | cache strategy      |
-| cacheKernel   | CacheKernel                  | Map                                      | false    | custom cache kernel |
-
-### CacheKernel
-
-This middleware use `Map` to cache data, and you can use `cacheKernel` option change it.
+默认使用 Map 数据结构存到内存。你可以通过此函数，自定义数据存储方式。
 
 ```ts
 interface CacheKernel {
   get(id: string): Promise<any>
   set(id: string, value: any): Promise<any>
+  clear(): Promise<any>
+  delete(id: string): Promise<any>
 }
 ```
+
+这里设计为 Promise, 是考虑到 React Native 等环境中，获取 storage 方法为异步方法。

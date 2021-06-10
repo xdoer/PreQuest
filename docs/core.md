@@ -1,4 +1,4 @@
-# @prequest/core
+# 核心
 
 PreQuest 核心能力包。通过这个包，可以很容易封装一个请求库。
 

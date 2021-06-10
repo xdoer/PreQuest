@@ -1,28 +1,25 @@
-# @prequest/graphql
+# GraphQL
 
-A Syntax Sugar For Post Http Request Based On PreQuest.
+GraphQL 请求语法糖
 
-## Introduction
-
-This is a part of PreQuest library which meaning you can't do anything with this single.
-
-## Install
+## 安装
 
 ```bash
 npm install @prequest/graphql
 ```
 
-## Usage
+## 使用
 
 ```ts
-import { PreQuest } from '@prequest/core'
+import { prequest } from '@prequest/xhr'
 
-const instance = PreQuest.create(adapter, {
+const request = graphql(prequest, {
   path: '/graphql',
   baseURL: 'http://localhost:3000',
+  headers: {
+    token: '12345',
+  },
 })
-
-const request = graphql(instance)
 
 const query = `
   {
@@ -34,7 +31,7 @@ const query = `
 
 const variables = { name: 'prequest' }
 
-const opt = { path: '/graphql' }
+const opt = { params: { a: 1 } }
 
 request(query, variables, opt).then(res => console.log(res))
 ```

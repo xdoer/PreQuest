@@ -2,17 +2,15 @@
 
 一个 Http Request React Hook.
 
-## 初始化
-
-首先安装任意一个基于 PreQuest Core 的 HTTP 客户端，比如: `@prequest/xhr`、`@prequest/fetch`、`@prequest/node`、`@prequest/miniprogram`...
+## 安装
 
 ```bash
-yarn add @prequest/xhr
+npm install @prequest/use-request
 ```
 
-初始化 `useRequest`
+## 初始化
 
-```tsx
+```ts
 import { RequestHook } from '@prequest/use-request'
 import { prequest, PreQuest, Request, Response } from '@prequest/xhr'
 
@@ -20,13 +18,15 @@ const queryHook = new RequestHook<Request, Response>(prequest)
 const useRequest = queryHook.useRequest.bind(queryHook)
 ```
 
-你也可以不受影响的使用 PreQuest 的能力。
+同时你也可以不受影响的使用 PreQuest 的能力。
 
-```tsx
-import { create } from '@prequest/xhr'
+```ts
+import { create, PreQuest } from '@prequest/xhr'
+
+PreQuest.defaults.baseURL = 'http://localhost:3000'
 
 const prequest = create({
-  baseURL: 'http://localhost:3000',
+  baseURL: 'http://localhost:3001',
 })
 
 prequest.use(async (ctx, next) => {
@@ -34,15 +34,13 @@ prequest.use(async (ctx, next) => {
   await next()
   console.log('---response log', ctx.response)
 })
-
-// ... 初始化 useRequest
 ```
 
 ## 使用
 
 ### 基本使用
 
-```tsx
+```ts
 interface UserProps {
   id: number
 }
@@ -67,7 +65,7 @@ const User: FC<UserProps> = ({ id }) => {
 
 当 useRequest 请求参数不确定时，可以传入函数参数，进行请求参数校验
 
-```tsx
+```ts
 interface UserProps {
   id?: number
 }
@@ -95,7 +93,7 @@ const User: FC<UserProps> = ({ id }) => {
 
 由事件触发请求
 
-```tsx
+```ts
 interface UserProps {
   id: number
 }
@@ -132,7 +130,7 @@ const User: FC<UserProps> = ({ id }) => {
 
 ### 循环请求
 
-```tsx
+```ts
 interface UserProps {
   id: number
 }
@@ -149,7 +147,7 @@ const User: FC<UserProps> = ({ id }) => {
 
   return (
     <div>
-      <div onClick={onClick}>点击请求</div>
+      <div onClick={onClick}>点击停止</div>
       {loading && <div>加载中</div>}
       {data && <div>{data}</div>}
       {error && <div>{error}</div>}
@@ -162,7 +160,7 @@ const User: FC<UserProps> = ({ id }) => {
 
 `useRequest` 中内置了两个 loading: `loading` 与 `loadingRef`。
 
-```tsx
+```ts
 const Users = () => {
   const { data, loading, error, loadingRef, request } = useRequest(
     {

@@ -1,10 +1,6 @@
-# @prequest/error-retry
+# 错误重试
 
 错误重试中间件
-
-## 简介
-
-通过中间件模式，为请求添加错误重试机制.
 
 ## 安装
 
@@ -27,7 +23,7 @@ const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>({
   retryControl(opt, e) {
     const { method, path } = opt
 
-    // 手动取消的接口不进行错误重试
+    // 手动取消的请求不进行错误重试
     if (isCancel(e)) return false
 
     // api 路径不进行错误重试
@@ -40,3 +36,10 @@ const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>({
 
 prequest.use(errorRetryMiddleware.run)
 ```
+
+## 配置项
+
+| Option Name  | Type                                   | Default                                   | Required | Meaning                               |
+| ------------ | -------------------------------------- | ----------------------------------------- | -------- | ------------------------------------- |
+| retryCount   | number                                 | 1                                         | false    | 错误重试次数                          |
+| retryControl | (opt: RequestOpt, e: Error) => boolean | (opt: RequestOpt) => opt.method === 'get' | false    | 重试策略，默认 get 请求会进行错误重试 |

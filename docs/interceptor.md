@@ -1,35 +1,22 @@
-# @prequest/interceptor
+# 拦截器
 
-A Interceptor Middleware For PreQuest
+拦截器中间件
 
-## Usage
+## 安装
 
-### Define Types
-
-First, you need define Request, Response, Error types, so that you can get intellisense when coding.
-
-```ts
-interface Request {
-  path: string
-  method?: string
-  baseURL?: string
-}
-
-interface Response {
-  data: string
-  status: number
-}
-
-type Error = globalThis.Error
+```bash
+npm install @prequest/interceptor
 ```
 
-### Create Instance
+## 使用
 
 ```ts
+import { prequest, Request, Response } from '@prequest/xhr'
 import { InterceptorMiddleware } from '@prequest/Interceptor'
 
 const interceptor = new InterceptorMiddleware<Request, Response, Error>()
 
+// 修改请求参数
 interceptor.request.use(
   opt => {
     if (!opt.path) throw new Error('can not find path')
@@ -41,6 +28,7 @@ interceptor.request.use(
   }
 )
 
+// 修改响应
 interceptor.response.use(
   response => {
     response.data = JSON.parse(response.data)
@@ -49,19 +37,6 @@ interceptor.response.use(
     console.log('parse response fail', error)
   }
 )
-```
 
-### Mount Middleware
-
-PreQuest provide two types of middleware, global middleware and instance middleware.
-
-```ts
-import { PreQuest } from '@prequest/core'
-
-// For global middleware.
-PreQuest.use(interceptor.run)
-
-// For instance middleware
-const instance = PreQuest.create(adapter)
-instance.use(interceptor.run)
+prequest.use(interceptor.run)
 ```

@@ -1,8 +1,6 @@
-# @prequest/wrapper
+# 包装器
 
 一个可以赋予你定义的请求方法 PreQuest 能力的包装器。
-
-English | [中文](./README_zh-CN.md)
 
 ## 简介
 
@@ -16,7 +14,7 @@ npm install @prequest/wrapper
 
 ## 使用
 
-### 首先: 定义一个请求方案
+### 定义请求方法
 
 ```ts
 function ajax(params) {
@@ -26,7 +24,7 @@ function ajax(params) {
 }
 ```
 
-### 接着：用包装器包装
+### 包装器包装
 
 ```ts
 import { wrapper } from '@prequest/wrapper'
@@ -38,7 +36,7 @@ const ajax = wrapper(function(params) {
 })
 ```
 
-### 然后：Enjoy it
+### Enjoy it
 
 你可以像往常一样使用你的方法
 
