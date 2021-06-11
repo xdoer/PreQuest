@@ -50,8 +50,8 @@ export class RequestHook<T, N> {
 
     // 获取数据
     async function fetchData(opt: T) {
-      loadingRef.current = true
       try {
+        loadingRef.current = true
         calledRef.current = true
         setRes(prev => ({ ...prev, loading: true }))
         const res = await ctx.prequest(opt)
@@ -63,10 +63,13 @@ export class RequestHook<T, N> {
             error: null,
           }
         })
+        loadingRef.current = false
+        return res
       } catch (e) {
         setRes({ loading: false, error: e, data: null })
+        loadingRef.current = false
+        return e
       }
-      loadingRef.current = false
     }
 
     // 刷新数据
@@ -74,7 +77,12 @@ export class RequestHook<T, N> {
       const options = parseOptions(opt, variables.current)
       // request 场景是在事件触发中，所以 options 参数应当是一定有的
       variables.current = options!
-      fetchData(options!)
+      const res = await fetchData(options!)
+      // request 应当可以正常抛出异常
+      if (res instanceof Error) {
+        throw res
+      }
+      return res
     }
 
     // 清除循环
