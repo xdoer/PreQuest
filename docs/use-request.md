@@ -201,4 +201,4 @@ const Users = () => {
 
 `loading` 状态用于页面渲染，`loadingRef` 是实际请求接口的 loading 状态。
 
-**_设计原因: loading 状态保存在 useState 中，useState 是异步更新视图，loading 不能有效表明接口请求的状态，尤其在上面的 demo 中，将 `loadingRef` 改为 `loading` 会造成重复请求相同页码的接口。_**
+**_设计原因: loading 状态保存在 useState 中，useState 是异步更新视图，loading 不能有效表明接口请求的状态。_**

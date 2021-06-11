@@ -71,5 +71,3 @@ interface CacheKernel {
   delete(id: string): Promise<any>
 }
 ```
-
-这里设计为 Promise, 是考虑到 React Native 等环境中，获取 storage 方法为异步方法。

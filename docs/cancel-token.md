@@ -44,6 +44,28 @@ prequest.request({
 cancel()
 ```
 
+你也可以初始化一个请求实例，在页面或组件卸载时，取消所有请求
+
+```ts
+import { create } from '@prequest/xhr'
+import { CancelToken } from '@prequest/cancel-token'
+
+const source = CancelToken.source()
+
+const prequest = create({ cancelToken: source.token })
+
+useEffect(() => {
+  prequest('/api1')
+  prequest('/api2')
+  prequest('/api3')
+  prequest('/api4')
+
+  return () => {
+    source.cancel()
+  }
+}, [])
+```
+
 ## 集成到请求库
 
 对于库开发者，如何将 CancelToken 集成到请求库中?
