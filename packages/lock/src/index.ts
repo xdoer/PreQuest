@@ -6,11 +6,13 @@ export function createLockWrapper(lock = new Lock()) {
   return async function(fn: () => Promise<any>) {
     if (lock.on) return lock.promise
 
-    if (lock.value) return lock.value
+    const cacheValue = await lock.getValue()
+    if (cacheValue) return cacheValue
 
     lock.on = true
 
-    lock.value = await fn()
+    const value = await fn()
+    await lock.setValue(value)
 
     lock.resolvePromise(lock.value)
 
