@@ -11,18 +11,6 @@
   </head>
   <body>
     <div id="app"></div>
-    <!-- <div id="gitalk-container"></div> -->
-    <script>
-      window.$docsify = {
-        name: 'PreQuest',
-        nameLink: '/',
-        repo: 'xdoer/PreQuest',
-        auto2top: true,
-        loadSidebar: true,
-        subMaxLevel: 3,
-        search: 'auto',
-      }
-    </script>
     <!-- Docsify v4 -->
     <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
     <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
@@ -34,7 +22,20 @@
     <script src="//unpkg.com/docsify-count/dist/countable.js"></script>
     <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/gitalk.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify-edit-on-github"></script>
     <script>
+      window.$docsify = {
+        name: 'PreQuest',
+        nameLink: '/',
+        repo: 'xdoer/PreQuest',
+        auto2top: true,
+        loadSidebar: true,
+        subMaxLevel: 3,
+        search: 'auto',
+        plugins: [
+          EditOnGithubPlugin.create('https://github.com/xdoer/PreQuest/tree/main', null, '编辑'),
+        ],
+      }
       const gitalk = new Gitalk({
         clientID: '6992f8b874efe241219d',
         clientSecret: '59040bcdf299f86fe258bca89ec49a3729ff1f6c',
