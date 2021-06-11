@@ -1,36 +1,16 @@
 # @prequest/xhr
 
-A Modern Request Library Based On XMLHttpRequest.
+一个基于 XMLHttpRequest 的请求库
 
-## Introduction
-
-This is a http request library based on PreQuest. This library add middleware, interceptor, global config, request alias and some other feature to `XMLHttpRequest` request api.
-
-## Install
-
-### npm
+## 安装
 
 ```bash
 npm install @prequest/xhr
 ```
 
-### yarn
+## 原生请求
 
-```bash
-yarn @prequest/xhr
-```
-
-### jsDelivr CDN
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/@prequest/xhr@0.2.1/dist/pq.umd.development.min.js"></script>
-```
-
-NOTICE: You need use 'pq' namespace in browser.
-
-## Native Usage
-
-First, let us see how to use native XMLHttpRequest.
+首先看一下 `XMLHttpRequest` 的原生用法
 
 ```ts
 const xhr = new XMLHttpRequest()
@@ -46,7 +26,7 @@ xhr.onload = () => {
 xhr.send()
 ```
 
-## Basic Usage
+## 基本使用
 
 ```ts
 import { prequest } from '@prequest/xhr'
@@ -59,9 +39,9 @@ prequest('http://localhost:3000/api')
 prequest.post('http://localhost:3000/api')
 ```
 
-## Advanced Usage
+## 高级使用
 
-### Global Config
+### 全局配置
 
 ```ts
 import { PreQuest } from '@prequest/xhr'
@@ -79,7 +59,7 @@ PreQuest.use(async (ctx, next) => {
 })
 ```
 
-### Instance Config
+### 实例配置
 
 ```ts
 import { prequest } from '@prequest/xhr'
@@ -100,7 +80,7 @@ prequest({ path: '/api', baseURL: 'http://localhost:3001/api' })
 prequest.get('/api', { baseURL: 'http://localhost:3001/api' })
 ```
 
-### Custom Instance
+### 自定义请求实例
 
 ```ts
 import { create } from '@prequest/xhr'
@@ -124,9 +104,9 @@ instance({ path: '/api', baseURL: 'http://localhost:3001/api' })
 instance.get('/api')
 ```
 
-## Interceptor
+## 拦截器
 
-If you want to use interceptor like axios, you may need this, or middleware can meet your demand.
+如果你想像 axios 一样使用拦截器，你可以像下面这样操作，否则注册一个中间件可以满足你的需求。
 
 ```ts
 import { PreQuest, create, prequest } from '@prequest/xhr'
@@ -152,11 +132,9 @@ const instance = create()
 instance.use(interceptor.run)
 ```
 
-More Detail: [@prequest/interceptor](https://github.com/xdoer/PreQuest/blob/main/packages/interceptor/README.md)
+### 终止请求
 
-### Abort
-
-How to abort a request?
+如何取消请求
 
 ```ts
 import { prequest } from '@prequest/xhr'
@@ -177,9 +155,7 @@ prequest.post('/api', {
 source.cancel()
 ```
 
-### Get Native Request Instance
-
-How to get native request instance
+### 获取原生请求实例
 
 ```ts
 import { prequest } from '@prequest/xhr'

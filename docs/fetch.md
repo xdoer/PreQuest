@@ -1,34 +1,14 @@
 # @prequest/fetch
 
-A Modern Request Library Based On Fetch API.
-
-## Introduction
-
-This is a http request library based on PreQuest. This library add middleware, interceptor, global config, request alias and some other feature to `fetch` request api.
+基于 fetch API 的请求库
 
 ## Install
-
-### npm
 
 ```bash
 npm install @prequest/fetch
 ```
 
-### yarn
-
-```bash
-yarn @prequest/fetch
-```
-
-### jsDelivr CDN
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/@prequest/fetch@0.2.1/dist/pq.umd.development.min.js"></script>
-```
-
-NOTICE: You need use 'pq' namespace in browser.
-
-## Basic Usage
+## 基础用法
 
 ```ts
 import { prequest } from '@prequest/fetch'
@@ -38,9 +18,9 @@ prequest('http://localhost:10000/api', { method: 'post' })
 prequest.post('http://localhost:10000/api')
 ```
 
-## Advanced Usage
+## 高级用法
 
-### Global Config
+### 全局配置
 
 ```ts
 import { PreQuest } from '@prequest/fetch'
@@ -58,7 +38,7 @@ PreQuest.use(async (ctx, next) => {
 })
 ```
 
-### Instance Config
+### 实例配置
 
 ```ts
 import { prequest } from '@prequest/fetch'
@@ -79,7 +59,7 @@ prequest({ path: '/api', baseURL: 'http://localhost:3001/api' })
 prequest.get('/api', { baseURL: 'http://localhost:3001/api' })
 ```
 
-### Custom Instance
+### 自定义实例
 
 ```ts
 import { create } from '@prequest/fetch'
@@ -103,9 +83,9 @@ instance({ path: '/api', baseURL: 'http://localhost:3001/api' })
 instance.get('/api')
 ```
 
-## Interceptor
+## 拦截器
 
-If you want to use interceptor like axios, you may need this, or middleware can meet your demand.
+如果你想像 axios 一样使用拦截器，你可以像下面这样操作，否则注册一个中间件可以满足你的需求。
 
 ```ts
 import { PreQuest, create, prequest } from '@prequest/fetch'
@@ -129,23 +109,4 @@ prequest.use(interceptor.run)
 // or you can mount it to custom prequest instance
 const instance = create()
 instance.use(interceptor.run)
-```
-
-More Detail: [@prequest/interceptor](https://github.com/xdoer/PreQuest/blob/main/packages/interceptor/README.md)
-
-## Abort
-
-How to abort a request?
-
-```ts
-import { prequest } from '@prequest/fetch'
-
-const controller = new AbortController()
-const signal = controller.signal
-
-prequest.post('/api', { signal })
-
-setTimeout(() => {
-  controller.abort()
-})
 ```
