@@ -41,7 +41,13 @@ import { createLockWrapper, Lock } from '@prequest/lock'
 import { ErrorRetryMiddleware } from '@prequest/error-retry'
 
 // 错误重新中间件需要最先注册
-const errorRetryMiddleware = new ErrorRetryMiddleware()
+const errorRetryMiddleware = new ErrorRetryMiddleware({
+  retryControl(opt, e) {
+    if ((e.message = 'token is expired')) {
+      return true
+    }
+  },
+})
 prequest.use(errorRetryMiddleware.run)
 
 const lock = new Lock({
