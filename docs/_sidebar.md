@@ -8,7 +8,7 @@
 - [拦截器](/interceptor)
 - [锁](/lock)
 - [包装器](/wrapper)
-- [useRequest](/use-request '一个 react hook')
+- [useRequest](/use-request)
 - [XHR 请求库](/xhr)
 - [Fetch 请求库](/fetch)
 - [Node 请求库](/node)
