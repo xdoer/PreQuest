@@ -1,7 +1,3 @@
-<div align=center>
-<img src="https://raw.githubusercontent.com/xdoer/PreQuest/main/logo.png" width="50%" height="50%" />
-</div>
-
 # PreQuest
 
 一套模块化，可插拔的 JavaScript HTTP 请求解决方案。

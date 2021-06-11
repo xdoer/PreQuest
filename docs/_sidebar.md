@@ -1,4 +1,4 @@
-- [介绍](/ 'PreQuest')
+- [介绍](/introduce 'PreQuest')
 - [使用](/usage)
 - [核心](/core)
 - [缓存](/cache)

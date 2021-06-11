@@ -17,7 +17,7 @@ A Modular And Pluggable Solution For Native Http Request.
 
 ## Development
 
-- [Contributing Guide](/CONTRIBUTING.md)
+[Contributing Guide](/CONTRIBUTING.md)
 
 ## License
 
