@@ -1,7 +1,17 @@
 import "@tarojs/async-await"
 import { useEffect } from "react"
 import { create } from '@prequest/miniprogram'
-import { CancelToken } from '@prequest/cancel-token'
+import { isCancel, CancelToken } from '@prequest/cancel-token'
+import { ErrorRetryMiddleware } from '@prequest/error-retry'
+
+const errorRetryMiddleware = new ErrorRetryMiddleware({
+  retryCount: 3,
+  retryControl(opt, e) {
+    const { method } = opt
+    if (isCancel(e)) return false
+    return method === 'get'
+  }
+})
 
 interface Request {
   enableCache?: boolean
@@ -12,7 +22,7 @@ const instance = create<Request, any>(wx.request, {
   enableCache: true
 })
 
-const source = CancelToken.source()
+instance.use(errorRetryMiddleware.run)
 
 const sleep = () => new Promise((resolve, reject) => {
   setTimeout(() => {
@@ -23,8 +33,14 @@ const sleep = () => new Promise((resolve, reject) => {
 instance.use(async (ctx, next) => {
   await sleep()
   await next()
+  const { data } = ctx.response
+  console.log('------', ctx.response)
+  if (data === 'Internal Server Error') {
+    throw new Error(data)
+  }
 })
 
+const source = CancelToken.source()
 export default function App(props: any) {
   useEffect(() => {
     instance.get('/api', {
@@ -39,7 +55,6 @@ export default function App(props: any) {
     }).catch(e => {
       console.log('报错', e)
     })
-    source.cancel('取消啦')
   }, [])
 
   return props.children

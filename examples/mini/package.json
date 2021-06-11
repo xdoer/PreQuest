@@ -36,6 +36,7 @@
   "dependencies": {
     "@babel/runtime": "^7.7.7",
     "@prequest/cancel-token": "^0.2.5",
+    "@prequest/error-retry": "^0.2.5",
     "@prequest/miniprogram": "^0.2.5",
     "@tarojs/async-await": "^2.2.10",
     "@tarojs/components": "3.2.1",

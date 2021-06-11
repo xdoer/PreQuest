@@ -2,7 +2,7 @@
   "miniprogramRoot": "dist/",
   "projectname": "mini",
   "description": "mini-demo",
-  "appid": "touristappid",
+  "appid": "wx86d4ff7b691abb62",
   "setting": {
     "urlCheck": false,
     "es6": false,
@@ -23,7 +23,7 @@
     "compileHotReLoad": false,
     "useMultiFrameRuntime": true,
     "useApiHook": true,
-    "useApiHostProcess": true,
+    "useApiHostProcess": false,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],

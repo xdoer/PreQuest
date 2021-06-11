@@ -21,7 +21,7 @@ const config = {
     }
   },
   alias: {
-    'regenerator-runtime': path.resolve('../../../node_modules/regenerator-runtime'),
+    'regenerator-runtime': path.resolve('/Users/luckyhh/Desktop/project/prequest/node_modules/regenerator-runtime'),
   },
   framework: 'react',
   mini: {

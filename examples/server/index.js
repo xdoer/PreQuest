@@ -29,36 +29,37 @@ let token = '' + Math.random()
 
 router
   .get('/api', async (ctx) => {
-    const [, innerToken] = ctx.request.url.match(/token=(.+)/) || []
+    // const [, innerToken] = ctx.request.url.match(/token=(.+)/) || []
 
-    // console.log('----', innerToken, token)
+    // // console.log('----', innerToken, token)
 
-    if(!innerToken) throw new Error('没有token')
-    if(innerToken !== token) throw new Error('token失效')
+    // if(!innerToken) throw new Error('没有token')
+    // if(innerToken !== token) throw new Error('token失效')
 
-    ctx.body = {
-      a: 1,
-      b: 2,
-    }
+    // if(Math.random() > 0.5) {
+      ctx.throw(500, 'random error')
+      return
+    // }
+
+    // ctx.body = {
+    //   a: 1,
+    //   b: 2,
+    // }
   })
   .get('/token', async (ctx) => {
     ctx.body = { token }
   })
   .post('/api', async (ctx) => {
-    ctx.body = {
-      a: 1,
-      b: 2,
-    }
+    // if(Math.random() > 0.5) {
+      ctx.throw(500, 'post random error')
+      return
+    // }
+    // ctx.body = {
+    //   a: 1,
+    //   b: 2,
+    // }
   })
 
 app.use(router.routes()).use(router.allowedMethods())
 
 app.listen(10000, () => console.log('server is start'))
-
-const sleep = () => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve()
-    }, 5000)
-  })
-}
