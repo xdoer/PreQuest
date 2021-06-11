@@ -44,7 +44,7 @@
   "bugs": {
     "url": "https://github.com/xdoer/PreQuest/issues"
   },
-  "homepage": "https://github.com/xdoer/PreQuest#readme",
+  "homepage": "https://pre-quest.vercel.app",
   "module": "dist/miniprogram.esm.js",
   "size-limit": [
     {

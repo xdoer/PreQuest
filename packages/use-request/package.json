@@ -31,7 +31,15 @@
     "access": "public"
   },
   "name": "@prequest/use-request",
-  "author": "Thomas Trainset",
+  "author": "xdoer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xdoer/PreQuest.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xdoer/PreQuest/issues"
+  },
+  "homepage": "https://pre-quest.vercel.app",
   "module": "dist/use-request.esm.js",
   "size-limit": [
     {
