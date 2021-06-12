@@ -1,26 +1,13 @@
 import { View } from '@tarojs/components'
-import { createDownload } from '@prequest/miniprogram-addon'
-import { CancelToken } from '@prequest/cancel-token'
-
-const source = CancelToken.source()
-
-const prequest = createDownload(wx.downloadFile)
+import { navigateTo } from '@tarojs/taro'
 
 export default function () {
-
-  function onClick() {
-    prequest('http://localhost:3000', {
-      cancelToken: source.token
-    }).then(res => {
-      console.log('上传', res)
-    }).catch(e => {
-      console.log('报错啦', e)
-    })
-  }
-
   return (
-    <View onClick={onClick}>
-      上传
+    <View>
+      <View onClick={() => navigateTo({ url: '/pages/common/index' })}>Common</View>
+      <View onClick={() => navigateTo({ url: '/pages/upload/index' })}>Upload</View>
+      <View onClick={() => navigateTo({ url: '/pages/download/index' })}>Download</View>
+      <View onClick={() => navigateTo({ url: '/pages/token/index' })}>Token 校验</View>
     </View>
   )
 }
