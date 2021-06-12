@@ -65,8 +65,8 @@ export class PreQuest<T, N> extends Middleware<T, N> {
   }
 }
 
-type PreQuestFn<T, N> = (path: string | T, config?: T) => Promise<N>
+export type PreQuestFn<T, N> = (path: string | T, config?: T) => Promise<N>
 
-type PreQuestBaseInstance<T, N> = PreQuest<T, N> & MethodsCallback<T, N>
+export type PreQuestBaseInstance<T, N> = PreQuest<T, N> & MethodsCallback<T, N>
 
 export type PreQuestInstance<T, N> = PreQuestBaseInstance<T, N> & PreQuestFn<T, N>

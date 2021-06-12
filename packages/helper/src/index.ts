@@ -12,11 +12,11 @@ export const baseOption: BaseOption = {
 }
 
 export function createRequestUrl<T>(
-  ctx: T & { baseURL?: string; path: string; params?: any }
+  ctx: T & { baseURL?: string; path: string; params?: any; url?: string }
 ): string {
   const { baseURL, path, params } = ctx
 
-  let url = ''
+  let url = ctx.url || ''
 
   if (isAbsoluteURL(path)) {
     url += path

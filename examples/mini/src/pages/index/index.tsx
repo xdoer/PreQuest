@@ -1,23 +1,26 @@
-import { Component } from 'react'
-import { View, Text } from '@tarojs/components'
+import { View } from '@tarojs/components'
+import { createDownload } from '@prequest/miniprogram-addon'
+import { CancelToken } from '@prequest/cancel-token'
 
-export default class Index extends Component {
+const source = CancelToken.source()
 
-  componentWillMount() { }
+const prequest = createDownload(wx.downloadFile)
 
-  componentDidMount() { }
+export default function () {
 
-  componentWillUnmount() { }
-
-  componentDidShow() { }
-
-  componentDidHide() { }
-
-  render() {
-    return (
-      <View className='index'>
-        <Text>Hello world!</Text>
-      </View>
-    )
+  function onClick() {
+    prequest('http://localhost:3000', {
+      cancelToken: source.token
+    }).then(res => {
+      console.log('上传', res)
+    }).catch(e => {
+      console.log('报错啦', e)
+    })
   }
+
+  return (
+    <View onClick={onClick}>
+      上传
+    </View>
+  )
 }
