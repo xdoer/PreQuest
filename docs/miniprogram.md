@@ -257,6 +257,8 @@ function getData() {
 }
 ```
 
+这里可以结合错误重试中间件，自动进行接口重新调用，详情参考[@prequest/lock](/lock)
+
 ### 错误重试
 
 ```ts
