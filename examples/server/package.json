@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node index.js"
+    "dev": "nodemon index.js --watch"
   },
   "author": "Thomas Trainset",
   "license": "ISC",
   "dependencies": {
-    "@koa/router": "^10.0.0",
-    "koa": "^2.13.1",
-    "koa-bodyparser": "^4.3.0"
-  }
+    "express": "4.17.1",
+    "@prequest/node": "^0.2.5",
+    "multer": "^1.4.2"
+  },
+  "type": "module"
 }
