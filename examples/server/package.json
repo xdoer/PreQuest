@@ -1,6 +1,6 @@
 {
   "name": "@prequest/example-server",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,8 +9,8 @@
   "author": "Thomas Trainset",
   "license": "ISC",
   "dependencies": {
+    "@prequest/node": "^0.2.6",
     "express": "4.17.1",
-    "@prequest/node": "^0.2.5",
     "multer": "^1.4.2"
   },
   "type": "module"
