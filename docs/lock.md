@@ -25,6 +25,9 @@ const lock = new Lock({
   setValue(token) {
     localStorage.setItem('token', token)
   },
+  clearValue() {
+    localStorage.removeItem('token')
+  },
 })
 const wrapper = createLockWrapper(lock)
 
@@ -54,7 +57,7 @@ const errorRetryMiddleware = new ErrorRetryMiddleware({
     // 捕获到抛出的 token 失效异常，则进行错误重试
     if ((e.message = 'token is expired')) {
       // 清除 token 值，会重新请求 token 接口，获取最新 token 值
-      lock.setValue(null)
+      lock.clear()
 
       // 进行错误重试
       return true
@@ -81,9 +84,8 @@ prequest.use(async (ctx, next) => {
 
 ### Lock 配置项
 
-Lock 默认将 value 值存在内存中，你可以使用 `getValue` 和 `setValue` 将其持久化到 `storage` 中。
-
 | Option Name | Type                          | Default | Required | Meaning |
 | ----------- | ----------------------------- | ------- | -------- | ------- |
-| getValue    | () => Promise\<any\>          |         | false    | 获取值  |
-| setValue    | (opt: any) => Promise\<void\> |         | false    | 存储值  |
+| getValue    | () => Promise\<any\>          |         | true     | 获取值  |
+| setValue    | (opt: any) => Promise\<void\> |         | true     | 存储值  |
+| clearValue  | () => Promise\<void\>         |         | true     | 清除值  |

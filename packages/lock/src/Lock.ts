@@ -1,22 +1,31 @@
 type Value = any
-type GetValue = () => Promise<Value>
+type GetValue = () => Promise<Value | null>
 type SetValue = (v: Value) => Promise<void>
+type ClearValue = () => Promise<void>
 
 interface Options {
   getValue: GetValue
   setValue: SetValue
+  clearValue: ClearValue
 }
 
 export class Lock {
   on = false
 
-  value: Value = null
-  getValue: GetValue
-  setValue: SetValue
+  constructor(private opt: Options) {}
 
-  constructor(opt?: Options) {
-    this.getValue = opt?.getValue || (() => this.value)
-    this.setValue = opt?.setValue || ((v: any) => (this.value = v))
+  async getValue() {
+    return this.opt.getValue()
+  }
+
+  async setValue(value: any) {
+    return this.opt.setValue(value)
+  }
+
+  async clear() {
+    this.on = false
+    this.promise = new Promise(resolve => (this.resolvePromise = resolve))
+    await this.opt.clearValue()
   }
 
   resolvePromise: any

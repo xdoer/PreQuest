@@ -228,7 +228,17 @@ import { create, Request, Response } from '@prequest/miniprogram'
 import { createLockWrapper, Lock } from '@prequest/lock'
 
 const lockWrapper = createLockWrapper()
-const lock = new Lock()
+const lock = new Lock({
+  async getValue() {
+    return getStorageSync('token')
+  },
+  async setValue(token) {
+    setStorageSync('token', token)
+  },
+  async clearValue() {
+    removeStorageSync('token')
+  },
+})
 
 const wxRequest = create(wx.request)
 
@@ -250,7 +260,7 @@ function getData() {
   return wxRequest.get('/api').catch(e => {
     // token 失效，需要将 lock.value 置为空，以便中间件重新生成 token
     if (e.statusCode === '401') {
-      lock.value = null
+      lock.clear()
       getData()
     }
   })
