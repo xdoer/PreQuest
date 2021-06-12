@@ -1,4 +1,4 @@
-# PreQuest <small>0.2.5</small>
+# PreQuest <small>0.2.6</small>
 
 > 为原生 Http 请求 API 提供模块化，可插拔的解决方案.
 

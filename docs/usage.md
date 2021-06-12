@@ -6,6 +6,7 @@
 > - [@prequest/fetch](/fetch ':target=_self'): 一个基于 Fetch API 的请求库
 > - [@prequest/node](/node ':target=_self'): 一个 nodejs 端的请求库
 > - [@prequest/miniprogram](/miniprogram ':target=_self'): 一个小程序端的请求库
+> - [@prequest/miniprogram-addon](/miniprogram-addon ':target=_self'): 小程序端的上传下载包
 
 ## 应用扩展
 
