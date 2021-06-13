@@ -19,7 +19,7 @@ export class CacheMiddleware<T, N> {
   }
 
   run: MiddlewareCallback<T, N> = async (ctx, next) => {
-    if (this.opt?.validateCache?.(ctx.request)) return next()
+    if (!this.opt?.cacheControl?.(ctx.request)) return next()
 
     const id = this.getId(ctx.request)
     const cache: CacheValue<N> = await this.cache.get(id)

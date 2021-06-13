@@ -13,6 +13,6 @@ export interface CacheKernel {
 export interface Options<T> {
   ttl: number
   cacheKernel(): CacheKernel
-  validateCache(opt: T): boolean
+  cacheControl(opt: T): boolean
   cacheId(opt: T): any
 }

@@ -9,8 +9,7 @@ export class ErrorRetryMiddleware<T, N> {
   getOptions(ctx: any, opt: any) {
     return {
       retryCount: opt.retryCount ?? (ctx.request.retryCount || this.opt?.retryCount || 1),
-      retryControl:
-        ctx.request.retryControl || this.opt?.retryControl || (() => ctx.request.method === 'get'),
+      retryControl: ctx.request.retryControl || this.opt?.retryControl || defaultRetryControl,
     }
   }
 
@@ -27,4 +26,9 @@ export class ErrorRetryMiddleware<T, N> {
       await ctx.context.controller.bind(ctx.context)(ctx, opt)
     }
   }
+}
+
+function defaultRetryControl(request: any) {
+  const { method } = request
+  return /^get$/i.test(method) || !method
 }
