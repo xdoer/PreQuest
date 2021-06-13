@@ -125,29 +125,39 @@ prequest({ path: '/api', method: 'post' })
 prequest.post('/api')
 ```
 
-### 拦截请求与响应
+PreQuest 支持以下调用方式:
 
-你可以通过中间件修改参数和响应
+```text
+prequest(config)
 
-```ts
-prequest.use(async (ctx, next) => {
-  // 修改参数
-  ctx.request.path = '/prefix' + ctx.request.path
-  await next()
-  // 修改响应
-  ctx.response.data = JSON.parse(ctx.response.data)
-})
+prequest(path[, config])
+
+prequest#[request|get|post|delete|put|patch|head|options](path[, config])
 ```
+
+这里 `config` 类型为 [适配器](#适配器)章节中定义的 `Request`
 
 ### 全局配置
 
-你可以添加全局配置项，并且使用全局中间件修改请求和响应。
+你可以通过 `PreQuest.defaults` 添加全局配置项
 
 ```ts
 import { PreQuest } from '@prequest/core'
 
 // 全局请求配置项
 PreQuest.defaults.baseURL = 'http://localhost:3000'
+```
+
+与 `axios` 不同的是， `PreQuest.default` 默认是一个空对象， PreQuest 不会对参数进行处理。
+
+### 中间件
+
+中间件有两种，全局中间件与实例中间件
+
+#### 中间件使用
+
+```ts
+import { PreQuest } from '@prequest/core'
 
 // 全局中间件
 PreQuest.use<Request, Response>(async (ctx, next) => {
@@ -155,4 +165,33 @@ PreQuest.use<Request, Response>(async (ctx, next) => {
   await next()
   ctx.response.data = JSON.parse(ctx.response.data)
 })
+
+// 实例中间件
+const prequest = PreQuest.create(adapter)
+prequest.use<Request, Response>(async (ctx, next) => {
+  ctx.request.path = '/prefix' + ctx.request.path
+  await next()
+  ctx.response.data = JSON.parse(ctx.response.data)
+})
 ```
+
+#### 中间件开发
+
+PreQuest 在 koa 经典的洋葱中间件模型上，多设计了一个参数，来满足不同中间件传递数据的问题。以往我们在涉及到类似需求时，总会将数据挂到 ctx 对象上，但 ctx 本身又是库内部使用的一个对象，很容易造成 ctx 上的数据被覆盖，从而引发一些难以琢磨的 bug。
+
+一个典型的中间件
+
+```ts
+async function middleware(ctx, next, opt) {
+  ctx.request.path = '/prefix' + ctx.request.path
+
+  // 中间件数据传递
+  opt.count = (opt?.count || 0) + 1
+
+  await next()
+
+  ctx.response.data = JSON.parse(ctx.response.data)
+}
+```
+
+您可以参阅 [错误重试](https://github.com/xdoer/PreQuest/blob/main/packages/error-retry/src/index.ts) 中间件

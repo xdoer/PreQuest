@@ -17,9 +17,10 @@
 > - [@prequest/use-request](/use-request ':target=_self'): React 请求 Hook
 > - [@prequest/graphql](/graphql ':target=_self'): GraphQL 请求语法糖
 
-## 旧项目迁移
+## 项目迁移
 
 > - [@prequest/wrapper](/wrapper ':target=_self'): 一个包裹器
+> - [集成 axios](/work-with-axios ':target=_self'): 与 axios 一起工作
 
 ## 定制化
 

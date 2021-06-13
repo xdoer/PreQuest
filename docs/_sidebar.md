@@ -14,3 +14,4 @@
 - [Node 请求库](/node)
 - [小程序请求库](/miniprogram)
 - [小程序请求库附件包](/miniprogram-addon)
+- [集成 Axios](/work-with-axios)

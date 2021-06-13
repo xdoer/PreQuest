@@ -4,7 +4,7 @@
 
 # PreQuest
 
-A Modular And Pluggable Solution For Native Http Request.
+A Modular And Pluggable Solution For HTTP Request.
 
 [![npm](https://img.shields.io/npm/v/@prequest/core.svg)](https://www.npmjs.com/package/@prequest/core)
 [![Minzipped size](https://img.shields.io/bundlephobia/minzip/@prequest/core.svg)](https://bundlephobia.com/result?p=@prequest/core)

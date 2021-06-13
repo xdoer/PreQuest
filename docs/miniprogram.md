@@ -188,7 +188,7 @@ const cacheMiddleware = new CacheMiddleware<Request, Response>({
     const { path, method } = opt
     return `${method}-{path}`
   },
-  validateCache(opt) {
+  cacheControl(opt) {
     const { path } = opt
     if(path === '/api') return true
     return false

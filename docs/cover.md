@@ -1,12 +1,13 @@
 # PreQuest <small>0.2.6</small>
 
-> 为原生 Http 请求 API 提供模块化，可插拔的解决方案.
+> 为 HTTP 请求提供模块化，可插拔的解决方案.
 
+- Middleware
 - TypeScript
-- 全平台
-- 模块化
-- 可插拔
-- 灵活
+- Pluggable
+- Flexible
+- Promise
+- Module
 - ...
 
 [GitHub](https://github.com/xdoer/PreQuest)
