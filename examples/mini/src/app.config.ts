@@ -5,6 +5,7 @@ export default {
     'pages/upload/index',
     'pages/download/index',
     'pages/token/index',
+    'pages/error-retry/index',
   ],
   window: {
     backgroundTextStyle: 'light',

@@ -1,10 +1,11 @@
 import { createDownload } from '@prequest/miniprogram-addon'
+import { downloadFile } from '@tarojs/taro'
 
 interface WxDownloadResponse {
   tempFilePath: string
 }
 
-export const wxDownload = createDownload<any, WxDownloadResponse>(wx.downloadFile)
+export const wxDownload = createDownload<any, WxDownloadResponse>(downloadFile)
 
 wxDownload.use(async (ctx, next) => {
   await next()

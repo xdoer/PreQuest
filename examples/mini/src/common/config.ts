@@ -1,3 +1,3 @@
 import { PreQuest } from '@prequest/miniprogram'
 
-PreQuest.defaults.baseURL = 'http://localhost:3000'
+PreQuest.defaults.baseURL = 'http://localhost:8080'

@@ -12,6 +12,20 @@ router
 .get('/api', async function (req, res) {
   res.send(data)
 })
+.get('/error-retry', async function (req, res) {
+  if(Math.random() > 0.5) {
+    res.send('success')
+  } else {
+    res.sendStatus(401)
+  }
+})
+.post('/error-retry', async function (req, res) {
+  if(Math.random() > 0.5) {
+    res.send('success')
+  } else {
+    res.sendStatus(401)
+  }
+})
 
 export { router }
 

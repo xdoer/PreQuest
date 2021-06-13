@@ -1,11 +1,11 @@
 import { View } from '@tarojs/components'
 import { useState } from 'react'
-import { hideLoading, showLoading } from '@tarojs/taro'
+import { getStorageSync, hideLoading, showLoading } from '@tarojs/taro'
 import { prequest, lock } from '@common/http'
 
 export default function () {
   const [data, setData] = useState('')
-  const [token, setToken] = useState('')
+  const [token, setToken] = useState(getStorageSync('token'))
 
   async function onMultiplyRequest() {
     showLoading()
