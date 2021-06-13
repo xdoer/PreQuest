@@ -1,11 +1,6 @@
 import { Lock, createLockWrapper } from '@prequest/lock'
 import { getStorageSync, removeStorageSync, setStorageSync } from '@tarojs/taro'
-import { create } from '@prequest/miniprogram'
-import { parseResponse } from './mddleware'
-
-// token 请求不走 token 校验中间件、所以需要新建一个请求实例
-const tokenRequest = create(wx.request)
-tokenRequest.use(parseResponse)
+import { prequest } from './request'
 
 export const lock = new Lock({
   async getValue() {
@@ -21,10 +16,16 @@ export const lock = new Lock({
 const wrapper = createLockWrapper(lock)
 
 function getToken() {
-  return tokenRequest('/token')
+
+  // 类型可以在创建 prequest 实例的时候，进行添加
+  // 这里添加自定义参数，传到中间件，中间件做相应处理
+  return prequest('/token', { skipTokenCheck: true })
 }
 
 export async function lockMiddleware(ctx, next) {
+  // 获取 token 接口跳过添加 token 步骤
+  if (ctx.request.skipTokenCheck) return next()
+
   const token = await wrapper(getToken)
   console.log('中间件 token', token)
   await next()

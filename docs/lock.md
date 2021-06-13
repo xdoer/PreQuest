@@ -46,6 +46,28 @@ function getToken() {
 }
 ```
 
+或者，你不想创建新的请求 Token 实例的话，你可以设计传参，跳过添加 token 的步骤
+
+```ts
+import { prequest, create } from '@prequest/xhr'
+
+const lock = new Lock({})
+
+const wrapper = createLockWrapper(lock)
+
+// 添加 token
+prequest.use(async (ctx, next) => {
+  if (ctx.request.skipTokenCheck) return next()
+
+  const token = await wrapper(getToken)
+  ctx.request.headers['Authorization'] = `bearer ${token}`
+  await next()
+})
+
+// 传参跳过 token 添加
+prequest('/token', { skipTokenCheck: true })
+```
+
 接着，添加错误重试机制
 
 ```ts

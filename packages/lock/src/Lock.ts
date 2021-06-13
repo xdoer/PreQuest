@@ -25,7 +25,7 @@ export class Lock {
   async clear() {
     this.on = false
     this.promise = new Promise(resolve => (this.resolvePromise = resolve))
-    await this.opt.clearValue()
+    return this.opt.clearValue()
   }
 
   resolvePromise: any
