@@ -186,7 +186,7 @@ const cacheMiddleware = new CacheMiddleware<Request, Response>({
   ttl: 5000,
   cacheId(opt) {
     const { path, method } = opt
-    return `${method}-{path}`
+    return `${method}-${path}`
   },
   cacheControl(opt) {
     const { path } = opt

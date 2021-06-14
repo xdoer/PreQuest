@@ -1,10 +1,12 @@
 import { MiddlewareCallback } from '@prequest/types'
-import { Options, CacheValue } from './types'
+import { Options, CacheValue, CacheKernel } from './types'
 
 export class CacheMiddleware<T, N> {
-  constructor(private opt?: Partial<Options<T>>) {}
+  cache: CacheKernel
 
-  cache = this.opt?.cacheKernel?.() || new Map()
+  constructor(private opt?: Partial<Options<T>>) {
+    this.cache = this.opt?.cacheKernel?.() || new Map()
+  }
 
   getId = (value: T) => {
     return this.opt?.cacheId?.(value) || JSON.stringify(value)

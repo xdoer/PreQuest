@@ -19,18 +19,8 @@
     "interceptor"
   ],
   "scripts": {
-    "start": "tsdx watch --verbose",
-    "build": "tsdx build",
-    "test": "tsdx test",
-    "lint": "tsdx lint",
-    "prepare": "tsdx build",
-    "size": "size-limit",
-    "analyze": "size-limit --why"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "tsdx lint"
-    }
+    "dev": "rollup -c --watch",
+    "build": "rollup -c"
   },
   "publishConfig": {
     "access": "public"
@@ -45,29 +35,15 @@
     "url": "https://github.com/xdoer/PreQuest/issues"
   },
   "homepage": "https://pre-quest.vercel.app",
-  "module": "dist/core.esm.js",
-  "size-limit": [
-    {
-      "path": "dist/core.cjs.production.min.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "dist/core.esm.js",
-      "limit": "10 KB"
-    }
-  ],
   "dependencies": {
     "@prequest/types": "^0.2.6",
     "@prequest/utils": "^0.2.6"
   },
   "devDependencies": {
-    "@size-limit/preset-small-lib": "^4.10.2",
-    "husky": "^6.0.0",
-    "size-limit": "^4.10.2",
-    "ts-lib": "^0.0.5",
-    "tsdx": "^0.14.1",
-    "tslib": "^2.2.0",
-    "typescript": "^4.2.4"
+    "rollup": "^2.51.2",
+    "@rollup/plugin-typescript": "^8.2.1",
+    "tslib": "^2.3.0",
+    "typescript": "^4.3.2"
   },
   "gitHead": "ac81046fd78f1722002ceebb34d3be2ad3b5522a"
 }

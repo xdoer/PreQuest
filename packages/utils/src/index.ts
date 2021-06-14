@@ -1,6 +1,3 @@
-import deepmerge from 'deepmerge'
-import { isPlainObject } from 'is-plain-object'
-
 export const elementType = (ele: any) => {
   const typeStr = Object.prototype.toString.call(ele)
   const reg = /^\[object\s([A-Za-z]+)\]$/
@@ -8,7 +5,24 @@ export const elementType = (ele: any) => {
   return RegExp.$1.toLowerCase()
 }
 
-export const merge = (...args: (Record<string, any> | undefined)[]) =>
-  deepmerge.all(args.filter(Boolean) as any, {
-    isMergeableObject: isPlainObject as any,
-  })
+// deep merge common object
+export const merge = (...args: (Record<string, any> | undefined)[]) => {
+  return args.reduce((t, c) => {
+    if (!c) return t
+
+    const data = Object.entries(c)
+    const length = data.length
+
+    for (let i = 0; i < length; i++) {
+      const [key, value] = data[i]
+
+      if (elementType(value) === 'object') {
+        t[key] = merge(t[key], value)
+      } else {
+        Object.assign(t, { [key]: value })
+      }
+    }
+
+    return t
+  }, {} as any)
+}
