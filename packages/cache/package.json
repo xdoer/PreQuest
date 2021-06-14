@@ -40,7 +40,8 @@
     "rollup-plugin-typescript2": "^0.30.0",
     "rollup-plugin-terser": "^7.0.2",
     "tslib": "^2.3.0",
-    "typescript": "^4.3.2"
+    "typescript": "^4.3.2",
+    "@prequest/types": "^0.2.6"
   },
   "gitHead": "ac81046fd78f1722002ceebb34d3be2ad3b5522a"
 }

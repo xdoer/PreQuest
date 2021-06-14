@@ -1,5 +1,4 @@
-import { CancelToken } from '@prequest/cancel-token'
-import { CommonObject, Method } from '@prequest/types'
+import { CommonObject, Method, CancelToken } from '@prequest/types'
 
 export type RequestCore = any
 

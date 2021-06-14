@@ -1,5 +1,4 @@
-import { BaseOption } from '@prequest/types'
-import { CancelToken } from '@prequest/cancel-token'
+import { BaseOption, CancelToken } from '@prequest/types'
 
 export interface Request extends BaseOption {
   withCredentials?: boolean

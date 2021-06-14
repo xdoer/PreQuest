@@ -36,7 +36,6 @@
   },
   "homepage": "https://pre-quest.vercel.app",
   "dependencies": {
-    "@prequest/cancel-token": "^0.2.6",
     "@prequest/core": "^0.2.6",
     "@prequest/helper": "^0.2.6",
     "@prequest/types": "^0.2.6",
