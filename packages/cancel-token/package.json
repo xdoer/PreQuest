@@ -1,5 +1,5 @@
 {
-  "version": "0.2.7",
+  "version": "0.2.8",
   "license": "MIT",
   "main": "dist/index.cjs.js",
   "typings": "dist/index.d.ts",
@@ -43,8 +43,8 @@
   "homepage": "https://pre-quest.vercel.app",
   "module": "dist/index.esm.js",
   "devDependencies": {
-    "rollup": "^2.51.2",
     "rimraf": "^3.0.2",
+    "rollup": "^2.51.2",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
     "tslib": "^2.3.0",
