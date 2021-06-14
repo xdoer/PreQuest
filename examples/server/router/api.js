@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { prequest } from '@prequest/node'
 
 const router = Router()
 
@@ -10,6 +11,7 @@ router
   res.send(token)
 })
 .get('/api', async function (req, res) {
+  const data = await prequest('https://webspiderr.herokuapp.com/crawl/api?user=xdoer&cid=73b1430d-faa0-44eb-899e-36cf5cbfaec8')
   res.send(data)
 })
 .get('/error-retry', async function (req, res) {
