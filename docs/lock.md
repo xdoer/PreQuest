@@ -51,7 +51,7 @@ function getToken() {
 ```ts
 import { prequest, create } from '@prequest/xhr'
 
-const lock = new Lock({})
+const lock = new Lock({ ... })
 
 const wrapper = createLockWrapper(lock)
 

@@ -1,7 +1,7 @@
 {
   "version": "0.3.0",
   "license": "MIT",
-  "main": "dist/index.cjs.js",
+  "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
@@ -19,14 +19,10 @@
     "interceptor"
   ],
   "scripts": {
-    "dev:esm": "BUILD=esm rollup -c  --watch",
-    "dev:cjs": "BUILD=cjs rollup -c  --watch",
+    "dev": "rollup -c  -w",
     "clean": "rimraf dist",
     "prepare": "npm run build",
-    "build": "npm run clean && npm run build:all",
-    "build:all": "npm run build:cjs && npm run build:esm",
-    "build:cjs": "BUILD=cjs rollup -c",
-    "build:esm": "BUILD=esm rollup -c"
+    "build": "npm run clean && rollup -c"
   },
   "publishConfig": {
     "access": "public"
@@ -41,7 +37,6 @@
     "url": "https://github.com/xdoer/PreQuest/issues"
   },
   "homepage": "https://pre-quest.vercel.app",
-  "module": "dist/index.esm.js",
   "dependencies": {
     "@prequest/core": "^0.3.0",
     "@prequest/helper": "^0.3.0",

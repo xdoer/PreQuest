@@ -19,14 +19,10 @@
     "interceptor"
   ],
   "scripts": {
-    "dev:esm": "BUILD=esm rollup -c  --watch",
-    "dev:cjs": "BUILD=cjs rollup -c  --watch",
+    "dev": "rollup -c  -w",
     "clean": "rimraf dist",
     "prepare": "npm run build",
-    "build": "npm run clean && npm run build:all",
-    "build:all": "npm run build:cjs && npm run build:esm",
-    "build:cjs": "BUILD=cjs rollup -c",
-    "build:esm": "BUILD=esm rollup -c"
+    "build": "npm run clean && rollup -c"
   },
   "publishConfig": {
     "access": "public"

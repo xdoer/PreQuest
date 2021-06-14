@@ -19,14 +19,10 @@
     "interceptor"
   ],
   "scripts": {
-    "dev:esm": "BUILD=esm rollup -c  --watch",
-    "dev:cjs": "BUILD=cjs rollup -c  --watch",
+    "dev": "rollup -c  --watch",
     "clean": "rimraf dist",
     "prepare": "npm run build",
-    "build": "npm run clean && npm run build:all",
-    "build:all": "npm run build:cjs && npm run build:esm",
-    "build:cjs": "BUILD=cjs rollup -c",
-    "build:esm": "BUILD=esm rollup -c"
+    "build": "npm run clean && rollup -c"
   },
   "publishConfig": {
     "access": "public"
@@ -43,11 +39,8 @@
   "homepage": "https://pre-quest.vercel.app",
   "module": "dist/index.esm.js",
   "devDependencies": {
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-preset-latest": "^6.24.1",
     "rimraf": "^3.0.2",
     "rollup": "^2.51.2",
-    "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
     "tslib": "^2.3.0",

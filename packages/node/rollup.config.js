@@ -2,22 +2,18 @@ import typescript from 'rollup-plugin-typescript2'
 import { terser } from 'rollup-plugin-terser'
 import commonjs from '@rollup/plugin-commonjs'
 
-const BUILD_TYPE = process.env.BUILD
-
 const base = {
   input: 'src/index.ts', // 打包入口
   plugins: [commonjs(), typescript(), terser()],
 }
 
-const config = {
-  cjs: {
+export default [
+  {
     ...base,
-    output: { exports: 'auto', file: 'dist/index.cjs.js', format: 'cjs' },
+    output: { file: 'dist/index.cjs.js', format: 'cjs', exports: 'auto' },
   },
-  esm: {
+  {
     ...base,
-    output: { exports: 'auto', file: 'dist/index.esm.js', format: 'esm' },
+    output: { file: 'dist/index.esm.js', format: 'esm', exports: 'auto' },
   },
-}
-
-export default config[BUILD_TYPE]
+]
