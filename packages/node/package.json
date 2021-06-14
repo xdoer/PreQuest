@@ -1,5 +1,5 @@
 {
-  "version": "0.2.8",
+  "version": "0.3.0",
   "license": "MIT",
   "main": "dist/index.cjs.js",
   "typings": "dist/index.d.ts",
@@ -43,9 +43,9 @@
   "homepage": "https://pre-quest.vercel.app",
   "module": "dist/index.esm.js",
   "dependencies": {
-    "@prequest/core": "^0.2.8",
-    "@prequest/helper": "^0.2.8",
-    "@prequest/utils": "^0.2.8",
+    "@prequest/core": "^0.3.0",
+    "@prequest/helper": "^0.3.0",
+    "@prequest/utils": "^0.3.0",
     "follow-redirects": "^1.14.1"
   },
   "devDependencies": {
