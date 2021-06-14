@@ -28,3 +28,11 @@
 > - [@prequest/cancel-token](/cancel-token ':target=_self'): 取消请求解决方案
 > - [@prequest/helper](https://github.com/xdoer/PreQuest/tree/main/packages/helper ':target=_blank'): 一些有用的参数处理、响应处理的工具包
 > - [@prequest/utils](https://github.com/xdoer/PreQuest/tree/main/packages/utils ':target=_blank'): 常规函数工具包
+
+## 兼容性
+
+整个项目默认全部都打包成了包含 ES6+ 代码的 ESM 模块。
+
+如果您的项目中出现兼容性问题，请考虑使用 [babel](https://www.babeljs.cn/docs/options#include) 将代码编译成低版本的代码。
+
+对于 Node 端，推荐使用 ESM 模块进行代码编写。[示例](https://github.com/xdoer/PreQuest/tree/main/examples/server)

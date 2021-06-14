@@ -1,6 +1,6 @@
 # PreQuest
 
-一套模块化，可插拔的 JavaScript HTTP 请求解决方案。
+一套模块化，可插拔的 JS 运行时 HTTP 请求解决方案。
 
 [![npm](https://img.shields.io/npm/v/@prequest/core.svg)](https://www.npmjs.com/package/@prequest/core)
 [![Minzipped size](https://img.shields.io/bundlephobia/minzip/@prequest/core.svg)](https://bundlephobia.com/result?p=@prequest/core)
@@ -11,13 +11,15 @@
 
 ## 概述
 
-?> PreQuest 是一套模块化、可插拔的 JavaScript HTTP 请求解决方案。
+PreQuest 是一套 JS 运行时的 HTTP 解决方案。
 
-它采用了请求内核与上层封装相分离的模式，针对不同的 JS 环境，提供了一致的中间件、拦截器、全局配置等功能的体验，并且可以通过注册中间件的方式，添加额外的功能。
+它包含了一些针对不同 JS 运行平台的封装的请求库，并为这些请求库提供了一致的中间件、拦截器、全局配置等功能的体验
 
-此外，本项目中还针对一些常见的需求，给出了相应的解决方案，比如 Token 校验、接口缓存、错误重试等等。
+还针对诸如 Token 的添加，失效处理，无感知更新、接口缓存、错误重试等常见业务场景，提供了开箱即用的方案。
 
-本项目还提供了针对不同平台封装好的请求库，你可以直接使用。或者你有一些特殊需求，你甚至可以基于本项目，做请求库的二次封装。
+此外也针对 React 端提供了复用 PreQuest 实例的 request hook 来使用。
+
+当这些功能不满足你的需求、或者你想定制化时，也可以基于 [@prequest/core](/core) 快速封装一个实现你需求的请求库。
 
 ## 异同
 
@@ -25,15 +27,15 @@ PreQuest 与 axios、umi-request 的区别在于，PreQuest 并不是一个请�
 
 ### 对于库的开发者来说
 
-你可以很容易的基于本项目，快速封装一个类似 axios 的请求库。
+你可以很容易的基于 [@prequest/core](/core)，快速封装一个类似 axios 的请求库。
 
 ### 对于业务开发者来说
 
 如果你新建了一个项目，你可以集成 [@prequest/xhr](https://github.com/xdoer/PreQuest/tree/main/packages/xhr) 等几个直接封装好的请求库。
 
-如果你的项目使用的是自己封装的原始 Http 请求, 那么你可以通过 [@prequest/wrapper](https://github.com/xdoer/PreQuest/tree/main/packages/wrapper) 很容易的迁移到 PreQuest 中；
-
 如果你使用的是 axios、umi-request 这类请求库，那么你可以很容易的在项目中[集成 PreQuest](/work-with-axios)；
+
+如果你的项目使用的是自己封装的原始 Http 请求，那么你可以通过 [@prequest/wrapper](https://github.com/xdoer/PreQuest/tree/main/packages/wrapper) 很容易的迁移到 PreQuest 中；
 
 ## 灵感
 
