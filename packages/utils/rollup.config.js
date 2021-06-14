@@ -1,11 +1,12 @@
 import typescript from 'rollup-plugin-typescript2'
+import { terser } from 'rollup-plugin-terser'
 import babel from 'rollup-plugin-babel'
 
 const BUILD_TYPE = process.env.BUILD
 
 const base = {
   input: 'src/index.ts', // 打包入口
-  plugins: [typescript(), babel()],
+  plugins: [typescript(), terser(), babel()],
 }
 
 const config = {

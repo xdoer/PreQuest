@@ -1,11 +1,12 @@
 import typescript from 'rollup-plugin-typescript2'
+import { terser } from 'rollup-plugin-terser'
 import commonjs from '@rollup/plugin-commonjs'
 
 const BUILD_TYPE = process.env.BUILD
 
 const base = {
   input: 'src/index.ts', // 打包入口
-  plugins: [commonjs(), typescript()],
+  plugins: [commonjs(), typescript(), terser()],
 }
 
 const config = {
