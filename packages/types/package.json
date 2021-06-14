@@ -14,5 +14,6 @@
     "url": "https://github.com/xdoer/PreQuest/issues"
   },
   "homepage": "https://pre-quest.vercel.app",
+  "module": "dist/index.esm.js",
   "gitHead": "ac81046fd78f1722002ceebb34d3be2ad3b5522a"
 }

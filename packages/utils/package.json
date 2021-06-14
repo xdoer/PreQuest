@@ -1,7 +1,7 @@
 {
   "version": "0.2.7",
   "license": "MIT",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
@@ -19,8 +19,14 @@
     "interceptor"
   ],
   "scripts": {
-    "dev": "rollup -c --watch",
-    "build": "rollup -c"
+    "dev:esm": "BUILD=esm rollup -c  --watch",
+    "dev:cjs": "BUILD=cjs rollup -c  --watch",
+    "clean": "rimraf dist",
+    "prepare": "npm run build",
+    "build": "npm run clean && npm run build:all",
+    "build:all": "npm run build:cjs && npm run build:esm",
+    "build:cjs": "BUILD=cjs rollup -c",
+    "build:esm": "BUILD=esm rollup -c"
   },
   "publishConfig": {
     "access": "public"
@@ -35,10 +41,15 @@
     "url": "https://github.com/xdoer/PreQuest/issues"
   },
   "homepage": "https://pre-quest.vercel.app",
+  "module": "dist/index.esm.js",
   "devDependencies": {
     "rollup": "^2.51.2",
+    "rimraf": "^3.0.2",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
+    "rollup-plugin-babel": "^4.4.0",
+    "babel-preset-latest": "^6.24.1",
+    "babel-plugin-external-helpers": "^6.22.0",
     "tslib": "^2.3.0",
     "typescript": "^4.3.2"
   },
