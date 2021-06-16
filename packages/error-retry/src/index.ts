@@ -3,7 +3,7 @@ import { Options } from './types'
 
 export type ErrorRetryOptions<T> = Options<T>
 
-export class ErrorRetryMiddleware<T, N> {
+export default class ErrorRetryMiddleware<T, N> {
   constructor(private opt?: Partial<Options<T>>) {}
 
   getOptions(ctx: any, opt: any) {

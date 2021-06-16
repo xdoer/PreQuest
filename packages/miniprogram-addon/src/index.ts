@@ -1,4 +1,4 @@
-import { PreQuest } from '@prequest/core'
+import PreQuest from '@prequest/core'
 
 type PreQuestInstance<T, N> = PreQuest<T, N>
 

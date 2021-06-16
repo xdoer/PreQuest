@@ -1,13 +1,23 @@
 {
   "version": "0.3.0",
   "license": "MIT",
-  "main": "dist/index.cjs.js",
+  "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
     "dist"
   ],
   "engines": {
     "node": ">=10"
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.esm.js"
+    },
+    "./es5": {
+      "require": "./dist/es5/index.js",
+      "import": "./dist/es5/index.esm.js"
+    }
   },
   "keywords": [
     "http",
@@ -38,12 +48,18 @@
   },
   "homepage": "https://pre-quest.vercel.app",
   "module": "dist/index.esm.js",
+  "browser": "dist/index.umd.js",
   "devDependencies": {
     "@prequest/types": "^0.3.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.51.2",
+    "@rollup/plugin-commonjs": "^19.0.0",
+    "@rollup/plugin-node-resolve": "^13.0.0",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.5",
     "tslib": "^2.3.0",
     "typescript": "^4.3.2"
   },

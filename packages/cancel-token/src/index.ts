@@ -1,8 +1,6 @@
 import { Cancel } from './Cancel'
 
-export * from './isCancel'
-
-export class CancelToken {
+export default class CancelToken {
   reason?: Cancel
 
   private resolvePromise: any
@@ -30,5 +28,9 @@ export class CancelToken {
       token: token,
       cancel: cancel,
     }
+  }
+
+  static isCancel(value: Cancel) {
+    return value.__CANCEL__
   }
 }

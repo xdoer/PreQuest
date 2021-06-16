@@ -1,4 +1,4 @@
-import { ErrorRetryMiddleware } from '@prequest/error-retry'
+import ErrorRetryMiddleware from '@prequest/error-retry'
 import { Request, Response } from '@prequest/miniprogram'
 
 export const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>({

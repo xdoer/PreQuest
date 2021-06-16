@@ -1,4 +1,4 @@
-import { CacheMiddleware } from '@prequest/cache'
+import CacheMiddleware from '@prequest/cache'
 import { Request, Response } from '@prequest/miniprogram'
 
 export const cacheMiddleware = new CacheMiddleware<Request, Response>({

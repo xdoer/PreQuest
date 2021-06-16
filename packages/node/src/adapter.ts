@@ -1,6 +1,6 @@
 import http from 'http'
 import https from 'https'
-const nodeUrl = require('url')
+import { URL } from 'url'
 import { http as redirectHttp, https as redirectHttps } from 'follow-redirects'
 import { Request, Response, Proxy } from './types'
 import { createRequestUrl } from '@prequest/helper'
@@ -30,7 +30,7 @@ const isHttpsReg = /^https:?/
 export function adapter(config: Request): Promise<Response> {
   const finalOptions = config as Required<Request>
   const url = createRequestUrl(finalOptions)
-  const parsedURL = new nodeUrl.URL(url)
+  const parsedURL = new URL(url)
   const {
     responseType,
     responseEncoding = 'utf8',
@@ -91,7 +91,7 @@ export function adapter(config: Request): Promise<Response> {
     const proxyEnv = (parsedURL.protocol || 'http:').slice(0, -1) + '_proxy'
     const proxyUrl = process.env[proxyEnv] || process.env[proxyEnv.toUpperCase()]
     if (proxyUrl) {
-      const parsedProxyUrl = new nodeUrl.URL(proxyUrl)
+      const parsedProxyUrl = new URL(proxyUrl)
       const noProxyEnv = process.env.no_proxy || process.env.NO_PROXY
       let shouldProxy = true
 

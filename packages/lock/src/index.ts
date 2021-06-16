@@ -1,20 +1,50 @@
-import { Lock } from './Lock'
+type Value = any
+type GetValue = () => Promise<Value | null>
+type SetValue = (v: Value) => Promise<void>
+type ClearValue = () => Promise<void>
 
-export { Lock } from './Lock'
+interface Options {
+  getValue: GetValue
+  setValue: SetValue
+  clearValue: ClearValue
+}
 
-export function createLockWrapper(lock: Lock) {
-  return async function(fn: () => Promise<any>) {
-    if (lock.on) return lock.promise
+export default class Lock {
+  on = false
 
-    lock.on = true
+  constructor(private opt: Options) {}
 
-    const value = (await lock.getValue()) || (await fn())
-    await lock.setValue(value)
+  async getValue() {
+    return this.opt.getValue()
+  }
 
-    lock.on = false
+  async setValue(value: any) {
+    return this.opt.setValue(value)
+  }
 
-    lock.resolvePromise(value)
+  async clear() {
+    this.on = false
+    this.promise = new Promise(resolve => (this.resolvePromise = resolve))
+    return this.opt.clearValue()
+  }
 
-    return value
+  resolvePromise: any
+  promise = new Promise(resolve => (this.resolvePromise = resolve))
+
+  static createLockWrapper(lock: Lock) {
+    return async function (fn: () => Promise<any>) {
+      if (lock.on) return lock.promise
+
+      lock.on = true
+
+      const value = (await lock.getValue()) || (await fn())
+      await lock.setValue(value)
+
+      lock.on = false
+
+      lock.resolvePromise(value)
+
+      return value
+    }
   }
 }

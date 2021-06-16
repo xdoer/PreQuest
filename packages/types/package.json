@@ -15,5 +15,6 @@
   },
   "homepage": "https://pre-quest.vercel.app",
   "module": "dist/index.esm.js",
+  "browser": "dist/index.umd.js",
   "gitHead": "ac81046fd78f1722002ceebb34d3be2ad3b5522a"
 }

@@ -1,4 +1,4 @@
-import { PreQuest, PreQuestFn } from '@prequest/core'
+import PreQuest, { PreQuestFn } from '@prequest/core'
 import {
   RequestCore,
   UploadRequest,

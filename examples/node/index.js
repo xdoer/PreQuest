@@ -1,16 +1,7 @@
-const { create } = require('@prequest/node')
+const { prequest } = require('@prequest/node')
 
-const instance = create()
-
-instance
-  .get('/api', {
-    protocol: 'http:',
-    hostname: 'localhost',
-    port: 10000,
-    headers: {
-      Accept: 'application/json',
-    },
-  })
+prequest
+  .get('http://localhost:8080/api')
   .then((res) => {
     console.log('查看响应', res)
   })

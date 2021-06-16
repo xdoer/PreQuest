@@ -1,7 +1,7 @@
 import { MiddlewareCallback } from '@prequest/types'
 import { Options, CacheValue, CacheKernel } from './types'
 
-export class CacheMiddleware<T, N> {
+export default class CacheMiddleware<T, N> {
   cache: CacheKernel
 
   constructor(private opt?: Partial<Options<T>>) {

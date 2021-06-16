@@ -22,7 +22,7 @@ const config = {
   },
   alias: {
     '@common': path.resolve(__dirname, '..', 'src/common'),
-    'regenerator-runtime': path.resolve('/Users/luckyhh/Desktop/project/prequest/node_modules/regenerator-runtime'),
+    'regenerator-runtime': path.resolve('/Users/luckyhh/Desktop/project/prequest2/node_modules/regenerator-runtime'),
   },
   framework: 'react',
   mini: {

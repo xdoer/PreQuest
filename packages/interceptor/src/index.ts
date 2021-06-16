@@ -1,11 +1,9 @@
 import { MiddlewareCallback } from '@prequest/types'
 import { Interceptor } from './Interceptor'
 
-export * from './Interceptor'
-
-export class InterceptorMiddleware<T, N, E> {
-  request = new Interceptor<T, E>()
-  response = new Interceptor<N, E>()
+export default class InterceptorMiddleware<T, N> {
+  request = new Interceptor<T, Error>()
+  response = new Interceptor<N, Error>()
 
   run: MiddlewareCallback<T, N> = async (ctx, next) => {
     ctx.request = await this.request.exec(ctx.request)

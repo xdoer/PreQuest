@@ -1,4 +1,4 @@
-import { Lock, createLockWrapper } from '@prequest/lock'
+import Lock from '@prequest/lock'
 import { getStorageSync, removeStorageSync, setStorageSync } from '@tarojs/taro'
 import { prequest } from './request'
 
@@ -13,7 +13,7 @@ export const lock = new Lock({
     removeStorageSync('token')
   }
 })
-const wrapper = createLockWrapper(lock)
+const wrapper = Lock.createLockWrapper(lock)
 
 function getToken() {
 

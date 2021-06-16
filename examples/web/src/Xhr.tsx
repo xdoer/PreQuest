@@ -1,9 +1,9 @@
 import React, { FC, useEffect, useState } from 'react'
-import { prequest } from '@prequest/xhr'
-import { ErrorRetryMiddleware } from '@prequest/error-retry'
+import prequest, { Request, Response } from '@prequest/xhr'
+import ErrorRetryMiddleware from '@prequest/error-retry'
 
 
-const errorRetryMiddleware = new ErrorRetryMiddleware({
+const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>({
   retryCount: 2,
   retryControl(opt) {
     const { method } = opt
@@ -18,18 +18,11 @@ export const XhrComponent: FC<{}> = ({ }) => {
 
   useEffect(() => {
     prequest
-      .get('http://localhost:10000/api', {
+      .get('http://localhost:8080/api', {
         params: { a: 1 }
       })
       .then(res => {
         console.log(1, res)
-      })
-    prequest
-      .post('http://localhost:10000/api', {
-        params: { a: 2 }
-      })
-      .then(res => {
-        console.log(2, res)
       })
   }, [])
 

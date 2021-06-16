@@ -7,7 +7,6 @@
 - [包装器](/wrapper)
 - [取消请求](/cancel-token)
 - [错误重试](/error-retry)
-- [GraphQL](/graphql)
 - [useRequest](/use-request)
 - [XHR 请求库](/xhr)
 - [Fetch 请求库](/fetch)

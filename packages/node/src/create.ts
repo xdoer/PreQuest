@@ -1,4 +1,4 @@
-import { PreQuest } from '@prequest/core'
+import PreQuest from '@prequest/core'
 import { Request, Response } from './types'
 import { adapter } from './adapter'
 
