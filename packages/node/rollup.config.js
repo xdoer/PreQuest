@@ -7,7 +7,7 @@ import commonjs from '@rollup/plugin-commonjs'
 export default [
   {
     input: 'src/index.ts',
-    external: ['follow-redirects'],
+    external: ['follow-redirects', '@prequest/utils', '@prequest/core', '@prequest/helper'],
     plugins: [nodeResolve(), commonjs(), typescript(), terser()],
     output: [
       { file: 'dist/index.js', format: 'cjs', exports: 'auto' },

@@ -7,7 +7,7 @@ import commonjs from '@rollup/plugin-commonjs'
 export default [
   {
     input: 'src/index.ts',
-
+    external: ['@prequest/utils'],
     plugins: [nodeResolve(), commonjs(), typescript(), terser()],
     output: [
       { file: 'dist/index.js', format: 'cjs', exports: 'auto' },
@@ -17,7 +17,11 @@ export default [
   },
   {
     input: 'src/index.ts',
-
+    plugins: [nodeResolve(), commonjs(), typescript(), terser()],
+    output: [{ file: 'dist/index.umd.js', format: 'umd', name: 'PreQuest', exports: 'auto' }],
+  },
+  {
+    input: 'src/index.ts',
     plugins: [
       nodeResolve(),
       commonjs(),

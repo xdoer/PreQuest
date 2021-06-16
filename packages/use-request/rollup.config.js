@@ -7,7 +7,13 @@ import commonjs from '@rollup/plugin-commonjs'
 export default [
   {
     input: 'src/index.ts',
-    external: ['react', '@xdoer/timeout-interval', '@prequest/core'],
+    external: [
+      'react',
+      '@xdoer/timeout-interval',
+      '@prequest/core',
+      '@prequest/utils',
+      '@prequest/helper',
+    ],
     plugins: [nodeResolve(), commonjs(), typescript(), terser()],
     output: [
       { file: 'dist/index.js', format: 'cjs', exports: 'auto' },
@@ -22,7 +28,7 @@ export default [
       typescript({ tsconfigOverride: { compilerOptions: { declaration: false } } }),
       terser(),
     ],
-    external: ['react', '@xdoer/timeout-interval', '@prequest/core'],
+    external: ['react', '@xdoer/timeout-interval'],
     output: [
       {
         file: 'dist/es5/index.js',

@@ -8,11 +8,16 @@ export default [
   {
     input: 'src/index.ts',
     plugins: [nodeResolve(), commonjs(), typescript(), terser()],
+    external: ['@prequest/utils', '@prequest/core', '@prequest/helper'],
     output: [
       { file: 'dist/index.js', format: 'cjs', exports: 'auto' },
       { file: 'dist/index.esm.js', format: 'esm', exports: 'auto' },
-      { file: 'dist/index.umd.js', format: 'umd', name: 'prequest', exports: 'auto' },
     ],
+  },
+  {
+    input: 'src/index.ts',
+    plugins: [nodeResolve(), commonjs(), typescript(), terser()],
+    output: [{ file: 'dist/index.umd.js', format: 'umd', name: 'prequest', exports: 'auto' }],
   },
   {
     input: 'src/index.ts',
