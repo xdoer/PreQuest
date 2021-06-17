@@ -3,17 +3,11 @@
   "useWorkspaces": true,
   "command": {
     "publish": {
-      "ignoreChanges": [
-        "ignored-file",
-        "*.md",
-        "*.tsconfg.json"
-      ],
+      "ignoreChanges": ["ignored-file", "*.md", "*.tsconfg.json"],
       "message": "chore(release): publish",
       "registry": "http://registry.npmjs.org"
     }
   },
-  "version": "0.3.2",
-  "packages": [
-    "packages/*"
-  ]
+  "version": "0.4.0",
+  "packages": ["packages/*"]
 }
