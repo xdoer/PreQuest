@@ -12,7 +12,7 @@ npm install @prequest/interceptor
 
 ```ts
 import { prequest, Request, Response } from '@prequest/xhr'
-import { InterceptorMiddleware } from '@prequest/Interceptor'
+import interceptorMiddleware from '@prequest/interceptor'
 
 const interceptor = new InterceptorMiddleware<Request, Response, Error>()
 

@@ -1,13 +1,4 @@
-type Value = any
-type GetValue = () => Promise<Value | null>
-type SetValue = (v: Value) => Promise<void>
-type ClearValue = () => Promise<void>
-
-interface Options {
-  getValue: GetValue
-  setValue: SetValue
-  clearValue: ClearValue
-}
+import { Options } from './types'
 
 export default class Lock {
   on = false
@@ -32,7 +23,7 @@ export default class Lock {
   promise = new Promise(resolve => (this.resolvePromise = resolve))
 
   static createLockWrapper(lock: Lock) {
-    return async function (fn: () => Promise<any>) {
+    return async function(fn: () => Promise<any>) {
       if (lock.on) return lock.promise
 
       lock.on = true

@@ -11,7 +11,7 @@ npm install @prequest/cache
 ## 使用
 
 ```ts
-import { CacheMiddleware } from '@prequest/cache'
+import CacheMiddleware  from '@prequest/cache'
 import { Request, Response, prequest } from '@prequest/xhr'
 
 const cacheMiddleware = new CacheMiddleware<Request, Response>({

@@ -16,7 +16,7 @@ npm install @prequest/cancel-token
 
 ```ts
 import { PreQuest, prequest } from '@prequest/xhr'
-import { CancelToken } from '@prequest/cancel-token'
+import CancelToken from '@prequest/cancel-token'
 
 const source = CancelToken.source()
 
@@ -32,7 +32,7 @@ source.cancel()
 
 ```ts
 import { prequest } from '@prequest/xhr'
-import { CancelToken } from '@prequest/cancel-token'
+import CancelToken from '@prequest/cancel-token'
 
 let cancel
 
@@ -48,7 +48,7 @@ cancel()
 
 ```ts
 import { create } from '@prequest/xhr'
-import { CancelToken } from '@prequest/cancel-token'
+import CancelToken from '@prequest/cancel-token'
 
 const source = CancelToken.source()
 
@@ -73,7 +73,7 @@ useEffect(() => {
 首先需要设计将 `cancelToken` 作为可选参数
 
 ```ts
-import { CancelToken } from '@prequest/cancel-token'
+import CancelToken from '@prequest/cancel-token'
 
 interface Request {
   cancelToken?: CancelToken

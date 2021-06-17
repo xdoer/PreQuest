@@ -1,4 +1,4 @@
-import PreQuest from '@prequest/core'
+import { PreQuest } from '@prequest/core'
 import { baseOption } from '@prequest/helper'
 import { merge } from '@prequest/utils'
 import { Request, Response } from './types'

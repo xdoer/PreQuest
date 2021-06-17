@@ -14,8 +14,8 @@ npm install @prequest/error-retry
 
 ```ts
 import { prequest, Request, Response } from '@prequest/xhr'
-import { ErrorRetryMiddleware } from '@prequest/error-retry'
-import { isCancel } from '@prequest/cancel-token'
+import ErrorRetryMiddleware from '@prequest/error-retry'
+import CancelToken from '@prequest/cancel-token'
 
 const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>({
   // 错误重试次数
@@ -26,7 +26,7 @@ const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>({
     const { method, path } = opt
 
     // 手动取消的请求不进行错误重试
-    if (isCancel(e)) return false
+    if (CancelToken.isCancel(e)) return false
 
     // api 路径不进行错误重试
     if (path === '/api') return false
@@ -59,7 +59,7 @@ prequest('/api', {
 为了获得类型补全，你也可以这样用
 
 ```ts
-import { ErrorRetryMiddleware, ErrorRetryOptions } from '@prequest/error-retry'
+import ErrorRetryMiddleware, { ErrorRetryOptions } from '@prequest/error-retry'
 import { create, Request, Response } from '@prequest/xhr'
 
 const prequest = create<Request & ErrorRetryOptions, Response>()

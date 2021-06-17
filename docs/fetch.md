@@ -89,7 +89,7 @@ instance.get('/api')
 
 ```ts
 import { PreQuest, create, prequest } from '@prequest/fetch'
-import { interceptorMiddleware } from '@prequest/interceptor'
+import interceptorMiddleware from '@prequest/interceptor'
 
 // create Interceptor instance
 const interceptor = new Interceptor()

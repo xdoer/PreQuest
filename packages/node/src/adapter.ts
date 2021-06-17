@@ -1,7 +1,7 @@
 import http from 'http'
 import https from 'https'
-import { URL } from 'url'
 import { http as redirectHttp, https as redirectHttps } from 'follow-redirects'
+import { URL } from 'url'
 import { Request, Response, Proxy } from './types'
 import { createRequestUrl } from '@prequest/helper'
 import { stripBOM, getRequestBody, isStream } from './helper'

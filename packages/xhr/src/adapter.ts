@@ -1,14 +1,13 @@
-import { createRequestUrl } from '@prequest/helper'
+import { createRequestUrl, formatRequestBodyAndHeaders } from '@prequest/helper'
 import { Request, Response } from './types'
 import { createError, createResponse } from './helper'
 
 export function adapter(options: Request): Promise<Response> {
   const finalOptions = (options || {}) as Required<Request>
   const url = createRequestUrl(finalOptions)
+  const { data, headers } = formatRequestBodyAndHeaders(finalOptions)
   const {
     timeout,
-    data,
-    headers,
     withCredentials,
     responseType,
     method,

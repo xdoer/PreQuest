@@ -110,7 +110,7 @@ instance.get('/api')
 
 ```ts
 import { PreQuest, create, prequest } from '@prequest/xhr'
-import { interceptorMiddleware } from '@prequest/interceptor'
+import interceptorMiddleware from '@prequest/interceptor'
 
 // create Interceptor instance
 const interceptor = new Interceptor()
@@ -138,7 +138,7 @@ instance.use(interceptor.run)
 
 ```ts
 import { prequest } from '@prequest/xhr'
-import { CancelToken } from '@prequest/cancel-token'
+import CancelToken from '@prequest/cancel-token'
 
 const source = CancelToken.source()
 

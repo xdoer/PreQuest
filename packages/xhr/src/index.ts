@@ -1,14 +1,9 @@
-import { PreQuestInstance } from '@prequest/core'
+import { PreQuest, PreQuestInstance } from '@prequest/core'
 import { create } from './create'
 import { Request, Response } from './types'
 
-const prequest: any = create()
-prequest.create = create
+const prequest = create()
 
-export default prequest as PreQuestInstance<Request, Response> & Inject
+export default prequest
 
-export { Request, Response }
-
-interface Inject {
-  create: (opt?: Request) => PreQuestInstance<Request, Response>
-}
+export { prequest, create, Request, Response, PreQuest, PreQuestInstance }

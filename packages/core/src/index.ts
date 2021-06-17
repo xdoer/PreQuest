@@ -10,7 +10,7 @@ import {
   MiddlewareInjectOptions,
 } from '@prequest/types'
 
-export default class PreQuest<T, N> extends Middleware<T, N> {
+export class PreQuest<T, N> extends Middleware<T, N> {
   constructor(private adapter: Adapter<T, N>, private config?: Config<T>) {
     super()
     this.mount()

@@ -94,7 +94,7 @@ instance.get('/api')
 
 ```ts
 import { PreQuest, create } from '@prequest/miniprogram'
-import { InterceptorMiddleware } from '@prequest/interceptor'
+import interceptorMiddleware from '@prequest/interceptor'
 
 // create Interceptor instance
 const interceptor = new InterceptorMiddleware()
@@ -142,7 +142,7 @@ instance.request({
 
 ```ts
 import { PreQuest, create } from '@prequest/miniprogram'
-import { CancelToken } from '@prequest/cancel-token'
+import CancelToken from '@prequest/cancel-token'
 
 const instance = create(wx.request)
 
@@ -160,7 +160,7 @@ source.cancel()
 
 ```ts
 import { create } from '@prequest/miniprogram'
-import { CancelToken } from '@prequest/cancel-token'
+import CancelToken from '@prequest/cancel-token'
 
 const instance = create(wx.request)
 
@@ -180,7 +180,7 @@ cancel()
 
 ```ts
 import { create, Request, Response } from '@prequest/miniprogram'
-import { CacheMiddleware } from '@prequest/cache'
+import CacheMiddleware  from '@prequest/cache'
 
 const cacheMiddleware = new CacheMiddleware<Request, Response>({
   ttl: 5000,
@@ -273,8 +273,8 @@ function getData() {
 
 ```ts
 import { create, Request, Response } from '@prequest/miniprogram'
-import { ErrorRetryMiddleware } from '@prequest/error-retry'
-import { isCancel } from '@prequest/cancel-token'
+import ErrorRetryMiddleware from '@prequest/error-retry'
+import CancelToken from '@prequest/cancel-token'
 
 const prequest = create(wx.request)
 
@@ -284,7 +284,7 @@ const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>({
     const { method, path } = opt
 
     // 使用 cancelToken 取消的请求不进行错误重试
-    if (isCancel(error)) return false
+    if (CancelToken.isCancel(error)) return false
 
     // 指定的路径不使用错误重试
     if (path === '/api') return false

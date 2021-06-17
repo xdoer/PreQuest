@@ -1,6 +1,7 @@
 import { BaseOption } from '@prequest/types'
-
-export interface Request extends BaseOption {}
+export interface Request extends BaseOption {
+  requestType?: 'json' | 'form' | ({} & string)
+}
 
 export interface Response {
   data: any

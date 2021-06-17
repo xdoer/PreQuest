@@ -134,8 +134,8 @@ axiosInstance.interceptor.response.use()
 
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { PreQuest } from '@prequest/core'
-import { ErrorRetryMiddleware } from '@prequest/error-retry'
-import { CacheMiddleware } from '@prequest/cache'
+import ErrorRetryMiddleware from '@prequest/error-retry'
+import CacheMiddleware  from '@prequest/cache'
 import { axiosInstance } from './http'
 
 export const prequest = PreQuest.create<AxiosRequestConfig, AxiosResponse>(opt => {

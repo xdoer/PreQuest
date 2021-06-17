@@ -1,7 +1,7 @@
-import PreQuest from '@prequest/core'
+import { PreQuest } from '@prequest/core'
 import { Adapter, MethodsCallback } from '@prequest/types'
 
-function wrapper<T, N>(adapter: Adapter<T, N>): Fn<T, N> {
+export function wrapper<T, N>(adapter: Adapter<T, N>): Fn<T, N> {
   return PreQuest.create<T, N>(adapter)
 }
 

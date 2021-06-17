@@ -1,5 +1,5 @@
 {
-  "version": "0.3.2",
+  "version": "0.2.6",
   "license": "MIT",
   "name": "@prequest/types",
   "author": "xdoer",
@@ -14,7 +14,8 @@
     "url": "https://github.com/xdoer/PreQuest/issues"
   },
   "homepage": "https://pre-quest.vercel.app",
-  "module": "dist/index.esm.js",
-  "browser": "dist/index.umd.js",
+  "browserslist": [
+    "> 5%"
+  ],
   "gitHead": "ac81046fd78f1722002ceebb34d3be2ad3b5522a"
 }

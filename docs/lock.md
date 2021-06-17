@@ -72,7 +72,7 @@ prequest('/token', { skipTokenCheck: true })
 
 ```ts
 import { prequest, create } from '@prequest/xhr'
-import { ErrorRetryMiddleware } from '@prequest/error-retry'
+import ErrorRetryMiddleware from '@prequest/error-retry'
 
 const errorRetryMiddleware = new ErrorRetryMiddleware({
   retryControl(opt, e) {
