@@ -58,5 +58,39 @@
         )
       )
     </script>
+    <script src="//unpkg.com/@prequest/xhr@0.4.0/dist/pq.umd.production.min.js"></script>
+    <script src="//unpkg.com/@prequest/error-retry@0.4.0/dist/errorretrymiddleware.umd.production.min.js"></script>
+    <script>
+      const { prequest, PreQuest } = pq
+
+      // 全局配置
+      PreQuest.defaults.baseURL = 'https://bundlephobia.com'
+
+      // 错误重试中间件
+      const errorRetryMiddleware = new ErrorRetryMiddleware.default()
+      prequest.use(errorRetryMiddleware.run)
+
+      // 解析响应
+      prequest.use(async (ctx, next) => {
+        await next()
+        ctx.response.data = JSON.parse(ctx.response.data)
+      })
+
+      async function updateVersion() {
+        try {
+          const res = await prequest('/api/size', {
+            params: {
+              package: '@prequest/core',
+              record: true,
+            },
+          })
+          document.querySelector('#prequest-030 small').innerHTML = res.data.version
+        } catch (e) {
+          console.log('更新版本失败', e)
+        }
+      }
+
+      updateVersion()
+    </script>
   </body>
 </html>
