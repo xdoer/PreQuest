@@ -46,7 +46,12 @@ const config = {
           generateScopedName: '[name]__[local]___[hash:base64:5]'
         }
       }
-    }
+    },
+    compile: {
+      include: [
+        (modulePath) => modulePath.indexOf("@prequest") >= 0,
+      ],
+    },
   },
   h5: {
     publicPath: '/',
