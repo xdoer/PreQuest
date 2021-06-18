@@ -49,6 +49,7 @@
     "> 5%"
   ],
   "module": "dist/pq.esm.js",
+  "browser": "dist/pq.umd.production.min.js",
   "size-limit": [
     {
       "path": "dist/pq.cjs.production.min.js",

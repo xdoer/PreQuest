@@ -49,6 +49,7 @@
     "> 5%"
   ],
   "module": "dist/lock.esm.js",
+  "browser": "dist/lock.umd.production.min.js",
   "size-limit": [
     {
       "path": "dist/lock.cjs.production.min.js",

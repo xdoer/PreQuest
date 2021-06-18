@@ -48,14 +48,15 @@
   "browserslist": [
     "> 5%"
   ],
-  "module": "dist/cache.esm.js",
+  "module": "dist/cachemiddleware.esm.js",
+  "browser": "dist/cachemiddleware.umd.production.min.js",
   "size-limit": [
     {
-      "path": "dist/cache.cjs.production.min.js",
+      "path": "dist/cachemiddleware.cjs.production.min.js",
       "limit": "10 KB"
     },
     {
-      "path": "dist/cache.esm.js",
+      "path": "dist/cachemiddleware.esm.js",
       "limit": "10 KB"
     }
   ],

@@ -48,14 +48,15 @@
   "browserslist": [
     "> 5%"
   ],
-  "module": "dist/interceptor.esm.js",
+  "module": "dist/interceptormiddleware.esm.js",
+  "browser": "dist/interceptormiddleware.umd.production.min.js",
   "size-limit": [
     {
-      "path": "dist/interceptor.cjs.production.min.js",
+      "path": "dist/interceptormiddleware.cjs.production.min.js",
       "limit": "10 KB"
     },
     {
-      "path": "dist/interceptor.esm.js",
+      "path": "dist/interceptormiddleware.esm.js",
       "limit": "10 KB"
     }
   ],
