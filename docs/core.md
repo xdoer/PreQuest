@@ -34,7 +34,7 @@ export { prequest, PreQuest }
 ### 使用
 
 ```ts
-import { prequest, PreQuest } from 'myHttp'
+import { prequest, PreQuest } from './myHttp'
 
 // 全局配置
 PreQuest.defaults.headers = { token: '12345' }
@@ -167,8 +167,7 @@ PreQuest.use<Request, Response>(async (ctx, next) => {
 })
 
 // 实例中间件
-const prequest = PreQuest.create(adapter)
-prequest.use<Request, Response>(async (ctx, next) => {
+prequest.use(async (ctx, next) => {
   ctx.request.path = '/prefix' + ctx.request.path
   await next()
   ctx.response.data = JSON.parse(ctx.response.data)

@@ -57,7 +57,7 @@ prequest.use(cacheMiddleware.run)
 
 | Option Name  | Type                         | Default                                  | Required | Meaning  |
 | ------------ | ---------------------------- | ---------------------------------------- | -------- | -------- |
-| ttl          | number                       |                                          | false    | 缓存时间 |
+| ttl          | number                       | 0                                        | false    | 缓存时间 |
 | cacheId      | (opt: RequestOpt) => any     | (opt: RequestOpt) => JSON.stringify(opt) | false    | 缓存 ID  |
 | cacheControl | (opt: RequestOpt) => boolean |                                          | false    | 缓存策略 |
 | cacheKernel  | CacheKernel                  | Map                                      | false    | 存储内核 |

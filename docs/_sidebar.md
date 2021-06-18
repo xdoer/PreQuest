@@ -1,5 +1,6 @@
 - [介绍](/introduce 'PreQuest')
 - [使用](/usage)
+- [兼容](/compatible)
 - [核心](/core)
 - [缓存](/cache)
 - [拦截器](/interceptor)

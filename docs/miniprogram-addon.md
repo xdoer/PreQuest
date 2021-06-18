@@ -74,6 +74,35 @@ prequest('http://localhost:3000/audio/123').then(res => {
 })
 ```
 
+### 配置
+
+`miniprogram` 与 `miniprogram-addon` 共用一份全局配置，这意味着你配置到 `PreQuest` 的全局配置和全局中间件都是共用的。
+
+```ts
+import { PreQuest, create } from '@prequest/miniprogram'
+import { createUpload } from '@prequest/miniprogram-addon'
+
+PreQuest.defaults.baseURL = 'http://localhost:3000'
+
+PreQuest.use(async (ctx, next) => {
+  console.log(ctx.request)
+
+  await next()
+
+  console.log(ctx.response)
+})
+
+const prequest = create(wx.request)
+const wxUpload = createUpload(wx.uploadFile)
+const wxDownload = createUpload(wx.DownloadFile)
+
+prequest('/api')
+
+wxUpload('/upload')
+
+wxDownload('/download')
+```
+
 ### 其他
 
 Token 校验、错误重试、取消请求、获取原生实例等请参阅 [@prequest/miniprogram](/miniprogram) 篇，用法都是一样的。

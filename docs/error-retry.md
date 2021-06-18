@@ -56,24 +56,6 @@ prequest('/api', {
 })
 ```
 
-为了获得类型补全，你也可以这样用
-
-```ts
-import ErrorRetryMiddleware, { ErrorRetryOptions } from '@prequest/error-retry'
-import { create, Request, Response } from '@prequest/xhr'
-
-const prequest = create<Request & ErrorRetryOptions, Response>()
-
-prequest('/api', {
-  errorRetry: 1,
-  retryControl(_, e) {
-    if (e.message === '测试') {
-      return false
-    }
-  },
-})
-```
-
 ## 配置项
 
 | Option Name  | Type                                   | Default                                   | Required | Meaning                               |

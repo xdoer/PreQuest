@@ -113,6 +113,6 @@ ajax('http://localhost:1000/api')
 // 混入 `{ path : http://localhost:1000/api, method: post }`
 ajax.post('http://localhost:1000/api')
 
-// 混入 `{ path : /api, method: post }`
+// 混入 `{ path : /api, method: get }`
 ajax.get('/api')
 ```

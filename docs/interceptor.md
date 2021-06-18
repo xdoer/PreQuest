@@ -14,7 +14,7 @@ npm install @prequest/interceptor
 import { prequest, Request, Response } from '@prequest/xhr'
 import interceptorMiddleware from '@prequest/interceptor'
 
-const interceptor = new InterceptorMiddleware<Request, Response, Error>()
+const interceptor = new InterceptorMiddleware<Request, Response>()
 
 // 修改请求参数
 interceptor.request.use(
