@@ -7,8 +7,8 @@ export interface Request extends BaseOption {
   responseType?: XMLHttpRequestResponseType
   getNativeRequestInstance?(promise: Promise<XMLHttpRequest>): void
   cancelToken?: CancelToken
-  onDownloadProgress?(): void
-  onUploadProgress?(): void
+  onDownloadProgress?(e: any): void
+  onUploadProgress?(e: any): void
 }
 
 export interface Response {

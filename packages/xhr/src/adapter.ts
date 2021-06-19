@@ -75,7 +75,7 @@ export function adapter(options: Request): Promise<Response> {
 
     xhr.addEventListener('progress', onDownloadProgress)
 
-    xhr?.upload?.addEventListener('progress', onUploadProgress)
+    xhr.upload?.addEventListener('progress', onUploadProgress)
 
     xhr.addEventListener('abort', () => {
       reject(createError('拦截请求'))
