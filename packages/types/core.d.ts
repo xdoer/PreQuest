@@ -30,5 +30,11 @@ export type MiddlewareCallback<T, N> = (
 ) => Promise<any>
 
 export class PreQuest<T, N> {
+  request(path: string | Config<T>, config?: Config<T>): Promise<N>
   controller(ctx: Context<T, N>, opt?: MiddlewareInjectOptions): Promise<N>
+  static create<T, N>(adapter: Adapter<T, N>, config?: Config<T>): PreQuestInstance<T, N>
 }
+
+export type PreQuestFn<T, N> = (path: string | T, config?: T) => Promise<N>
+export type PreQuestBaseInstance<T, N> = PreQuest<T, N> & MethodsCallback<T, N>
+export type PreQuestInstance<T, N> = PreQuestBaseInstance<T, N> & PreQuestFn<T, N>

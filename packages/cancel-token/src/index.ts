@@ -1,5 +1,7 @@
 import { Cancel } from './Cancel'
 
+type executorCallback = (message?: string) => void
+
 export default class CancelToken {
   reason?: Cancel
 
@@ -7,7 +9,7 @@ export default class CancelToken {
 
   promise = new Promise(resolve => (this.resolvePromise = resolve))
 
-  constructor(private executor: (cb: (message?: string) => void) => void) {
+  constructor(private executor: (cb: executorCallback) => void) {
     this.executor((message?: string) => {
       if (this.reason) return
       this.reason = new Cancel(message)
@@ -22,11 +24,11 @@ export default class CancelToken {
   }
 
   static source() {
-    let cancel
-    const token = new CancelToken((c: any) => (cancel = c))
+    let cancel: executorCallback
+    const token = new CancelToken((c: executorCallback) => (cancel = c))
     return {
       token: token,
-      cancel: cancel,
+      cancel: cancel!,
     }
   }
 
