@@ -1,4 +1,4 @@
-# PreQuest <small>0.3.0</small>
+# PreQuest <small>0.0.0</small>
 
 > 为 HTTP 请求提供模块化，可插拔的解决方案.
 

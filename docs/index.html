@@ -82,14 +82,15 @@
             params: {
               package: '@prequest/core',
               record: true,
+              timestamp: Date.now(),
             },
           })
-          document.querySelector('#prequest-030 small').innerHTML = res.data.version
+          document.querySelector('.cover-main small').innerHTML = res.data.version
         } catch (e) {
           console.log('更新版本失败', e)
         }
       }
-      window.onload = updateVersion
+      window.addEventListener('load', updateVersion)
     </script>
   </body>
 </html>
