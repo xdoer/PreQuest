@@ -15,6 +15,7 @@
 > - [@prequest/lock](/lock ':target=_self'): 请求锁，token 处理的解决的方案
 > - [@prequest/interceptor](/interceptor ':target=_self'): 拦截器中间件
 > - [@prequest/use-request](/use-request ':target=_self'): React 请求 Hook
+> - [@prequest/uploader](/uploader ':target=_self'): 文件上传
 
 ## 项目迁移
 

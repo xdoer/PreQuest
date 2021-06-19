@@ -8,6 +8,7 @@
 - [包装器](/wrapper)
 - [取消请求](/cancel-token)
 - [错误重试](/error-retry)
+- [文件上传](/uploader)
 - [useRequest](/use-request)
 - [XHR 请求库](/xhr)
 - [Fetch 请求库](/fetch)
