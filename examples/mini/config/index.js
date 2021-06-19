@@ -49,7 +49,13 @@ const config = {
     },
     compile: {
       include: [
-        (modulePath) => modulePath.indexOf("@prequest") >= 0,
+        (modulePath) => {
+          // 这里由于使用了 yarn 的 workspace，node_modules 被提升到了顶层，包中都是软链接，所以要这样写
+          return modulePath.indexOf("packages") > -1
+
+          // 正常项目要这样写
+          // return modulePath.indexOf("@prequest") > -1
+        },
       ],
     },
   },
