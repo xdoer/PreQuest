@@ -26,3 +26,29 @@ export const merge = (...args: (Record<string, any> | undefined)[]) => {
     return t
   }, {} as any)
 }
+
+// refer: https://github.com/rxaviers/async-pool/blob/master/lib/es7.js
+export const asyncPool = async <T, N>(
+  poolLimit: number,
+  array: T[],
+  iteratorFn: (i: T, list: T[]) => Promise<N>
+) => {
+  const ret: Promise<N>[] = []
+  const executing: Promise<void>[] = []
+
+  for (const item of array) {
+    const p = Promise.resolve().then(() => iteratorFn(item, array))
+    ret.push(p)
+
+    if (poolLimit <= array.length) {
+      const e: Promise<void> = p.then(() => {
+        executing.splice(executing.indexOf(e), 1)
+      })
+      executing.push(e)
+      if (executing.length >= poolLimit) {
+        await Promise.race(executing)
+      }
+    }
+  }
+  return Promise.all(ret)
+}
