@@ -15,31 +15,35 @@ const DEFAULT_OPTIONS: Options = {
 export default class Uploader<N> {
   private options: RequestOption<N> & Options
 
-  constructor(private opt?: Partial<Options & RequestOption<N>>) {
-    this.options = merge(DEFAULT_OPTIONS, this.opt)
+  constructor(opt?: Partial<Options & RequestOption<N>>) {
+    this.options = merge(DEFAULT_OPTIONS, opt)
+  }
+
+  getChipNum(file: File) {
+    return Math.ceil(file.size / this.options.chipSize)
   }
 
   async upload(fileList: File[]) {
-    return asyncPool(this.options.poolLimit, fileList, file => {
+    const { chipSize, customFormData, request, poolLimit } = this.options
+
+    return asyncPool(poolLimit, fileList, file => {
       // 计算切片数量
-      const chipNum = Math.ceil(file.size / this.options.chipSize)
+      const chipNum = this.getChipNum(file)
 
       // 切片列表
       const initList = new Array(chipNum).fill(0)
-      const chipChunks = initList.map((_, idx) =>
-        file.slice(idx * this.options.chipSize, (idx + 1) * this.options.chipSize)
-      )
+      const chipChunks = initList.map((_, idx) => file.slice(idx * chipSize, (idx + 1) * chipSize))
 
-      // 创建 formData 数据列表
+      // 创建任务列表
       const taskList = chipChunks.map((chunk, idx) => {
-        const formData = this.options.customFormData(new FormData(), { chunk, file, idx })
+        const formData = customFormData(new FormData(), { chunk, file, idx })
         return { chunk, file, idx, formData }
       })
 
       // 批量上传
-      return asyncPool(this.options.poolLimit, taskList, task => {
+      return asyncPool(poolLimit, taskList, task => {
         const { formData, ...rest } = task
-        return this.options.request(formData, rest)
+        return request(formData, rest)
       })
     })
   }
