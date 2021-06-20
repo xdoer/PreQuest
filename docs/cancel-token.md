@@ -1,6 +1,6 @@
 # CancelToken
 
-取消请求，代码移植自 [axios](https://github.com/axios/axios/tree/master/lib/cancel)
+取消请求。
 
 ## 安装
 
@@ -90,6 +90,9 @@ function adapter(opt) {
     cancelToken.promise.then(() => {
       // 调用原生请求的方法，打断请求
       nativeRequest.abort()
+
+      // 利用 abortController 取消请求
+      cancelToken.abortController.abort()
     })
   }
 

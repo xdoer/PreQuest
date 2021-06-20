@@ -6,13 +6,16 @@ export async function adapter(options: Request) {
   const finalOptions = (options || {}) as Required<Request>
   const url = createRequestUrl(finalOptions)
   const { data, headers } = formatRequestBodyAndHeaders(finalOptions)
-  const { timeout, ...rest } = finalOptions
+  const { timeout, cancelToken, ...rest } = finalOptions
 
-  const config = {
-    ...rest,
-    body: data,
-    headers,
-  } as any
+  const config = { ...rest, body: data, headers } as any
+
+  if (cancelToken) {
+    cancelToken.promise.then(() => {
+      cancelToken.abortController.abort()
+    })
+    config.signal = cancelToken.abortController.signal
+  }
 
   const res = (await (timeout
     ? Promise.race([timeoutThrow(timeout), fetch(url, config)])

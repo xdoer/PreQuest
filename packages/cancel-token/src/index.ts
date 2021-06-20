@@ -9,6 +9,8 @@ export default class CancelToken {
 
   promise = new Promise(resolve => (this.resolvePromise = resolve))
 
+  abortController = new AbortController()
+
   constructor(private executor: (cb: executorCallback) => void) {
     this.executor((message?: string) => {
       if (this.reason) return

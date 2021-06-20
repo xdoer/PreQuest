@@ -13,9 +13,9 @@ npm install @prequest/fetch
 ```ts
 import { prequest } from '@prequest/fetch'
 
-prequest('http://localhost:10000/api', { method: 'post' })
+prequest('http://localhost:3000/api', { method: 'post' })
 
-prequest.post('http://localhost:10000/api')
+prequest.post('http://localhost:3000/api')
 ```
 
 ## 高级用法
@@ -51,12 +51,12 @@ prequest.use(async (ctx, next) => {
 })
 
 // request
-prequest('/api', { baseURL: 'http://localhost:3001/api' })
+prequest('/api', { baseURL: 'http://localhost:3000/api' })
 
-prequest({ path: '/api', baseURL: 'http://localhost:3001/api' })
+prequest({ path: '/api', baseURL: 'http://localhost:3000/api' })
 
 // request by alias
-prequest.get('/api', { baseURL: 'http://localhost:3001/api' })
+prequest.get('/api', { baseURL: 'http://localhost:3000/api' })
 ```
 
 ### 自定义实例
@@ -65,7 +65,7 @@ prequest.get('/api', { baseURL: 'http://localhost:3001/api' })
 import { create } from '@prequest/fetch'
 
 // create instance
-const opt = { baseURL: 'http://localhost:3001' }
+const opt = { baseURL: 'http://localhost:3000' }
 const instance = create(opt)
 
 // instance middleware
@@ -76,8 +76,8 @@ instance.use(async (ctx, next) => {
 })
 
 // request
-instance('/api', { baseURL: 'http://localhost:3001/api' })
-instance({ path: '/api', baseURL: 'http://localhost:3001/api' })
+instance('/api', { baseURL: 'http://localhost:3000/api' })
+instance({ path: '/api', baseURL: 'http://localhost:3000/api' })
 
 // request by instance
 instance.get('/api')
@@ -109,4 +109,19 @@ prequest.use(interceptor.run)
 // or you can mount it to custom prequest instance
 const instance = create()
 instance.use(interceptor.run)
+```
+
+### 取消请求
+
+```ts
+import { prequest } from '@prequest/xhr'
+import CancelToken from '@prequest/cancel-token'
+
+const source = CancelToken.source()
+
+prequest.post('/api', {
+  cancelToken: source.token,
+})
+
+source.cancel()
 ```

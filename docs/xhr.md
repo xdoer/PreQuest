@@ -132,7 +132,7 @@ const instance = create()
 instance.use(interceptor.run)
 ```
 
-### 终止请求
+### 取消请求
 
 如何取消请求
 
@@ -143,13 +143,7 @@ import CancelToken from '@prequest/cancel-token'
 const source = CancelToken.source()
 
 prequest.post('/api', {
-  cancelToken: source.token
-
-  getNativeRequestInstance(promise) {
-    promise.then(xhr => {
-      xhr.abort()
-    })
-  },
+  cancelToken: source.token,
 })
 
 source.cancel()
