@@ -30,7 +30,7 @@ export class PreQuest<T, N> extends Middleware<T, N> {
     })
   }
 
-  request(path: string | Config<T>, config?: Config<T>) {
+  request(path: string | Config<T>, config?: Config<T>): Promise<N> {
     const request = <RequestOption<T>>(
       merge(PreQuest.defaults, this.config, typeof path === 'string' ? { path, ...config } : path)
     )

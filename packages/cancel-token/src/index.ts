@@ -9,7 +9,13 @@ export default class CancelToken {
 
   promise = new Promise(resolve => (this.resolvePromise = resolve))
 
-  abortController = new AbortController()
+  get abortController() {
+    try {
+      return new AbortController()
+    } catch (e) {
+      return null
+    }
+  }
 
   constructor(private executor: (cb: executorCallback) => void) {
     this.executor((message?: string) => {

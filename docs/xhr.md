@@ -162,3 +162,28 @@ prequest.post('/api', {
   },
 })
 ```
+
+### 其他
+
+Token 刷新;接口缓存;错误重试等功能请查阅相关章节
+
+## 参数
+
+| Option Name              | Type                                       | Default | Required | Meaning                            | Example                 |
+| ------------------------ | ------------------------------------------ | ------- | -------- | ---------------------------------- | ----------------------- |
+| path                     | string                                     | none    | Y        | 接口路径                           | /api                    |
+| method                   | string                                     | GET     | N        | 请求方式                           | post                    |
+| baseURL                  | string                                     | none    | N        | 服务器地址                         | 'http://localhost:3000' |
+| getNativeRequestInstance | (value: Promise\<NativeInstance\>) => void | none    | N        | 获取原生请求实例                   |                         |
+| cancelToken              | CancelToken                                | none    | N        | 取消请求                           |                         |
+| timeout                  | number                                     | none    | N        | 请求超时                           | 5000                    |
+| params                   | object                                     | none    | N        | url 参数                           | { id: 10}               |
+| data                     | object                                     | none    | N        | 请求头传输数据                     | { id: 10}               |
+| responseType             | json \| text \| arraybuffer \|...          | none    | N        | 响应的数据类型                     | json                    |
+| requestType              | json \| text \| arraybuffer \|...          | none    | N        | 请求的数据类型，用以自动设置请求头 | json                    |
+| header                   | object                                     | none    | N        | 请求头                             | { token: 'aaaaa'}       |
+| withCredentials          | boolean                                    | none    | N        | 认证                               |                         |
+| onDownloadProgress       | (e) => void                                | none    | N        | 下载进度                           |                         |
+| onUploadProgress         | (e) => void                                | none    | N        | 上传进度                           |                         |
+
+**注意**: 如果你用别名的方式调用一个 HTTP 请求， 就像 `instance.get('/api')` 这样， 那么你不需要传入 `path` 和 `method` 参数到选项中。

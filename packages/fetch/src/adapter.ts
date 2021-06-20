@@ -11,10 +11,13 @@ export async function adapter(options: Request) {
   const config = { ...rest, body: data, headers } as any
 
   if (cancelToken) {
-    cancelToken.promise.then(() => {
-      cancelToken.abortController.abort()
+    cancelToken.promise.then(cancel => {
+      cancelToken.abortController?.abort()
+      if (!cancelToken.abortController) {
+        throw new Error(cancel || 'cancel')
+      }
     })
-    config.signal = cancelToken.abortController.signal
+    config.signal = cancelToken.abortController?.signal
   }
 
   const res = (await (timeout
