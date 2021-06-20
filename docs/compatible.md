@@ -24,7 +24,7 @@ module: {
 
 ## Webpack Chain
 
-在 `vue-cli` 等脚手架中，你可以使用 `webpack-chain` 进行配置
+在 `vue-cli`、`taro-cli` 等脚手架中，你可以使用 `webpack-chain` 进行配置
 
 ```js
 webpackChain(chain) {
@@ -47,3 +47,15 @@ webpackChain(chain) {
   });
 }
 ```
+
+## 小程序
+
+### 原生小程序
+
+原生小程序中不支持构建 node_modules 中包含 ES6 代码的包，所以只能复制粘贴相关代码到你的项目中。这里提供了 [demo](https://github.com/xdoer/PreQuest/tree/main/examples/wx-mini) 供参考。
+
+编译好的文件下载地址: [https://unpkg.com/browse/@prequest/miniprogram@0.4.0/dist/miniprogram.esm.js](https://unpkg.com/browse/@prequest/miniprogram@0.4.0/dist/miniprogram.esm.js)(要注意，文件依赖也需要下载)
+
+### 框架小程序
+
+框架小程序(如 taro)一般都提供了基于 webpack 的 cli 工具来进行代码打包，因而你可以直接安装 PreQuest 的 npm 包，然后再使用 `babel` 进行编译。这里提供了 [demo](https://github.com/xdoer/PreQuest/tree/main/examples/mini) 供参考。
