@@ -1,21 +1,21 @@
 {
   "name": "@prequest/example-web",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "scripts": {
     "dev": "vite"
   },
   "dependencies": {
-    "@prequest/cache": "^0.4.1",
-    "@prequest/core": "^0.4.1",
-    "@prequest/error-retry": "^0.4.1",
-    "@prequest/fetch": "^0.4.1",
+    "@prequest/cache": "^0.4.2",
+    "@prequest/core": "^0.4.2",
+    "@prequest/error-retry": "^0.4.2",
+    "@prequest/fetch": "^0.4.2",
     "@prequest/graphql": "^0.3.0",
-    "@prequest/interceptor": "^0.4.1",
-    "@prequest/lock": "^0.4.1",
-    "@prequest/uploader": "^0.4.1",
-    "@prequest/utils": "^0.4.1",
-    "@prequest/wrapper": "^0.4.1",
-    "@prequest/xhr": "^0.4.1",
+    "@prequest/interceptor": "^0.4.2",
+    "@prequest/lock": "^0.4.2",
+    "@prequest/uploader": "^0.4.2",
+    "@prequest/utils": "^0.4.2",
+    "@prequest/wrapper": "^0.4.2",
+    "@prequest/xhr": "^0.4.2",
     "axios": "^0.21.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
@@ -27,5 +27,6 @@
     "@vitejs/plugin-react-refresh": "^1.1.0",
     "typescript": "^4.1.2",
     "vite": "^2.0.0-beta.12"
-  }
+  },
+  "gitHead": "c9273f8f12aecb3bebb5f1020f2edb2b2dfd7cb8"
 }

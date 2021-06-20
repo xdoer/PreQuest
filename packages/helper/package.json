@@ -1,5 +1,5 @@
 {
-  "version": "0.4.1",
+  "version": "0.4.2",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -19,7 +19,7 @@
     "interceptor"
   ],
   "scripts": {
-    "start": "tsdx watch --verbose",
+    "start": "tsdx watch --verbose --format cjs,esm,umd --name Helper",
     "build": "tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint",
@@ -49,6 +49,7 @@
     "> 5%"
   ],
   "module": "dist/helper.esm.js",
+  "browser": "dist/helper.umd.production.min.js",
   "size-limit": [
     {
       "path": "dist/helper.cjs.production.min.js",
@@ -60,8 +61,8 @@
     }
   ],
   "dependencies": {
-    "@prequest/types": "^0.4.1",
-    "@prequest/utils": "^0.4.1",
+    "@prequest/types": "^0.4.2",
+    "@prequest/utils": "^0.4.2",
     "qs": "^6.10.1"
   },
   "devDependencies": {
@@ -73,5 +74,5 @@
     "tslib": "^2.2.0",
     "typescript": "^4.2.4"
   },
-  "gitHead": "ac81046fd78f1722002ceebb34d3be2ad3b5522a"
+  "gitHead": "c9273f8f12aecb3bebb5f1020f2edb2b2dfd7cb8"
 }
