@@ -1,5 +1,5 @@
 {
-  "version": "0.4.0",
+  "version": "0.4.1",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -55,7 +55,7 @@
     }
   ],
   "dependencies": {
-    "@prequest/core": "^0.4.0",
+    "@prequest/core": "^0.4.1",
     "@xdoer/timeout-interval": "^0.1.2"
   },
   "devDependencies": {

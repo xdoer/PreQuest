@@ -1,6 +1,6 @@
 {
   "name": "@prequest/example-miniprogram",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "mini-demo",
   "templateInfo": {
     "name": "default",
@@ -35,12 +35,12 @@
   "author": "",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
-    "@prequest/cancel-token": "^0.4.0",
-    "@prequest/error-retry": "^0.4.0",
-    "@prequest/miniprogram": "^0.4.0",
-    "@prequest/lock": "^0.4.0",
-    "@prequest/cache": "^0.4.0",
-    "@prequest/miniprogram-addon": "^0.4.0",
+    "@prequest/cache": "^0.4.1",
+    "@prequest/cancel-token": "^0.4.1",
+    "@prequest/error-retry": "^0.4.1",
+    "@prequest/lock": "^0.4.1",
+    "@prequest/miniprogram": "^0.4.1",
+    "@prequest/miniprogram-addon": "^0.4.1",
     "@tarojs/async-await": "^2.2.10",
     "@tarojs/components": "3.2.1",
     "@tarojs/react": "3.2.1",
