@@ -1,5 +1,5 @@
 import { asyncPool, merge } from '@prequest/utils'
-import { Options, RequestOption } from './types'
+import { CallbackOption, Options, RequestOption } from './types'
 
 const DEFAULT_OPTIONS: Options = {
   chipSize: 10 * 1024 * 1024,
@@ -26,7 +26,7 @@ export default class Uploader<N> {
   async upload(fileList: File[]) {
     const { chipSize, customFormData, request, poolLimit } = this.options
 
-    return asyncPool(poolLimit, fileList, file => {
+    return asyncPool(poolLimit, fileList, (file: File) => {
       // 计算切片数量
       const chipNum = this.getChipNum(file)
 
@@ -41,7 +41,7 @@ export default class Uploader<N> {
       })
 
       // 批量上传
-      return asyncPool(poolLimit, taskList, task => {
+      return asyncPool(poolLimit, taskList, (task: CallbackOption & { formData: FormData }) => {
         const { formData, ...rest } = task
         return request(formData, rest)
       })

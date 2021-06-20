@@ -60,6 +60,9 @@
       "limit": "10 KB"
     }
   ],
+  "dependencies": {
+    "@prequest/utils": "^0.4.0"
+  },
   "devDependencies": {
     "@prequest/types": "^0.4.0",
     "@size-limit/preset-small-lib": "^4.10.2",
