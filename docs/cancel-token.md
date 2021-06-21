@@ -10,9 +10,7 @@ npm install @prequest/cancel-token
 
 ## 使用
 
-对于业务开发者来说，如何利用 cancelToken 打断请求？
-
-方式一:
+对于业务开发者来说，如何利用 cancelToken 取消请求？
 
 ```ts
 import { PreQuest, prequest } from '@prequest/xhr'
@@ -26,22 +24,6 @@ prequest.request({
 })
 
 source.cancel()
-```
-
-方式二:
-
-```ts
-import { prequest } from '@prequest/xhr'
-import CancelToken from '@prequest/cancel-token'
-
-let cancel
-
-prequest.request({
-  path: '/api',
-  cancelToken: new CancelToken(c => (cancel = c)),
-})
-
-cancel()
 ```
 
 你也可以初始化一个请求实例，在页面或组件卸载时，取消所有请求
@@ -80,7 +62,7 @@ interface Request {
 }
 ```
 
-其次在 `adapter` 函数中，处理 cancelToken
+其次在 `adapter` 函数中，处理 cancelToken.
 
 ```ts
 function adapter(opt) {
@@ -88,16 +70,19 @@ function adapter(opt) {
 
   if (cancelToken) {
     cancelToken.promise.then(() => {
-      // 调用原生请求的方法，打断请求
+      // 调用原生请求的方法，取消请求。一般用于请求内核提供了取消请求方法的情况下
       nativeRequest.abort()
 
-      // 利用 abortController 取消请求
-      cancelToken.abortController.abort()
+      // 利用 abortController 取消请求. fetch 请求
+      cancelToken.abortController?.abort()
+
+      // 如果环境不支持 AbortController 对象，则需要抛出异常。属于假取消请求
+      if (!cancelToken.abortController) {
+        throw new Error('cancel')
+      }
     })
   }
 
   // ...some code
 }
 ```
-
-您可以[查阅](https://github.com/xdoer/PreQuest/blob/main/packages/miniprogram/src/adapter.ts)这里，获得完整的示例。

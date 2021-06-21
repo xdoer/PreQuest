@@ -29,8 +29,6 @@ function adapter(opt) {
 }
 ```
 
-对于 `prequest.get('/api')` 这种调用方式，PreQuest 会向 adapter 注入 `path` 与 `method` 两个参数。
-
 ### 创建实例
 
 ```ts
@@ -55,18 +53,6 @@ prequest#[request|get|post|delete|put|patch|head|options](path[, config])
 ```
 
 你可以查看这里 [axios 实例](https://axios-http.com/zh/docs/instance)，来看一下区别
-
-### 其他
-
-lock 请求锁、错误重试、缓存接口等可以使用中间件的方式实现，具体请查阅相关篇章。
-
-```ts
-prequest.use(async (ctx, next) => {
-  // some code
-  await next()
-  // some code
-})
-```
 
 ## 旧代码适配
 
@@ -138,9 +124,7 @@ import ErrorRetryMiddleware from '@prequest/error-retry'
 import CacheMiddleware  from '@prequest/cache'
 import { axiosInstance } from './http'
 
-export const prequest = PreQuest.create<AxiosRequestConfig, AxiosResponse>(opt => {
-  return axiosInstance(opt.path, opt)
-})
+export const prequest = PreQuest.create<AxiosRequestConfig, AxiosResponse>(opt => axiosInstance(opt.path, opt))
 
 // 错误重试中间件
 const errorRetryMiddleware = new ErrorRetryMiddleware()
