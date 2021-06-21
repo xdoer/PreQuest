@@ -2,6 +2,8 @@ import { stringify } from 'qs'
 import { elementType, merge } from '@prequest/utils'
 import { BaseOption, CommonObject } from '@prequest/types'
 
+export * from './error'
+
 export const baseOption: BaseOption = {
   path: '/',
   method: 'get',
@@ -69,12 +71,6 @@ export function formatRequestBodyAndHeaders<T>(
   }
 
   return { data, headers: merge(headers, ctx.headers) }
-}
-
-// TODO: 更多信息
-export function createError(message: string) {
-  const error = new Error(message)
-  return error
 }
 
 // reference: https://github.com/axios/axios/blob/master/lib/helpers/isAbsoluteURL.js

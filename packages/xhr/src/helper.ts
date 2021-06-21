@@ -12,12 +12,6 @@ export function createResponse(ctx: XMLHttpRequest, responseType?: string): Resp
   }
 }
 
-// TODO: 更多信息
-export function createError(message: string) {
-  const error = new Error(message)
-  return error
-}
-
 export function parseHeaders(ctx: XMLHttpRequest) {
   const headersStr = ctx.getAllResponseHeaders()
   const headersArr = headersStr

@@ -1,8 +1,12 @@
-import { createError } from '@prequest/helper'
+import { ErrorCode, PreQuestError } from '@prequest/helper'
 import { Request } from './types'
 
 export function timeoutThrow(timeout: number) {
-  return new Promise((_, reject) => setTimeout(() => reject(createError('超时')), timeout))
+  return new Promise((_, reject) =>
+    setTimeout(() => {
+      reject(new PreQuestError({ code: ErrorCode.timeout }))
+    }, timeout)
+  )
 }
 
 export function parseResBody(res: globalThis.Response, options: Request) {

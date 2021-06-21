@@ -1,6 +1,11 @@
-import { createRequestUrl, formatRequestBodyAndHeaders } from '@prequest/helper'
+import {
+  createRequestUrl,
+  ErrorCode,
+  formatRequestBodyAndHeaders,
+  PreQuestError,
+} from '@prequest/helper'
 import { Request, Response } from './types'
-import { createError, createResponse } from './helper'
+import { createResponse } from './helper'
 
 export function adapter(options: Request): Promise<Response> {
   const finalOptions = (options || {}) as Required<Request>
@@ -55,12 +60,12 @@ export function adapter(options: Request): Promise<Response> {
       resolve(createResponse(xhr, responseType))
     }
 
-    xhr.addEventListener('timeout', () => {
-      reject(createError('请求超时'))
+    xhr.addEventListener('timeout', (e: any) => {
+      reject(new PreQuestError({ code: ErrorCode.timeout, message: e }))
     })
 
-    xhr.addEventListener('error', () => {
-      reject(createError('请求错误'))
+    xhr.addEventListener('error', (e: any) => {
+      reject(new PreQuestError({ code: ErrorCode.timeout, message: e }))
     })
 
     if (cancelToken) {
@@ -77,8 +82,8 @@ export function adapter(options: Request): Promise<Response> {
 
     xhr.upload?.addEventListener('progress', onUploadProgress)
 
-    xhr.addEventListener('abort', () => {
-      reject(createError('拦截请求'))
+    xhr.addEventListener('abort', (e: any) => {
+      reject(new PreQuestError({ code: ErrorCode.abort, message: e }))
     })
 
     resolvePromise?.(xhr)
