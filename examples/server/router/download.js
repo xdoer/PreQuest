@@ -1,4 +1,5 @@
-import { Router } from 'express'
+import pkg from 'express'
+const { Router } = pkg
 import { createReadStream, promises } from 'fs'
 import { resolve } from 'path'
 

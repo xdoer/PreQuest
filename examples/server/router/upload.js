@@ -1,4 +1,5 @@
-import { Router } from 'express'
+import pkg from 'express'
+const { Router } = pkg
 import multer from 'multer'
 
 const getFileExt = (fileName) => {

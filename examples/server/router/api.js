@@ -1,5 +1,5 @@
-import { Router } from 'express'
-import { prequest } from '@prequest/node'
+import pkg from 'express'
+const { Router } = pkg
 
 const router = Router()
 
