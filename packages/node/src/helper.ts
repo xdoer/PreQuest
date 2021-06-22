@@ -1,4 +1,5 @@
 import { elementType } from '@prequest/utils'
+import { Proxy } from './types'
 
 function isObject(val: any) {
   return val !== null && typeof val === 'object'
@@ -28,3 +29,24 @@ export function stripBOM(content: string) {
   }
   return content
 }
+
+export function setProxy(options: any, proxy: Proxy, location: string) {
+  options.hostname = proxy.host
+  options.host = proxy.host
+  options.port = proxy.port
+  options.path = location
+
+  if (proxy.auth) {
+    const base64 = Buffer.from(proxy.auth.username + ':' + proxy.auth.password, 'utf8').toString(
+      'base64'
+    )
+    options.headers['Proxy-Authorization'] = 'Basic ' + base64
+  }
+
+  options.beforeRedirect = (redirection: any) => {
+    redirection.headers.host = redirection.host
+    setProxy(redirection, proxy, redirection.href)
+  }
+}
+
+export const isHttpsReg = /^https:?/
