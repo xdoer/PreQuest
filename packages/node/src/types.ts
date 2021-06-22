@@ -1,4 +1,6 @@
-import { BaseOption } from '@prequest/types'
+import { BaseOption, CancelToken } from '@prequest/types'
+import http from 'http'
+import https from 'https'
 
 interface Auth {
   username: string
@@ -17,10 +19,11 @@ export interface Request extends BaseOption {
   socketPath?: string
   auth?: Auth
   proxy?: Proxy
-  httpAgent?: any
-  httpsAgent?: any
+  httpAgent?: http.Agent
+  httpsAgent?: https.Agent
   maxRedirects?: number
   maxBodyLength?: number
+  cancelToken?: CancelToken
 }
 
 export interface Response {

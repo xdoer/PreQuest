@@ -25,6 +25,7 @@ export function adapter(config: Request): Promise<Response> {
       headers = {},
       data,
       maxBodyLength,
+      cancelToken,
     } = finalOptions
 
     const body = getRequestBody(data)
@@ -171,6 +172,13 @@ export function adapter(config: Request): Promise<Response> {
         reject(new PreQuestError({ code: ErrorCode.common, message: err }))
       })
     })
+
+    if (cancelToken) {
+      cancelToken.promise.then(() => {
+        req.destroy()
+        reject(new PreQuestError({ code: ErrorCode.abort }))
+      })
+    }
 
     if (timeout) {
       req.setTimeout(timeout, () => {
