@@ -7,6 +7,7 @@ export interface CommonRequest {
   baseURL?: string
   url?: string
   header?: CommonObject
+  params?: CommonObject
   getNativeRequestInstance?(value: Promise<RequestCore>): void
   cancelToken?: CancelToken
 }

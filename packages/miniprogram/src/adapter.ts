@@ -1,8 +1,8 @@
 import { createRequestUrl } from '@prequest/helper'
-import { Request, Response, RequestCore } from './types'
+import { Request, RequestCore } from './types'
 
 export function adapter<T, N>(request: RequestCore) {
-  return (opt: Request & T): Promise<Response & N> => {
+  return (opt: T): Promise<N> => {
     return new Promise((resolve, reject) => {
       const finalOption = (opt || {}) as Required<Request>
       const url = createRequestUrl(finalOption)
