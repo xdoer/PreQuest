@@ -21,7 +21,7 @@ export default class ErrorRetryMiddleware<T, N> {
     } catch (e) {
       const { retryCount, retryControl } = this.getOptions(ctx, opt)
 
-      if (retryCount < 1 || !retryControl(ctx.request, e)) throw new Error(e)
+      if (retryCount < 1 || !retryControl(ctx.request, e)) throw e
 
       opt!.retryCount = retryCount - 1
 

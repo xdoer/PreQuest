@@ -1,10 +1,10 @@
-import { ErrorCode, PreQuestError } from '@prequest/helper'
+import { createError, ErrorCode } from '@prequest/helper'
 import { Request } from './types'
 
-export function timeoutThrow(timeout: number) {
+export function timeoutThrow(timeout: number, config: any) {
   return new Promise((_, reject) =>
     setTimeout(() => {
-      reject(new PreQuestError({ code: ErrorCode.timeout }))
+      reject(createError(ErrorCode.timeout, 'timeout', config))
     }, timeout)
   )
 }

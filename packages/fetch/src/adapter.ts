@@ -21,7 +21,7 @@ export async function adapter(options: Request) {
   }
 
   const res = (await (timeout
-    ? Promise.race([timeoutThrow(timeout), fetch(url, config)])
+    ? Promise.race([timeoutThrow(timeout, config), fetch(url, config)])
     : fetch(url, config))) as globalThis.Response
   const resData = await parseResBody(res, options)
   const { status, statusText } = res

@@ -3,7 +3,7 @@ import https from 'https'
 import { http as redirectHttp, https as redirectHttps } from 'follow-redirects'
 import { URL } from 'url'
 import { Request, Response } from './types'
-import { createRequestUrl, ErrorCode, PreQuestError } from '@prequest/helper'
+import { createError, createRequestUrl, enhanceError, ErrorCode } from '@prequest/helper'
 import { stripBOM, getRequestBody, isStream, setProxy, isHttpsReg } from './helper'
 
 export function adapter(config: Request): Promise<Response> {
@@ -168,29 +168,27 @@ export function adapter(config: Request): Promise<Response> {
         resolve({ data: resData, status: statusCode!, headers })
       })
 
-      res.on('error', (err: any) => {
-        reject(new PreQuestError({ code: ErrorCode.common, message: err }))
-      })
+      res.on('error', (e: any) => reject(enhanceError(e, ErrorCode.common, options)))
     })
 
     if (cancelToken) {
       cancelToken.promise.then(() => {
         req.destroy()
-        reject(new PreQuestError({ code: ErrorCode.abort }))
+        reject(createError(ErrorCode.abort, 'abort', options))
       })
     }
 
     if (timeout) {
       req.setTimeout(timeout, () => {
         req.destroy()
-        reject(new PreQuestError({ code: ErrorCode.timeout }))
+        reject(createError(ErrorCode.timeout, 'timeout', options))
       })
     }
 
     if (isStream(data)) {
       data
         .on('error', (err: any) => {
-          reject(new PreQuestError({ code: ErrorCode.common, message: err }))
+          reject(enhanceError(err, ErrorCode.common, options))
         })
         .pipe(req)
     } else {

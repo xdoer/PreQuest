@@ -1,8 +1,9 @@
 import {
+  createError,
   createRequestUrl,
+  enhanceError,
   ErrorCode,
   formatRequestBodyAndHeaders,
-  PreQuestError,
 } from '@prequest/helper'
 import { Request, Response } from './types'
 import { createResponse } from './helper'
@@ -60,20 +61,16 @@ export function adapter(options: Request): Promise<Response> {
       resolve(createResponse(xhr, responseType))
     }
 
-    xhr.addEventListener('timeout', (e: any) => {
-      reject(new PreQuestError({ code: ErrorCode.timeout, message: e }))
-    })
+    xhr.addEventListener('timeout', (e: any) => reject(enhanceError(e, ErrorCode.timeout, options)))
 
-    xhr.addEventListener('error', (e: any) => {
-      reject(new PreQuestError({ code: ErrorCode.timeout, message: e }))
-    })
+    xhr.addEventListener('error', (e: any) => reject(enhanceError(e, ErrorCode.common, options)))
 
     if (cancelToken) {
       cancelToken.promise.then(cancel => {
         if (!xhr) return
 
         xhr.abort()
-        reject(cancel)
+        reject(createError(ErrorCode.abort, cancel, options))
         xhr = null
       })
     }
@@ -82,9 +79,7 @@ export function adapter(options: Request): Promise<Response> {
 
     xhr.upload?.addEventListener('progress', onUploadProgress)
 
-    xhr.addEventListener('abort', (e: any) => {
-      reject(new PreQuestError({ code: ErrorCode.abort, message: e }))
-    })
+    xhr.addEventListener('abort', (e: any) => reject(enhanceError(e, ErrorCode.abort, options)))
 
     resolvePromise?.(xhr)
 

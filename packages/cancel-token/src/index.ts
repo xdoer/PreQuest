@@ -1,13 +1,11 @@
-import { Cancel } from './Cancel'
-
-type executorCallback = (message?: string) => void
+type executorCallback = () => void
 
 export default class CancelToken {
-  reason?: Cancel
-
   private resolvePromise: any
 
   promise = new Promise(resolve => (this.resolvePromise = resolve))
+
+  private __CANCEL__ = false
 
   get abortController() {
     try {
@@ -18,17 +16,11 @@ export default class CancelToken {
   }
 
   constructor(private executor: (cb: executorCallback) => void) {
-    this.executor((message?: string) => {
-      if (this.reason) return
-      this.reason = new Cancel(message)
-      this.resolvePromise(this.reason)
+    this.executor(() => {
+      if (this.__CANCEL__) return
+      this.__CANCEL__ = true
+      this.resolvePromise()
     })
-  }
-
-  throwIfRequested() {
-    if (this.reason) {
-      throw this.reason
-    }
   }
 
   static source() {
@@ -40,7 +32,7 @@ export default class CancelToken {
     }
   }
 
-  static isCancel(value: Cancel) {
-    return value.__CANCEL__
+  isCancel() {
+    return this.__CANCEL__
   }
 }
