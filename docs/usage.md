@@ -173,6 +173,7 @@ prequest.use(async (ctx, next) => {
 项目中针对业务中常见的场景，提供了便捷的解决方案。可以搭配上一节中的请求库一同使用。
 
 > - [@prequest/cache](/cache ':target=_self'): 接口缓存中间件
+> - [@prequest/timeout](/timeout ':target=_self'): 超时中间件
 > - [@prequest/error-retry](/error-retry ':target=_self'): 接口请求错误重试中间件
 > - [@prequest/interceptor](/interceptor ':target=_self'): 拦截器中间件
 > - [@prequest/lock](/lock ':target=_self'): 请求锁，token 处理的解决的方案

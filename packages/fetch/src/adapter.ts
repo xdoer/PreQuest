@@ -5,7 +5,7 @@ import {
   ErrorCode,
   formatRequestBodyAndHeaders,
 } from '@prequest/helper'
-import { timeoutThrow, parseResBody } from './helper'
+import { parseResBody } from './helper'
 
 export async function adapter(options: Request) {
   const finalOptions = (options || {}) as Required<Request>
@@ -27,9 +27,7 @@ export async function adapter(options: Request) {
     config.signal = cancelToken.abortController?.signal
   }
 
-  const res = (await (timeout
-    ? Promise.race([timeoutThrow(timeout, config), fetch(url, config)])
-    : fetch(url, config))) as globalThis.Response
+  const res = await fetch(url, config)
   const resData = await parseResBody(res, options)
   const { status, statusText } = res
 

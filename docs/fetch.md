@@ -20,7 +20,6 @@ npm install @prequest/fetch
 | method       | string                            | GET     | N        | 请求方式                           | post                    |
 | baseURL      | string                            | none    | N        | 服务器地址                         | 'http://localhost:3000' |
 | cancelToken  | CancelToken                       | none    | N        | 取消请求                           |                         |
-| timeout      | number                            | none    | N        | 请求超时                           | 5000                    |
 | params       | object                            | none    | N        | url 参数                           | { id: 10}               |
 | data         | object                            | none    | N        | 请求头传输数据                     | { id: 10}               |
 | responseType | json \| text \| arraybuffer \|... | none    | N        | 响应的数据类型                     | json                    |

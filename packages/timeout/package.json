@@ -1,0 +1,77 @@
+{
+  "version": "0.4.3",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "keywords": [
+    "http",
+    "request",
+    "XMLHttpRequest",
+    "fetch",
+    "https",
+    "middleware",
+    "interceptor"
+  ],
+  "scripts": {
+    "start": "tsdx watch --verbose --format cjs,esm,umd --name TimeoutMiddleware",
+    "build": "tsdx build --format cjs,esm,umd --name TimeoutMiddleware",
+    "test": "tsdx test",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build --format cjs,esm,umd --name TimeoutMiddleware",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "name": "@prequest/timeout",
+  "author": "xdoer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xdoer/PreQuest.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xdoer/PreQuest/issues"
+  },
+  "homepage": "https://pre-quest.vercel.app",
+  "browserslist": [
+    "> 5%"
+  ],
+  "module": "dist/timeoutmiddleware.esm.js",
+  "browser": "dist/timeoutmiddleware.umd.production.min.js",
+  "size-limit": [
+    {
+      "path": "dist/timeoutmiddleware.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/timeoutmiddleware.esm.js",
+      "limit": "10 KB"
+    }
+  ],
+  "dependencies": {
+    "@prequest/helper": "^0.4.3"
+  },
+  "devDependencies": {
+    "@prequest/types": "^0.4.3",
+    "@size-limit/preset-small-lib": "^4.10.2",
+    "husky": "^6.0.0",
+    "size-limit": "^4.10.2",
+    "ts-lib": "^0.0.5",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.2.0",
+    "typescript": "^4.2.4"
+  },
+  "gitHead": "c9273f8f12aecb3bebb5f1020f2edb2b2dfd7cb8"
+}
