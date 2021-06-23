@@ -1,5 +1,5 @@
 {
-  "version": "0.4.2",
+  "version": "0.4.3",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -60,8 +60,8 @@
     }
   ],
   "dependencies": {
-    "@prequest/types": "^0.4.2",
-    "@prequest/utils": "^0.4.2"
+    "@prequest/types": "^0.4.3",
+    "@prequest/utils": "^0.4.3"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",
