@@ -1,10 +1,15 @@
 {
   "name": "root",
   "private": true,
-  "workspaces": [
-    "packages/*",
-    "examples/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*",
+      "examples/web",
+      "examples/server",
+      "examples/node",
+      "examples/taro"
+    ]
+  },
   "scripts": {
     "dev": "lerna run --parallel --stream dev",
     "build": "lerna run --stream build",
