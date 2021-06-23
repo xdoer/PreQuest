@@ -34,8 +34,6 @@ prequest('/api', { timeout: 1000 })
 
 ## 配置项
 
-### 实例配置项
-
 | Option Name    | Type                      | Default | Required | Meaning  |
 | -------------- | ------------------------- | ------- | -------- | -------- |
 | timeout        | number                    | 0       | false    | 超时时间 |

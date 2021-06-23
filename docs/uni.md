@@ -146,6 +146,34 @@ instance.request({
 })
 ```
 
+### 超时处理
+
+uni 中只支持微信小程序和支付宝小程序设置超时，使用这个中间件，全平台都可以设置超时时间
+
+```js
+import TimeoutMiddleware, { TimeoutInject } from '@prequest/timeout'
+import { create } from '@prequest/fetch'
+
+const platform = process.env.UNI_PLATFORM
+
+// 统一设置超时时间
+const timeoutMiddleware = new TimeoutMiddleware({
+  timeout: 5000,
+  timeoutControl(opt) {
+    // 微信小程序、支付宝小程序 timeout 由请求内核进行处理
+    if (['mp-alipay', 'mp-weixin'].includes(platform)) return false
+
+    // 其余由中间件处理
+    return true
+  },
+})
+prequest.use(timeoutMiddleware.run)
+
+// 或者针对单一请求进行设置
+const prequest = create<TimeoutInject, {}>()
+prequest('/api', { timeout: 1000 })
+```
+
 ### 取消请求
 
 可以使用获得原生实例请求的方式取消请求。
