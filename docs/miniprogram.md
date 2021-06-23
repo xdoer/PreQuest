@@ -33,19 +33,21 @@ prequest('/api', {
 
 ## 请求配置项
 
-| Option Name              | Type                                       | Default | Required | Meaning                                 | Example                 |
-| ------------------------ | ------------------------------------------ | ------- | -------- | --------------------------------------- | ----------------------- |
-| path                     | string                                     | none    | Y        | server interface path                   | /api                    |
-| method                   | string                                     | GET     | N        | request method                          | post                    |
-| baseURL                  | string                                     | none    | N        | base server interface address           | 'http://localhost:3000' |
-| getNativeRequestInstance | (value: Promise\<NativeInstance\>) => void | none    | N        | get native request instance             |                         |
-| cancelToken              | CancelToken                                | none    | N        | cancel a request                        |                         |
-| timeout                  | number                                     | none    | N        | request timeout                         | 5000                    |
-| params                   | object                                     | none    | N        | url parameters                          | { id: 10}               |
-| data                     | object                                     | none    | N        | the data to be sent as the request body | { id: 10}               |
-| responseType             | json \| text \| arraybuffer \|...          | none    | N        | response data type                      | json                    |
-| header                   | object                                     | none    | N        | set the request header                  | { token: 'aaaaa'}       |
-| dataType                 | json \| ...                                | none    | N        | returned data format                    | json                    |
+!> 下面的列表中，PreQuest 只会处理标注为 👍 的参数，其他参数将直接传入到原生请求实例。这意味着，原生请求实例不支持的参数，传入其中将无效。
+
+| Option Name              | Type                              | Default | Required | Handle | Meaning                                 |
+| ------------------------ | --------------------------------- | ------- | -------- | ------ | --------------------------------------- |
+| path                     | string                            | none    | Y        | 👍     | server interface path                   |
+| method                   | string                            | GET     | N        | 👎     | request method                          |
+| baseURL                  | string                            | none    | N        | 👍     | base server interface address           |
+| getNativeRequestInstance | (value: Promise\<any\>) => void   | none    | N        | 👍     | get native request instance             |
+| cancelToken              | CancelToken                       | none    | N        | 👍     | cancel a request                        |
+| timeout                  | number                            | none    | N        | 👎     | request timeout                         |
+| params                   | object                            | none    | N        | 👍     | url parameters                          |
+| data                     | object                            | none    | N        | 👎     | the data to be sent as the request body |
+| responseType             | json \| text \| arraybuffer \|... | none    | N        | 👎     | response data type                      |
+| header                   | object                            | none    | N        | 👎     | set the request header                  |
+| dataType                 | json \| ...                       | none    | N        | 👎     | returned data format                    |
 
 ---
 
