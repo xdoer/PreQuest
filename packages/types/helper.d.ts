@@ -3,7 +3,7 @@ import { CommonObject } from './common'
 
 export interface BaseOption {
   path?: string
-  method?: Method
+  method?: 'GET' | 'POST' | 'DELETE' | 'PUT' | 'PATCH' | 'HEAD' | 'OPTIONS' | ({} & string)
   baseURL?: string
   timeout?: number
   params?: CommonObject

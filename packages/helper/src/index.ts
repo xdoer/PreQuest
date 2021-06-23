@@ -6,7 +6,7 @@ export * from './error'
 
 export const baseOption: BaseOption = {
   path: '/',
-  method: 'get',
+  method: 'GET',
   headers: {
     Accept: 'application/json',
   },
