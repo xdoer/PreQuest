@@ -22,7 +22,12 @@ export class PreQuest<T, N> extends Middleware<T, N> {
     METHODS.forEach(method => {
       preQuest[method] = (path: string, config?: Config<T>) => {
         const request = <RequestOption<T>>(
-          merge(PreQuest.defaults, this.config, { path, method } as any, config!)
+          merge(
+            PreQuest.defaults,
+            this.config,
+            { path, method: method.toUpperCase() } as any,
+            config!
+          )
         )
         const response = <N>{}
         return this.controller({ request, response, context: this })
