@@ -3,7 +3,7 @@ import { Interceptor } from './Interceptor'
 
 export * from './Interceptor'
 
-export class InterceptorMiddleware<T, N, E> {
+export default class InterceptorMiddleware<T, N, E = Error> {
   request = new Interceptor<T, E>()
   response = new Interceptor<N, E>()
 
