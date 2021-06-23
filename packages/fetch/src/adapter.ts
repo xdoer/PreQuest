@@ -1,5 +1,10 @@
 import { Request } from './types'
-import { createRequestUrl, formatRequestBodyAndHeaders } from '@prequest/helper'
+import {
+  createError,
+  createRequestUrl,
+  ErrorCode,
+  formatRequestBodyAndHeaders,
+} from '@prequest/helper'
 import { timeoutThrow, parseResBody } from './helper'
 
 export async function adapter(options: Request) {
@@ -13,8 +18,10 @@ export async function adapter(options: Request) {
   if (cancelToken) {
     cancelToken.promise.then(cancel => {
       cancelToken.abortController?.abort()
+
+      // 环境不支持 abortController，则直接抛异常
       if (!cancelToken.abortController) {
-        throw new Error(cancel || 'cancel')
+        throw createError(ErrorCode.abort, cancel, config)
       }
     })
     config.signal = cancelToken.abortController?.signal
