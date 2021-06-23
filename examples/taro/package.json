@@ -1,6 +1,6 @@
 {
   "name": "@prequest/example-taro",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "mini-demo",
   "templateInfo": {
     "name": "default",
@@ -35,13 +35,13 @@
   "author": "",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
-    "@prequest/cache": "^0.4.3",
-    "@prequest/cancel-token": "^0.4.3",
-    "@prequest/error-retry": "^0.4.3",
-    "@prequest/interceptor": "^0.4.3",
-    "@prequest/lock": "^0.4.3",
-    "@prequest/miniprogram": "^0.4.3",
-    "@prequest/miniprogram-addon": "^0.4.3",
+    "@prequest/cache": "^0.4.4",
+    "@prequest/cancel-token": "^0.4.4",
+    "@prequest/error-retry": "^0.4.4",
+    "@prequest/interceptor": "^0.4.4",
+    "@prequest/lock": "^0.4.4",
+    "@prequest/miniprogram": "^0.4.4",
+    "@prequest/miniprogram-addon": "^0.4.4",
     "@tarojs/async-await": "^2.2.10",
     "@tarojs/components": "3.2.1",
     "@tarojs/react": "3.2.1",
