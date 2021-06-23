@@ -16,7 +16,7 @@ router
   }
   // const data = await prequest('https://webspiderr.herokuapp.com/crawl/api?user=xdoer&cid=73b1430d-faa0-44eb-899e-36cf5cbfaec8')
   // res.sendStatus(500)
-  res.send('data')
+  res.send(data)
 })
 .get('/error-retry', async function (req, res) {
   if(Math.random() > 0.5) {
