@@ -48,6 +48,10 @@ webpackChain(chain) {
 }
 ```
 
+一般脚手架中有提供相应的配置，来编译 node_module 代码。
+
+比如，在 vue.config.js 中，你可以添加 [https://cli.vuejs.org/zh/config/#transpiledependencies](https://cli.vuejs.org/zh/config/#transpiledependencies) 配置项来编译。
+
 ## 小程序
 
 ### 原生小程序
@@ -58,4 +62,10 @@ webpackChain(chain) {
 
 ### 框架小程序
 
-框架小程序(如 taro)一般都提供了基于 webpack 的 cli 工具来进行代码打包，因而你可以直接安装 PreQuest 的 npm 包，然后再使用 `babel` 进行编译。这里提供了 [demo](https://github.com/xdoer/PreQuest/tree/main/examples/mini) 供参考。
+框架小程序(如 taro、uni)一般都提供了基于 webpack 的 cli 工具来进行代码打包，因而你可以直接安装 PreQuest 的 npm 包，然后再使用 `babel` 进行编译。
+
+这里提供了两个 demo 供参考:
+
+taro 版本 [demo](https://github.com/xdoer/PreQuest/tree/main/examples/taro/config/index.js) 。
+
+uni 版本 [demo](https://github.com/xdoer/PreQuest/tree/main/examples/uni/vue.config.js)
