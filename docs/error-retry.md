@@ -15,7 +15,6 @@ npm install @prequest/error-retry
 ```ts
 import { prequest, Request, Response } from '@prequest/xhr'
 import ErrorRetryMiddleware from '@prequest/error-retry'
-import CancelToken from '@prequest/cancel-token'
 
 const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>({
   // 错误重试次数
@@ -25,8 +24,8 @@ const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>({
   retryControl(opt, e) {
     const { method, path } = opt
 
-    // 手动取消的请求不进行错误重试
-    if (CancelToken.isCancel(e)) return false
+    // 如果是具体某个错误，则不进行重试
+    if (e.message === 'internal error') return false
 
     // api 路径不进行错误重试
     if (path === '/api') return false

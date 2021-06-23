@@ -44,3 +44,7 @@ PreQuest 与 axios、umi-request 的区别在于，PreQuest 并不是一个请�
 ## 文章
 
 [由封装一个请求库所想到的](https://aiyou.life/post/M4RcI3wfU/)
+
+## 交流
+
+![技术交流](./group.jpeg ':size=40%')
