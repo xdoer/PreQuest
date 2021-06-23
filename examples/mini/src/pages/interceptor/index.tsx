@@ -5,6 +5,7 @@ import { interceptorMiddleware } from '@common/interceptor'
 import Taro from '@tarojs/taro'
 
 const prequest = create(Taro.request, { baseURL: 'http://localhost:8080' })
+
 prequest.use(interceptorMiddleware.run)
 
 interceptorMiddleware.request.use(
@@ -32,10 +33,7 @@ export default function () {
 
   async function onMultiplyRequest() {
     try {
-      const xx = await prequest('/api', {
-        params: { delay: 500 },
-        baseURL: 'http://localhost:8080'
-      })
+      const xx = await prequest('/api', { params: { delay: 500 } })
       console.log('查看响应', xx)
     } catch (e) {
       console.log('catch报错', e)

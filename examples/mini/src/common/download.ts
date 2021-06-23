@@ -5,7 +5,9 @@ interface WxDownloadResponse {
   tempFilePath: string
 }
 
-export const wxDownload = createDownload<any, WxDownloadResponse>(downloadFile)
+interface WxDownloadRequest { }
+
+export const wxDownload = createDownload<WxDownloadRequest, WxDownloadResponse>(downloadFile, { baseURL: 'http://localhost:8080' })
 
 wxDownload.use(async (ctx, next) => {
   await next()

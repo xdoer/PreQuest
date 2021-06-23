@@ -13,7 +13,7 @@ npm install @prequest/cancel-token
 对于业务开发者来说，如何利用 cancelToken 取消请求？
 
 ```ts
-import { PreQuest, prequest } from '@prequest/xhr'
+import { prequest } from '@prequest/xhr'
 import CancelToken from '@prequest/cancel-token'
 
 const source = CancelToken.source()
