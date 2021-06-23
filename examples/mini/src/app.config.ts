@@ -6,6 +6,8 @@ export default {
     'pages/download/index',
     'pages/token/index',
     'pages/error-retry/index',
+    'pages/abort/index',
+    'pages/interceptor/index',
   ],
   window: {
     backgroundTextStyle: 'light',
