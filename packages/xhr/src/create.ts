@@ -4,6 +4,6 @@ import { merge } from '@prequest/utils'
 import { Request, Response } from './types'
 import { adapter } from './adapter'
 
-export const create = (options?: Request) => {
-  return PreQuest.create<Request, Response>(adapter, merge(baseOption, options))
+export function create<T, N>(options?: Request & Partial<T>) {
+  return PreQuest.create<Request & Partial<T>, Response & N>(adapter(), merge(baseOption, options))
 }
