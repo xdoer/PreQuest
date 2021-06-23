@@ -12,7 +12,13 @@ export function adapter<T, N>(request: RequestCore) {
       let promise = new Promise(resolve => (resolvePromise = resolve))
       getNativeRequestInstance?.(promise)
 
-      let instance: RequestCore
+      const instance = request({
+        url,
+        ...rest,
+        success: resolve,
+        fail: reject,
+      })
+
       if (cancelToken) {
         cancelToken.promise.then(() => {
           /**
@@ -23,13 +29,6 @@ export function adapter<T, N>(request: RequestCore) {
           instance.abort()
         })
       }
-
-      instance = request({
-        url,
-        ...rest,
-        success: resolve,
-        fail: reject,
-      })
 
       resolvePromise?.(instance)
     })
