@@ -1,5 +1,5 @@
 {
-  "name": "uni",
+  "name": "@prequest/example-uni",
   "version": "0.1.0",
   "private": true,
   "scripts": {
