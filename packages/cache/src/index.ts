@@ -37,6 +37,6 @@ export default class CacheMiddleware<T, N> {
 
     await next()
 
-    await this.cache.set(id, { timestamp: Date.now(), data: ctx.response })
+    await this.cache.set(id, { timestamp: Date.now(), ctx })
   }
 }
