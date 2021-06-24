@@ -54,7 +54,7 @@ import { prequest, create } from '@prequest/xhr'
 
 const lock = new Lock({ ... })
 
-const wrapper = createLockWrapper(lock)
+const wrapper = Lock.createLockWrapper(lock)
 
 // 添加 token
 prequest.use(async (ctx, next) => {
@@ -65,8 +65,10 @@ prequest.use(async (ctx, next) => {
   await next()
 })
 
-// 传参跳过 token 添加
-prequest('/token', { skipTokenCheck: true })
+function getToken() {
+  // 传参跳过 token 添加
+  return prequest('/token', { skipTokenCheck: true })
+}
 ```
 
 接着，添加错误重试机制
