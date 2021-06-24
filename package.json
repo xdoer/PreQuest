@@ -4,10 +4,7 @@
   "workspaces": {
     "packages": [
       "packages/*",
-      "examples/web",
-      "examples/server",
-      "examples/node",
-      "examples/taro"
+      "examples/*"
     ]
   },
   "scripts": {
