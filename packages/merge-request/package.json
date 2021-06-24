@@ -1,0 +1,78 @@
+{
+  "version": "0.4.6",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "keywords": [
+    "http",
+    "request",
+    "XMLHttpRequest",
+    "fetch",
+    "https",
+    "middleware",
+    "interceptor"
+  ],
+  "scripts": {
+    "start": "tsdx watch --verbose --format cjs,esm,umd --name MergeRequestMiddleware",
+    "build": "tsdx build --format cjs,esm,umd --name MergeRequestMiddleware",
+    "test": "tsdx test",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build --format cjs,esm,umd --name MergeRequestMiddleware",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "name": "@prequest/merge-request",
+  "author": "xdoer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xdoer/PreQuest.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xdoer/PreQuest/issues"
+  },
+  "homepage": "https://pre-quest.vercel.app",
+  "browserslist": [
+    "> 5%"
+  ],
+  "module": "dist/mergerequestmiddleware.esm.js",
+  "browser": "dist/mergerequestmiddleware.umd.production.min.js",
+  "size-limit": [
+    {
+      "path": "dist/mergerequestmiddleware.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/mergerequestmiddleware.esm.js",
+      "limit": "10 KB"
+    }
+  ],
+  "dependencies": {
+    "@prequest/utils": "^0.4.6"
+  },
+  "devDependencies": {
+    "@prequest/types": "^0.4.6",
+    "debounce-promise": "3.1.2",
+    "@size-limit/preset-small-lib": "^4.10.2",
+    "husky": "^6.0.0",
+    "size-limit": "^4.10.2",
+    "ts-lib": "^0.0.5",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.2.0",
+    "typescript": "^4.2.4"
+  },
+  "gitHead": "011a3233be032085d939a1b3346b1baefa46339d"
+}
