@@ -1,5 +1,7 @@
 import { Options } from './types'
 
+export type LockOptions = Options
+
 export default class Lock {
   on = false
 
