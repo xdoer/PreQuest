@@ -24,14 +24,14 @@ export default class CacheMiddleware<T, N> {
     if (!this.opt?.cacheControl?.(ctx.request)) return next()
 
     const id = this.getId(ctx.request)
-    const cache: CacheValue<N> = await this.cache.get(id)
+    const cache: CacheValue<T, N> = await this.cache.get(id)
 
     if (cache) {
       if (this.isExpired(cache.timestamp)) {
         await this.cache.delete(id)
       } else {
-        ctx.response = cache.data
-        return cache.data
+        ctx = cache.ctx
+        return cache.ctx.response
       }
     }
 

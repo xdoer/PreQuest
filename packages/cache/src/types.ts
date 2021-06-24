@@ -1,6 +1,8 @@
-export interface CacheValue<N> {
+import { Context } from '@prequest/types'
+
+export interface CacheValue<T, N> {
   timestamp: number
-  data: N
+  ctx: Context<T, N>
 }
 
 export interface CacheKernel {
