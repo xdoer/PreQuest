@@ -30,7 +30,7 @@ npm install @prequest/miniprogram
 ```ts
 const requestInstance = Taro.request({
   url: 'http://localhost:3000/api',
-  method: 'post',
+  method: 'POST',
   data: {
     x: '',
   },
@@ -293,7 +293,7 @@ const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>({
     if (path === '/api') return false
 
     // get 请求使用错误重试
-    return method === 'get'
+    return method === 'GET'
   },
 })
 

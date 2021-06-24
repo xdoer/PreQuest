@@ -31,7 +31,7 @@ const cacheMiddleware = new CacheMiddleware<Request, Response>({
     if(path === '/api') return true
 
     // get 请求要缓存
-    if(method === 'get') return true
+    if(method === 'GET') return true
     return false
   },
 

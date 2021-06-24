@@ -13,7 +13,7 @@ export function adapter<T, N>() {
       const url = createRequestUrl(finalOptions)
       const parsedURL = new URL(url)
       const {
-        method = 'get',
+        method = 'GET',
         auth,
         socketPath,
         proxy: optionProxy,

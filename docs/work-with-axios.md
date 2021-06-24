@@ -99,7 +99,7 @@ prequest.post('/api', {
 
 import axios from 'axios'
 
-axios.defaults.method = 'post'
+axios.defaults.method = 'POST'
 
 export const axiosInstance = axios.create({
   baseURL: 'http://localhost:3000',

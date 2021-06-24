@@ -41,13 +41,13 @@ const ajax = wrapper(function(params) {
 你可以像往常一样使用你的方法
 
 ```ts
-ajax({ path: 'http://localhost:1000/api', method: 'get', params: { a: 'aaa' } })
+ajax({ path: 'http://localhost:1000/api', method: 'GET', params: { a: 'aaa' } })
 ```
 
 使用 PreQuest 能力
 
 ```ts
-ajax('http://localhost:1000/api', { method: 'get', params: { a: 'aaa' } })
+ajax('http://localhost:1000/api', { method: 'GET', params: { a: 'aaa' } })
 
 ajax.get('http://localhost:1000/api', { params: { a: 'aaa' } })
 

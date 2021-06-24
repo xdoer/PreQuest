@@ -31,7 +31,7 @@ const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>({
     if (path === '/api') return false
 
     // 只有 get 方法才进行错误重试
-    return method === 'get'
+    return method === 'GET'
   },
 })
 
@@ -60,4 +60,4 @@ prequest('/api', {
 | Option Name  | Type                                   | Default                                   | Required | Meaning                               |
 | ------------ | -------------------------------------- | ----------------------------------------- | -------- | ------------------------------------- |
 | retryCount   | number                                 | 1                                         | false    | 错误重试次数                          |
-| retryControl | (opt: RequestOpt, e: Error) => boolean | (opt: RequestOpt) => opt.method === 'get' | false    | 重试策略，默认 get 请求会进行错误重试 |
+| retryControl | (opt: RequestOpt, e: Error) => boolean | (opt: RequestOpt) => opt.method === 'GET' | false    | 重试策略，默认 get 请求会进行错误重试 |

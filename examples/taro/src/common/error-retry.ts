@@ -16,6 +16,6 @@ export const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>(
     if (path === '/api') return false
 
     // 只有 get 方法才进行错误重试
-    return method === 'get' || !method
+    return method === 'GET' || !method
   },
 })

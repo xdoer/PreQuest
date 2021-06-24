@@ -48,7 +48,7 @@ PreQuest.use(async (ctx, next) => {
 
 // 发起请求
 prequest('http://localhost:3000/api', {
-  method: 'get',
+  method: 'GET',
 })
 
 prequest.get('http://localhost:3000/api')
@@ -113,12 +113,12 @@ const prequest = PreQuest.create<Request, Response>(adapter, opt)
 
 ```ts
 // 使用 request api
-prequest.request('/api', { method: 'post' })
-prequest.request({ path: '/api', method: 'post' })
+prequest.request('/api', { method: 'POST' })
+prequest.request({ path: '/api', method: 'POST' })
 
 // 使用 prequest.request 简写
-prequest('/api', { method: 'post' })
-prequest({ path: '/api', method: 'post' })
+prequest('/api', { method: 'POST' })
+prequest({ path: '/api', method: 'POST' })
 
 // 通过别名请求
 // 支持： get、post、delete、put、patch、head、options 别名

@@ -1,4 +1,3 @@
-import { Method } from './core'
 import { CommonObject } from './common'
 
 export interface BaseOption {

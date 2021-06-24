@@ -110,7 +110,7 @@ prequest#[request|get|post|delete|put|patch|head|options](path[, config])
 
 ?> PreQuest 会将 `PreQuest.defaults = config`、`create(config)` 与 `prequest(config)` 这三部分的 config 参数进行整合，经过中间件后，最终传入到请求内核中。
 
-!> 发起请求，没有显式指定请求路径和 HTTP 请求方法，会自动混入 `path` 和 `method` 参数。 eg: `prequest.get('/api')`，请求内核得到的参数为 `{ path: '/api', method: 'get' }`，之后请求内核会将 `path` 与 `baseURL` 和 `params` 三者整合成 `url`，用以发起请求。
+!> 发起请求，没有显式指定请求路径和 HTTP 请求方法，会自动混入 `path` 和 `method` 参数。 eg: `prequest.get('/api')`，请求内核得到的参数为 `{ path: '/api', method: 'GET' }`，之后请求内核会将 `path` 与 `baseURL` 和 `params` 三者整合成 `url`，用以发起请求。
 
 下面演示 `path`、`baseURL` 与 `url` 参数的区别，demo 中的请求都是等价的
 

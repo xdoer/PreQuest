@@ -7,7 +7,7 @@ const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>({
   retryCount: 2,
   retryControl(opt) {
     const { method } = opt
-    return ['get', 'post'].includes(method)
+    return ['GET', 'POST'].includes(method)
   }
 })
 
