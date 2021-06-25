@@ -1,12 +1,4 @@
-export type Method =
-  | 'get'
-  | 'post'
-  | 'delete'
-  | 'put'
-  | 'patch'
-  | 'head'
-  | 'options'
-  | ({} & string)
+export type Method = 'get' | 'post' | 'delete' | 'put' | 'patch' | 'head' | 'options'
 
 export type UpperMethod =
   | 'GET'
