@@ -1,10 +1,10 @@
-import { CommonObject, Method, CancelToken } from '@prequest/types'
+import { CommonObject, UpperMethod, CancelToken } from '@prequest/types'
 
 export type RequestCore = any
 
 export interface Request {
   path?: string
-  method?: Method
+  method?: UpperMethod
   baseURL?: string
   timeout?: number
   params?: CommonObject

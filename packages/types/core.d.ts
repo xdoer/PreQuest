@@ -1,4 +1,22 @@
-export type Method = 'get' | 'post' | 'delete' | 'put' | 'patch' | 'head' | 'options'
+export type Method =
+  | 'get'
+  | 'post'
+  | 'delete'
+  | 'put'
+  | 'patch'
+  | 'head'
+  | 'options'
+  | ({} & string)
+
+export type UpperMethod =
+  | 'GET'
+  | 'POST'
+  | 'DELETE'
+  | 'PUT'
+  | 'PATCH'
+  | 'HEAD'
+  | 'OPTIONS'
+  | ({} & string)
 
 export type MethodsCallback<T, N> = {
   [k in Method]: (path: string, option?: Config<T>) => Promise<N>
