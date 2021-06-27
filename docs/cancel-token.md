@@ -48,6 +48,8 @@ useEffect(() => {
 }, [])
 ```
 
+!> 注意：CancelToken 是一次性的，即取消请求之后，再发起请求，会被直接取消。如果有类似需求，建议在调用完取消后，再为 source 重新赋值一个　`CancelToken.source`。
+
 ## 集成到请求库
 
 对于库开发者，如何将 CancelToken 集成到请求库中?

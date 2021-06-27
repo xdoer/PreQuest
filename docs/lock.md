@@ -107,10 +107,10 @@ prequest.use(async (ctx, next) => {
 
 ## 配置项
 
-### Lock 配置项
-
 | Option Name | Type                          | Default | Required | Meaning |
 | ----------- | ----------------------------- | ------- | -------- | ------- |
 | getValue    | () => Promise\<any\>          |         | true     | 获取值  |
 | setValue    | (opt: any) => Promise\<void\> |         | true     | 存储值  |
 | clearValue  | () => Promise\<void\>         |         | true     | 清除值  |
+
+有些平台获取 storage 的方式是异步的，因而这里设计成了异步调用
