@@ -14,17 +14,18 @@ npm install @prequest/fetch
 
 ## 参数
 
-| Option Name  | Type                              | Default | Required | Meaning                            | Example                 |
-| ------------ | --------------------------------- | ------- | -------- | ---------------------------------- | ----------------------- |
-| path         | string                            | none    | Y        | 接口路径                           | /api                    |
-| method       | string                            | GET     | N        | 请求方式                           | post                    |
-| baseURL      | string                            | none    | N        | 服务器地址                         | 'http://localhost:3000' |
-| cancelToken  | CancelToken                       | none    | N        | 取消请求                           |                         |
-| params       | object                            | none    | N        | url 参数                           | { id: 10}               |
-| data         | object                            | none    | N        | 请求头传输数据                     | { id: 10}               |
-| responseType | json \| text \| arraybuffer \|... | none    | N        | 响应的数据类型                     | json                    |
-| requestType  | json \| text \| arraybuffer \|... | none    | N        | 请求的数据类型，用以自动设置请求头 | json                    |
-| header       | object                            | none    | N        | 请求头                             | { token: 'aaaaa'}       |
+| Option Name        | Type                                       | Default | Required | Meaning                            | Example                 |
+| ------------------ | ------------------------------------------ | ------- | -------- | ---------------------------------- | ----------------------- |
+| path               | string                                     | none    | Y        | 接口路径                           | /api                    |
+| method             | string                                     | GET     | N        | 请求方式                           | post                    |
+| baseURL            | string                                     | none    | N        | 服务器地址                         | 'http://localhost:3000' |
+| cancelToken        | CancelToken                                | none    | N        | 取消请求                           |                         |
+| params             | object                                     | none    | N        | url 参数                           | { id: 10}               |
+| data               | object                                     | none    | N        | 请求头传输数据                     | { id: 10}               |
+| responseType       | json \| text \| arraybuffer \|...          | none    | N        | 响应的数据类型                     | json                    |
+| requestType        | json \| text \| arraybuffer \|...          | none    | N        | 请求的数据类型，用以自动设置请求头 | json                    |
+| header             | object                                     | none    | N        | 请求头                             | { token: 'aaaaa'}       |
+| onDownloadProgress | ({ loaded: number, total: number}) => void | none    | N        | 下载进度                           |                         |
 
 其他 fetch 原生支持的参数也支持传入
 
