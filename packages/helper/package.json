@@ -1,5 +1,5 @@
 {
-  "version": "0.4.6",
+  "version": "0.4.7",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -61,8 +61,8 @@
     }
   ],
   "dependencies": {
-    "@prequest/types": "^0.4.6",
-    "@prequest/utils": "^0.4.6",
+    "@prequest/types": "^0.4.7",
+    "@prequest/utils": "^0.4.7",
     "qs": "^6.10.1"
   },
   "devDependencies": {
