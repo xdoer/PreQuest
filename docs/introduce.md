@@ -37,6 +37,10 @@ PreQuest 与 axios、umi-request 的区别在于，PreQuest 并不是一个请�
 
 如果你的项目使用的是自己封装的原始 Http 请求，那么你可以通过 [@prequest/wrapper](https://github.com/xdoer/PreQuest/tree/main/packages/wrapper) 很容易的迁移到 PreQuest 中；
 
+## 原理
+
+![principle](principle.png)
+
 ## 灵感
 
 在写小程序的时候，发现并没有一个好用的类似 axios 的请求库，想基于 axios 封装一个小程序端用的请求库。在阅读 axios 和 umi-request 源码后发现，请求内核和上层架构其实完全可以分离开，axios 与 umi-request 等库可能基于品牌推广等缘由，将 web 端和 node 端的请求库杂糅到了一份代码里，导致请求参数冗余，且不好扩展，因而自己封装了 PreQuest，它采用 TypeScript 语法，用户可以针对不同的平台，基于自己的业务，快速封装一套高定制的请求库。
