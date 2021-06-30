@@ -36,11 +36,11 @@ export function isEmpty(value: any) {
   const type = elementType(value)
   switch (type) {
     case 'object':
-      return !Object.keys(type).length
+      return !Object.keys(value).length
     case 'array':
-      return !type.length
+      return !value.length
     default:
-      return !type
+      return !value
   }
 }
 
