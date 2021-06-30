@@ -11,8 +11,9 @@ export default class TimeoutMiddleware<T, N> {
 
   run: MiddlewareCallback<T & TimeoutInject<T>, N> = async (ctx, next) => {
     const timeout = ctx.request.timeout ?? (this.opt?.timeout || 0)
+    const timeoutControl = this.opt?.timeoutControl || (() => true)
 
-    if (!this.opt?.timeoutControl?.(ctx.request)) return next()
+    if (!timeoutControl(ctx.request)) return next()
 
     if (timeout <= 0) return next()
 

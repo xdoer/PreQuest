@@ -62,6 +62,7 @@
   ],
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",
+    "@prequest/node": "^0.4.7",
     "husky": "^6.0.0",
     "size-limit": "^4.10.2",
     "ts-lib": "^0.0.5",

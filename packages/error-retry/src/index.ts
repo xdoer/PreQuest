@@ -6,7 +6,7 @@ export type ErrorRetryOptions<T> = Options<T>
 export default class ErrorRetryMiddleware<T, N> {
   constructor(private opt?: Partial<Options<T>>) {}
 
-  getOptions(ctx: any, opt: any) {
+  private getOptions(ctx: any, opt: any) {
     const initRetryCount = ctx.request.retryCount || this.opt?.retryCount || 0
     const retryControl = ctx.request.retryControl || this.opt?.retryControl || defaultRetryControl
     return {

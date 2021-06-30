@@ -56,7 +56,7 @@ export const asyncPool = async <T, N>(
 type CommonFn = (...args: any) => any
 
 function limit(func: CommonFn, wait: number, debounce: boolean) {
-  let timeout: NodeJS.Timeout | null
+  let timeout: any
   return function(...args: any) {
     const throttler = function() {
       timeout = null

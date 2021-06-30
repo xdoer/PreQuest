@@ -20,6 +20,6 @@ export class Interceptor<T, N> {
         (t, c, idx) => t.then(c.successHandler, this.handles[idx - 1]?.errorHandler),
         Promise.resolve(params)
       )
-      .catch(this.handles[this.handles.length - 1].errorHandler)
+      .catch(this.handles[this.handles.length - 1]?.errorHandler)
   }
 }
