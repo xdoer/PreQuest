@@ -11,7 +11,7 @@ npm install @prequest/cache
 ## 使用
 
 ```ts
-import CacheMiddleware  from '@prequest/cache'
+import CacheMiddleware from '@prequest/cache'
 import { Request, Response, prequest } from '@prequest/xhr'
 
 const cacheMiddleware = new CacheMiddleware<Request, Response>({
@@ -26,12 +26,13 @@ const cacheMiddleware = new CacheMiddleware<Request, Response>({
 
   // 校验哪些类型的请求需要缓存数据
   cacheControl(opt) {
-    const { path } = opt
+    const { pat, method } = opt
+
     // api 接口要缓存
-    if(path === '/api') return true
+    if (path === '/api') return true
 
     // get 请求要缓存
-    if(method === 'GET') return true
+    if (method === 'GET') return true
     return false
   },
 
@@ -39,12 +40,12 @@ const cacheMiddleware = new CacheMiddleware<Request, Response>({
   cacheKernel() {
     const map = new Map()
     return {
-      set: map.set,
-      get: map.get,
-      clear: map.clear
-      delete: map.delete
+      set: map.set.bind(map),
+      get: map.get.bind(map),
+      clear: map.clear.bind(map),
+      delete: map.delete.bind(map),
     }
-  }
+  },
 })
 
 // 注册中间件

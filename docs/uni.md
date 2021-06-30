@@ -240,7 +240,7 @@ const cacheMiddleware = new CacheMiddleware<Request, Response>({
     return {
       set: map.set,
       get: map.get,
-      clear: map.clear
+      clear: map.clear,
       delete: map.delete
     }
   }
@@ -259,6 +259,9 @@ instance.use(cacheMiddleware.run)
 import { create, Request, Response } from '@prequest/miniprogram'
 import Lock from '@prequest/lock'
 
+const prequest = create(uni.request)
+
+// 创建 lock 实例
 const lock = new Lock({
   async getValue() {
     return getStorageSync('token')
@@ -271,25 +274,31 @@ const lock = new Lock({
   },
 })
 
+// 用 lock 实例创建包裹器
 const wrapper = Lock.createLockWrapper(lock)
 
-const prequest = create(uni.request)
-
 prequest.use(async (ctx, next) => {
+  // 自定义了一个参数 skipToken， 用以放行不需要 token 的接口
   if (ctx.request.skipToken) return next()
 
-  // wrapper 会将所有请求拦截在这里，直到获取到 token 之后才放行
-  const token = await wrapper(getToken, lock)
+  /**
+   * wrapper 会将所有请求拦截在这里，直到获取到 token 之后才放行
+   * 获取 token 接口由于传入了 skipToken 所以不会
+   * */
+  const token = await wrapper(() =>
+    prequest('/token', { skipToken: true }).then(res => res.data.token)
+  )
+
   ctx.request.headers['Authorization'] = `bearer ${token}`
   await next()
 })
 
-// 同时发起 5 个请求，等到 token 拿到后，才执行之后 4 个请求
+// 同时发起 5 个请求，等到 token 拿到后，才会执行
 prequest('/api', { params: { a: 1 } })
 prequest('/api', { params: { a: 2 } })
 prequest('/api', { params: { a: 3 } })
 prequest('/api', { params: { a: 4 } })
-prequest('/token', { skipToken: true })
+prequest('/api', { params: { a: 5 } })
 ```
 
 这里可以结合错误重试中间件，自动进行接口重新调用，详情参考[@prequest/lock](https://pre-quest.vercel.app/#/lock)
