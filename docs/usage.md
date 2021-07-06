@@ -9,6 +9,7 @@
 > - [@prequest/node](/node ':target=_self'): 一个 nodejs 端的请求库
 > - [@prequest/miniprogram](/miniprogram ':target=_self'): 一个小程序端的请求库
 > - [@prequest/miniprogram-addon](/miniprogram-addon ':target=_self'): 小程序端的上传下载包
+> - [@prequest/jsonp](/jsonp ':target=_self'): jsonp 请求
 
 下面以 `@prequest/xhr` 为例，介绍基于 `@prequest/core` 的请求库，具有以下通用的能力:
 
