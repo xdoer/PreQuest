@@ -1,4 +1,4 @@
-import { createRequestUrl } from '@prequest/helper'
+import { createError, createRequestUrl, ErrorCode } from '@prequest/helper'
 import { Request, RequestCore } from './types'
 
 export function adapter<T, N>(request: RequestCore) {
@@ -12,21 +12,27 @@ export function adapter<T, N>(request: RequestCore) {
       let promise = new Promise(resolve => (resolvePromise = resolve))
       getNativeRequestInstance?.(promise)
 
-      const instance = request({
+      let instance = request({
         url,
         ...rest,
-        success: resolve,
-        fail: reject,
+        success(res: any) {
+          resolve(res)
+        },
+        fail(e: any) {
+          reject(e)
+          instance = null
+        },
       })
 
       if (cancelToken) {
         cancelToken.promise.then(() => {
-          /**
-           * 1、instance 在执行时一定存在
-           * 2、abort 后，会走 fail 回调
-           * 3、因为 fail 回调捕获的错误不同平台可能不一致，所以不对错误做处理，需要用户自己根据平台文档判断是否是取消请求。例如: 微信取消请求报错 '{ errMsg: 'request:fail abort' }'，需要根据 errMsg 判断。
-           */
-          instance.abort()
+          if (!instance) return
+
+          // 如果支持取消方法
+          if (instance.abort) return instance.abort()
+
+          // 如果不支持，则直接抛出错误
+          reject(createError(ErrorCode.abort, 'aborted', opt))
         })
       }
 
