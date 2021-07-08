@@ -59,5 +59,5 @@ prequest('/api', {
 
 | Option Name  | Type                                   | Default                                   | Required | Meaning                               |
 | ------------ | -------------------------------------- | ----------------------------------------- | -------- | ------------------------------------- |
-| retryCount   | number                                 | 1                                         | false    | 错误重试次数                          |
+| retryCount   | number                                 | 0                                         | false    | 错误重试次数                          |
 | retryControl | (opt: RequestOpt, e: Error) => boolean | (opt: RequestOpt) => opt.method === 'GET' | false    | 重试策略，默认 get 请求会进行错误重试 |

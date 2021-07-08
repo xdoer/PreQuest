@@ -270,8 +270,8 @@ prequest.use(async (ctx, next) => {
   const token = await wrapper(() =>
     prequest('/token', { skipToken: true }).then(res => res.data.token)
   )
-
-  ctx.request.headers['Authorization'] = `bearer ${token}`
+  ctx.request.header = ctx.request.header || {}
+  ctx.request.header['Authorization'] = `bearer ${token}`
   await next()
 })
 

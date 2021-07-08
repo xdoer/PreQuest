@@ -34,6 +34,7 @@ const wrapper = Lock.createLockWrapper(lock)
 // 添加 token
 prequest.use(async (ctx, next) => {
   const token = await wrapper(getToken)
+  ctx.request.headers = ctx.request.headers || {}
   ctx.request.headers['Authorization'] = `bearer ${token}`
   await next()
 })
@@ -61,6 +62,7 @@ prequest.use(async (ctx, next) => {
   if (ctx.request.skipTokenCheck) return next()
 
   const token = await wrapper(getToken)
+    ctx.request.headers = ctx.request.headers || {}
   ctx.request.headers['Authorization'] = `bearer ${token}`
   await next()
 })
@@ -78,6 +80,7 @@ import { prequest, create } from '@prequest/xhr'
 import ErrorRetryMiddleware from '@prequest/error-retry'
 
 const errorRetryMiddleware = new ErrorRetryMiddleware({
+  retryCount: 2,
   retryControl(opt, e) {
     // 捕获到抛出的 token 失效异常，则进行错误重试
     if ((e.message = 'token is expired')) {
