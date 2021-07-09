@@ -16,6 +16,7 @@ export default class Lock {
   }
 
   async clear() {
+    if (this.on) return
     this.on = false
     this.promise = new Promise(resolve => (this.resolvePromise = resolve))
     return this.opt.clearValue()
