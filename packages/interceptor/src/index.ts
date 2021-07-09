@@ -1,8 +1,6 @@
 import { MiddlewareCallback } from '@prequest/types'
 import { Interceptor } from './Interceptor'
 
-export * from './Interceptor'
-
 export default class InterceptorMiddleware<T, N, E = Error> {
   request = new Interceptor<T, E>()
   response = new Interceptor<N, E>()

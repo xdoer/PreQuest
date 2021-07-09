@@ -12,26 +12,40 @@ npm install @prequest/timeout
 
 ## 使用
 
+### 类型注入
+
+类型注入需要创建实例，通过类型注入，可以在写代码时，获得智能提示。
+
 ```ts
-import TimeoutMiddleware, { TimeoutInject } from '@prequest/timeout'
-import { create } from '@prequest/fetch'
+import { create, Request, Response } from '@prequest/xhr'
+import timeoutMiddleware, { TimeoutInject } from '@prequest/timeout'
 
-// 你可以对所有请求统一设置超时
-const timeoutMiddleware = new TimeoutMiddleware({
-  timeout: 5000,
-  timeoutControl(opt) {
-    // api 接口不设置超时
-    if (opt.path === '/api') return false
+const prequest = create<TimeoutInject>()
+```
 
-    // 其余设置超时
-    return true
-  },
+### 统一控制
+
+```ts
+import { prequest, Request, Response } from '@prequest/xhr'
+import timeoutMiddleware from '@prequest/timeout'
+
+prequest.use(
+  timeoutMiddleware<Request, Response>({
+    timeout: 5000,
+    timeoutControl: () => {
+      // 开发环境设置超时时间
+      return process.NODE_ENV === 'development'
+    },
+  })
+)
+```
+
+### 单一控制
+
+```ts
+prequest('/api', {
+  timeout: 1000,
 })
-prequest.use(timeoutMiddleware.run)
-
-// 或者针对单一请求进行设置
-const prequest = create<TimeoutInject, {}>()
-prequest('/api', { timeout: 1000 })
 ```
 
 ## 配置项

@@ -1,36 +1,33 @@
 import { MiddlewareCallback } from '@prequest/types'
 import { Options } from './types'
 
-export type ErrorRetryOptions<T> = Options<T>
-
-export default class ErrorRetryMiddleware<T, N> {
-  constructor(private opt?: Partial<Options<T>>) {}
-
-  private getOptions(ctx: any, opt: any) {
-    const initRetryCount = ctx.request.retryCount || this.opt?.retryCount || 0
-    const retryControl = ctx.request.retryControl || this.opt?.retryControl || defaultRetryControl
-    return {
-      retryCount: opt.retryCount ?? initRetryCount,
-      retryControl,
-    }
+function createDefaultOption<T>(): Options<T> {
+  return {
+    retryCount: 1,
+    retryControl: ({ method }) => /^get$/i.test(method) || !method,
   }
+}
 
-  run: MiddlewareCallback<T & Partial<Options<T>>, N> = async (ctx, next, opt) => {
+export type ErrorRetryInject<T> = Options<T>
+
+export default function errorRetryMiddleware<T, N>(
+  opt?: Partial<Options<T>>
+): MiddlewareCallback<T & Partial<Options<T>>, N> {
+  const options = Object.assign({}, createDefaultOption<T>(), opt)
+
+  return async function(ctx, next) {
     try {
       await next()
     } catch (e) {
-      const { retryCount, retryControl } = this.getOptions(ctx, opt)
+      const { retryCount, retryControl } = Object.assign({}, options, ctx.request)
 
-      if (retryCount < 1 || !retryControl(ctx.request, e)) throw e
+      const control = await retryControl(ctx.request, e)
+
+      if (retryCount < 1 || !control) throw e
 
       opt!.retryCount = retryCount - 1
 
       await ctx.context.controller.bind(ctx.context)(ctx, opt)
     }
   }
-}
-
-function defaultRetryControl(request: any) {
-  const { method } = request
-  return /^get$/i.test(method) || !method
 }

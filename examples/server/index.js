@@ -12,6 +12,6 @@ app
 .use(downloadRouter)
 .use(uploadRouter)
 
-app.listen(8080, function () {
+app.listen(3000, function () {
   console.log('服务已开启')
 })

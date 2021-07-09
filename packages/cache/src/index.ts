@@ -1,42 +1,54 @@
 import { MiddlewareCallback } from '@prequest/types'
-import { Options, CacheValue, CacheKernel } from './types'
+import { Options, Cache } from './types'
 
-export default class CacheMiddleware<T, N> {
-  cache: CacheKernel
+export interface CacheInject {
+  useCache?: boolean
+}
 
-  constructor(private opt?: Partial<Options<T>>) {
-    this.cache = this.opt?.cacheKernel?.() || new Map()
+function createDefaultOption<T>(): Options<T> {
+  return {
+    ttl: 1000,
+    cacheKernel: () => new Map(),
+    cacheControl: () => false,
+    cacheId: v => JSON.stringify(v),
   }
+}
 
-  getId = (value: T) => {
-    return this.opt?.cacheId?.(value) || JSON.stringify(value)
-  }
+export default function cacheMiddleware<T, N>(
+  opt?: Partial<Options<T>>
+): MiddlewareCallback<T & CacheInject, N> {
+  const { ttl, cacheControl, cacheId, cacheKernel } = Object.assign(
+    {},
+    createDefaultOption<T>(),
+    opt
+  )
 
-  private isExpired = (timestamp: number) => {
-    return Date.now() - timestamp > (this.opt?.ttl || 0)
-  }
+  const cache = cacheKernel()
 
-  async clear() {
-    return this.cache.clear()
-  }
+  const isExpired = (timestamp: number) => Date.now() - timestamp > ttl
 
-  run: MiddlewareCallback<T, N> = async (ctx, next) => {
-    if (!this.opt?.cacheControl?.(ctx.request)) return next()
+  return async function(ctx, next) {
+    const useCache = ctx.request.useCache || true
 
-    const id = this.getId(ctx.request)
-    const cache: CacheValue<T, N> = await this.cache.get(id)
+    if (!useCache) {
+      const control = await cacheControl(ctx.request)
+      if (!control) return next()
+    }
 
-    if (cache) {
-      if (this.isExpired(cache.timestamp)) {
-        await this.cache.delete(id)
+    const id = cacheId(ctx.request)
+    const cacheValue: Cache<T, N> = await cache.get(id)
+
+    if (cacheValue) {
+      if (isExpired(cacheValue.timestamp)) {
+        await cache.delete(id)
       } else {
-        ctx = cache.ctx
-        return cache.ctx.response
+        ctx = cacheValue.ctx
+        return cacheValue.ctx.response
       }
     }
 
     await next()
 
-    await this.cache.set(id, { timestamp: Date.now(), ctx })
+    await cache.set(id, { timestamp: Date.now(), ctx })
   }
 }

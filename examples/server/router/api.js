@@ -16,6 +16,13 @@ router
   }
   // const data = await prequest('https://webspiderr.herokuapp.com/crawl/api?user=xdoer&cid=73b1430d-faa0-44eb-899e-36cf5cbfaec8')
   // res.sendStatus(500)
+
+  if(Math.random() > 0.01) {
+    res.status(401)
+    res.send('Auth fail')
+    return
+  }
+
   res.send(data)
 })
 .get('/error-retry', async function (req, res) {
