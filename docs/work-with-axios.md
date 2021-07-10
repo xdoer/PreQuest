@@ -127,12 +127,12 @@ import { axiosInstance } from './http'
 export const prequest = PreQuest.create<AxiosRequestConfig, AxiosResponse>(opt => axiosInstance(opt.path, opt))
 
 // 错误重试中间件
-const errorRetryMiddleware = new ErrorRetryMiddleware()
-prequest.use(errorRetryMiddleware.run)
+const errorRetryMiddleware = ErrorRetryMiddleware()
+prequest.use(errorRetryMiddleware)
 
 // 注册 cache 中间件
-const cacheMiddleware = new CacheMiddleware()
-prequest.use(cacheMiddleware.run)
+const cacheMiddleware = CacheMiddleware()
+prequest.use(cacheMiddleware)
 ```
 
 ### 调用

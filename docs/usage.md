@@ -41,6 +41,18 @@ const prequest3 = create({
 })
 ```
 
+当使用 TypeScript 开发时，建议使用 `create` 方法创建的请求实例，因为这样可以很方便的注入请求参数，在开发时可以获得智能提示
+
+```ts
+import { create } from '@prequest/xhr'
+
+interface Inject {
+  enableHttp2: boolean
+}
+
+const prequest = create<Inject, {}>()
+```
+
 在类小程序的请求库中，稍有些区别，为了满足兼容不同的类小程序平台，创建实例的时候，需要将原生请求方法传入。
 
 ```ts
@@ -137,10 +149,12 @@ prequest({ url: 'http://localhost:3000/audio/123' })
 import { PreQuest, Request, Response } from '@prequest/xhr'
 
 PreQuest.use<Request, Response>(async (ctx, next) => {
+  // 在这里，你可以修改请求参数
   console.log(ctx.request)
 
   await next()
 
+  // 这里，你可以修改响应数据
   console.log(ctx.response)
 })
 ```
@@ -193,3 +207,7 @@ prequest.use(async (ctx, next) => {
 > - [@prequest/cancel-token](/cancel-token ':target=_self'): 取消请求解决方案
 > - [@prequest/helper](https://github.com/xdoer/PreQuest/tree/main/packages/helper ':target=_blank'): 一些有用的参数处理、响应处理的工具包
 > - [@prequest/utils](https://github.com/xdoer/PreQuest/tree/main/packages/utils ':target=_blank'): 常规函数工具包
+
+## 配置示例
+
+> - [taro-example](/taro-example ':target=_self'): Taro 示例配置

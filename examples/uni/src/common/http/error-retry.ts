@@ -1,7 +1,7 @@
 import ErrorRetryMiddleware from '@prequest/error-retry'
 import { Request, Response } from '@prequest/miniprogram'
 
-export const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>({
+export const errorRetryMiddleware = ErrorRetryMiddleware<Request, Response>({
   // 错误重试次数
   retryCount: 2,
 

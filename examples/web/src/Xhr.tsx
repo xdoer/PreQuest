@@ -3,7 +3,7 @@ import prequest, { Request, Response } from '@prequest/xhr'
 import ErrorRetryMiddleware from '@prequest/error-retry'
 
 
-const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>({
+const errorRetryMiddleware = ErrorRetryMiddleware<Request, Response>({
   retryCount: 2,
   retryControl(opt) {
     const { method } = opt
@@ -11,7 +11,7 @@ const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>({
   }
 })
 
-prequest.use(errorRetryMiddleware.run)
+prequest.use(errorRetryMiddleware)
 
 export const XhrComponent: FC<{}> = ({ }) => {
   const [data, setData] = useState('')

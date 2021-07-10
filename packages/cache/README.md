@@ -57,7 +57,6 @@ prequest.use(
       return {
         set: map.set.bind(map),
         get: map.get.bind(map),
-        clear: map.clear.bind(map),
         delete: map.delete.bind(map),
       }
     },
@@ -71,6 +70,7 @@ prequest.use(
 
 ```ts
 prequest('/api', {
+  // 配置类型注入后，可以在这里得到智能提示
   useCache: true,
 })
 ```
@@ -79,12 +79,12 @@ prequest('/api', {
 
 ### 实例配置项
 
-| Option Name  | Type                         | Default                                  | Required | Meaning  |
-| ------------ | ---------------------------- | ---------------------------------------- | -------- | -------- |
-| ttl          | number                       | 0                                        | false    | 缓存时间 |
-| cacheId      | (opt: RequestOpt) => any     | (opt: RequestOpt) => JSON.stringify(opt) | false    | 缓存 ID  |
-| cacheControl | (opt: RequestOpt) => boolean |                                          | false    | 缓存策略 |
-| cacheKernel  | CacheKernel                  | Map                                      | false    | 存储内核 |
+| Option Name  | Type                         | Default                                  | Required | Meaning             |
+| ------------ | ---------------------------- | ---------------------------------------- | -------- | ------------------- |
+| ttl          | number                       | 1000                                     | false    | 缓存时间            |
+| cacheId      | (opt: RequestOpt) => string  | (opt: RequestOpt) => JSON.stringify(opt) | false    | 缓存 ID             |
+| cacheControl | (opt: RequestOpt) => boolean | () => false                              | false    | 缓存策略,默认不缓存 |
+| cacheKernel  | CacheKernel                  | Map                                      | false    | 存储内核            |
 
 ### 存储内核
 
@@ -94,7 +94,6 @@ prequest('/api', {
 interface CacheKernel {
   get(id: string): Promise<any>
   set(id: string, value: any): Promise<any>
-  clear(): Promise<any>
-  delete(id: string): Promise<any>
+  delete(): Promise<any>
 }
 ```

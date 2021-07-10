@@ -196,7 +196,7 @@ cancel()
 import { create, Request, Response } from '@prequest/miniprogram'
 import CacheMiddleware from '@prequest/cache'
 
-const cacheMiddleware = new CacheMiddleware<Request, Response>({
+const cacheMiddleware = CacheMiddleware<Request, Response>({
   ttl: 5000,
   cacheId(opt) {
     const { path, method } = opt
@@ -220,7 +220,7 @@ const cacheMiddleware = new CacheMiddleware<Request, Response>({
 
 const instance = create(Taro.request)
 
-instance.use(cacheMiddleware.run)
+instance.use(cacheMiddleware)
 
 // 只要成功接收到服务器返回，无论 statusCode 是多少，都会进入 success 回调，所以需要处理
 // https://developers.weixin.qq.com/miniprogram/dev/framework/ability/network.html
@@ -293,7 +293,7 @@ import ErrorRetryMiddleware from '@prequest/error-retry'
 
 const prequest = create(Taro.request)
 
-const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>({
+const errorRetryMiddleware = ErrorRetryMiddleware<Request, Response>({
   retryCount: 3,
   retryControl(opt, error) {
     const { method, path } = opt
@@ -306,7 +306,7 @@ const errorRetryMiddleware = new ErrorRetryMiddleware<Request, Response>({
   },
 })
 
-prequest.use(errorRetryMiddleware.run)
+prequest.use(errorRetryMiddleware)
 
 prequest.get('/api')
 ```

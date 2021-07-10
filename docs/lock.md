@@ -79,7 +79,7 @@ function getToken() {
 import { prequest, create } from '@prequest/xhr'
 import ErrorRetryMiddleware from '@prequest/error-retry'
 
-const errorRetryMiddleware = new ErrorRetryMiddleware({
+const errorRetryMiddleware = ErrorRetryMiddleware({
   retryCount: 2,
   retryControl(opt, e) {
     // 捕获到抛出的 token 失效异常，则进行错误重试
@@ -97,7 +97,7 @@ const errorRetryMiddleware = new ErrorRetryMiddleware({
   },
 })
 // 注意，错误重试中间件要注册位置要先于抛出异常的中间件
-prequest.use(errorRetryMiddleware.run)
+prequest.use(errorRetryMiddleware)
 
 // 认证失败、错误重试
 prequest.use(async (ctx, next) => {

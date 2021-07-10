@@ -57,7 +57,7 @@ prequest.use(
       return {
         set: map.set.bind(map),
         get: map.get.bind(map),
-        clear: map.clear.bind(map),
+
         delete: map.delete.bind(map),
       }
     },

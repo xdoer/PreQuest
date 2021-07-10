@@ -14,8 +14,8 @@ interface Res { }
 export const prequest = create<Req, Res>(uni.request)
 
 prequest
-  .use(cacheMiddleware.run)
-  .use(errorRetryMiddleware.run)
+  .use(cacheMiddleware)
+  .use(errorRetryMiddleware)
   .use(async (ctx, next) => {
     // 获取 token 接口跳过添加 token 步骤
     if (ctx.request.skipTokenCheck) return next()
