@@ -1,6 +1,6 @@
 {
   "name": "@prequest/example-taro",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.1-alpha.0",
   "description": "mini-demo",
   "templateInfo": {
     "name": "default",
@@ -12,7 +12,7 @@
     "build:swan": "taro build --type swan",
     "build:alipay": "taro build --type alipay",
     "build:tt": "taro build --type tt",
-    "build:h5": "taro build --type h5",
+    "build": "taro build --type h5",
     "build:rn": "taro build --type rn",
     "build:qq": "taro build --type qq",
     "build:jd": "taro build --type jd",
@@ -35,13 +35,13 @@
   "author": "",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
-    "@prequest/cache": "^1.0.0-alpha.0",
-    "@prequest/cancel-token": "^1.0.0-alpha.0",
-    "@prequest/error-retry": "^1.0.0-alpha.0",
-    "@prequest/interceptor": "^1.0.0-alpha.0",
-    "@prequest/lock": "^1.0.0-alpha.0",
-    "@prequest/miniprogram": "^1.0.0-alpha.0",
-    "@prequest/miniprogram-addon": "^1.0.0-alpha.0",
+    "@prequest/cache": "^1.0.1-alpha.0",
+    "@prequest/cancel-token": "^1.0.1-alpha.0",
+    "@prequest/error-retry": "^1.0.1-alpha.0",
+    "@prequest/interceptor": "^1.0.1-alpha.0",
+    "@prequest/lock": "^1.0.1-alpha.0",
+    "@prequest/miniprogram": "^1.0.1-alpha.0",
+    "@prequest/miniprogram-addon": "^1.0.1-alpha.0",
     "@tarojs/async-await": "^2.2.10",
     "@tarojs/components": "3.2.1",
     "@tarojs/react": "3.2.1",
@@ -68,5 +68,5 @@
     "stylelint": "9.3.0",
     "typescript": "^4.1.0"
   },
-  "gitHead": "0a6bdd337bfaac1066e58c4be20a787995fe624b"
+  "gitHead": "aef1ddda3dec6a2110d9a6aef9b8cec46b5d0a96"
 }

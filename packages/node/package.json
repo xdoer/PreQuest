@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.1-alpha.0",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -60,9 +60,9 @@
     }
   ],
   "dependencies": {
-    "@prequest/core": "^1.0.0-alpha.0",
-    "@prequest/helper": "^1.0.0-alpha.0",
-    "@prequest/utils": "^1.0.0-alpha.0",
+    "@prequest/core": "^1.0.1-alpha.0",
+    "@prequest/helper": "^1.0.1-alpha.0",
+    "@prequest/utils": "^1.0.1-alpha.0",
     "follow-redirects": "^1.14.1"
   },
   "devDependencies": {
@@ -74,5 +74,5 @@
     "tslib": "^2.2.0",
     "typescript": "^4.2.4"
   },
-  "gitHead": "011a3233be032085d939a1b3346b1baefa46339d"
+  "gitHead": "aef1ddda3dec6a2110d9a6aef9b8cec46b5d0a96"
 }

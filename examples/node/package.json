@@ -1,6 +1,6 @@
 {
   "name": "@prequest/example-node",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.1-alpha.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,8 +9,8 @@
   "keywords": [],
   "author": "Thomas Trainset",
   "dependencies": {
-    "@prequest/node": "^1.0.0-alpha.0"
+    "@prequest/node": "^1.0.1-alpha.0"
   },
   "license": "ISC",
-  "gitHead": "0a6bdd337bfaac1066e58c4be20a787995fe624b"
+  "gitHead": "aef1ddda3dec6a2110d9a6aef9b8cec46b5d0a96"
 }
