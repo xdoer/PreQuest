@@ -27,42 +27,42 @@ const prequest = create<CacheInject>()
 import CacheMiddleware from '@prequest/cache'
 import { Request, Response, prequest } from '@prequest/xhr'
 
+const middleware = cacheMiddleware({
+  // 5s 之后，缓存失效
+  ttl: 5000,
+
+  // 缓存 ID, 默认直接 JSON.stringify 序列化 opt。你可以通过此函数，判断哪些请求是相同请求。
+  cacheId(opt) {
+    const { path, method } = opt
+    return `${method}-${path}`
+  },
+
+  // 校验哪些类型的请求需要缓存数据
+  cacheControl(opt) {
+    const { path, method } = opt
+
+    // api 接口要缓存
+    if (path === '/api') return true
+
+    // get 请求要缓存
+    if (method === 'GET') return true
+    return false
+  },
+
+  // 缓存内核，默认使用 Map 数据结构存到内存。你可以通过此函数，自定义数据存储方式。
+  cacheKernel() {
+    const map = new Map()
+    return {
+      set: map.set.bind(map),
+      get: map.get.bind(map),
+
+      delete: map.delete.bind(map),
+    }
+  },
+})
+
 // 注册中间件
-prequest.use(
-  cacheMiddleware({
-    // 5s 之后，缓存失效
-    ttl: 5000,
-
-    // 缓存 ID, 默认直接 JSON.stringify 序列化 opt。你可以通过此函数，判断哪些请求是相同请求。
-    cacheId(opt) {
-      const { path, method } = opt
-      return `${method}-${path}`
-    },
-
-    // 校验哪些类型的请求需要缓存数据
-    cacheControl(opt) {
-      const { path, method } = opt
-
-      // api 接口要缓存
-      if (path === '/api') return true
-
-      // get 请求要缓存
-      if (method === 'GET') return true
-      return false
-    },
-
-    // 缓存内核，默认使用 Map 数据结构存到内存。你可以通过此函数，自定义数据存储方式。
-    cacheKernel() {
-      const map = new Map()
-      return {
-        set: map.set.bind(map),
-        get: map.get.bind(map),
-
-        delete: map.delete.bind(map),
-      }
-    },
-  })
-)
+prequest.use(middleware)
 ```
 
 ### 单一配置

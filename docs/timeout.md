@@ -29,15 +29,15 @@ const prequest = create<TimeoutInject>()
 import { prequest, Request, Response } from '@prequest/xhr'
 import timeoutMiddleware from '@prequest/timeout'
 
-prequest.use(
-  timeoutMiddleware<Request, Response>({
-    timeout: 5000,
-    timeoutControl: () => {
-      // 开发环境设置超时时间
-      return process.NODE_ENV === 'development'
-    },
-  })
-)
+const middleware = timeoutMiddleware<Request, Response>({
+  timeout: 5000,
+  timeoutControl: () => {
+    // 开发环境设置超时时间
+    return process.NODE_ENV === 'development'
+  },
+})
+
+prequest.use(middleware)
 ```
 
 ### 单一控制
@@ -65,7 +65,7 @@ prequest('/api', {
 // 获取编译的平台信息
 const platform = process.env.UNI_PLATFORM
 
-const timeoutMiddleware = new TimeoutMiddleware({
+const middleware = timeoutMiddleware({
   timeout: 5000,
   timeoutControl(opt) {
     // 微信小程序、支付宝小程序 timeout 由请求内核进行处理

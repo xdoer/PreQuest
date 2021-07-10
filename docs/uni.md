@@ -157,7 +157,7 @@ import { create } from '@prequest/fetch'
 const platform = process.env.UNI_PLATFORM
 
 // 统一设置超时时间
-const timeoutMiddleware = new TimeoutMiddleware({
+const timeoutMiddleware = TimeoutMiddleware({
   timeout: 5000,
   timeoutControl(opt) {
     // 微信小程序、支付宝小程序 timeout 由请求内核进行处理
@@ -167,7 +167,7 @@ const timeoutMiddleware = new TimeoutMiddleware({
     return true
   },
 })
-prequest.use(timeoutMiddleware.run)
+prequest.use(timeoutMiddleware)
 
 // 或者针对单一请求进行设置
 const prequest = create<TimeoutInject, {}>()

@@ -27,26 +27,26 @@ const prequest = create<ErrorRetryInject>()
 import { prequest, Request, Response } from '@prequest/xhr'
 import errorRetryMiddleware from '@prequest/error-retry'
 
-prequest.use(
-  errorRetryMiddleware<Request, Response>({
-    // 错误重试次数
-    retryCount: 2,
+const middleware = errorRetryMiddleware<Request, Response>({
+  // 错误重试次数
+  retryCount: 2,
 
-    // opt 为 Request 类型，通过该函数，你可以控制那些接口需要错误重试
-    retryControl(opt, e) {
-      const { method, path } = opt
+  // opt 为 Request 类型，通过该函数，你可以控制那些接口需要错误重试
+  retryControl(opt, e) {
+    const { method, path } = opt
 
-      // 如果是具体某个错误，则不进行重试
-      if (e.message === 'internal error') return false
+    // 如果是具体某个错误，则不进行重试
+    if (e.message === 'internal error') return false
 
-      // api 路径不进行错误重试
-      if (path === '/api') return false
+    // api 路径不进行错误重试
+    if (path === '/api') return false
 
-      // 只有 get 方法才进行错误重试
-      return method === 'GET'
-    },
-  })
-)
+    // 只有 get 方法才进行错误重试
+    return method === 'GET'
+  },
+})
+
+prequest.use(middleware)
 ```
 
 ### 单一控制
