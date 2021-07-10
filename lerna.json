@@ -8,6 +8,6 @@
       "registry": "http://registry.npmjs.org"
     }
   },
-  "version": "0.4.7",
+  "version": "1.0.0-alpha.0",
   "packages": ["packages/*"]
 }
