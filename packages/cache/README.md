@@ -94,7 +94,6 @@ prequest('/api', {
 interface CacheKernel {
   get(id: string): Promise<any>
   set(id: string, value: any): Promise<any>
-  clear(): Promise<any>
   delete(id: string): Promise<any>
 }
 ```
