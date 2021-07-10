@@ -1,6 +1,6 @@
 import ErrorRetryMiddleware from '../src'
 
-const errorRetryMiddleware = new ErrorRetryMiddleware<any, any>({
+const errorRetryMiddleware = ErrorRetryMiddleware<any, any>({
   // 错误重试次数
   retryCount: 3,
 
@@ -36,7 +36,7 @@ test('error-retry', async () => {
     },
   }
 
-  await errorRetryMiddleware.run(
+  await errorRetryMiddleware(
     ctx,
     () => {
       throw new Error()
@@ -66,7 +66,7 @@ test('error-not-retry', async () => {
 
   try {
     // 不进行错误重试，错误会冒泡
-    await errorRetryMiddleware.run(
+    await errorRetryMiddleware(
       ctx,
       () => {
         throw new Error()

@@ -1,6 +1,9 @@
 import CacheMiddleware from '../src'
 
-const cacheMiddleware = new CacheMiddleware<any, any>({
+const cacheStore = new Map()
+const cacheKernel = () => cacheStore
+
+const cacheMiddleware = CacheMiddleware<any, any>({
   // 5s 之后，缓存失效
   ttl: 5000,
 
@@ -24,31 +27,29 @@ const cacheMiddleware = new CacheMiddleware<any, any>({
   },
 
   // 缓存内核，默认使用 Map 数据结构存到内存。你可以通过此函数，自定义数据存储方式。
-  cacheKernel() {
-    const map = new Map()
-    return {
-      set: map.set.bind(map),
-      get: map.get.bind(map),
-      clear: map.clear.bind(map),
-      delete: map.delete.bind(map),
-    }
-  },
+  cacheKernel,
 })
 
 test('CacheMiddleware', async () => {
   // 初始化 ctx
-  const ctx: any = { request: { method: 'GET' }, response: {} }
+  const ctx: any = { request: { method: 'GET', path: '/api' }, response: {} }
 
-  // api 接口配置可缓存
-  ctx.request.path = '/api'
-  await cacheMiddleware.run(ctx, (() => {}) as any)
+  await cacheMiddleware(ctx, (() => {}) as any)
 
-  expect(cacheMiddleware.cache.get('GET-/api')).toMatchObject({ ctx })
+  expect(cacheStore.get('GET-/api')).toMatchObject({ ctx })
 
   // POST 方法接口不缓存
   ctx.request.method = 'POST'
   ctx.request.path = '/api2'
-  await cacheMiddleware.run(ctx, (() => {}) as any)
+  await cacheMiddleware(ctx, (() => {}) as any)
 
-  expect(cacheMiddleware.cache.get('POST-/api2')).toBeUndefined()
+  expect(cacheStore.get('POST-/api2')).toBeUndefined()
+
+  // useCache 控制缓存
+  ctx.request.method = 'POST'
+  ctx.request.path = '/api2'
+  ctx.request.useCache = true
+  await cacheMiddleware(ctx, (() => {}) as any)
+
+  expect(cacheStore.get('POST-/api2')).toMatchObject({ ctx })
 })
