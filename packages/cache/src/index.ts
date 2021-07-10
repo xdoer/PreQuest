@@ -28,9 +28,15 @@ export default function cacheMiddleware<T, N>(
   const isExpired = (timestamp: number) => Date.now() - timestamp > ttl
 
   return async function(ctx, next) {
-    const useCache = ctx.request.useCache || true
+    const setCacheKey = typeof ctx.request.useCache !== 'undefined'
 
-    if (!useCache) {
+    // 如果设置了 useCache 字段，且设置为 false
+    if (setCacheKey) {
+      if (!ctx.request.useCache) return next()
+    }
+
+    // 如果没设置 useCache，则使用默认的统一控制
+    if (!setCacheKey) {
       const control = await cacheControl(ctx.request)
       if (!control) return next()
     }
