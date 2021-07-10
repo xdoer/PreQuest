@@ -15,7 +15,7 @@ PreQuest 是一套 JS 运行时的 HTTP 解决方案。
 
 它包含了一些针对不同 JS 运行平台的封装的请求库，并为这些请求库提供了一致的中间件、拦截器、全局配置等功能的体验
 
-还针对诸如 Token 的添加，失效处理，无感知更新、接口缓存、错误重试等常见业务场景，提供了开箱即用的方案。
+还针对诸如 Token 的添加，失效处理，无感知更新、接口缓存、错误重试等常见业务场景，提供了解决方案。
 
 此外也针对 React 端提供了复用 PreQuest 实例的 request hook 来使用。
 
@@ -38,6 +38,10 @@ PreQuest 与 axios、umi-request 的区别在于，PreQuest 并不是一个请�
 如果你的项目使用的是自己封装的原始 Http 请求，那么你可以通过 [@prequest/wrapper](https://github.com/xdoer/PreQuest/tree/main/packages/wrapper) 很容易的迁移到 PreQuest 中；
 
 ## 原理
+
+用过 axios 的都知道，axios 中有 adapter 的概念，它是一个包含请求内核的适配器函数，且 axios 内置了两个 adapter: 一个是基于 XMLHttpRequest、一个基于 Node Http 模块。
+
+PreQuest 中也有 adapter 的概念，功能与 axios 的一样，但不同的是，PreQuest 核心（@prequest/core）没有内置 adapter。adapter 由基于 PreQuest 核心封装的请求库来实现。PreQuest 核心并不参与对参数的处理，所有请求参数在经过中间件后会直接传到 adapter 中。
 
 ![principle](principle.png)
 
