@@ -13,6 +13,7 @@
 - [useRequest](/use-request)
 - [XHR 请求库](/xhr)
 - [Fetch 请求库](/fetch)
+- [JSONP 请求库](/jsonp)
 - [Node 请求库](/node)
 - [小程序请求库](/miniprogram)
 - [小程序请求库附件包](/miniprogram-addon)

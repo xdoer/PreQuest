@@ -52,20 +52,19 @@ webpackChain(chain) {
 
 比如，在 vue.config.js 中，你可以添加 [https://cli.vuejs.org/zh/config/#transpiledependencies](https://cli.vuejs.org/zh/config/#transpiledependencies) 配置项来编译。
 
-## 小程序
+在 Taro 中，如果你的平台只需要支持小程序平台，那么你可以在 `mini.compile` 字段配置如下代码
 
-### 原生小程序
+```ts
+  mini: {
+    compile: {
+      include: [
+        (modulePath) => {
+          // 正常项目要这样写
+          return modulePath.indexOf("@prequest") > -1
+        },
+      ],
+    },
+  }
+```
 
-原生小程序中不支持构建 node_modules 中包含 ES6 代码的包，所以只能复制粘贴相关代码到你的项目中。这里提供了 [demo](https://github.com/xdoer/PreQuest/tree/main/examples/wx-mini) 供参考。
-
-编译好的文件下载地址: [https://unpkg.com/browse/@prequest/miniprogram@0.4.0/dist/miniprogram.esm.js](https://unpkg.com/browse/@prequest/miniprogram@0.4.0/dist/miniprogram.esm.js)(要注意，文件依赖也需要下载)
-
-### 框架小程序
-
-框架小程序(如 taro、uni)一般都提供了基于 webpack 的 cli 工具来进行代码打包，因而你可以直接安装 PreQuest 的 npm 包，然后再使用 `babel` 进行编译。
-
-这里提供了两个 demo 供参考:
-
-taro 版本 [demo](https://github.com/xdoer/PreQuest/tree/main/examples/taro/config/index.js) 。
-
-uni 版本 [demo](https://github.com/xdoer/PreQuest/tree/main/examples/uni/vue.config.js)
+如果要支持打包成 H5，则需要在 `h5` 字段配置上面的 `webpackChain`
