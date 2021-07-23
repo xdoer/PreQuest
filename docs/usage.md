@@ -102,13 +102,23 @@ const prequest2 = create(fetch.fetch)
 import { prequest, create } from '@prequest/xhr'
 
 // 基本请求方法
-prequest.request('/api', { data: { a: 1 } })
+prequest.request('/api', {
+  baseURL: 'http://localhost:3000'
+  method: 'POST',
+  data: { a: 1 }
+})
 
 // 基本请求方法的 alias
-prequest('/api', { data: { a: 1 } })
+prequest('/api', {
+  baseURL: 'http://localhost:3000'
+  method: 'POST',
+  data: { a: 1 }
+})
 
 // 带 HTTP 请求方法的请求
-prequest.get('/api', { data: { a: 1 } })
+prequest.post('http://localhost:3000/api', {
+  data: { a: 1 }
+})
 ```
 
 全部调用方式为:
@@ -120,6 +130,8 @@ prequest(path[, config])
 
 prequest#[request|get|post|delete|put|patch|head|options](path[, config])
 ```
+
+config 支持的传参，请查阅各平台文档的请求参数列表。比如: [xhr 参数列表](https://pre-quest.vercel.app/#/xhr?id=%e5%8f%82%e6%95%b0)
 
 ?> PreQuest 会将 `PreQuest.defaults = config`、`create(config)` 与 `prequest(config)` 这三部分的 config 参数进行整合，经过中间件后，最终传入到请求内核中。
 
