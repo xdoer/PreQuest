@@ -15,19 +15,19 @@ export default function errorRetryMiddleware<T, N>(
 ): MiddlewareCallback<T & Partial<Options<T>>, N> {
   const options = Object.assign({}, createDefaultOption<T>(), opt)
 
-  return async function(ctx, next) {
+  return async function(ctx, next, injectOpt) {
     try {
       await next()
     } catch (e) {
-      const { retryCount, retryControl } = Object.assign({}, options, ctx.request)
+      const { retryCount, retryControl } = Object.assign({}, options, ctx.request, injectOpt)
 
       const control = await retryControl(ctx.request, e)
 
       if (retryCount < 1 || !control) throw e
 
-      opt!.retryCount = retryCount - 1
+      injectOpt!.retryCount = retryCount - 1
 
-      await ctx.context.controller.bind(ctx.context)(ctx, opt)
+      await ctx.context.controller.bind(ctx.context)(ctx, injectOpt)
     }
   }
 }
