@@ -158,11 +158,9 @@ const User: FC<UserProps> = ({ id }) => {
 
 ### Loading 状态与分页更新
 
-`useRequest` 中内置了两个 loading: `loading` 与 `loadingRef`。
-
 ```ts
 const Users = () => {
-  const { data, loading, error, loadingRef, request } = useRequest(
+  const { data, loading, error, request } = useRequest(
     {
       path: '/users',
       params: { page: 1 },
@@ -176,7 +174,7 @@ const Users = () => {
   )
 
   function onScrollToLower() {
-    if (loadingRef.current) return
+    if (loading) return
     request(prev => {
       const { params } = prev
       const { page } = params
@@ -198,7 +196,3 @@ const Users = () => {
   )
 }
 ```
-
-`loading` 状态用于页面渲染，`loadingRef` 是实际请求接口的 loading 状态。
-
-**_设计原因: loading 状态保存在 useState 中，useState 是异步更新视图，loading 不能有效表明接口请求的状态。_**

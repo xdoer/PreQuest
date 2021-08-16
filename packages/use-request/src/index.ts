@@ -14,7 +14,6 @@ export class RequestHook<T, N> {
       error: null,
       loading: false,
     })
-    const loadingRef = useRef(false)
     const calledRef = useRef(false)
     const variables = useRef<T | null>(null)
     const { lazy, loop, onUpdate = defaultUpdate } = config || {}
@@ -51,7 +50,6 @@ export class RequestHook<T, N> {
     // 获取数据
     async function fetchData(opt: T) {
       try {
-        loadingRef.current = true
         calledRef.current = true
         setRes(prev => ({ ...prev, loading: true }))
         const res = await ctx.prequest(opt)
@@ -63,11 +61,9 @@ export class RequestHook<T, N> {
             error: null,
           }
         })
-        loadingRef.current = false
         return res
       } catch (e) {
         setRes({ loading: false, error: e, data: null })
-        loadingRef.current = false
         return e
       }
     }
@@ -91,7 +87,6 @@ export class RequestHook<T, N> {
     }
 
     return {
-      loadingRef,
       request,
       clearLoop,
       ...res,
