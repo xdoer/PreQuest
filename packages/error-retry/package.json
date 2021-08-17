@@ -19,11 +19,11 @@
     "interceptor"
   ],
   "scripts": {
-    "start": "tsdx watch --verbose --format cjs,esm,umd --name ErrorRetryMiddleware",
-    "build": "tsdx build --format cjs,esm,umd --name ErrorRetryMiddleware",
+    "start": "tsdx watch --verbose",
+    "build": "tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint",
-    "prepare": "tsdx build --format cjs,esm,umd --name ErrorRetryMiddleware",
+    "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
@@ -48,15 +48,14 @@
   "browserslist": [
     "> 5%"
   ],
-  "module": "dist/errorretrymiddleware.esm.js",
-  "browser": "dist/errorretrymiddleware.umd.production.min.js",
+  "module": "dist/error-retry.esm.js",
   "size-limit": [
     {
-      "path": "dist/errorretrymiddleware.cjs.production.min.js",
+      "path": "dist/error-retry.cjs.production.min.js",
       "limit": "10 KB"
     },
     {
-      "path": "dist/errorretrymiddleware.esm.js",
+      "path": "dist/error-retry.esm.js",
       "limit": "10 KB"
     }
   ],

@@ -160,7 +160,7 @@ const User: FC<UserProps> = ({ id }) => {
 
 ```ts
 const Users = () => {
-  const { data, loading, error, request } = useRequest(
+  const { data, loading, loadingRef, error, request } = useRequest(
     {
       path: '/users',
       params: { page: 1 },
@@ -174,7 +174,7 @@ const Users = () => {
   )
 
   function onScrollToLower() {
-    if (loading) return
+    if (loadingRef.current) return
     request(prev => {
       const { params } = prev
       const { page } = params

@@ -19,7 +19,6 @@
     "interceptor"
   ],
   "scripts": {
-    "start": "tsdx watch --verbose --format cjs,esm,umd --name Helper",
     "build": "tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint",
@@ -49,7 +48,6 @@
     "> 5%"
   ],
   "module": "dist/helper.esm.js",
-  "browser": "dist/helper.umd.production.min.js",
   "size-limit": [
     {
       "path": "dist/helper.cjs.production.min.js",

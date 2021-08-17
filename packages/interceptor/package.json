@@ -19,11 +19,11 @@
     "interceptor"
   ],
   "scripts": {
-    "start": "tsdx watch --verbose --format cjs,esm,umd --name InterceptorMiddleware",
-    "build": "tsdx build --format cjs,esm,umd --name InterceptorMiddleware",
+    "start": "tsdx watch --verbose",
+    "build": "tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint",
-    "prepare": "tsdx build --format cjs,esm,umd --name InterceptorMiddleware",
+    "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
@@ -48,15 +48,14 @@
   "browserslist": [
     "> 5%"
   ],
-  "module": "dist/interceptormiddleware.esm.js",
-  "browser": "dist/interceptormiddleware.umd.production.min.js",
+  "module": "dist/interceptor.esm.js",
   "size-limit": [
     {
-      "path": "dist/interceptormiddleware.cjs.production.min.js",
+      "path": "dist/interceptor.cjs.production.min.js",
       "limit": "10 KB"
     },
     {
-      "path": "dist/interceptormiddleware.esm.js",
+      "path": "dist/interceptor.esm.js",
       "limit": "10 KB"
     }
   ],

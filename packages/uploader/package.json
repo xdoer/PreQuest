@@ -19,11 +19,11 @@
     "interceptor"
   ],
   "scripts": {
-    "start": "tsdx watch --verbose --format cjs,esm,umd --name Uploader",
-    "build": "tsdx build --format cjs,esm,umd --name Uploader",
+    "start": "tsdx watch --verbose",
+    "build": "tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint",
-    "prepare": "tsdx build --format cjs,esm,umd --name Uploader",
+    "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
@@ -49,7 +49,6 @@
     "> 5%"
   ],
   "module": "dist/uploader.esm.js",
-  "browser": "dist/uploader.umd.production.min.js",
   "size-limit": [
     {
       "path": "dist/uploader.cjs.production.min.js",

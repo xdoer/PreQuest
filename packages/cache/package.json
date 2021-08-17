@@ -19,11 +19,11 @@
     "interceptor"
   ],
   "scripts": {
-    "start": "tsdx watch --verbose --format cjs,esm,umd --name CacheMiddleware",
-    "build": "tsdx build --format cjs,esm,umd --name CacheMiddleware",
+    "start": "tsdx watch --verbose",
+    "build": "tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint",
-    "prepare": "tsdx build --format cjs,esm,umd --name CacheMiddleware",
+    "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
@@ -48,15 +48,14 @@
   "browserslist": [
     "> 5%"
   ],
-  "module": "dist/cachemiddleware.esm.js",
-  "browser": "dist/cachemiddleware.umd.production.min.js",
+  "module": "dist/cache.esm.js",
   "size-limit": [
     {
-      "path": "dist/cachemiddleware.cjs.production.min.js",
+      "path": "dist/cache.cjs.production.min.js",
       "limit": "10 KB"
     },
     {
-      "path": "dist/cachemiddleware.esm.js",
+      "path": "dist/cache.esm.js",
       "limit": "10 KB"
     }
   ],

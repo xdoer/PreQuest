@@ -19,11 +19,11 @@
     "interceptor"
   ],
   "scripts": {
-    "start": "tsdx watch --verbose --format cjs,esm,umd --name Lock",
-    "build": "tsdx build --format cjs,esm,umd --name Lock",
+    "start": "tsdx watch --verbose",
+    "build": "tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint",
-    "prepare": "tsdx build --format cjs,esm,umd --name Lock",
+    "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
@@ -49,7 +49,6 @@
     "> 5%"
   ],
   "module": "dist/lock.esm.js",
-  "browser": "dist/lock.umd.production.min.js",
   "size-limit": [
     {
       "path": "dist/lock.cjs.production.min.js",

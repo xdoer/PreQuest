@@ -19,11 +19,11 @@
     "interceptor"
   ],
   "scripts": {
-    "start": "tsdx watch --verbose --format cjs,esm,umd --name CancelToken",
-    "build": "tsdx build --format cjs,esm,umd --name CancelToken",
+    "start": "tsdx watch --verbose",
+    "build": "tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint",
-    "prepare": "tsdx build --format cjs,esm,umd --name CancelToken",
+    "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
@@ -48,15 +48,14 @@
   "browserslist": [
     "> 5%"
   ],
-  "module": "dist/canceltoken.esm.js",
-  "browser": "dist/canceltoken.umd.production.min.js",
+  "module": "dist/cancel-token.esm.js",
   "size-limit": [
     {
-      "path": "dist/canceltoken.cjs.production.min.js",
+      "path": "dist/cancel-token.cjs.production.min.js",
       "limit": "10 KB"
     },
     {
-      "path": "dist/canceltoken.esm.js",
+      "path": "dist/cancel-token.esm.js",
       "limit": "10 KB"
     }
   ],

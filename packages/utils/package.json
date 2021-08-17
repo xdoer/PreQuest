@@ -19,8 +19,8 @@
     "interceptor"
   ],
   "scripts": {
-    "start": "tsdx watch --verbose --format cjs,esm,umd --name Utils",
-    "build": "tsdx build --verbose --format cjs,esm,umd --name Utils",
+    "start": "tsdx watch --verbose",
+    "build": "tsdx build --verbose",
     "test": "tsdx test",
     "lint": "tsdx lint",
     "prepare": "npm run build",
@@ -49,7 +49,6 @@
     "> 5%"
   ],
   "module": "dist/utils.esm.js",
-  "browser": "dist/utils.umd.production.min.js",
   "size-limit": [
     {
       "path": "dist/utils.cjs.production.min.js",

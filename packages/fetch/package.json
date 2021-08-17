@@ -19,11 +19,11 @@
     "interceptor"
   ],
   "scripts": {
-    "start": "tsdx watch --verbose --format cjs,esm,umd --name pq",
-    "build": "tsdx build --format cjs,esm,umd --name pq",
+    "start": "tsdx watch",
+    "build": "tsdx build",
     "test": "tsdx test",
     "lint": "tsdx lint",
-    "prepare": "tsdx build --format cjs,esm,umd --name pq",
+    "prepare": "tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
@@ -48,15 +48,14 @@
   "browserslist": [
     "> 5%"
   ],
-  "module": "dist/pq.esm.js",
-  "browser": "dist/pq.umd.production.min.js",
+  "module": "dist/fetch.esm.js",
   "size-limit": [
     {
-      "path": "dist/pq.cjs.production.min.js",
+      "path": "dist/fetch.cjs.production.min.js",
       "limit": "10 KB"
     },
     {
-      "path": "dist/pq.esm.js",
+      "path": "dist/fetch.esm.js",
       "limit": "10 KB"
     }
   ],

@@ -16,6 +16,7 @@ export class RequestHook<T, N> {
     })
     const calledRef = useRef(false)
     const variables = useRef<T | null>(null)
+    const loadingRef = useRef(false)
     const { lazy, loop, onUpdate = defaultUpdate } = config || {}
     const timer = useRef<any>(null)
 
@@ -52,7 +53,9 @@ export class RequestHook<T, N> {
       try {
         calledRef.current = true
         setRes(prev => ({ ...prev, loading: true }))
+        loadingRef.current = true
         const res = await ctx.prequest(opt)
+        loadingRef.current = false
         setRes(prev => {
           const { data } = prev
           return {
@@ -88,6 +91,7 @@ export class RequestHook<T, N> {
 
     return {
       request,
+      loadingRef,
       clearLoop,
       ...res,
     }
