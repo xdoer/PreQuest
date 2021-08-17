@@ -37,13 +37,17 @@ export const asyncPool = async <T, N>(
   const executing: Promise<void>[] = []
 
   for (const item of array) {
+    // iteratorFn Promise 化，防止 iteratorFn 返回的不是 Promise
     const p = Promise.resolve().then(() => iteratorFn(item, array))
     ret.push(p)
 
+    // 控制并发
     if (poolLimit <= array.length) {
+      // iteratorFn 执行后，从执行队列中删除任务
       const e: Promise<void> = p.then(() => {
         executing.splice(executing.indexOf(e), 1)
       })
+      // 异步，所以 push 先执行
       executing.push(e)
       if (executing.length >= poolLimit) {
         await Promise.race(executing)
@@ -51,27 +55,4 @@ export const asyncPool = async <T, N>(
     }
   }
   return Promise.all(ret)
-}
-
-type CommonFn = (...args: any) => any
-
-function limit(func: CommonFn, wait: number, debounce: boolean) {
-  let timeout: any
-  return function(...args: any) {
-    const throttler = function() {
-      timeout = null
-      func.apply(null, args)
-    }
-
-    if (debounce && timeout) clearTimeout(timeout)
-    if (debounce || !timeout) timeout = setTimeout(throttler, wait)
-  }
-}
-
-export function throttle(func: CommonFn, wait: number) {
-  return limit(func, wait, false)
-}
-
-export function debounce(func: CommonFn, wait: number) {
-  return limit(func, wait, true)
 }
