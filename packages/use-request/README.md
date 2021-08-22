@@ -11,11 +11,14 @@ npm install @prequest/use-request
 ## 初始化
 
 ```ts
-import { RequestHook } from '@prequest/use-request'
-import { prequest, PreQuest, Request, Response } from '@prequest/xhr'
+import requestHook from '@prequest/use-request'
+import { create, PreQuest, Request, Response } from '@prequest/xhr'
 
-const queryHook = new RequestHook<Request, Response>(prequest)
-const useRequest = queryHook.useRequest.bind(queryHook)
+const prequest = create({
+  baseURL: 'http://localhost:3001',
+})
+
+const useRequest = requestHook<Request, Response>(prequest)
 ```
 
 同时你也可以不受影响的使用 PreQuest 的能力。

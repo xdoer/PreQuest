@@ -4,11 +4,8 @@ import { useEffect, useRef, useState } from 'react'
 import { Res, Config } from './types'
 import { parseOptions, defaultUpdate } from './utils'
 
-export class RequestHook<T, N> {
-  constructor(private prequest: PreQuestInstance<T, N>) {}
-
-  useRequest<Q>(opt: T | (() => T), config?: Config<Q>) {
-    const ctx = this
+export default function<T, N>(prequest: PreQuestInstance<T, N>) {
+  return function<Q>(opt: T | (() => T), config?: Config<Q>) {
     const [res, setRes] = useState<Res<Q>>({
       data: null,
       error: null,
@@ -54,7 +51,7 @@ export class RequestHook<T, N> {
         calledRef.current = true
         setRes(prev => ({ ...prev, loading: true }))
         loadingRef.current = true
-        const res = await ctx.prequest(opt)
+        const res = await prequest(opt)
         loadingRef.current = false
         setRes(prev => {
           const { data } = prev

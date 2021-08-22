@@ -11,11 +11,14 @@ npm install @prequest/use-request
 ## 初始化
 
 ```ts
-import { RequestHook } from '@prequest/use-request'
-import { prequest, PreQuest, Request, Response } from '@prequest/xhr'
+import requestHook from '@prequest/use-request'
+import { create, PreQuest, Request, Response } from '@prequest/xhr'
 
-const queryHook = new RequestHook<Request, Response>(prequest)
-const useRequest = queryHook.useRequest.bind(queryHook)
+const prequest = create({
+  baseURL: 'http://localhost:3001',
+})
+
+const useRequest = requestHook<Request, Response>(prequest)
 ```
 
 同时你也可以不受影响的使用 PreQuest 的能力。
@@ -158,11 +161,9 @@ const User: FC<UserProps> = ({ id }) => {
 
 ### Loading 状态与分页更新
 
-`useRequest` 中内置了两个 loading: `loading` 与 `loadingRef`。
-
 ```ts
 const Users = () => {
-  const { data, loading, error, loadingRef, request } = useRequest(
+  const { data, loading, loadingRef, error, request } = useRequest(
     {
       path: '/users',
       params: { page: 1 },
@@ -198,7 +199,3 @@ const Users = () => {
   )
 }
 ```
-
-`loading` 状态用于页面渲染，`loadingRef` 是实际请求接口的 loading 状态。
-
-**_设计原因: loading 状态保存在 useState 中，useState 是异步更新视图，loading 不能有效表明接口请求的状态。_**
