@@ -10,8 +10,8 @@ export interface Request extends BaseOption {
   onUploadProgress?(e: any): void
 }
 
-export interface Response {
-  data: any
+export interface Response<D = any> {
+  data: D
   status: number
   statusText: string
   headers: Record<string, any>

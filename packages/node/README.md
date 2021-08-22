@@ -10,7 +10,7 @@ npm install @prequest/node
 
 ## 使用
 
-基本使用，请查阅 [文档](https://pre-quest.vercel.app/usage?id=%e5%bc%80%e7%ae%b1%e5%8d%b3%e7%94%a8)
+由于在不同平台上使用基本一致，所以基本使用文档，请查阅 [这里](https://pre-quest.vercel.app/usage?id=%e5%bc%80%e7%ae%b1%e5%8d%b3%e7%94%a8)
 
 ## 参数
 

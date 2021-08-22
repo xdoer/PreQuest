@@ -48,8 +48,14 @@ interface UserProps {
   id: number
 }
 
+interface UserRes {
+  id: number
+  name: string
+  age: number
+}
+
 const User: FC<UserProps> = ({ id }) => {
-  const { data, loading, error } = useRequest({
+  const { data, loading, error } = useRequest<UserRes>({
     path: '/user',
     params: { id },
   })
@@ -57,7 +63,7 @@ const User: FC<UserProps> = ({ id }) => {
   return (
     <div>
       {loading && <div>加载中</div>}
-      {data && <div>{data}</div>}
+      {data && <div>姓名:{data?.name}</div>}
       {error && <div>{error}</div>}
     </div>
   )
