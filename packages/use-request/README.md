@@ -44,10 +44,12 @@ prequest.use(async (ctx, next) => {
 ### 基本使用
 
 ```ts
+// 组件 props
 interface UserProps {
   id: number
 }
 
+// 接口响应的数据类型
 interface UserRes {
   id: number
   name: string
@@ -100,7 +102,7 @@ const User: FC<UserProps> = ({ id }) => {
 
 ### 延迟请求
 
-由事件触发请求
+由事件触发请求。需要配置 `lazy` 为 `true`。进行调用时，使用导出的 `request` 进行调用
 
 ```ts
 interface UserProps {
@@ -113,8 +115,10 @@ const User: FC<UserProps> = ({ id }) => {
     { lazy: true }
   )
 
-  function onClick() {
-    request(prev => {
+  async function onClick() {
+    // request 可直接拿到 res, onClick 方法里需要用到 data 数据时，建议从 res 中取，因为 data 经过 setState, 是"异步"的
+    const res = await request(prev => {
+      // prev 为 useRequest 配置的参数
       const { params } = prev
 
       return {
@@ -124,6 +128,7 @@ const User: FC<UserProps> = ({ id }) => {
         },
       }
     })
+    console.log(res)
   }
 
   return (
@@ -138,6 +143,8 @@ const User: FC<UserProps> = ({ id }) => {
 ```
 
 ### 循环请求
+
+传参 `loop` 即可开启循环请求
 
 ```ts
 interface UserProps {
