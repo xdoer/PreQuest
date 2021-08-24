@@ -44,12 +44,20 @@ prequest.use(async (ctx, next) => {
 ### 基本使用
 
 ```ts
+// 组件 props
 interface UserProps {
   id: number
 }
 
+// 接口响应的数据类型
+interface UserRes {
+  id: number
+  name: string
+  age: number
+}
+
 const User: FC<UserProps> = ({ id }) => {
-  const { data, loading, error } = useRequest({
+  const { data, loading, error } = useRequest<UserRes>({
     path: '/user',
     params: { id },
   })
@@ -57,7 +65,7 @@ const User: FC<UserProps> = ({ id }) => {
   return (
     <div>
       {loading && <div>加载中</div>}
-      {data && <div>{data}</div>}
+      {data && <div>姓名:{data?.name}</div>}
       {error && <div>{error}</div>}
     </div>
   )
@@ -68,7 +76,7 @@ const User: FC<UserProps> = ({ id }) => {
 
 当 useRequest 请求参数不确定时，可以传入函数参数，进行请求参数校验
 
-```ts
+```tsx
 interface UserProps {
   id?: number
 }
@@ -94,9 +102,9 @@ const User: FC<UserProps> = ({ id }) => {
 
 ### 延迟请求
 
-由事件触发请求
+由事件触发请求。需要配置 `lazy` 为 `true`。进行调用时，使用导出的 `request` 进行调用
 
-```ts
+```tsx
 interface UserProps {
   id: number
 }
@@ -107,8 +115,10 @@ const User: FC<UserProps> = ({ id }) => {
     { lazy: true }
   )
 
-  function onClick() {
-    request(prev => {
+  async function onClick() {
+    // request 可直接拿到 res, onClick 方法里需要用到 data 数据时，建议从 res 中取，因为 data 经过 setState, 是"异步"的
+    const res = await request(prev => {
+      // prev 为 useRequest 配置的参数
       const { params } = prev
 
       return {
@@ -118,6 +128,7 @@ const User: FC<UserProps> = ({ id }) => {
         },
       }
     })
+    console.log(res)
   }
 
   return (
@@ -133,7 +144,9 @@ const User: FC<UserProps> = ({ id }) => {
 
 ### 循环请求
 
-```ts
+传参 `loop` 即可开启循环请求
+
+```tsx
 interface UserProps {
   id: number
 }
@@ -161,7 +174,7 @@ const User: FC<UserProps> = ({ id }) => {
 
 ### Loading 状态与分页更新
 
-```ts
+```tsx
 const Users = () => {
   const { data, loading, loadingRef, error, request } = useRequest(
     {
@@ -199,3 +212,11 @@ const Users = () => {
   )
 }
 ```
+
+## 参数列表
+
+useRequest 支持两个对象参数。
+
+在上面 [初始化](#初始化) 一节中，我们从 `@prequest/xhr` 请求库中导出的 `Request` 类型，在 requestHook 中进行了初始化，useRequest 函数的第一个对象参数，即为这里初始化的类型参数。
+
+第二个对象参数，支持设置 `lazy` 与 `loop`

@@ -76,7 +76,7 @@ const User: FC<UserProps> = ({ id }) => {
 
 当 useRequest 请求参数不确定时，可以传入函数参数，进行请求参数校验
 
-```ts
+```tsx
 interface UserProps {
   id?: number
 }
@@ -104,7 +104,7 @@ const User: FC<UserProps> = ({ id }) => {
 
 由事件触发请求。需要配置 `lazy` 为 `true`。进行调用时，使用导出的 `request` 进行调用
 
-```ts
+```tsx
 interface UserProps {
   id: number
 }
@@ -146,7 +146,7 @@ const User: FC<UserProps> = ({ id }) => {
 
 传参 `loop` 即可开启循环请求
 
-```ts
+```tsx
 interface UserProps {
   id: number
 }
@@ -174,7 +174,7 @@ const User: FC<UserProps> = ({ id }) => {
 
 ### Loading 状态与分页更新
 
-```ts
+```tsx
 const Users = () => {
   const { data, loading, loadingRef, error, request } = useRequest(
     {
@@ -212,3 +212,11 @@ const Users = () => {
   )
 }
 ```
+
+## 参数列表
+
+useRequest 支持两个对象参数。
+
+在上面 [初始化](#初始化) 一节中，我们从 `@prequest/xhr` 请求库中导出的 `Request` 类型，在 requestHook 中进行了初始化，useRequest 函数的第一个对象参数，即为这里初始化的类型参数。
+
+第二个对象参数，支持设置 `lazy` 与 `loop`
