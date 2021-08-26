@@ -1,28 +1,30 @@
 import jsonTypesGenerator from 'json-types-generator'
 import { prequest } from '@prequest/node'
 import { asyncPool, merge } from '@prequest/utils'
-import { Options, IItem } from './types'
+import { Options, Item } from './types'
 import { getDefaultRootInterfaceName } from './util'
 
 export * from './types'
 
 export default function(options: Options) {
   const {
-    schema,
-    requestPoolLimit = 10,
+    data,
     customRootInterfaceName = getDefaultRootInterfaceName,
+    requestPoolLimit = 10,
   } = options
-  const { data, ...baseConfig } = schema
 
-  return asyncPool<IItem, any>(requestPoolLimit, data, item => {
-    const { outPutPath, parseResponse, ...reqConfig } = merge(baseConfig, item)
+  return asyncPool<Item, any>(requestPoolLimit, data, item => {
+    const { outPutPath, parseResponse, rootInterfaceName, requestOptions } = merge<Required<Item>>(
+      options,
+      item
+    )
 
-    return prequest(reqConfig)
+    return prequest(requestOptions)
       .then(res => parseResponse(res))
       .then(res => {
         return jsonTypesGenerator({
           outPutPath,
-          rootInterfaceName: customRootInterfaceName(reqConfig.path),
+          rootInterfaceName: rootInterfaceName || customRootInterfaceName(requestOptions),
           data: res,
         })
       })

@@ -1,26 +1,17 @@
-import { UpperMethod } from '@prequest/types'
+import { Request } from '@prequest/node'
 
-type CommonObj = Record<string, any>
-
-export interface IItem {
-  path: string
-  method?: UpperMethod
-  headers?: CommonObj
+export interface Item {
+  requestOptions: Request
   outPutPath?: string
-  parseResponse?(res: any): any
-}
-
-export interface Schema {
-  baseURL?: string
-  method?: UpperMethod
-  headers?: CommonObj
-  outPutPath?: string
-  parseResponse?(res: any): any
-  data: IItem[]
+  parseResponse?(res: any): string | Record<string, any>
+  rootInterfaceName?: string
 }
 
 export interface Options {
-  schema: Schema
-  requestPoolLimit?: number // 同时请求接口的数量
-  customRootInterfaceName?(reqPath: string): string
+  requestOptions: Request
+  outPutPath?: string
+  requestPoolLimit?: number
+  parseResponse?(res: any): string | Record<string, any>
+  customRootInterfaceName?(requestOptions: Request): string
+  data: Item[]
 }
