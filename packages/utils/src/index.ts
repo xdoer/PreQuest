@@ -6,7 +6,7 @@ export const elementType = (ele: any) => {
 }
 
 // deep merge common object
-export const merge = (...args: (Record<string, any> | undefined)[]) => {
+export const merge = <T>(...args: (Record<string, any> | undefined)[]): T => {
   return args.reduce((t, c) => {
     if (!c) return t
 
