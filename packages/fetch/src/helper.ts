@@ -1,7 +1,7 @@
 import { Request } from './types'
 
 export function parseResBody(res: globalThis.Response, options: Request) {
-  const { responseType = 'json' } = options
+  const { responseType } = options
 
   switch (responseType) {
     case 'json':
@@ -10,7 +10,9 @@ export function parseResBody(res: globalThis.Response, options: Request) {
       return res.blob()
     case 'arraybuffer':
       return res.arrayBuffer()
-    default:
+    case 'text':
       return res.text()
+    default:
+      return res
   }
 }
