@@ -1,10 +1,21 @@
-const { prequest } = require('@prequest/node')
+const responseTypesGenerator = require('@prequest/response-types-generator')
+const { resolve } = require('path')
 
-prequest
-  .get('http://localhost:8080/api')
-  .then((res) => {
-    console.log('查看响应', res)
+async function main() {
+  responseTypesGenerator.default({
+    schema: {
+      parseResponse(res) {
+        console.log('查看值', res)
+        return res.data
+      },
+      outPutPath: resolve('./', 'types.ts'),
+      data: [
+        {
+          path: 'https://webspiderr.herokuapp.com/crawl/api?user=xdoer&cid=73b1430d-faa0-44eb-899e-36cf5cbfaec8',
+        }
+      ]
+    }
   })
-  .catch((e) => {
-    console.log('报错啦', e)
-  })
+}
+
+main()
