@@ -1,0 +1,78 @@
+{
+  "version": "1.0.4",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "keywords": [
+    "http",
+    "request",
+    "XMLHttpRequest",
+    "fetch",
+    "https",
+    "middleware",
+    "interceptor"
+  ],
+  "scripts": {
+    "start": "tsdx watch --verbose",
+    "build": "tsdx build",
+    "test": "tsdx test",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "name": "@prequest/types-generator",
+  "author": "xdoer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xdoer/PreQuest.git"
+  },
+  "bugs": {
+    "url": "https://github.com/xdoer/PreQuest/issues"
+  },
+  "homepage": "https://pre-quest.vercel.app",
+  "browserslist": [
+    "> 5%"
+  ],
+  "module": "dist/types-generator.esm.js",
+  "size-limit": [
+    {
+      "path": "dist/types-generator.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/types-generator.esm.js",
+      "limit": "10 KB"
+    }
+  ],
+  "dependencies": {
+    "@prequest/node": "^1.0.4",
+    "@prequest/utils": "^1.0.4",
+    "json-types-generator": "^0.0.2"
+  },
+  "devDependencies": {
+    "@prequest/types": "^1.0.4",
+    "@size-limit/preset-small-lib": "^4.10.2",
+    "husky": "^6.0.0",
+    "size-limit": "^4.10.2",
+    "ts-lib": "^0.0.5",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.2.0",
+    "typescript": "^4.2.4"
+  },
+  "gitHead": "910b1fdce2dc246d3f33a45f4a04829060d662bf"
+}
