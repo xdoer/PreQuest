@@ -1,3 +1,3 @@
 export const getDefaultRootInterfaceName = (reqPath: string) => {
-  return reqPath.replace(/\(\w+)/, (_, __) => __)
+  return reqPath.replace(/.*\/(\w+)/, (_, __) => __)
 }
