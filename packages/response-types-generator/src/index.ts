@@ -26,8 +26,7 @@ export default function(options: Options) {
       parseResponse = defaultParseResponse,
     } = merge<Required<Item>>(options, item)
 
-    // 子配置项中的 path 优先级最高
-    Object.assign(requestOptions, { path: item.requestOptions?.path || path })
+    Object.assign(requestOptions, { path })
 
     return prequest(requestOptions)
       .then(res => parseResponse(res))
