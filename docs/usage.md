@@ -208,6 +208,10 @@ prequest.use(async (ctx, next) => {
 > - [@prequest/uploader](/uploader ':target=_self'): 文件上传
 > - [@prequest/cancel-token](/cancel-token ':target=_self'): 取消请求解决方案
 
+## 辅助工具
+
+> - [@prequest/response-types-generator](/response-types-generator ':target=_self'): Json Response 的 TypeScript 类型生成器
+
 ## 项目迁移
 
 > - [@prequest/wrapper](/wrapper ':target=_self'): 一个包裹器
