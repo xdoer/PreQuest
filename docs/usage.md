@@ -1,19 +1,8 @@
 # 使用
 
-## 开箱即用
+各个平台使用方式大体一致，下面将以 `@prequest/xhr` 为例，介绍使用方法。各个请求包的差异化用法，将在对应的文档中有所提及。
 
-项目针对不同的平台提供了不同的安装包，这样既减小了安装包体积，又避免了参数的冗余。
-
-> - [@prequest/xhr](/xhr ':target=_self'): 一个基于 XMLHttpRequest 的请求库
-> - [@prequest/fetch](/fetch ':target=_self'): 一个基于 Fetch API 的请求库
-> - [@prequest/node](/node ':target=_self'): 一个 nodejs 端的请求库
-> - [@prequest/miniprogram](/miniprogram ':target=_self'): 一个小程序端的请求库
-> - [@prequest/miniprogram-addon](/miniprogram-addon ':target=_self'): 小程序端的上传下载包
-> - [@prequest/jsonp](/jsonp ':target=_self'): jsonp 请求
-
-下面以 `@prequest/xhr` 为例，介绍基于 `@prequest/core` 的请求库，具有以下通用的能力:
-
-### 全局配置
+## 全局配置
 
 `PreQuest.defaults` 默认值为一个空对象
 
@@ -23,7 +12,7 @@ import { PreQuest } from '@prequest/xhr'
 PreQuest.defaults.baseURL = 'http://locahost:8080'
 ```
 
-### 创建实例
+## 创建实例
 
 一般来讲，请求库会默认导出一个名为 `prequest` 的请求实例，此外你可以通过 `create` 方法创建更多的实例。
 
@@ -96,7 +85,7 @@ import fetch from '@system.fetch'
 const prequest2 = create(fetch.fetch)
 ```
 
-### 发起请求
+## 发起请求
 
 ```ts
 import { prequest, create } from '@prequest/xhr'
@@ -151,11 +140,11 @@ prequest({ path: '/audio/123', baseURL: 'http://localhost:3000' })
 prequest({ url: 'http://localhost:3000/audio/123' })
 ```
 
-### 中间件
+## 中间件
 
 中间件分为全局中间件与实例中间件。全局中间件将作用于所有的请求实例上，实例中间件作用于由请求库导出的 `create` 方法创建的实例上。
 
-#### 全局中间件
+### 全局中间件
 
 ```ts
 import { PreQuest, Request, Response } from '@prequest/xhr'
@@ -171,7 +160,7 @@ PreQuest.use<Request, Response>(async (ctx, next) => {
 })
 ```
 
-#### 实例中间件
+### 实例中间件
 
 ```ts
 import { create } from '@prequest/xhr'
@@ -187,43 +176,10 @@ prequest.use(async (ctx, next) => {
 })
 ```
 
-#### ctx 数据类型
+### ctx 数据类型
 
 | 名称     | 类型     | 含义                                  |
 | -------- | -------- | ------------------------------------- |
 | request  | Request  | 请求参数，数据类型一般会由请求库导出  |
 | response | Response | 响应类型， 数据类型一般会由请求库导出 |
 | context  | PreQuest | PreQuest 实例对象                     |
-
-## 应用扩展
-
-项目中针对业务中常见的场景，提供了便捷的解决方案。可以搭配上一节中的请求库一同使用。
-
-> - [@prequest/cache](/cache ':target=_self'): 接口缓存中间件
-> - [@prequest/timeout](/timeout ':target=_self'): 超时中间件
-> - [@prequest/error-retry](/error-retry ':target=_self'): 接口请求错误重试中间件
-> - [@prequest/interceptor](/interceptor ':target=_self'): 拦截器中间件
-> - [@prequest/lock](/lock ':target=_self'): 请求锁，token 处理的解决的方案
-> - [@prequest/use-request](/use-request ':target=_self'): React 请求 Hook
-> - [@prequest/uploader](/uploader ':target=_self'): 文件上传
-> - [@prequest/cancel-token](/cancel-token ':target=_self'): 取消请求解决方案
-
-## 辅助工具
-
-> - [@prequest/response-types-generator](/response-types-generator ':target=_self'): Json Response 的 TypeScript 类型生成器
-
-## 项目迁移
-
-> - [@prequest/wrapper](/wrapper ':target=_self'): 一个包裹器
-> - [集成 axios](/work-with-axios ':target=_self'): 与 axios 一起工作
-
-## 定制化
-
-> - [@prequest/core](/core ':target=_self'): PreQuest 核心能力
-> - [@prequest/cancel-token](/cancel-token ':target=_self'): 取消请求解决方案
-> - [@prequest/helper](https://github.com/xdoer/PreQuest/tree/main/packages/helper ':target=_blank'): 一些有用的参数处理、响应处理的工具包
-> - [@prequest/utils](https://github.com/xdoer/PreQuest/tree/main/packages/utils ':target=_blank'): 常规函数工具包
-
-## 配置示例
-
-> - [taro-example](/taro-example ':target=_self'): Taro 示例配置

@@ -1,4 +1,5 @@
 - [介绍](/introduce 'PreQuest')
+- [项目](/project)
 - [使用](/usage)
 - [兼容](/compatible)
 - [核心](/core)
