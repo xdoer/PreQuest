@@ -30,3 +30,5 @@ npm install @prequest/fetch
 其他 fetch 原生支持的参数也支持传入
 
 !> 参数中提供了 `CancelToken` 来取消请求。不建议自己使用 abortController 来取消请求，因为当你调用 AbortController.abort() 时，不确定内部是否执行到 fetch 中间件。
+
+!> responseType 进行配置后，程序会自动解析 response, 输出的直接是 data 数据。若要得到相应头，HTTP 响应状态码等信息，需要手动解析 response
