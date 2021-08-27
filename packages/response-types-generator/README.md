@@ -5,7 +5,7 @@ Restful-API 响应的 JSON 数据的 TypeScript 类型生成器
 ## 安装
 
 ```bash
-yarn add @prequest/response-types-generator
+npm install @prequest/response-types-generator
 ```
 
 ## 使用
