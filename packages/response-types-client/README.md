@@ -1,11 +1,11 @@
-# @prequest/response-types-server
+# @prequest/response-types-client
 
 Restful-API 响应的 JSON 数据的 TypeScript 类型生成器
 
 ## 安装
 
 ```bash
-npm install @prequest/response-types-server
+npm install @prequest/response-types-client
 ```
 
 ## 原理
@@ -18,8 +18,27 @@ npm install @prequest/response-types-server
 
 ## 使用
 
-```ts
-import server from '@prequest/response-types-server'
+原项目在每次发起 HTTP 请求时，中间件会向 `@prequest/response-types-server` 发起生成类型文件的请求
 
-server({ port: 10010 })
+```ts
+import { create, prequest, Request, Response } from '@prequest/xhr'
+import generatorMiddleware from '@prequest/response-types-client'
+
+const middleware = generatorMiddlewareWrapper<Request, Response>({
+  requestAgent: create(),
+  endpoint: 'http://localhost:10010/api',
+  typesGeneratorConfig(req, res) {
+    const { path } = req
+    const outputName = path.replace(/.*\/(\w+)/, (_, __) => __)
+    const rootInterfaceName = outputName.replace(/^[a-z]/, a => a.toUpperCase())
+
+    return {
+      data: res.data,
+      outPutPath: `/Users/luckyhh/Desktop/project/prequest2/examples/web/src/types/${outputName}.ts`,
+      rootInterfaceName: rootInterfaceName,
+    }
+  },
+})
+
+prequest.use(middleware)
 ```

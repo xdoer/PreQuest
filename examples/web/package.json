@@ -2,7 +2,7 @@
   "name": "@prequest/example-web",
   "version": "1.0.4",
   "scripts": {
-    "dev": "vite"
+    "dev": "scr & vite"
   },
   "dependencies": {
     "@prequest/cache": "^1.0.4",
@@ -16,6 +16,8 @@
     "@prequest/utils": "^1.0.4",
     "@prequest/wrapper": "^1.0.4",
     "@prequest/xhr": "^1.0.4",
+    "@prequest/response-types-server": "1.1.0",
+    "@prequest/response-types-client": "1.1.0",
     "axios": "^0.21.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
@@ -25,6 +27,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@vitejs/plugin-react-refresh": "^1.1.0",
+    "@xdoer/script-runner": "^0.0.2",
     "typescript": "^4.1.2",
     "vite": "^2.0.0-beta.12"
   },

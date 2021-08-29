@@ -62,7 +62,7 @@
   "dependencies": {
     "@prequest/node": "^1.1.0",
     "@prequest/utils": "^1.1.0",
-    "json-types-generator": "^0.0.3"
+    "json-types-generator": "^0.0.5"
   },
   "devDependencies": {
     "@prequest/types": "^1.1.0",

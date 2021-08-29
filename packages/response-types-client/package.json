@@ -35,7 +35,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "name": "@prequest/response-types-server",
+  "name": "@prequest/response-types-client",
   "author": "xdoer",
   "repository": {
     "type": "git",
@@ -48,14 +48,14 @@
   "browserslist": [
     "> 5%"
   ],
-  "module": "dist/response-types-server.esm.js",
+  "module": "dist/response-types-client.esm.js",
   "size-limit": [
     {
-      "path": "dist/response-types-server.cjs.production.min.js",
+      "path": "dist/response-types-client.cjs.production.min.js",
       "limit": "10 KB"
     },
     {
-      "path": "dist/response-types-server.esm.js",
+      "path": "dist/response-types-client.esm.js",
       "limit": "10 KB"
     }
   ],

@@ -1,44 +1,32 @@
-// import jsonTypesGenerator from 'json-types-generator'
+import jsonTypesGenerator from 'json-types-generator'
 import { createServer } from 'http'
-import { MiddlewareCallback, PreQuestInstance } from '@prequest/types'
+import { ServerOptions } from './types'
 
-export function generatorServer() {
+export default function(opt: ServerOptions) {
+  const { port } = opt
+
   const server = createServer((req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Methods', 'POST,OPTIONS')
+    res.setHeader('Content-Type', 'application/json; charset=utf-8')
+
     if (req.method === 'POST') {
       let body = ''
       req.on('data', data => (body += data))
       req.on('end', function() {
-        // TODO: handle body
-        // const { res, req } = JSON.parse(body)
+        generate(body)
         res.writeHead(200, { 'Content-Type': 'text/html' })
         res.end('post received')
       })
     }
   })
 
-  server.listen(10001, () => {
-    console.log('Server is start')
+  server.listen(port, () => {
+    console.log('Server is start', port)
   })
 }
 
-export function generatorMiddlewareWrapper<T, N>(
-  prequestInstance: PreQuestInstance<T, N>
-): MiddlewareCallback<T, N> {
-  return async (ctx, next) => {
-    await next()
-
-    try {
-      const res = await prequestInstance.post('http://localhost:10001', {
-        body: {
-          req: ctx.request,
-          res: ctx.response,
-        },
-      } as any)
-      console.log('类型生成成功', res)
-    } catch (e) {
-      console.log('类型生成失败')
-    }
-  }
+function generate(body: string) {
+  const { data, outPutPath, rootInterfaceName } = JSON.parse(body)
+  jsonTypesGenerator({ data, outPutPath, rootInterfaceName })
 }
-
-export default generatorServer
