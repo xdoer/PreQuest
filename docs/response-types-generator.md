@@ -12,7 +12,7 @@ npm install @prequest/response-types-generator
 
 ### 最简单使用
 
-下面的例子，将在当前目录下，生成导出 interface 为 Api 的文件名为 Api 的 TS 文件。
+下面的例子，将在当前目录下，生成导出 interface 为 Topics 的文件名为 topics 的 TS 文件。
 
 ```ts
 import responseTypesGenerator from '@prequest/response-types-generator'
