@@ -26,18 +26,18 @@ export default function(options: Options) {
       parseResponse = defaultParseResponse,
     } = merge<Required<Item>>(options, item)
 
-    Object.assign(requestOptions, { path })
+    const opt = Object.assign({}, requestOptions, { path })
 
-    return prequest(requestOptions)
+    return prequest(opt)
       .then(res => parseResponse(res))
       .then(res =>
         jsonTypesGenerator({
           data: res,
           outPutPath: resolve(
             outPutDir || './',
-            (outPutFileName || customOutPutFileName(requestOptions)) + '.ts'
+            (outPutFileName || customOutPutFileName(opt)) + '.ts'
           ),
-          rootInterfaceName: rootInterfaceName || customRootInterfaceName(requestOptions),
+          rootInterfaceName: rootInterfaceName || customRootInterfaceName(opt),
           customInterfaceName: customInterfaceName as any,
         })
       )
