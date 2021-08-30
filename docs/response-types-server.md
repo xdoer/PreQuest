@@ -20,8 +20,22 @@ npm install @prequest/response-types-server
 
 ## 使用
 
+### 开启服务器
+
 ```ts
 import server from '@prequest/response-types-server'
 
 server({ port: 10010 })
 ```
+
+### 生成类型文件
+
+HTTP Server 只接收 POST 与 OPTIONS 请求，当 HTTP Body 传输的数据满足下列参数列表，则会向指定目录输出类型文件
+
+| 参数          | 类型    | 默认 | 含义               |
+| ------------- | ------- | ---- | ------------------ |
+| outPutDir     | string  |      | 类型文件输出目录   |
+| outPutName    | string  |      | 文件名称           |
+| overwrite     | boolean |      | 文件可复写         |
+| data          | Json    |      | 要解析的 Json 数据 |
+| interfaceName | string  |      | 导出的接口名称     |

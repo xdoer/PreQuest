@@ -1,16 +1,25 @@
-import { PreQuestInstance } from '@prequest/types'
-import { Options } from 'json-types-generator'
+import { PreQuestInstance, CommonObject } from '@prequest/types'
+
+type CacheList = string[]
 
 interface GeneratorServerResponse {
   status: boolean
   timestamp: number
-  error: any
+  data: CacheList
+  error: CommonObject
+}
+
+interface TypesGeneratorConfig {
+  data: CommonObject
+  outPutName: string
+  interfaceName: string
+  overwrite: boolean
 }
 
 export interface WrapperMiddlewareOptions<T, N> {
   httpAgent: PreQuestInstance<T, N>
-  typesGeneratorConfig(req: T, res: N): Omit<Options, 'customInterfaceName'>
-  parseResponse(res: N): GeneratorServerResponse
+  outPutDir: string
+  typesGeneratorConfig(req: T, res: N): TypesGeneratorConfig
+  parseResponse?(res: N): GeneratorServerResponse
   enable?: boolean
-  requestId?(req: T): string
 }

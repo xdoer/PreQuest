@@ -53,10 +53,21 @@ prequest.use(middleware)
 
 ## 配置
 
-| 参数                 | 类型                                                                                                                                 | 默认 | 必填 | 含义                                    |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | ---- | ---- | --------------------------------------- |
-| enable               | boolean                                                                                                                              | true | 否   | 开启中间件                              |
-| httpAgent            | PreQuestInstance                                                                                                                     |      | 是   | 发起请求                                |
-| requestId            | (req) => string                                                                                                                      |      | 否   | 请求 ID， 用以判断是否需要重复生成类型  |
-| parseResponse        | (res) => CommonObj                                                                                                                   |      | 是   | 解析 httpAgent 响应，需要返回接口响应值 |
-| typesGeneratorConfig | (req, res) => [Options](https://github.com/xdoer/json-types-generator/blob/1055a38c208c9dae6a393130fa28319051935655/src/types.ts#L7) |      | 是   | json-types-generator 工具的参数         |
+### 中间件参数
+
+| 参数                 | 类型                          | 必填 | 含义                                    |
+| -------------------- | ----------------------------- | ---- | --------------------------------------- |
+| enable               | boolean                       | 否   | 开启中间件                              |
+| outPutDir            | string                        | 是   | 类型文件输出目录                        |
+| httpAgent            | PreQuestInstance              | 是   | 发起请求                                |
+| parseResponse        | (res) => CommonObj            | 否   | 解析 httpAgent 响应，需要返回接口响应值 |
+| typesGeneratorConfig | (req, res) => GeneratorConfig | 是   | json-types-generator 工具的参数         |
+
+### GeneratorConfig
+
+| 参数          | 类型    | 必填 | 含义              |
+| ------------- | ------- | ---- | ----------------- |
+| data          | Json    | 是   | 要生成类型的 JSON |
+| outPutName    | string  | 是   | 类型文件名称      |
+| interfaceName | string  | 是   | 导出的接口名称    |
+| overwrite     | boolean | 是   | 类型文件可复写    |

@@ -1,22 +1,13 @@
 import jsonTypesGenerator from 'json-types-generator'
 import { createServer } from 'http'
-import { ServerOptions } from './types'
-
-Object.defineProperty(Error.prototype, 'toJSON', {
-  value: function() {
-    const alt: any = {}
-    const that: any = this
-
-    Object.getOwnPropertyNames(that).forEach(key => (alt[key] = that[key]), that)
-
-    return alt
-  },
-  configurable: true,
-  writable: true,
-})
+import { readdir, stat, mkdir } from 'fs/promises'
+import { resolve } from 'path'
+import { ServerOptions, ClientOptions } from './types'
+import { errorJson } from './util'
 
 export default function(opt: ServerOptions) {
   const { port } = opt
+  let cachedDirs: string[] = []
 
   const server = createServer((req, res) => {
     res.setHeader('Access-Control-Allow-Origin', '*')
@@ -28,12 +19,49 @@ export default function(opt: ServerOptions) {
       req.on('data', data => (body += data))
       req.on('end', async function() {
         try {
-          await jsonTypesGenerator(JSON.parse(body))
+          const { outPutDir, outPutName, interfaceName, data, overwrite } = JSON.parse(
+            body
+          ) as ClientOptions
+          const name = `${outPutName}.ts`
+
+          // 扫描一遍目录，进行初始化
+          if (!cachedDirs.length) {
+            try {
+              await stat(outPutDir)
+              cachedDirs = await readdir(outPutDir)
+            } catch {
+              await mkdir(outPutDir)
+              cachedDirs = []
+            }
+          }
+
+          // 当前接口已生成类型
+          const generated = cachedDirs.includes(name)
+
+          if (!generated || (generated && overwrite)) {
+            await jsonTypesGenerator({
+              data,
+              overwrite,
+              outPutPath: resolve(outPutDir, name),
+              rootInterfaceName: interfaceName,
+            })
+            !generated && cachedDirs.push(name)
+          }
+
           res.writeHead(200)
-          res.end(JSON.stringify({ status: true, timestamp: Date.now(), error: null }))
+          res.end(
+            JSON.stringify({ status: true, timestamp: Date.now(), error: null, data: cachedDirs })
+          )
         } catch (e) {
           res.writeHead(500)
-          res.end(JSON.stringify({ status: false, timestamp: Date.now(), error: e }))
+          res.end(
+            JSON.stringify({
+              status: false,
+              timestamp: Date.now(),
+              error: errorJson(e),
+              data: cachedDirs,
+            })
+          )
         }
       })
     }
