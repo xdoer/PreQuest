@@ -2,6 +2,19 @@ import jsonTypesGenerator from 'json-types-generator'
 import { createServer } from 'http'
 import { ServerOptions } from './types'
 
+Object.defineProperty(Error.prototype, 'toJSON', {
+  value: function() {
+    const alt: any = {}
+    const that: any = this
+
+    Object.getOwnPropertyNames(that).forEach(key => (alt[key] = that[key]), that)
+
+    return alt
+  },
+  configurable: true,
+  writable: true,
+})
+
 export default function(opt: ServerOptions) {
   const { port } = opt
 
@@ -13,20 +26,20 @@ export default function(opt: ServerOptions) {
     if (req.method === 'POST') {
       let body = ''
       req.on('data', data => (body += data))
-      req.on('end', function() {
-        generate(body)
-        res.writeHead(200, { 'Content-Type': 'text/html' })
-        res.end('post received')
+      req.on('end', async function() {
+        try {
+          await jsonTypesGenerator(JSON.parse(body))
+          res.writeHead(200)
+          res.end(JSON.stringify({ status: true, timestamp: Date.now(), error: null }))
+        } catch (e) {
+          res.writeHead(500)
+          res.end(JSON.stringify({ status: false, timestamp: Date.now(), error: e }))
+        }
       })
     }
   })
 
   server.listen(port, () => {
-    console.log('Server is start', port)
+    console.log('Json Types Generator Server is start at port:', port)
   })
-}
-
-function generate(body: string) {
-  const { data, outPutPath, rootInterfaceName } = JSON.parse(body)
-  jsonTypesGenerator({ data, outPutPath, rootInterfaceName })
 }

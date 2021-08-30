@@ -56,3 +56,5 @@ export const asyncPool = async <T, N>(
   }
   return Promise.all(ret)
 }
+
+export const upFirst = (value: string) => value.replace(/^[a-z]/, g => g.toUpperCase())

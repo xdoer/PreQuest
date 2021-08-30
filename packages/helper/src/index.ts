@@ -14,11 +14,11 @@ export const baseOption: BaseOption = {
 }
 
 export function createRequestUrl<T>(
-  ctx: T & { baseURL?: string; path: string; params?: any; url?: string }
+  req: T & { baseURL?: string; path: string; params?: any; url?: string }
 ): string {
-  const { baseURL, path, params } = ctx
+  const { baseURL, path, params } = req
 
-  let url = ctx.url || ''
+  let url = req.url || ''
 
   if (isAbsoluteURL(path)) {
     url += path
@@ -30,6 +30,10 @@ export function createRequestUrl<T>(
   if (params && !isEmpty(params)) url += `?${stringify(params)}`
 
   return url
+}
+
+export function requestId<T>(req: T & { baseURL?: string; path: string; url?: string }): string {
+  return createRequestUrl({ ...req, params: {} })
 }
 
 export function isEmpty(value: any) {
