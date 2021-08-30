@@ -19,16 +19,15 @@ export default function(opt: ServerOptions) {
       req.on('data', data => (body += data))
       req.on('end', async function() {
         try {
-          const { outPutDir, outPutName, interfaceName, data, overwrite } = JSON.parse(
-            body
-          ) as ClientOptions
-          const name = `${outPutName}.ts`
+          const bodyData = JSON.parse(body) as ClientOptions
+          const { outPutDir, outPutName, interfaceName, data, overwrite } = bodyData
 
           // 扫描一遍目录，进行初始化
           if (!cachedDirs.length) {
             try {
               await stat(outPutDir)
-              cachedDirs = await readdir(outPutDir)
+              const dirs = await readdir(outPutDir)
+              cachedDirs = dirs.map(dir => dir.replace(/(.+)\.\w+$/, (_, __) => __))
             } catch {
               await mkdir(outPutDir)
               cachedDirs = []
@@ -36,16 +35,16 @@ export default function(opt: ServerOptions) {
           }
 
           // 当前接口已生成类型
-          const generated = cachedDirs.includes(name)
+          const generated = cachedDirs.includes(outPutName)
 
           if (!generated || (generated && overwrite)) {
             await jsonTypesGenerator({
               data,
               overwrite,
-              outPutPath: resolve(outPutDir, name),
+              outPutPath: resolve(outPutDir, `${outPutName}.ts`),
               rootInterfaceName: interfaceName,
             })
-            !generated && cachedDirs.push(name)
+            !generated && cachedDirs.push(outPutName)
           }
 
           res.writeHead(200)
