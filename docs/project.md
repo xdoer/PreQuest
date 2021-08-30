@@ -26,7 +26,9 @@
 
 ## 辅助工具
 
-> - [@prequest/response-types-generator](/response-types-generator ':target=_self'): Json Response 的 TypeScript 类型生成器
+> - [@prequest/response-types-generator](/response-types-generator ':target=_self'): Json Response 的 TypeScript 类型生成器，脚本工具版
+> - [@prequest/response-types-server](/response-types-server ':target=_self'): Json Response 的 TypeScript 类型生成器服务端
+> - [@prequest/response-types-client](/response-types-client ':target=_self'): Json Response 的 TypeScript 类型生成器客户端
 
 ## 项目迁移
 

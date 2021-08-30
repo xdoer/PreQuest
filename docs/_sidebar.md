@@ -18,5 +18,7 @@
 - [Node 请求库](/node)
 - [小程序请求库](/miniprogram)
 - [小程序请求库附件包](/miniprogram-addon)
-- [Json Response 类型生成器](/response-types-generator)
+- [类型生成器-工具版](/response-types-generator)
+- [类型生成器-服务端](/response-types-server)
+- [类型生成器-客户端](/response-types-client)
 - [集成 Axios](/work-with-axios)
