@@ -1,12 +1,12 @@
 import jsonTypesGenerator from 'json-types-generator'
 import { createServer } from 'http'
 import { readdir, stat, mkdir } from 'fs/promises'
-import { resolve } from 'path'
+import { resolve, isAbsolute } from 'path'
 import { ServerOptions, ClientOptions } from './types'
 import { errorJson } from './util'
 
-export default function(opt: ServerOptions) {
-  const { port } = opt
+export default function(opt?: ServerOptions) {
+  const { port = 10086 } = opt || {}
   let cachedDirs: string[] = []
 
   const server = createServer((req, res) => {
@@ -21,15 +21,17 @@ export default function(opt: ServerOptions) {
         try {
           const bodyData = JSON.parse(body) as ClientOptions
           const { outPutDir, outPutName, interfaceName, data, overwrite } = bodyData
+          const dirPath = isAbsolute(outPutDir) ? outPutDir : resolve(process.cwd(), outPutDir)
 
           // 扫描一遍目录，进行初始化
           if (!cachedDirs.length) {
             try {
-              await stat(outPutDir)
-              const dirs = await readdir(outPutDir)
+              await stat(dirPath)
+              const dirs = await readdir(dirPath)
+              // 剥离文件后缀名
               cachedDirs = dirs.map(dir => dir.replace(/(.+)\.\w+$/, (_, __) => __))
             } catch {
-              await mkdir(outPutDir)
+              await mkdir(dirPath)
               cachedDirs = []
             }
           }
@@ -41,32 +43,35 @@ export default function(opt: ServerOptions) {
             await jsonTypesGenerator({
               data,
               overwrite,
-              outPutPath: resolve(outPutDir, `${outPutName}.ts`),
+              outPutPath: resolve(dirPath, `${outPutName}.ts`),
               rootInterfaceName: interfaceName,
             })
             !generated && cachedDirs.push(outPutName)
           }
 
+          const resData = {
+            status: true,
+            timestamp: Date.now(),
+            error: null,
+            data: cachedDirs,
+          }
           res.writeHead(200)
-          res.end(
-            JSON.stringify({ status: true, timestamp: Date.now(), error: null, data: cachedDirs })
-          )
+          res.end(resData)
         } catch (e) {
+          const resData = {
+            status: false,
+            timestamp: Date.now(),
+            error: errorJson(e),
+            data: cachedDirs,
+          }
           res.writeHead(500)
-          res.end(
-            JSON.stringify({
-              status: false,
-              timestamp: Date.now(),
-              error: errorJson(e),
-              data: cachedDirs,
-            })
-          )
+          res.end(resData)
         }
       })
     }
   })
 
   server.listen(port, () => {
-    console.log('Json Types Generator Server is start at port:', port)
+    console.log(`Json Types Generator Server running at http://localhost:${port}`)
   })
 }

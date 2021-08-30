@@ -25,6 +25,10 @@ npm install @prequest/response-types-server
 ```ts
 import server from '@prequest/response-types-server'
 
+// 默认开启的端口为 10086
+server()
+
+// 你可以通过传参指定端口
 server({ port: 10010 })
 ```
 

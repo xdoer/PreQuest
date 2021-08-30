@@ -1,5 +1,5 @@
 export interface ServerOptions {
-  port: number
+  port?: number
 }
 
 export interface ClientOptions {
