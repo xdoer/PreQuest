@@ -56,7 +56,7 @@ export default function(opt?: ServerOptions) {
             data: cachedDirs,
           }
           res.writeHead(200)
-          res.end(resData)
+          res.end(JSON.stringify(resData))
         } catch (e) {
           const resData = {
             status: false,
@@ -65,7 +65,7 @@ export default function(opt?: ServerOptions) {
             data: cachedDirs,
           }
           res.writeHead(500)
-          res.end(resData)
+          res.end(JSON.stringify(resData))
         }
       })
     }
