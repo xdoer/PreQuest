@@ -74,7 +74,7 @@ export function formatRequestBodyAndHeaders<T>(
     }
   }
 
-  return { data, headers: merge(headers, ctx.headers) }
+  return { data, headers: merge<CommonObject>(headers, ctx.headers) }
 }
 
 // reference: https://github.com/axios/axios/blob/master/lib/helpers/isAbsoluteURL.js
