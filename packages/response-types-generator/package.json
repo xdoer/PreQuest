@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
+  "version": "1.1.1",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -60,12 +60,12 @@
     }
   ],
   "dependencies": {
-    "@prequest/node": "^1.1.0",
-    "@prequest/utils": "^1.1.0",
+    "@prequest/node": "^1.1.1",
+    "@prequest/utils": "^1.1.1",
     "json-types-generator": "^0.0.5"
   },
   "devDependencies": {
-    "@prequest/types": "^1.1.0",
+    "@prequest/types": "^1.1.1",
     "@size-limit/preset-small-lib": "^4.10.2",
     "husky": "^6.0.0",
     "size-limit": "^4.10.2",
