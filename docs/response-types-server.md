@@ -32,10 +32,21 @@ server({ port: 10010 })
 
 HTTP Server 只接收 POST 与 OPTIONS 请求，当 HTTP Body 传输的数据满足下列参数列表，则会向指定目录输出类型文件
 
-| 参数          | 类型    | 默认 | 含义               |
-| ------------- | ------- | ---- | ------------------ |
-| outPutDir     | string  |      | 类型文件输出目录   |
-| outPutName    | string  |      | 文件名称           |
-| overwrite     | boolean |      | 文件可复写         |
-| data          | Json    |      | 要解析的 Json 数据 |
-| interfaceName | string  |      | 导出的接口名称     |
+| 参数          | 类型    | 含义               |
+| ------------- | ------- | ------------------ |
+| outPutDir     | string  | 类型文件输出目录   |
+| outPutName    | string  | 文件名称           |
+| overwrite     | boolean | 文件可复写         |
+| data          | Json    | 要解析的 Json 数据 |
+| interfaceName | string  | 导出的接口名称     |
+
+### 响应
+
+HTTP Server 只接收到请求后，会返回下列内容
+
+| 参数      | 类型     | 含义                                                             |
+| --------- | -------- | ---------------------------------------------------------------- |
+| status    | boolean  | 操作成功与否                                                     |
+| timestamp | number   | 时间戳                                                           |
+| error     | Error    | 错误信息                                                         |
+| data      | string[] | 生成的类型文件列表。前端可根据这个列表，判断是否需要再次发起请求 |
