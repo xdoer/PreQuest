@@ -23,3 +23,7 @@ export interface WrapperMiddlewareOptions<T, N> {
   parseResponse?(res: N): GeneratorServerResponse
   enable?: boolean
 }
+
+export interface TypesGeneratorInject {
+  rewriteType?: boolean
+}

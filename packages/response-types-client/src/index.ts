@@ -1,6 +1,8 @@
 import { MiddlewareCallback } from '@prequest/types'
 import { WrapperMiddlewareOptions } from './types'
 
+export { TypesGeneratorInject } from './types'
+
 export default function generatorMiddlewareWrapper<T, N>(
   opt: WrapperMiddlewareOptions<T, N>
 ): MiddlewareCallback<T, N> {
@@ -21,13 +23,20 @@ export default function generatorMiddlewareWrapper<T, N>(
 
     const config = typesGeneratorConfig(ctx.request, ctx.response)
     const { outPutName, overwrite, data, interfaceName } = config
+    const { rewriteType } = ctx.request as any
 
     if (cache.includes(outPutName)) return
 
     try {
       const res = await httpAgent({
         method: 'POST',
-        data: JSON.stringify({ outPutDir, outPutName, overwrite, data, interfaceName }),
+        data: JSON.stringify({
+          outPutDir,
+          outPutName,
+          data,
+          interfaceName,
+          overwrite: typeof rewriteType === 'undefined' ? overwrite : rewriteType,
+        }),
       } as any)
 
       const { status, error, data: cacheList } = parseResponse(res)

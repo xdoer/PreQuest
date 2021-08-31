@@ -20,11 +20,13 @@ npm install @prequest/response-types-client
 
 ## 使用
 
-原项目在每次发起 HTTP 请求时，中间件会向 `@prequest/response-types-server` 发起生成类型文件的请求
+在发起 HTTP 请求时，中间件会向 `@prequest/response-types-server` 发起生成类型文件的请求
+
+### 配置中间件
 
 ```ts
-import { create, prequest, Request, Response } from '@prequest/xhr'
-import generatorMiddleware from '@prequest/response-types-client'
+import { create, Request, Response } from '@prequest/xhr'
+import generatorMiddleware, { TypesGeneratorInject } from '@prequest/response-types-client'
 
 const middleware = generatorMiddlewareWrapper<Request, Response>({
   enable: process.env.NODE_ENV === 'development',
@@ -48,7 +50,16 @@ const middleware = generatorMiddlewareWrapper<Request, Response>({
   },
 })
 
+export const prequest = create<TypesGeneratorInject, {}>({ baseURL: 'http://localhost:3000' })
 prequest.use(middleware)
+```
+
+### 请求参数注入
+
+上面在生成 `prequest` 实例的时候，注入了 `TypesGeneratorInject` 类型，类型中提供了 `rewriteType` 参数，可以强制复写已生成的类型文件。即每次请求,都会重新生成一份新的类型文件
+
+```ts
+prequest('/user', { rewriteType: true })
 ```
 
 ## 配置
