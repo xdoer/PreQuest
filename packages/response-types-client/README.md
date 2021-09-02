@@ -31,24 +31,29 @@ import generatorMiddleware, { TypesGeneratorInject } from '@prequest/response-ty
 const middleware = generatorMiddlewareWrapper<Request, Response>({
   enable: process.env.NODE_ENV === 'development',
   httpAgent: create({ path: 'http://localhost:10010/' }),
-  requestId(opt) {
-    return defaultOutPutFileName(opt)
-  },
+  outPutDir: 'src/api-types'
   parseResponse(res) {
+    // res 应当返回接口 data 数据
     return res as any
   },
   typesGeneratorConfig(req, res) {
-    const outputName = defaultOutPutFileName(req)
-    const rootInterfaceName = defaultRootInterfaceName(req)
+    const { path } = req
+    const { data } = res
+
+    if (!path) throw new Error('path not found')
+
+    const outPutName = path.replace(/.*\/(\w+)/, (_, __) => __)
+    const interfaceName = outPutName.replace(/^[a-z]/, g => g.toUpperCase())
 
     return {
-      data: res.data,
-      outPutPath: `/Users/luckyhh/Desktop/project/prequest2/examples/web/src/types/${outputName}.ts`,
-      rootInterfaceName: rootInterfaceName,
-      overwrite: false,
+      data,
+      outPutName,
+      interfaceName,
+      overwrite: true,
     }
   },
 })
+
 
 export const prequest = create<TypesGeneratorInject, {}>({ baseURL: 'http://localhost:3000' })
 prequest.use(middleware)
