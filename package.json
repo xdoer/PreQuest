@@ -1,5 +1,5 @@
 {
-  "name": "root",
+  "name": "prequest",
   "private": true,
   "workspaces": {
     "packages": [
