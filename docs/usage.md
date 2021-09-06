@@ -40,6 +40,8 @@ interface Inject {
 }
 
 const prequest = create<Inject, {}>()
+
+prequest({ enableHttp2: true })
 ```
 
 在类小程序的请求库中，稍有些区别，为了满足兼容不同的类小程序平台，创建实例的时候，需要将原生请求方法传入。
@@ -97,7 +99,7 @@ prequest.request('/api', {
   data: { a: 1 }
 })
 
-// 基本请求方法的 alias
+// 基本请求方法的 shortcut
 prequest('/api', {
   baseURL: 'http://localhost:3000'
   method: 'POST',
@@ -108,6 +110,15 @@ prequest('/api', {
 prequest.post('http://localhost:3000/api', {
   data: { a: 1 }
 })
+```
+
+在 TypeScript 环境中，你可以注入响应数据类型，以方便使用
+
+```ts
+// 响应类型注入
+interface User {}
+const user = await prequest<User>('/user', { params: { id: 1 } })
+const user2 = await prequest.get<User>('/user', { params: { id: 1 } })
 ```
 
 全部调用方式为:

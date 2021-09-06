@@ -20,7 +20,6 @@ export class PreQuest<T, N> extends Middleware<T, N> {
   private mount() {
     const preQuest = <MethodsCallback<T, N>>(this as unknown)
 
-    // TODO: dynamic injection response data type
     METHODS.forEach(method => {
       preQuest[method] = (path: string, config?: Config<T>) => {
         const request = <RequestOption<T>>(

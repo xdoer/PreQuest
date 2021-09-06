@@ -64,14 +64,15 @@ const cacheMiddleware = CacheMiddleware({ ttl: 5000 })
 prequest.use(cacheMiddleware)
 
 // 请求调用
-prequest('/api')
-prequest('/api', { method: 'POST' })
-prequest.get('/api', { params: { a: 1 } })
-prequest.post('/api', { data: { a: 1 } })
+prequest('/user')
+prequest('/user', { method: 'POST' })
+prequest.get('/user', { params: { a: 1 } })
+prequest.post('/user', { data: { a: 1 } })
 
 // 响应类型注入
 interface User {}
 const user = await prequest<User>('/user', { params: { id: 1 } })
+const user2 = await prequest.get<User>('/user', { params: { id: 1 } })
 ```
 
 ## 文档

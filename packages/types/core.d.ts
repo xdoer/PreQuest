@@ -3,7 +3,7 @@ export type Method = 'get' | 'post' | 'delete' | 'put' | 'patch' | 'head' | 'opt
 export type UpperMethod = Uppercase<Method> | ({} & string)
 
 export type MethodsCallback<T, N> = {
-  [k in Method]: (path: string, option?: Config<T>) => Promise<N>
+  [k in Method]: <Q = N>(path: string, option?: Config<T>) => Promise<Q>
 }
 
 export type Config<T> = Partial<T>
