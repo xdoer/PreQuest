@@ -13,9 +13,9 @@ export const baseOption: BaseOption = {
   responseType: 'json',
 }
 
-export function createRequestUrl<T>(
-  req: T & { baseURL?: string; path: string; params?: any; url?: string }
-): string {
+export function createRequestUrl<
+  T extends { baseURL?: string; path: string; url?: string; params: CommonObject }
+>(req: T): string {
   const { baseURL, path, params } = req
 
   let url = req.url || ''
@@ -32,7 +32,9 @@ export function createRequestUrl<T>(
   return url
 }
 
-export function requestId<T>(req: T & { baseURL?: string; path: string; url?: string }): string {
+export function requestId<T extends { baseURL?: string; path: string; url?: string }>(
+  req: T
+): string {
   return createRequestUrl({ ...req, params: {} })
 }
 
@@ -40,7 +42,7 @@ export function isEmpty(value: any) {
   const type = elementType(value)
   switch (type) {
     case 'object':
-      return !Object.keys(value).length
+      return !Reflect.ownKeys(value).length && value.constructor === Object
     case 'array':
       return !value.length
     default:
@@ -49,13 +51,9 @@ export function isEmpty(value: any) {
 }
 
 // 参考: https://github.com/umijs/umi-request/blob/master/src/middleware/simplePost.js
-export function formatRequestBodyAndHeaders<T>(
-  ctx: T & {
-    headers: CommonObject
-    data: any
-    requestType: 'json' | 'form' | ({} & string)
-  }
-) {
+export function formatRequestBodyAndHeaders<
+  T extends { headers: CommonObject; data: any; requestType: 'json' | 'form' | ({} & string) }
+>(ctx: T) {
   const bodyType = elementType(ctx.data)
 
   const headers: CommonObject = {}
