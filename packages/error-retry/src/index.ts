@@ -21,7 +21,7 @@ export default function errorRetryMiddleware<T, N>(
     } catch (e) {
       const { retryCount, retryControl } = Object.assign({}, options, ctx.request, injectOpt)
 
-      const control = await retryControl(ctx.request, e)
+      const control = await retryControl(ctx.request, e as Error)
 
       if (retryCount < 1 || !control) throw e
 
