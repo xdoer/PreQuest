@@ -14,7 +14,7 @@ export const baseOption: BaseOption = {
 }
 
 export function createRequestUrl<
-  T extends { baseURL?: string; path: string; url?: string; params: CommonObject }
+  T extends { baseURL?: string; path: string; url?: string; params?: CommonObject }
 >(req: T): string {
   const { baseURL, path, params } = req
 

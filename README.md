@@ -55,12 +55,12 @@ PreQuest.use<Request, Response>((ctx, next) => {
  */
 const prequest = create<CacheInject, {}>({
   headers: {
-    token: 'xxx-11111111',
+    'Content-Type': 'application/json; charset=utf-8',
   },
 })
 
 // 实例中间件
-const cacheMiddleware = CacheMiddleware({ ttl: 5000 })
+const cacheMiddleware = CacheMiddleware()
 prequest.use(cacheMiddleware)
 
 // 请求调用

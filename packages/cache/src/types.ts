@@ -12,8 +12,15 @@ export interface CacheKernel {
 }
 
 export interface Options<T> {
+  enable: boolean
   ttl: number
   cacheKernel(): CacheKernel
   cacheControl(opt: T): boolean
-  cacheId(opt: T): any
+  requestId(opt: T): string
+}
+
+export interface CacheInject<T, N> {
+  ttl?: number
+  useCache?: boolean
+  validateCache?(req: T, res: N): boolean
 }

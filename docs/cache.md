@@ -21,32 +21,23 @@ import CacheMiddleware, { CacheInject } from '@prequest/cache'
 const prequest = create<CacheInject>()
 ```
 
-### 统一配置
+### 创建中间件
 
 ```ts
-import CacheMiddleware from '@prequest/cache'
+import createCacheMiddleware from '@prequest/cache'
 import { Request, Response, prequest } from '@prequest/xhr'
 
-const middleware = cacheMiddleware({
-  // 5s 之后，缓存失效
-  ttl: 5000,
+const middleware = createCacheMiddleware({
+  // 开启缓存中间件，默认为 false
+  enable: true,
 
-  // 缓存 ID, 默认直接 JSON.stringify 序列化 opt。你可以通过此函数，判断哪些请求是相同请求。
-  cacheId(opt) {
+  // 默认1s 之后，缓存失效
+  ttl: 1000,
+
+  // 缓存 ID, 默认 ID 为 path。
+  requestId(opt) {
     const { path, method } = opt
     return `${method}-${path}`
-  },
-
-  // 校验哪些类型的请求需要缓存数据
-  cacheControl(opt) {
-    const { path, method } = opt
-
-    // api 接口要缓存
-    if (path === '/api') return true
-
-    // get 请求要缓存
-    if (method === 'GET') return true
-    return false
   },
 
   // 缓存内核，默认使用 Map 数据结构存到内存。你可以通过此函数，自定义数据存储方式。
@@ -55,9 +46,13 @@ const middleware = cacheMiddleware({
     return {
       set: map.set.bind(map),
       get: map.get.bind(map),
-
       delete: map.delete.bind(map),
     }
+  },
+
+  // 缓存控制，默认只有 GET 请求会使用缓存
+  cacheControl(req) {
+    return req.method === 'GET' || !req.method
   },
 })
 
@@ -65,26 +60,42 @@ const middleware = cacheMiddleware({
 prequest.use(middleware)
 ```
 
-### 单一配置
-
-可以通过传参 useCache，使得当前接口可以被缓存。当设置了 useCache 参数时，当前接口将不走 cacheControl 逻辑。
+### 请求配置
 
 ```ts
 prequest('/api', {
-  useCache: true,
+  // 当前接口不走缓存
+  useCache: false,
+
+  // 失效时间
+  ttl: 2000
+
+  // 使用缓存，且在缓存没失效的情况下，校验缓存
+  validateCache(req, res) {
+    return true
+  }
 })
 ```
 
 ## 配置项
 
-### 实例配置项
+### 创建中间件配置项
 
-| Option Name  | Type                         | Default                                  | Required | Meaning  |
-| ------------ | ---------------------------- | ---------------------------------------- | -------- | -------- |
-| ttl          | number                       | 0                                        | false    | 缓存时间 |
-| cacheId      | (opt: RequestOpt) => any     | (opt: RequestOpt) => JSON.stringify(opt) | false    | 缓存 ID  |
-| cacheControl | (opt: RequestOpt) => boolean |                                          | false    | 缓存策略 |
-| cacheKernel  | CacheKernel                  | Map                                      | false    | 存储内核 |
+| Option Name  | Type                        | Default                                  | Required | Meaning                           |
+| ------------ | --------------------------- | ---------------------------------------- | -------- | --------------------------------- |
+| enable       | boolean                     | false                                    | false    | 开启缓存中间件                    |
+| ttl          | number                      | 0                                        | false    | 默认缓存时间                      |
+| requestId    | (opt: RequestOpt) => string | (opt: RequestOpt) => opt.path            | false    | 缓存 ID                           |
+| cacheKernel  | CacheKernel                 | Map                                      | false    | 存储内核                          |
+| cacheControl | (opt:RequestOpt) => boolean | (opt:RequestOpt) => opt.method === 'GET' | false    | 缓存控制，默认只有 GET 请求会缓存 |
+
+### 请求配置项
+
+| Option Name   | Type                            | Default    | Required | Meaning  |
+| ------------- | ------------------------------- | ---------- | -------- | -------- |
+| useCache      | boolean                         | false      | false    | 开启缓存 |
+| ttl           | number                          | 0          | false    | 缓存时间 |
+| validateCache | (cacheReq, cacheRes) => boolean | () => true | false    | 校验缓存 |
 
 ### 存储内核
 

@@ -1,56 +1,51 @@
-import { MiddlewareCallback } from '@prequest/types'
-import { Options, Cache } from './types'
+import { MiddlewareCallback, UpperMethod } from '@prequest/types'
+import { requestId } from '@prequest/helper'
+import { Options, Cache, CacheInject } from './types'
 
-export interface CacheInject {
-  useCache?: boolean
-}
+export { CacheInject } from './types'
 
 function createDefaultOption<T>(): Options<T> {
   return {
+    enable: false,
     ttl: 1000,
+    requestId,
     cacheKernel: () => new Map(),
-    cacheControl: () => false,
-    cacheId: v => JSON.stringify(v),
+    cacheControl: (opt: T & { method: UpperMethod }) => opt.method === 'GET' || !opt.method,
   }
 }
 
-export default function cacheMiddleware<T, N>(
+export default function cacheMiddleware<T extends CacheInject<T, N>, N>(
   opt?: Partial<Options<T>>
-): MiddlewareCallback<T & CacheInject, N> {
-  const { ttl, cacheControl, cacheId, cacheKernel } = Object.assign(
-    {},
+): MiddlewareCallback<T, N> {
+  const { ttl: defaultTTL, requestId, cacheKernel, enable, cacheControl } = Object.assign(
     createDefaultOption<T>(),
     opt
   )
 
   const cache = cacheKernel()
 
-  const isExpired = (timestamp: number) => Date.now() - timestamp > ttl
-
   return async function(ctx, next) {
-    const setCacheKey = typeof ctx.request.useCache !== 'undefined'
+    const { ttl = defaultTTL, useCache = enable, validateCache = () => true } = ctx.request
 
-    // 如果设置了 useCache 字段，且设置为 false
-    if (setCacheKey) {
-      if (!ctx.request.useCache) return next()
-    }
+    if (!useCache || !cacheControl(ctx.request)) return next()
 
-    // 如果没设置 useCache，则使用默认的统一控制
-    if (!setCacheKey) {
-      const control = await cacheControl(ctx.request)
-      if (!control) return next()
-    }
-
-    const id = cacheId(ctx.request)
+    const id = requestId(ctx.request)
     const cacheValue: Cache<T, N> = await cache.get(id)
 
     if (cacheValue) {
-      if (isExpired(cacheValue.timestamp)) {
-        await cache.delete(id)
-      } else {
+      const {
+        timestamp,
+        ctx: { request, response },
+      } = cacheValue
+
+      const isExpired = Date.now() - timestamp > ttl
+
+      if (!isExpired && validateCache(request, response)) {
         ctx = cacheValue.ctx
-        return cacheValue.ctx.response
+        return response
       }
+
+      await cache.delete(id)
     }
 
     await next()
