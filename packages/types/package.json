@@ -1,5 +1,5 @@
 {
-  "version": "1.2.3",
+  "version": "1.2.4",
   "license": "MIT",
   "name": "@prequest/types",
   "author": "xdoer",
@@ -17,5 +17,5 @@
   "browserslist": [
     "> 5%"
   ],
-  "gitHead": "3ada41e0e6178a12f497f87bd3b2d399f9606e6b"
+  "gitHead": "229df9c11d07c0310c583e25d42959624bdd72d2"
 }
