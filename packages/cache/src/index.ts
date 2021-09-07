@@ -8,15 +8,15 @@ function createDefaultOption<T>(): Options<T> {
   return {
     enable: false,
     ttl: 1000,
-    requestId,
+    requestId: requestId as any,
     cacheKernel: () => new Map(),
     cacheControl: (opt: T & { method: UpperMethod }) => opt.method === 'GET' || !opt.method,
   }
 }
 
-export default function cacheMiddleware<T extends CacheInject<T, N>, N>(
+export default function cacheMiddleware<T, N>(
   opt?: Partial<Options<T>>
-): MiddlewareCallback<T, N> {
+): MiddlewareCallback<T & CacheInject<T, N>, N> {
   const { ttl: defaultTTL, requestId, cacheKernel, enable, cacheControl } = Object.assign(
     createDefaultOption<T>(),
     opt
