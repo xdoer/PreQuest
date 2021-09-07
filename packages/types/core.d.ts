@@ -1,6 +1,4 @@
-export type Method = 'get' | 'post' | 'delete' | 'put' | 'patch' | 'head' | 'options'
-
-export type UpperMethod = Uppercase<Method> | ({} & string)
+import { Method } from './common'
 
 export type MethodsCallback<T, N> = {
   [k in Method]: <Q = N>(path: string, option?: Config<T>) => Promise<Q>
