@@ -2,6 +2,7 @@
   "name": "@prequest/example-taro",
   "version": "1.0.4",
   "description": "mini-demo",
+  "private": true,
   "templateInfo": {
     "name": "default",
     "typescript": true,

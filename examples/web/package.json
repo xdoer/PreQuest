@@ -1,6 +1,7 @@
 {
   "name": "@prequest/example-web",
   "version": "1.0.4",
+  "private": true,
   "scripts": {
     "dev": "scr & vite"
   },

@@ -3,6 +3,7 @@
   "version": "1.0.4",
   "description": "",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "dev": "nodemon index.js --watch"
   },
