@@ -18,7 +18,7 @@ export interface Request extends BaseOption {
   responseEncoding?: BufferEncoding
   socketPath?: string
   auth?: Auth
-  proxy?: Proxy
+  proxy?: Proxy | false
   httpAgent?: http.Agent
   httpsAgent?: https.Agent
   maxRedirects?: number
