@@ -123,3 +123,7 @@ instance.use(async (ctx, next) => {
   await next()
 })
 ```
+
+## 兼容
+
+小程序中使用 async/await 需要安装 [regenerator-runtime@0.11.1](https://www.npmjs.com/package/regenerator-runtime/v/0.11.1)，框架包一般会内置这个依赖，如果没有，请自行安装，使用方式请在对应论坛进行查找。此外，由于包都是 ES6 版本的，在某些手机上可能有兼容性问题，你可以[查阅这里编译代码](https://pre-quest.vercel.app/#/compatible?id=webpack-chain)
