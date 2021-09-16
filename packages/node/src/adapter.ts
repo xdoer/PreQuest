@@ -16,7 +16,7 @@ export function adapter<T, N>() {
         method = 'GET',
         auth,
         socketPath,
-        proxy: optionProxy,
+        proxy: optionProxy = false,
         httpAgent,
         httpsAgent,
         maxRedirects,
