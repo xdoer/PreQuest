@@ -1,7 +1,6 @@
 import Taro, { getStorageSync, navigateTo, removeStorageSync, setStorageSync } from '@tarojs/taro'
 import { create, PreQuest, Request, Response } from '@prequest/miniprogram'
 import errorRetryMiddleware from '@prequest/error-retry'
-import cacheMiddleware, { CacheInject } from '@prequest/cache'
 import timeoutMiddleware, { TimeoutInject } from '@prequest/timeout'
 import InterceptorMiddleware from '@prequest/interceptor'
 import Lock from '@prequest/lock'
@@ -11,7 +10,7 @@ interface CustomRequest {
   skipTokenCheck?: boolean
 }
 
-type InjectRequest = CustomRequest & TimeoutInject<Request> & CacheInject
+type InjectRequest = CustomRequest & TimeoutInject<Request>
 type RequestOption = Request & InjectRequest
 
 // 全局配置
@@ -38,18 +37,6 @@ const errorRetry = errorRetryMiddleware<RequestOption, {}>({
       lock.clear()
     }
     // 只有 GET 请求才走错误重试
-    return opt.method === 'GET'
-  }
-})
-
-// 缓存中间件
-const cache = cacheMiddleware<RequestOption, {}>({
-  cacheId(opt) {
-    const { path, method } = opt
-    return `${path}-${method}`
-  },
-  cacheControl(opt) {
-    // 只有 GET 请求才会缓存
     return opt.method === 'GET'
   }
 })
@@ -99,7 +86,6 @@ const parse = async (ctx, next) => {
 // 实例中间件
 prequest
   .use(errorRetry)
-  .use(cache)
   .use(refreshToken)
   .use(timeout)
   .use(parse)

@@ -33,7 +33,7 @@ Web、小程序、ReactNative、快应用等
 
 ```ts
 import { PreQuest, create, Request, Response } from '@prequest/xhr'
-import CacheMiddleware, { CacheInject } from '@prequest/cache'
+import TimeoutMiddleware, { TimeoutInject } from '@prequest/timeout'
 
 // 全局配置
 PreQuest.defaults.baseURL = 'http://locahost:8080'
@@ -53,15 +53,15 @@ PreQuest.use<Request, Response>((ctx, next) => {
  * 创建实例
  * 注入类型, 可在调用时获得类型提示
  */
-const prequest = create<CacheInject, {}>({
+const prequest = create<TimeoutInject, {}>({
   headers: {
     'Content-Type': 'application/json; charset=utf-8',
   },
 })
 
 // 实例中间件
-const cacheMiddleware = CacheMiddleware()
-prequest.use(cacheMiddleware)
+const middleware = TimeoutMiddleware()
+prequest.use(middleware)
 
 // 请求调用
 prequest('/user')

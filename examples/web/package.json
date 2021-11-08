@@ -6,7 +6,6 @@
     "dev": "scr & vite"
   },
   "dependencies": {
-    "@prequest/cache": "^1.0.4",
     "@prequest/core": "^1.0.4",
     "@prequest/error-retry": "^1.0.4",
     "@prequest/fetch": "^1.0.4",

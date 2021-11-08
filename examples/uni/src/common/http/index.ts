@@ -1,5 +1,4 @@
 import { PreQuest, create } from '@prequest/miniprogram'
-import { cacheMiddleware } from './cache'
 import { errorRetryMiddleware } from './error-retry'
 import { lock, wrapper } from './token'
 
@@ -14,7 +13,6 @@ interface Res { }
 export const prequest = create<Req, Res>(uni.request)
 
 prequest
-  .use(cacheMiddleware)
   .use(errorRetryMiddleware)
   .use(async (ctx, next) => {
     // 获取 token 接口跳过添加 token 步骤

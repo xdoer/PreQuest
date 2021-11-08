@@ -121,7 +121,6 @@ axiosInstance.interceptor.response.use()
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { PreQuest } from '@prequest/core'
 import ErrorRetryMiddleware from '@prequest/error-retry'
-import CacheMiddleware  from '@prequest/cache'
 import { axiosInstance } from './http'
 
 export const prequest = PreQuest.create<AxiosRequestConfig, AxiosResponse>(opt => axiosInstance(opt.path, opt))
@@ -129,10 +128,6 @@ export const prequest = PreQuest.create<AxiosRequestConfig, AxiosResponse>(opt =
 // 错误重试中间件
 const errorRetryMiddleware = ErrorRetryMiddleware()
 prequest.use(errorRetryMiddleware)
-
-// 注册 cache 中间件
-const cacheMiddleware = CacheMiddleware()
-prequest.use(cacheMiddleware)
 ```
 
 ### 调用

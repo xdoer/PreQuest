@@ -3,7 +3,6 @@
 - [使用](/usage)
 - [兼容](/compatible)
 - [核心](/core)
-- [缓存](/cache)
 - [超时](/timeout)
 - [拦截器](/interceptor)
 - [请求锁](/lock)

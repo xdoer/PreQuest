@@ -57,7 +57,6 @@
     "@dcloudio/uni-quickapp-native": "^2.0.0-31920210609001",
     "@dcloudio/uni-quickapp-webview": "^2.0.0-31920210609001",
     "@dcloudio/uni-stat": "^2.0.0-31920210609001",
-    "@prequest/cache": "^1.0.4",
     "@prequest/cancel-token": "^1.0.4",
     "@prequest/error-retry": "^1.0.4",
     "@prequest/interceptor": "^1.0.4",

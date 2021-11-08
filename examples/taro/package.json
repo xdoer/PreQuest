@@ -36,7 +36,6 @@
   "author": "",
   "dependencies": {
     "@babel/runtime": "^7.7.7",
-    "@prequest/cache": "^1.0.4",
     "@prequest/cancel-token": "^1.0.4",
     "@prequest/error-retry": "^1.0.4",
     "@prequest/interceptor": "^1.0.4",
