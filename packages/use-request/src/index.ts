@@ -3,12 +3,10 @@ import { setTimeoutInterval, clearTimeoutInterval } from '@xdoer/timeout-interva
 import { useEffect, useRef, useState } from 'react'
 import { Res, Config } from './types'
 import { parseOptions, defaultUpdate } from './utils'
-import { useStore } from '@xdoer/state-bus'
 
-export default function <T, N>(prequest: PreQuestInstance<T, N>) {
-  return function <Q>(opt: T | (() => T), config?: Config<Q>) {
-    const key = (typeof opt === 'function' ? (opt as any)() : opt).path
-    const [res, setRes] = useStore<Res<Q>>(key, { data: null, error: null, loading: true })
+export default function<T, N>(prequest: PreQuestInstance<T, N>) {
+  return function<Q>(opt: T | (() => T), config?: Config<Q>) {
+    const [res, setRes] = useState<Res<Q>>({ data: null, error: null, loading: true })
     const calledRef = useRef(false)
     const variables = useRef<T | null>(null)
     const loadingRef = useRef(false)
