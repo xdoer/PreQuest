@@ -1,4 +1,4 @@
-import { BaseOption, CancelToken } from '@prequest/types'
+import { BaseOption, CancelToken, RequestOption } from '@prequest/types'
 
 export interface Request extends BaseOption {
   withCredentials?: boolean
@@ -16,3 +16,6 @@ export interface Response<D = any> {
   statusText: string
   headers: Record<string, any>
 }
+
+export type Adapter<T, N> = (opt: RequestOption<T>) => Promise<N>
+export type GetAdapter<T, N> = (adapter: Adapter<T, N>) => Adapter<T, N>

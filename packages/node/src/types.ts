@@ -1,4 +1,4 @@
-import { BaseOption, CancelToken } from '@prequest/types'
+import { BaseOption, CancelToken, RequestOption } from '@prequest/types'
 import http from 'http'
 import https from 'https'
 
@@ -32,3 +32,7 @@ export interface Response {
   statusText?: string
   headers: Record<string, any>
 }
+
+
+export type Adapter<T, N> = (opt: RequestOption<T>) => Promise<N>
+export type GetAdapter<T, N> = (adapter: Adapter<T, N>) => Adapter<T, N>

@@ -22,6 +22,7 @@
 > - [@prequest/use-request](/use-request ':target=_self'): React 请求 Hook
 > - [@prequest/uploader](/uploader ':target=_self'): 文件上传
 > - [@prequest/cancel-token](/cancel-token ':target=_self'): 取消请求解决方案
+> - [@prequest/cache](/cache ':target=_self'): 缓存请求
 
 ## 辅助工具
 

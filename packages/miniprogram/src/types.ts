@@ -1,4 +1,4 @@
-import { CommonObject, UpperMethod, CancelToken } from '@prequest/types'
+import { CommonObject, UpperMethod, CancelToken, RequestOption } from '@prequest/types'
 
 export type RequestCore = any
 
@@ -21,3 +21,6 @@ export interface Response {
   statusCode: number
   header: CommonObject
 }
+
+export type Adapter<T, N> = (opt: RequestOption<T>) => Promise<N>
+export type GetAdapter<T, N> = (adapter: Adapter<T, N>) => Adapter<T, N>

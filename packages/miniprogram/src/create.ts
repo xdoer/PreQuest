@@ -1,7 +1,10 @@
 import { PreQuest } from '@prequest/core'
-import { Request, Response, RequestCore } from './types'
+import { Request, Response, RequestCore, GetAdapter } from './types'
 import { adapter } from './adapter'
 
-export function create<T, N>(request: RequestCore, instanceOpt?: Request & Partial<T>) {
-  return PreQuest.create<Request & Partial<T>, Response & N>(adapter(request), instanceOpt)
+type Req<T> = Request & Partial<T>
+type Res<N> = Response & N
+
+export function create<T, N>(request: RequestCore, instanceOpt?: Req<T>, wrapper: GetAdapter<Req<T>, Res<N>> = (v) => v) {
+  return PreQuest.create<Req<T>, Res<N>>(wrapper(adapter(request)), instanceOpt)
 }
