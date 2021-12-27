@@ -1,5 +1,6 @@
 {
   "name": "prequest",
+  "version": "1.2.6",
   "private": true,
   "workspaces": {
     "packages": [
@@ -23,8 +24,8 @@
     ]
   },
   "devDependencies": {
-    "husky": "^6.0.0",
+    "husky": "^7.0.4",
     "lerna": "^3.22.1",
-    "lint-staged": "^10.5.4"
+    "lint-staged": "^12.1.4"
   }
 }
