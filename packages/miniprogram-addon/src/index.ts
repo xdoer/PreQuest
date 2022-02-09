@@ -7,3 +7,5 @@ export { PreQuest, PreQuestInstance }
 export { UploadRequest, UploadResponse, DownLoadRequest, DownLoadResponse } from './types'
 
 export { createUpload, createDownload } from './create'
+
+export { adapter } from './adapter'
