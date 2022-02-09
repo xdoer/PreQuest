@@ -84,7 +84,10 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
 
     // 请求控制
     function fetch() {
-      if (!loop) return makeFetch()
+      if (!loop) {
+        makeFetch()
+        return
+      }
       clearTimeoutInterval(timerRef.current)
       timerRef.current = setTimeoutInterval(makeFetch, loop)
     }
