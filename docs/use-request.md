@@ -49,6 +49,12 @@ interface UserProps {
   id: number
 }
 
+interface Response<T> {
+  success: boolean
+  data: T
+  error: any
+}
+
 // 接口响应的数据类型
 interface UserRes {
   id: number
@@ -57,7 +63,7 @@ interface UserRes {
 }
 
 const User: FC<UserProps> = ({ id }) => {
-  const { response, loading, error } = useQuery<UserRes>('/user', {
+  const { response, loading, error } = useQuery<Response<UserRes>>('/user', {
     params: { id },
   })
 
@@ -98,9 +104,9 @@ const User: FC<UserProps> = ({ id }) => {
 }
 ```
 
-### 延迟请求
+### 延迟请求/手动请求
 
-由事件触发请求。需要配置 `lazy` 为 `true`。进行调用时，使用导出的 `query` 进行调用
+由事件触发请求。需要配置 `lazy` 为 `true`。进行调用时，使用导出的 `toFetch` 进行调用。当需要刷新数据时，也可以调用 `toFetch`
 
 ```tsx
 interface UserProps {
@@ -108,13 +114,13 @@ interface UserProps {
 }
 
 const User: FC<UserProps> = ({ id }) => {
-  const { response, loading, error, query } = useQuery(
+  const { response, loading, error, toFetch } = useQuery(
     { path: '/user', params: { id } },
     { lazy: true }
   )
 
   async function onClick() {
-    query()
+    toFetch()
   }
 
   return (
@@ -128,6 +134,8 @@ const User: FC<UserProps> = ({ id }) => {
 }
 ```
 
+此外，还可以使用 `useQuery.get('/user').toFetch` 进行调用
+
 ### 循环请求
 
 传参 `loop` 即可开启循环请求
@@ -138,13 +146,13 @@ interface UserProps {
 }
 
 const User: FC<UserProps> = ({ id }) => {
-  const { response, loading, error, stop } = useQuery(
+  const { response, loading, error, stopLoop } = useQuery(
     { path: '/user', params: { id } },
     { loop: 1000 }
   )
 
   function onClick() {
-    stop()
+    stopLoop()
   }
 
   return (

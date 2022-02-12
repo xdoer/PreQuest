@@ -7,11 +7,12 @@ export type Cache<T = any, Q = any> = {
   error: any
   request: T
   response: Q
-  stop(): void
-  query(): void
+  stopLoop(): void
+  toFetch(opt?: T | ((o: T) => T)): void
 }
 
 export interface Config<Q> {
+  key?: string
   deps?: any[]
   lazy?: boolean
   loop?: number

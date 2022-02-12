@@ -15,8 +15,7 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
     const cache = cached || initCache(key)
 
     try {
-      const _ = typeof opt === 'function' ? opt() : opt
-      cache.request = { path: key, ..._ }
+      cache.request = typeof opt === 'function' ? opt() : opt
       cache.valid = true
     } catch (e) {
       cache.valid = false
@@ -25,15 +24,18 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
     return cache
   }
 
-  function refreshRequestOptions(cache: Cache, opt: any) {
+  function refreshCache(cache: Cache, opt: any) {
     try {
-      // @ts-ignore
-      const _ = typeof opt === 'function' ? opt() : opt
-      cache.request = { ...cache.request, ..._ }
+      cache.request = typeof opt === 'function' ? opt() : opt
       cache.valid = true
     } catch (e) {
       cache.valid = false
     }
+    return cache
+  }
+
+  function checkOptions(cache: Cache, opt: any) {
+    return refreshCache(cache, opt).valid
   }
 
   function initCache(key: string) {
@@ -44,16 +46,16 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
       error: null,
       request: null as any,
       response: null as any,
-      stop: noop,
-      query: noop,
+      stopLoop: noop,
+      toFetch: noop,
     }
     return (globalCache[key] = cache)
   }
 
-  return function<Q>(path: string, opt?: T | (() => T), config?: Config<Q>) {
-    const cache = getCache<T, Q>(path, opt)
-    const { onUpdate, deps = [], loop, lazy } = config || {}
-    const rerender = useStore(path, {})[1]
+  function useQuery<Q>(path: string, opt?: T | (() => T), config?: Config<Q>) {
+    const { onUpdate, deps = [], loop, lazy, key } = config || {}
+    const cache = getCache<T, Q>(key || path, opt)
+    const rerender = useStore(key || path, {})[1]
     const timerRef = useRef<any>()
 
     // 初次加载
@@ -65,38 +67,28 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
 
     // 依赖变更
     useEffect(() => {
-      if (!cache.valid || !cache.called || !deps.length) return
-
-      // 获取最新的参数
-      refreshRequestOptions(cache, opt)
-
-      if (!cache.valid) return
-
+      if (!cache.valid || !cache.called || !deps.length || !checkOptions(cache, opt)) return
       fetch()
     }, [...deps])
 
     // 卸载时清除计时器
-    useEffect(() => {
-      return () => {
-        clearTimeoutInterval(timerRef.current)
-      }
-    }, [])
+    useEffect(() => () => clearTimeoutInterval(timerRef.current), [])
 
     // 请求控制
     function fetch() {
-      if (!loop) {
-        makeFetch()
-        return
+      if (!loop) return makeFetch()
+      if (typeof timerRef.current == 'undefined') {
+        timerRef.current = setTimeoutInterval(makeFetch, loop)
       }
-      clearTimeoutInterval(timerRef.current)
-      timerRef.current = setTimeoutInterval(makeFetch, loop)
+
+      return Promise.resolve()
     }
 
     // 发起请求
     async function makeFetch() {
       cache.loading = true
       try {
-        const res = await prequest<Q>(cache.request)
+        const res = await prequest<Q>(path, cache.request)
         cache.response = onUpdate?.(cache.response, res as any) || res
       } catch (e) {
         cache.error = e
@@ -106,21 +98,35 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
     }
 
     // 停止循环
-    cache.stop = () => {
-      if (!loop) return console.warn('Loop 模式可用')
+    cache.stopLoop = () => {
       clearTimeoutInterval(timerRef.current)
+      timerRef.current = undefined
     }
 
-    // lazy 模式下，需要调用 fetch
-    cache.query = () => {
-      if (!lazy) return console.warn('Lazy 模式可用')
-      if (!cache.valid || cache.called) return
-      refreshRequestOptions(cache, opt)
-      if (!cache.valid) return
-      cache.called = true
+    // 手动执行请求
+    cache.toFetch = fetchOpt => {
+      const newCache = refreshCache(cache, opt)
+
+      if (fetchOpt) {
+        if (typeof fetchOpt === 'function') {
+          // @ts-ignore
+          newCache.request = fetchOpt(newCache.request)
+        } else {
+          newCache.request = fetchOpt
+        }
+      }
+
+      newCache.valid = true
+      newCache.called = true
       fetch()
     }
 
     return cache
   }
+
+  useQuery.get = (key: string): Cache => {
+    return globalCache[key]
+  }
+
+  return useQuery
 }
