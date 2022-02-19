@@ -41,7 +41,6 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
   function initCache(key: string) {
     const cache = {
       valid: true,
-      called: false,
       loading: true,
       error: null,
       request: null as any,
@@ -58,38 +57,30 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
     const rerender = useStore(key || path, {})[1]
     const timerRef = useRef<any>()
 
-    // 初次加载
     useEffect(() => {
-      if (!cache.valid || cache.called || lazy) return
-      cache.called = true
-      fetch()
-    }, [cache.valid])
+      // lazy 模式只允许手动触发请求
+      if (lazy) return
 
-    // 依赖变更
-    useEffect(() => {
-      if (!cache.valid || !cache.called || !deps.length || !checkOptions(cache, opt)) return
-      fetch()
-    }, [...deps])
+      // 如果参数无效
+      if (!checkOptions(cache, opt)) return
 
-    // 卸载时清除计时器
-    useEffect(() => () => clearTimeoutInterval(timerRef.current), [])
-
-    // 请求控制
-    function fetch() {
-      if (!loop) return makeFetch()
+      if (!loop) {
+        makeFetch()
+        return
+      }
       if (typeof timerRef.current == 'undefined') {
         timerRef.current = setTimeoutInterval(makeFetch, loop)
       }
+    }, [cache.valid, ...deps])
 
-      return Promise.resolve()
-    }
+    useEffect(() => () => clearTimeoutInterval(timerRef.current), [])
 
     // 发起请求
-    async function makeFetch() {
+    async function makeFetch(cb = onUpdate) {
       cache.loading = true
       try {
         const res = await prequest<Q>(path, cache.request)
-        cache.response = onUpdate?.(cache.response, res as any) || res
+        cache.response = cb?.(cache.response, res as any) || res
       } catch (e) {
         cache.error = e
       }
@@ -104,7 +95,7 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
     }
 
     // 手动执行请求
-    cache.toFetch = fetchOpt => {
+    cache.toFetch = (fetchOpt, config) => {
       const newCache = refreshCache(cache, opt)
 
       if (fetchOpt) {
@@ -117,14 +108,13 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
       }
 
       newCache.valid = true
-      newCache.called = true
-      fetch()
+      makeFetch(config?.onUpdate)
     }
 
     return cache
   }
 
-  useQuery.get = (key: string): Cache => {
+  useQuery.get = (key: string): Cache<T> => {
     return globalCache[key]
   }
 
