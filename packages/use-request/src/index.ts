@@ -41,12 +41,15 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
   function initCache(key: string) {
     const cache = {
       valid: true,
+      called: false,
       loading: true,
       error: null,
       request: null as any,
       response: null as any,
       stopLoop: noop,
       toFetch: noop,
+      deps: [],
+      depsIsChanged: false,
     }
     return (globalCache[key] = cache)
   }
@@ -57,13 +60,27 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
     const rerender = useStore(key || path, {})[1]
     const timerRef = useRef<any>()
 
+    // 记录初始的依赖
     useEffect(() => {
+      cache.deps = deps
+      return () => clearTimeoutInterval(timerRef.current)
+    }, [])
+
+    useEffect(() => {
+      cache.depsIsChanged = deps.some((v, i) => cache.deps[i] !== v)
+      cache.deps = cache.depsIsChanged ? deps : cache.deps
+
+      // 已经初始化过了
+      if (cache.called && !cache.depsIsChanged) return
+
       // lazy 模式只允许手动触发请求
       if (lazy) return
 
       // 如果参数无效
       if (!checkOptions(cache, opt)) return
 
+      // 可以发起请求
+      cache.called = true
       if (!loop) {
         makeFetch()
         return
@@ -73,14 +90,12 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
       }
     }, [cache.valid, ...deps])
 
-    useEffect(() => () => clearTimeoutInterval(timerRef.current), [])
-
     // 发起请求
     async function makeFetch(cb = onUpdate) {
       cache.loading = true
       try {
         const res = await prequest<Q>(path, cache.request)
-        cache.response = cb?.(cache.response, res as any) || res
+        cache.response = cb?.(res as any, cache.response) || res
       } catch (e) {
         cache.error = e
       }

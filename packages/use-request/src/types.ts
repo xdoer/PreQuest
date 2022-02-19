@@ -5,6 +5,7 @@ interface ToFetchConfig<Q> {
 }
 
 export type Cache<T = any, Q = any> = {
+  called: boolean
   valid: boolean
   loading: boolean
   error: any
@@ -12,6 +13,8 @@ export type Cache<T = any, Q = any> = {
   response: Q
   stopLoop(): void
   toFetch(opt?: T | ((o: T) => T), config?: ToFetchConfig<Q>): void
+  deps: any[]
+  depsIsChanged: boolean
 }
 
 export interface Config<Q> {
