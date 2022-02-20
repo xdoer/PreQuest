@@ -28,14 +28,11 @@ npm install @prequest/response-types-client
 import { create, Request, Response } from '@prequest/xhr'
 import generatorMiddleware, { TypesGeneratorInject } from '@prequest/response-types-client'
 
+const httpAgent = create({ path: 'http://localhost:10010/' })
 const middleware = generatorMiddlewareWrapper<Request, Response>({
   enable: process.env.NODE_ENV === 'development',
-  httpAgent: create({ path: 'http://localhost:10010/' }),
-  outPutDir: 'src/api-types'
-  parseResponse(res) {
-    // res 应当返回接口 data 数据
-    return res as any
-  },
+  httpAgent: httpAgent,
+  outPutDir: 'src/api-types',
   typesGeneratorConfig(req, res) {
     const { path } = req
     const { data } = res
@@ -54,9 +51,32 @@ const middleware = generatorMiddlewareWrapper<Request, Response>({
   },
 })
 
-
 export const prequest = create<TypesGeneratorInject, {}>({ baseURL: 'http://localhost:3000' })
 prequest.use(middleware)
+```
+
+在小程序项目中使用应当注意，需要配置中间件将真正服务端的响应返回
+
+```ts
+import { create, Request, Response } from '@prequest/miniprogram'
+import generatorMiddleware, { TypesGeneratorInject } from '@prequest/response-types-client'
+
+const httpAgent = create(wx.request, { path: 'http://localhost:10010/' })
+
+httpAgent.use(async (ctx, next) => {
+  await next()
+  const { statusCode, data } = ctx.response
+  if (statusCode === 200) {
+    // 请求需要返回真正的服务器数据
+    ctx.response = data
+  }
+})
+
+const middleware = generatorMiddlewareWrapper<Request, Response>({
+  enable: process.env.NODE_ENV === 'development',
+  httpAgent: httpAgent,
+  // 其他参数...
+}
 ```
 
 ### 请求参数注入
@@ -71,13 +91,12 @@ prequest('/user', { rewriteType: true })
 
 ### 中间件参数
 
-| 参数                 | 类型                          | 必填 | 含义                                    |
-| -------------------- | ----------------------------- | ---- | --------------------------------------- |
-| enable               | boolean                       | 否   | 开启中间件                              |
-| outPutDir            | string                        | 是   | 类型文件输出目录                        |
-| httpAgent            | PreQuestInstance              | 是   | 发起请求                                |
-| parseResponse        | (res) => CommonObj            | 否   | 解析 httpAgent 响应，需要返回接口响应值 |
-| typesGeneratorConfig | (req, res) => GeneratorConfig | 是   | json-types-generator 工具的参数         |
+| 参数                 | 类型                          | 必填 | 含义                            |
+| -------------------- | ----------------------------- | ---- | ------------------------------- |
+| enable               | boolean                       | 否   | 开启中间件                      |
+| outPutDir            | string                        | 是   | 类型文件输出目录                |
+| httpAgent            | PreQuestInstance              | 是   | 发起请求                        |
+| typesGeneratorConfig | (req, res) => GeneratorConfig | 是   | json-types-generator 工具的参数 |
 
 ### GeneratorConfig
 

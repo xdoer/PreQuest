@@ -1,18 +1,12 @@
 import { MiddlewareCallback } from '@prequest/types'
-import { WrapperMiddlewareOptions } from './types'
+import { WrapperMiddlewareOptions, GeneratorServerResponse } from './types'
 
 export { TypesGeneratorInject } from './types'
 
 export default function generatorMiddlewareWrapper<T, N>(
   opt: WrapperMiddlewareOptions<T, N>
 ): MiddlewareCallback<T, N> {
-  const {
-    httpAgent,
-    typesGeneratorConfig,
-    outPutDir,
-    enable = true,
-    parseResponse = d => d as any,
-  } = opt
+  const { httpAgent, typesGeneratorConfig, outPutDir, enable = true } = opt
 
   let cache: string[] = []
 
@@ -28,7 +22,8 @@ export default function generatorMiddlewareWrapper<T, N>(
     if (cache.includes(outPutName)) return
 
     try {
-      const res = await httpAgent({
+      // @ts-ignore
+      const res: GeneratorServerResponse = await httpAgent({
         method: 'POST',
         data: JSON.stringify({
           outPutDir,
@@ -39,7 +34,7 @@ export default function generatorMiddlewareWrapper<T, N>(
         }),
       } as any)
 
-      const { status, error, data: cacheList } = parseResponse(res)
+      const { status, error, data: cacheList } = res
       cache = cacheList
 
       if (!status) throw error

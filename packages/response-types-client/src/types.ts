@@ -2,7 +2,7 @@ import { PreQuestInstance, CommonObject } from '@prequest/types'
 
 type CacheList = string[]
 
-interface GeneratorServerResponse {
+export interface GeneratorServerResponse {
   status: boolean
   timestamp: number
   data: CacheList
