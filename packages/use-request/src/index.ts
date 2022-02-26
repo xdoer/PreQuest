@@ -1,5 +1,5 @@
 import { PreQuestInstance, Config as PreQuestConfig } from '@prequest/types'
-import { useStore } from '@xdoer/state-bus'
+import { StateBusManager } from '@xdoer/state-bus'
 import { setTimeoutInterval, clearTimeoutInterval } from '@xdoer/timeout-interval'
 import { useEffect, useRef } from 'react'
 import { Config, Cache, GlobalCache } from './types'
@@ -14,17 +14,10 @@ export default function createQueryHook(prequest: PreQuestInstance) {
 
     const cache = cached || initCache(key)
 
-    try {
-      cache.request = typeof opt === 'function' ? opt() : opt
-      cache.valid = true
-    } catch (e) {
-      cache.valid = false
-    }
-
-    return cache
+    return checkCache(cache, opt)
   }
 
-  function refreshCache(cache: Cache, opt: any) {
+  function checkCache(cache: Cache, opt: any) {
     try {
       cache.request = typeof opt === 'function' ? opt() : opt
       cache.valid = true
@@ -32,10 +25,6 @@ export default function createQueryHook(prequest: PreQuestInstance) {
       cache.valid = false
     }
     return cache
-  }
-
-  function checkOptions(cache: Cache, opt: any) {
-    return refreshCache(cache, opt).valid
   }
 
   function initCache(key: string) {
@@ -54,15 +43,24 @@ export default function createQueryHook(prequest: PreQuestInstance) {
     return (globalCache[key] = cache)
   }
 
+  const smb = new StateBusManager()
+
   function useQuery<Q>(
     path: string,
     opt?: PreQuestConfig | (() => PreQuestConfig),
     config?: Config<Q>
   ) {
     const { onUpdate, deps = [], loop, lazy, key } = config || {}
-    const cache = getCache<Q>(key || path, opt)
-    const rerender = useStore(key || path, {})[1]
+    const cacheKey = key || path
+    const cache = getCache<Q>(cacheKey, opt)
+    const store = smb.init(cacheKey, {})
+    const rerender = store.useState()[1]
     const timerRef = useRef<any>()
+
+    // 所有组件卸载后，删除缓存
+    store.hooks.onUnMount = () => {
+      delete globalCache[cacheKey]
+    }
 
     // 记录初始的依赖
     useEffect(() => {
@@ -81,7 +79,7 @@ export default function createQueryHook(prequest: PreQuestInstance) {
       if (lazy) return
 
       // 如果参数无效
-      if (!checkOptions(cache, opt)) return
+      if (!checkCache(cache, opt).valid) return
 
       // 可以发起请求
       cache.called = true
@@ -99,7 +97,7 @@ export default function createQueryHook(prequest: PreQuestInstance) {
       cache.loading = true
       try {
         const res = await prequest<Q>(path, cache.request)
-        cache.response = cb?.(res as any, cache.response) || res
+        cache.response = cb?.(res, cache.response) ?? res
       } catch (e) {
         cache.error = e
       }
@@ -115,7 +113,7 @@ export default function createQueryHook(prequest: PreQuestInstance) {
 
     // 手动执行请求
     cache.toFetch = (fetchOpt, config) => {
-      const newCache = refreshCache(cache, opt)
+      const newCache = checkCache(cache, opt)
 
       if (fetchOpt) {
         if (typeof fetchOpt === 'function') {
@@ -126,6 +124,7 @@ export default function createQueryHook(prequest: PreQuestInstance) {
         }
       }
 
+      // 手动执行请求，则认为参数有效
       newCache.valid = true
       makeFetch(config?.onUpdate)
     }
