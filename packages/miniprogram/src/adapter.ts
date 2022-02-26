@@ -1,9 +1,9 @@
 import { createError, createRequestUrl, ErrorCode } from '@prequest/helper'
-import { PreQuestRequest } from '@prequest/types'
+import { Config, PreQuestRequest, PreQuestResponse } from '@prequest/types'
 import { RequestCore } from './types'
 
-export function adapter<T, N>(request: RequestCore) {
-  return (opt: T): Promise<N> => {
+export function adapter(request: RequestCore) {
+  return (opt: Config): Promise<PreQuestResponse> => {
     return new Promise((resolve, reject) => {
       const finalOption = (opt || {}) as PreQuestRequest
       const url = createRequestUrl(finalOption)

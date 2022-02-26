@@ -1,13 +1,13 @@
-import { PreQuestRequest } from '@prequest/types'
+import { Config } from '@prequest/types'
 
 interface PQError {
   code: ErrorCode
-  config: PreQuestRequest
+  config: Config
 }
 
 export class PreQuestError extends Error {
   code?: ErrorCode
-  config?: PreQuestRequest
+  config?: Config
 
   constructor(private opt?: Partial<PQError>) {
     super()
@@ -23,12 +23,12 @@ export enum ErrorCode {
   common = 'common',
 }
 
-export function createError(code: ErrorCode, message: string, opt: PreQuestRequest) {
+export function createError(code: ErrorCode, message: string, opt: Config) {
   const error = new Error(message)
   return enhanceError(error, code, opt)
 }
 
-export function enhanceError(error: PreQuestError, code: ErrorCode, opt: PreQuestRequest) {
+export function enhanceError(error: PreQuestError, code: ErrorCode, opt: Config) {
   error.code = code
   error.config = opt
 

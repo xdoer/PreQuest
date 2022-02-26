@@ -1,25 +1,27 @@
-import { MiddlewareCallback } from '@prequest/types'
-import { Options } from './types'
+import { MiddlewareCallback, PreQuestError, PreQuestRequest } from '@prequest/types'
 
-function createDefaultOption<T>(): Options<T> {
-  return {
-    retryCount: 1,
-    retryControl: ({ method }) => /^get$/i.test(method) || !method,
-  }
+type RetryControl = (opt: PreQuestRequest, err: PreQuestError) => boolean
+
+interface MiddlewareOptions {
+  retryCount?: number
+  retryControl?: RetryControl
 }
 
-export default function errorRetryMiddleware<T, N>(
-  opt?: Partial<Options<T>>
-): MiddlewareCallback<T & Partial<Options<T>>, N> {
-  const options = Object.assign({}, createDefaultOption<T>(), opt)
+const defaultOptions: MiddlewareOptions = {
+  retryCount: 1,
+  retryControl: ({ method }) => /^get$/i.test(method) || !method,
+}
+
+export default function errorRetryMiddleware(opt?: MiddlewareOptions): MiddlewareCallback {
+  const options = Object.assign({}, defaultOptions, opt)
 
   return async function(ctx, next, injectOpt) {
     try {
       await next()
     } catch (e) {
-      const { retryCount, retryControl } = Object.assign({}, options, ctx.request, injectOpt)
+      const { retryCount } = Object.assign({}, options, ctx.request, injectOpt)
 
-      const control = await retryControl(ctx.request, e as Error)
+      const control = await options.retryControl!(ctx.request, e as PreQuestError)
 
       if (retryCount < 1 || !control) throw e
 
