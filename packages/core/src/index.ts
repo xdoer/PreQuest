@@ -3,26 +3,27 @@ import {
   Context,
   Config,
   MethodsCallback,
-  RequestOption,
   Adapter,
   MiddlewareInjectOptions,
-  CommonObject,
+  PreQuestInstance,
+  PreQuestResponse,
+  PreQuestRequest,
 } from '@prequest/types'
 import { Middleware } from './Middleware'
 import { METHODS } from './constant'
 
-export class PreQuest<T, N> extends Middleware<T, N> {
-  constructor(private adapter: Adapter<T, N>, private config?: Config<T>) {
+export class PreQuest extends Middleware {
+  constructor(private adapter: Adapter, private config?: Config) {
     super()
     this.mount()
   }
 
   private mount() {
-    const preQuest = <MethodsCallback<T, N>>(this as unknown)
+    const preQuest = <MethodsCallback>(this as unknown)
 
     METHODS.forEach(method => {
-      preQuest[method] = (path: string, config?: Config<T>) => {
-        const request = <RequestOption<T>>(
+      preQuest[method] = (path: string, config?: Config) => {
+        const request = <PreQuestRequest>(
           merge(
             PreQuest.defaults,
             this.config,
@@ -30,21 +31,24 @@ export class PreQuest<T, N> extends Middleware<T, N> {
             config!
           )
         )
-        const response = <N>{}
+        const response = <PreQuestResponse>{}
         return this.controller({ request, response, context: this })
       }
     })
   }
 
-  request<Q = N>(path: string | Config<T>, config?: Config<T>): Promise<Q> {
-    const request = <RequestOption<T>>(
+  request<Q>(path: string | Config, config?: Config): Promise<PreQuestResponse<Q>> {
+    const request = <PreQuestRequest>(
       merge(PreQuest.defaults, this.config, typeof path === 'string' ? { path, ...config } : path)
     )
-    const response = <N>{}
+    const response = <PreQuestResponse>{}
     return this.controller<Q>({ request, response, context: this })
   }
 
-  async controller<Q = N>(ctx: Context<T, N>, opt: MiddlewareInjectOptions = {}): Promise<Q> {
+  async controller<Q>(
+    ctx: Context,
+    opt: MiddlewareInjectOptions = {}
+  ): Promise<PreQuestResponse<Q>> {
     await this.exec(
       ctx,
       async ctx => {
@@ -55,10 +59,10 @@ export class PreQuest<T, N> extends Middleware<T, N> {
     return ctx.response as any
   }
 
-  static defaults: CommonObject = {}
+  static defaults: Config = {}
 
-  static create<T, N>(adapter: Adapter<T, N>, config?: Config<T>): PreQuestInstance<T, N> {
-    const instance = new PreQuest<T, N>(adapter, config) as PreQuestBaseInstance<T, N>
+  static create(adapter: Adapter, config?: Config): PreQuestInstance {
+    const instance = new PreQuest(adapter, config)
 
     return new Proxy(adapter as any, {
       get(_, name) {
@@ -70,9 +74,3 @@ export class PreQuest<T, N> extends Middleware<T, N> {
     })
   }
 }
-
-export type PreQuestFn<T, N> = <Q = N>(path: string | T, config?: T) => Promise<Q>
-
-export type PreQuestBaseInstance<T, N> = PreQuest<T, N> & MethodsCallback<T, N>
-
-export type PreQuestInstance<T, N> = PreQuestBaseInstance<T, N> & PreQuestFn<T, N>

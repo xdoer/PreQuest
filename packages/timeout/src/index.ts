@@ -1,10 +1,6 @@
 import { MiddlewareCallback } from '@prequest/types'
 import { createError, ErrorCode } from '@prequest/helper'
-
-export interface TimeoutInject<T> {
-  timeout: number
-  timeoutControl(opt: T): boolean
-}
+import { TimeoutOptions } from './types'
 
 function timeoutThrow(timeout: number, config: any) {
   return new Promise((_, reject) =>
@@ -14,22 +10,18 @@ function timeoutThrow(timeout: number, config: any) {
   )
 }
 
-function createDefaultOption<T>(): TimeoutInject<T> {
-  return {
-    timeout: 5000,
-    timeoutControl: () => true,
-  }
+const defaultOptions = {
+  timeout: 5000,
+  timeoutControl: () => true,
 }
 
-export default function timeoutMiddleware<T, N>(
-  opt?: Partial<TimeoutInject<T>>
-): MiddlewareCallback<T & TimeoutInject<T>, N> {
-  const options = Object.assign({}, createDefaultOption<T>(), opt)
+export default function timeoutMiddleware(opt?: TimeoutOptions): MiddlewareCallback {
+  const options = Object.assign({}, defaultOptions, opt)
 
   return async function(ctx, next) {
-    const { timeout, timeoutControl } = Object.assign({}, options, ctx.request)
+    const { timeout } = Object.assign({}, options, ctx.request)
 
-    if (!timeoutControl(ctx.request)) return next()
+    if (!options.timeoutControl(ctx.request)) return next()
 
     if (timeout <= 0) return next()
 

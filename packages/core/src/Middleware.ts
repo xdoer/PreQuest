@@ -1,17 +1,13 @@
-import { Context, MiddlewareCallback } from '@prequest/types'
+import { CommonObject, Context, MiddlewareCallback } from '@prequest/types'
 
-export class Middleware<T, N> {
-  protected cbs: MiddlewareCallback<T, N>[] = []
+export class Middleware {
+  protected cbs: MiddlewareCallback[] = []
 
   static globalCbs: any = []
 
-  protected exec(
-    ctx: Context<T, N>,
-    next: MiddlewareCallback<T, N>,
-    injectOpt: Record<string, any> = {}
-  ) {
+  protected exec(ctx: Context, next: MiddlewareCallback, injectOpt: CommonObject = {}) {
     let times = -1
-    const cbs = <MiddlewareCallback<T, N>[]>[...Middleware.globalCbs, ...this.cbs]
+    const cbs = <MiddlewareCallback[]>[...Middleware.globalCbs, ...this.cbs]
     const dispatch = (pointer = 0): Promise<any> => {
       if (cbs.length < pointer) return Promise.resolve()
 
@@ -26,12 +22,12 @@ export class Middleware<T, N> {
     return dispatch()
   }
 
-  use(cb: MiddlewareCallback<T, N>) {
+  use(cb: MiddlewareCallback) {
     this.cbs.push(cb)
     return this
   }
 
-  static use<T, N>(cb: MiddlewareCallback<T, N>) {
+  static use(cb: MiddlewareCallback) {
     Middleware.globalCbs.push(cb)
     return Middleware
   }

@@ -8,8 +8,6 @@ function createDefaultOption<T>(): Options<T> {
   }
 }
 
-export type ErrorRetryInject<T> = Options<T>
-
 export default function errorRetryMiddleware<T, N>(
   opt?: Partial<Options<T>>
 ): MiddlewareCallback<T & Partial<Options<T>>, N> {

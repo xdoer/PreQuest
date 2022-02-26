@@ -1,6 +1,13 @@
 import { PreQuest } from '../src'
 
-const prequest = PreQuest.create<any, any>(() => Promise.resolve(1), {
+declare module '@prequest/types' {
+  interface PreQuestRequest {
+    baseURL: string
+  }
+  interface PreQuestResponse {}
+}
+
+const prequest = PreQuest.create(() => Promise.resolve(1), {
   baseURL: 'http://localhost:3000',
 })
 

@@ -1,6 +1,6 @@
-import { Request } from './types'
+import { Config } from '@prequest/types'
 
-export function parseResBody(res: globalThis.Response, options: Request) {
+export function parseResBody(res: globalThis.Response, options: Config) {
   const { responseType } = options
 
   switch (responseType) {

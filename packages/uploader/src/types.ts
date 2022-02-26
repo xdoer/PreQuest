@@ -10,6 +10,6 @@ export interface Options {
   customFormData(formData: FormData, opt: CallbackOption): FormData
 }
 
-export interface RequestOption<N> {
+export interface PreQuestRequest<N> {
   request: (formData: FormData, opt: CallbackOption) => Promise<N>
 }

@@ -5,11 +5,11 @@ import {
   ErrorCode,
   formatRequestBodyAndHeaders,
 } from '@prequest/helper'
-import { Request } from './types'
+import { Config, PreQuestRequest, PreQuestResponse } from '@prequest/types'
 import { createResponse } from './helper'
 
-export function adapter<T, N>(options: T): Promise<N> {
-  const finalOptions = (options || {}) as Required<Request>
+export function adapter(options: Config): Promise<PreQuestResponse> {
+  const finalOptions = (options || {}) as PreQuestRequest
   const url = createRequestUrl(finalOptions)
   const { data, headers } = formatRequestBodyAndHeaders(finalOptions)
   const {
@@ -61,9 +61,7 @@ export function adapter<T, N>(options: T): Promise<N> {
       resolve(createResponse(xhr, responseType) as any)
     }
 
-    xhr.addEventListener('timeout', (e: any) =>
-      reject(enhanceError(e, ErrorCode.timeout, options))
-    )
+    xhr.addEventListener('timeout', (e: any) => reject(enhanceError(e, ErrorCode.timeout, options)))
 
     xhr.addEventListener('error', (e: any) => reject(enhanceError(e, ErrorCode.common, options)))
 

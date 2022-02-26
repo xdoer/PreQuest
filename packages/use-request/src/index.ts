@@ -1,14 +1,14 @@
-import { PreQuestInstance } from '@prequest/core'
+import { PreQuestInstance, Config as PreQuestConfig } from '@prequest/types'
 import { useStore } from '@xdoer/state-bus'
 import { setTimeoutInterval, clearTimeoutInterval } from '@xdoer/timeout-interval'
 import { useEffect, useRef } from 'react'
 import { Config, Cache, GlobalCache } from './types'
 import { noop } from './utils'
 
-export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) {
+export default function createQueryHook(prequest: PreQuestInstance) {
   const globalCache: GlobalCache = {}
 
-  function getCache<T, Q>(key: string, opt: any): Cache<T, Q> {
+  function getCache<Q>(key: string, opt: any): Cache<Q> {
     const cached = globalCache[key]
     if (cached?.valid) return cached
 
@@ -54,9 +54,13 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
     return (globalCache[key] = cache)
   }
 
-  function useQuery<Q>(path: string, opt?: T | (() => T), config?: Config<Q>) {
+  function useQuery<Q>(
+    path: string,
+    opt?: PreQuestConfig | (() => PreQuestConfig),
+    config?: Config<Q>
+  ) {
     const { onUpdate, deps = [], loop, lazy, key } = config || {}
-    const cache = getCache<T, Q>(key || path, opt)
+    const cache = getCache<Q>(key || path, opt)
     const rerender = useStore(key || path, {})[1]
     const timerRef = useRef<any>()
 
@@ -129,7 +133,7 @@ export default function createQueryHook<T, N>(prequest: PreQuestInstance<T, N>) 
     return cache
   }
 
-  useQuery.get = (key: string): Cache<T> => {
+  useQuery.get = <Q = any>(key: string): Cache<Q> => {
     return globalCache[key]
   }
 

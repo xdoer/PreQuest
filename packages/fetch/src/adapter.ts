@@ -1,4 +1,4 @@
-import { Request } from './types'
+import { Config, PreQuestResponse, PreQuestRequest } from '@prequest/types'
 import {
   createError,
   createRequestUrl,
@@ -7,11 +7,11 @@ import {
 } from '@prequest/helper'
 import { parseResBody } from './helper'
 
-export function adapter<T, N>(options: T): Promise<N> {
-  const finalOptions = (options || {}) as Required<Request>
-  const url = createRequestUrl(finalOptions)
+export function adapter(options: Config): Promise<PreQuestResponse> {
+  const finalOptions = (options || {}) as PreQuestRequest
+  const url = createRequestUrl(finalOptions!)
   const { data, headers } = formatRequestBodyAndHeaders(finalOptions)
-  const { timeout, cancelToken, onDownloadProgress, ...rest } = finalOptions
+  const { cancelToken, onDownloadProgress, ...rest } = finalOptions!
 
   const config = { ...rest, body: data, headers } as any
 

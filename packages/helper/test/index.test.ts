@@ -36,7 +36,7 @@ test('createRequestUrl', () => {
 test('formatRequestBodyAndHeaders', () => {
   const ctx = { headers: {}, data: { a: 1 }, requestType: 'json' }
 
-  const { data, headers } = formatRequestBodyAndHeaders(ctx)
+  const { data, headers } = formatRequestBodyAndHeaders(ctx as any)
 
   expect(data).toEqual('{"a":1}')
   expect(headers).toMatchObject({ 'Content-Type': 'application/json;charset=UTF-8' })

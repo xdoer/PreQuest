@@ -1,7 +1,7 @@
 import { PreQuest } from '@prequest/core'
-import { Request, Response } from './types'
+import { Config } from '@prequest/types'
 import { adapter } from './adapter'
 
-export function create<T, N>(instanceOpt?: Request & Partial<T>) {
-  return PreQuest.create<Request & Partial<T>, Response & N>(adapter(), instanceOpt)
+export function create(options?: Config) {
+  return PreQuest.create(adapter(), options)
 }

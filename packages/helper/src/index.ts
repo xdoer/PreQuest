@@ -1,16 +1,12 @@
 import { stringify } from 'qs'
 import { elementType, merge } from '@prequest/utils'
-import { BaseOption, CommonObject } from '@prequest/types'
+import { BaseOption, CommonObject, PreQuestRequest } from '@prequest/types'
 
 export * from './error'
 
 export const baseOption: BaseOption = {
   path: '/',
   method: 'GET',
-  headers: {
-    Accept: 'application/json',
-  },
-  responseType: 'json',
 }
 
 export function createRequestUrl<
@@ -32,10 +28,8 @@ export function createRequestUrl<
   return url
 }
 
-export function requestId<T extends { baseURL?: string; path: string; url?: string }>(
-  req: T
-): string {
-  return createRequestUrl({ ...req, params: {} })
+export function requestId(options: PreQuestRequest): string {
+  return createRequestUrl({ ...options, params: {} })
 }
 
 export function isEmpty(value: any) {
@@ -51,28 +45,27 @@ export function isEmpty(value: any) {
 }
 
 // 参考: https://github.com/umijs/umi-request/blob/master/src/middleware/simplePost.js
-export function formatRequestBodyAndHeaders<
-  T extends { headers: CommonObject; data: any; requestType: 'json' | 'form' | ({} & string) }
->(ctx: T) {
-  const bodyType = elementType(ctx.data)
+export function formatRequestBodyAndHeaders(opt: PreQuestRequest) {
+  const options: any = opt
+  const bodyType = elementType(options.data)
 
   const headers: CommonObject = {}
-  let data = ctx.data
+  let data = options.data
 
   if (bodyType === 'object' || bodyType === 'array') {
-    if (ctx.requestType === 'json') {
+    if (options.requestType === 'json') {
       headers['Content-Type'] = 'application/json;charset=UTF-8'
-      data = JSON.stringify(ctx.data)
+      data = JSON.stringify(options.data)
     } else {
       headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
-      data = stringify(ctx.data, {
+      data = stringify(options.data, {
         arrayFormat: 'repeat',
         strictNullHandling: true,
       })
     }
   }
 
-  return { data, headers: merge<CommonObject>(headers, ctx.headers) }
+  return { data, headers: merge<CommonObject>(headers, options.headers) }
 }
 
 // reference: https://github.com/axios/axios/blob/master/lib/helpers/isAbsoluteURL.js

@@ -1,11 +1,9 @@
 import { MiddlewareCallback } from '@prequest/types'
 import { WrapperMiddlewareOptions, GeneratorServerResponse } from './types'
 
-export { TypesGeneratorInject } from './types'
-
-export default function generatorMiddlewareWrapper<T, N>(
-  opt: WrapperMiddlewareOptions<T, N>
-): MiddlewareCallback<T, N> {
+export default function generatorMiddlewareWrapper(
+  opt: WrapperMiddlewareOptions
+): MiddlewareCallback {
   const { httpAgent, typesGeneratorConfig, outPutDir, enable = true } = opt
 
   let cache: string[] = []

@@ -1,4 +1,4 @@
-import { PreQuestInstance, CommonObject } from '@prequest/types'
+import { PreQuestInstance, CommonObject, PreQuestRequest, PreQuestResponse } from '@prequest/types'
 
 type CacheList = string[]
 
@@ -16,14 +16,16 @@ interface TypesGeneratorConfig {
   overwrite: boolean
 }
 
-export interface WrapperMiddlewareOptions<T, N> {
-  httpAgent: PreQuestInstance<T, N>
+export interface WrapperMiddlewareOptions {
+  httpAgent: PreQuestInstance
   outPutDir: string
-  typesGeneratorConfig(req: T, res: N): TypesGeneratorConfig
-  parseResponse?(res: N): GeneratorServerResponse
+  typesGeneratorConfig(req: PreQuestRequest, res: PreQuestResponse): TypesGeneratorConfig
+  parseResponse?(res: PreQuestResponse): GeneratorServerResponse
   enable?: boolean
 }
 
-export interface TypesGeneratorInject {
-  rewriteType?: boolean
+declare module '@prequest/types' {
+  export interface PreQuestRequest {
+    rewriteType?: boolean
+  }
 }

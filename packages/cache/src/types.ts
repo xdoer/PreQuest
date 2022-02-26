@@ -1,4 +1,4 @@
-import { RequestOption } from '@prequest/types'
+import { PreQuestRequest } from '@prequest/types'
 
 interface CacheValue {
   createdAt: number
@@ -8,16 +8,18 @@ interface CacheValue {
 type GetValue = (key: string) => Promise<CacheValue | null>
 type SetValue = (key: string, value: CacheValue) => void
 
-export interface Options<T> {
-  ttl?: number,
-  getCacheKey?: (opt: RequestOption<T>) => string
-  validateCache?: (opt: RequestOption<T>) => boolean
+export interface Options {
+  ttl?: number
+  getCacheKey?: (opt: PreQuestRequest) => string
+  validateCache?: (opt: PreQuestRequest) => boolean
   cacheKernel?: {
     get: GetValue
     set: SetValue
   }
 }
 
-export interface CacheInject {
-  useCache: boolean
+declare module '@prequest/types' {
+  export interface PreQuestRequest {
+    useCache: boolean
+  }
 }

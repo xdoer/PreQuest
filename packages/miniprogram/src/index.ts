@@ -1,6 +1,5 @@
-import { PreQuest, PreQuestInstance } from '@prequest/core'
-import { Request, Response } from './types'
+import { PreQuest } from '@prequest/core'
 import { create } from './create'
 import { adapter } from './adapter'
 
-export { create, PreQuest, Request, Response, PreQuestInstance, adapter }
+export { create, PreQuest, adapter }

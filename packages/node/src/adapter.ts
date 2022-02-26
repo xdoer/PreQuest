@@ -2,14 +2,13 @@ import http from 'http'
 import https from 'https'
 import { http as redirectHttp, https as redirectHttps } from 'follow-redirects'
 import { URL } from 'url'
-import { Request } from './types'
 import { createError, createRequestUrl, enhanceError, ErrorCode } from '@prequest/helper'
+import { Config, PreQuestRequest, PreQuestResponse } from '@prequest/types'
 import { stripBOM, getRequestBody, isStream, setProxy, isHttpsReg } from './helper'
 
-export function adapter<T, N>(config: T): Promise<N> {
-
+export function adapter(config: Config): Promise<PreQuestResponse> {
   return new Promise((resolve, reject) => {
-    const finalOptions = (config || {}) as Required<Request>
+    const finalOptions = (config || {}) as PreQuestRequest
     const url = createRequestUrl(finalOptions)
     const parsedURL = new URL(url)
     const {
@@ -25,7 +24,7 @@ export function adapter<T, N>(config: T): Promise<N> {
       timeout,
       headers = {},
       data,
-      maxBodyLength,
+      maxBodyLength = 1,
       cancelToken,
     } = finalOptions
 
@@ -91,7 +90,7 @@ export function adapter<T, N>(config: T): Promise<N> {
             if (
               proxyElement[0] === '.' &&
               parsedURL.hostname.substr(parsedURL.hostname.length - proxyElement.length) ===
-              proxyElement
+                proxyElement
             ) {
               return true
             }
@@ -120,11 +119,7 @@ export function adapter<T, N>(config: T): Promise<N> {
     if (proxy) {
       const { hostname, port, protocol } = parsedURL
       options.headers.host = hostname + (port ? ':' + port : '')
-      setProxy(
-        options,
-        proxy,
-        protocol + '//' + hostname + (port ? ':' + port : '') + options.path
-      )
+      setProxy(options, proxy, protocol + '//' + hostname + (port ? ':' + port : '') + options.path)
     }
 
     let transport: any
@@ -190,7 +185,7 @@ export function adapter<T, N>(config: T): Promise<N> {
       })
     }
 
-    if (isStream(data)) {
+    if (data && isStream(data)) {
       data
         .on('error', (err: any) => {
           reject(enhanceError(err, ErrorCode.common, options))

@@ -1,15 +1,12 @@
 import { createError, createRequestUrl, ErrorCode } from '@prequest/helper'
-import { CommonRequest, RequestCore } from './types'
+import { RequestCore } from './types'
 
 export function adapter<T, N>(request: RequestCore) {
   return (opt: T): Promise<N & any> => {
     return new Promise((resolve, reject) => {
-      const finalOption = (opt || {}) as Required<CommonRequest>
+      const finalOption = (opt || {}) as any
       const url = createRequestUrl(finalOption)
       const { getNativeRequestInstance, cancelToken, ...rest } = finalOption
-
-      let resolvePromise: any
-      getNativeRequestInstance?.(new Promise(resolve => (resolvePromise = resolve)))
 
       let instance = request({
         ...rest,
@@ -35,7 +32,13 @@ export function adapter<T, N>(request: RequestCore) {
         })
       }
 
-      resolvePromise?.(instance)
+      if (getNativeRequestInstance) {
+        let resolvePromise: any
+        let promise = new Promise(resolve => (resolvePromise = resolve))
+        getNativeRequestInstance(promise)
+
+        resolvePromise?.(instance)
+      }
     })
   }
 }

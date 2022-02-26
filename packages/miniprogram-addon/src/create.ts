@@ -1,32 +1,12 @@
-import { PreQuest, PreQuestFn } from '@prequest/core'
-import {
-  RequestCore,
-  UploadRequest,
-  UploadResponse,
-  DownLoadRequest,
-  DownLoadResponse,
-} from './types'
+import { PreQuest } from '@prequest/core'
+import { RequestCore, UploadResponse, DownLoadResponse } from './types'
 import { adapter } from './adapter'
+import { PreQuestRequest } from '@prequest/types'
 
-type PreQuestInstance<T, N> = PreQuest<T, N> & PreQuestFn<T, N>
-
-export function createUpload<T, N>(request: RequestCore, instanceOpt?: UploadRequest & Partial<T>) {
-  return <PreQuestInstance<UploadRequest & Partial<T>, UploadResponse & N>>(
-    (PreQuest.create<UploadRequest & Partial<T>, UploadResponse & N>(
-      adapter<UploadRequest & Partial<T>, N>(request),
-      instanceOpt
-    ) as unknown)
-  )
+export function createUpload(request: RequestCore, options?: PreQuestRequest) {
+  return PreQuest.create(adapter<PreQuestRequest, UploadResponse>(request), options)
 }
 
-export function createDownload<T, N>(
-  request: RequestCore,
-  instanceOpt?: DownLoadRequest & Partial<T>
-) {
-  return <PreQuestInstance<DownLoadRequest & Partial<T>, UploadResponse & N>>(
-    (PreQuest.create<DownLoadRequest & Partial<T>, DownLoadResponse & N>(
-      adapter<DownLoadRequest & Partial<T>, N>(request),
-      instanceOpt
-    ) as unknown)
-  )
+export function createDownload(request: RequestCore, options?: PreQuestRequest) {
+  return PreQuest.create(adapter<PreQuestRequest, DownLoadResponse>(request), options)
 }

@@ -1,6 +1,6 @@
 import ErrorRetryMiddleware from '../src'
 
-const errorRetryMiddleware = ErrorRetryMiddleware<any, any>({
+const errorRetryMiddleware = ErrorRetryMiddleware({
   // 错误重试次数
   retryCount: 3,
 

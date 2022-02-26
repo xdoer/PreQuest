@@ -1,25 +1,23 @@
-import { Adapter, RequestOption } from '@prequest/types'
+import { Adapter, PreQuestRequest } from '@prequest/types'
 import { Options } from './types'
 
-function getOptions<T>(options?: Options<T>): Required<Options<T>> {
+function getOptions(options?: Options): Required<Options> {
   return Object.assign(
     {},
     {
       ttl: 60000,
       cacheKernel: new Map<string, string>(),
       getCacheKey: (opt: any) => opt.path,
-      validateCache: (opt: any) => !opt.method || opt.method === 'GET'
+      validateCache: (opt: any) => !opt.method || opt.method === 'GET',
     },
     options
   )
 }
 
-export { CacheInject } from './types'
-
-export default function <T, N>(options?: Options<T>) {
-  const { cacheKernel, getCacheKey, ttl, validateCache } = getOptions<T>(options)
-  return function (core: Adapter<T, N>): Adapter<T, N> {
-    return async function (opt: RequestOption<T>) {
+export default function(options?: Options) {
+  const { cacheKernel, getCacheKey, ttl, validateCache } = getOptions(options)
+  return function(core: Adapter): Adapter {
+    return async function(opt: PreQuestRequest) {
       const { useCache = false } = opt as any
 
       if (useCache && validateCache(opt)) {

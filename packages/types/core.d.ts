@@ -1,40 +1,47 @@
 import { Method } from './common'
 
-export type MethodsCallback<T, N> = {
-  [k in Method]: <Q = N>(path: string, option?: Config<T>) => Promise<Q>
+export type MethodsCallback = {
+  [k in Method]: <Q>(path: string, option?: Config) => Promise<PreQuestResponse<Q>>
 }
 
-export type Config<T> = Partial<T>
+export type Config = Partial<PreQuestRequest>
 
-export interface PreQuestInjectOption {
+export interface PreQuestRequest {
   path: string
   method: string
 }
 
-export type RequestOption<T> = T & PreQuestInjectOption
+export interface PreQuestResponse<T = any> {}
 
-export type Adapter<T, N> = (options: RequestOption<T>) => Promise<N>
+export interface PreQuestError extends Error {}
 
-export interface Context<T, N> {
-  request: RequestOption<T>
-  response: N
-  context: PreQuest<T, N>
+export type Adapter = (options: PreQuestRequest) => Promise<PreQuestResponse>
+
+export interface Context {
+  request: PreQuestRequest
+  response: PreQuestResponse
+  context: PreQuest
 }
 
 export type MiddlewareInjectOptions = Record<string, any>
 
-export type MiddlewareCallback<T, N> = (
-  ctx: Context<T, N>,
+export type MiddlewareCallback = (
+  ctx: Context,
   next: () => Promise<any>,
   opt?: MiddlewareInjectOptions
 ) => Promise<any>
 
-export class PreQuest<T, N> {
-  request(path: string | Config<T>, config?: Config<T>): Promise<N>
-  controller(ctx: Context<T, N>, opt?: MiddlewareInjectOptions): Promise<N>
-  static create<T, N>(adapter: Adapter<T, N>, config?: Config<T>): PreQuestInstance<T, N>
+export class PreQuest {
+  request(path: string | Config, config?: Config): Promise<PreQuestResponse>
+  controller(ctx: Context, opt?: MiddlewareInjectOptions): Promise<PreQuestResponse>
+  use(cb: MiddlewareCallback): this
+  static create(adapter: Adapter, config?: Config): PreQuestInstance
+  static defaults: Config
 }
 
-export type PreQuestFn<T, N> = (path: string | T, config?: T) => Promise<N>
-export type PreQuestBaseInstance<T, N> = PreQuest<T, N> & MethodsCallback<T, N>
-export type PreQuestInstance<T, N> = PreQuestBaseInstance<T, N> & PreQuestFn<T, N>
+export type PreQuestFn = <Q = any>(
+  path: string | Config,
+  config?: Config
+) => Promise<PreQuestResponse<Q>>
+export type PreQuestBaseInstance = PreQuest & MethodsCallback
+export type PreQuestInstance = PreQuestBaseInstance & PreQuestFn

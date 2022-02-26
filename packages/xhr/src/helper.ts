@@ -1,6 +1,6 @@
-import { Response } from './types'
+import { PreQuestResponse } from '@prequest/types'
 
-export function createResponse(ctx: XMLHttpRequest, responseType?: string): Response {
+export function createResponse(ctx: XMLHttpRequest, responseType?: string): PreQuestResponse {
   const { responseText, status, statusText, response } = ctx
   const data =
     !responseType || responseType === 'text' || responseType === 'json' ? responseText : response
