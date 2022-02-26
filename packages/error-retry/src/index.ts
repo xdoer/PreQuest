@@ -1,11 +1,5 @@
-import { MiddlewareCallback, PreQuestError, PreQuestRequest } from '@prequest/types'
-
-type RetryControl = (opt: PreQuestRequest, err: PreQuestError) => boolean
-
-interface MiddlewareOptions {
-  retryCount?: number
-  retryControl?: RetryControl
-}
+import { MiddlewareCallback, PreQuestError } from '@prequest/types'
+import { MiddlewareOptions } from './types'
 
 const defaultOptions: MiddlewareOptions = {
   retryCount: 1,
@@ -19,7 +13,7 @@ export default function errorRetryMiddleware(opt?: MiddlewareOptions): Middlewar
     try {
       await next()
     } catch (e) {
-      const { retryCount } = Object.assign({}, options, ctx.request, injectOpt)
+      const { retryCount = 1 } = Object.assign({}, options, ctx.request, injectOpt)
 
       const control = await options.retryControl!(ctx.request, e as PreQuestError)
 

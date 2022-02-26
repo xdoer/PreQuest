@@ -20,6 +20,6 @@ export interface Options {
 
 declare module '@prequest/types' {
   export interface PreQuestRequest {
-    useCache: boolean
+    useCache?: boolean
   }
 }

@@ -7,6 +7,6 @@ export interface TimeoutOptions {
 
 declare module '@prequest/types' {
   export interface PreQuestRequest {
-    timeout: number
+    timeout?: number
   }
 }

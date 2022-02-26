@@ -1,3 +1,4 @@
+import { CommonObject, SetRequired } from '.'
 import { Method } from './common'
 
 export type MethodsCallback = {
@@ -15,7 +16,7 @@ export interface PreQuestResponse<T = any> {}
 
 export interface PreQuestError extends Error {}
 
-export type Adapter = (options: PreQuestRequest) => Promise<PreQuestResponse>
+export type Adapter = (options: Config) => Promise<PreQuestResponse>
 
 export interface Context {
   request: PreQuestRequest
@@ -23,7 +24,7 @@ export interface Context {
   context: PreQuest
 }
 
-export type MiddlewareInjectOptions = Record<string, any>
+export type MiddlewareInjectOptions = CommonObject
 
 export type MiddlewareCallback = (
   ctx: Context,

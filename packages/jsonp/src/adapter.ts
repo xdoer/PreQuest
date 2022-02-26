@@ -1,10 +1,10 @@
 import { createError, createRequestUrl, ErrorCode } from '@prequest/helper'
-import { PreQuestRequest, PreQuestResponse } from '@prequest/types'
+import { Config, PreQuestRequest, PreQuestResponse } from '@prequest/types'
 
 const ctx: any = globalThis
 
 export function adapter() {
-  return (opt: PreQuestRequest): Promise<PreQuestResponse> => {
+  return (opt: Config): Promise<PreQuestResponse> => {
     let jsonpId = 1
     return new Promise((resolve, reject) => {
       const finalOption = (opt || {}) as PreQuestRequest
