@@ -14,7 +14,7 @@ const defaultRootInterfaceName = (requestOption: Request) => {
   )
 }
 
-const middleware = generatorMiddlewareWrapper<Request, Response>({
+const middleware = generatorMiddlewareWrapper({
   requestAgent: create(),
   endpoint: 'http://localhost:10010/api',
   typesGeneratorConfig(req, res) {

@@ -3,7 +3,7 @@ import prequest, { Request, Response } from '@prequest/xhr'
 import ErrorRetryMiddleware from '@prequest/error-retry'
 
 
-const errorRetryMiddleware = ErrorRetryMiddleware<Request, Response>({
+const errorRetryMiddleware = ErrorRetryMiddleware({
   retryCount: 2,
   retryControl(opt) {
     const { method } = opt

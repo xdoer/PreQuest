@@ -40,7 +40,7 @@ import { createUpload } from '@prequest/miniprogram-addon'
 // 传入原生方法。这样可以适配各个小程序平台
 const prequest = createUpload(wx.uploadFile, { baseURL: 'http://localhost:3000' })
 
-prequest('/audio/123', { headers: { token: '123' } }).then(res => {
+prequest('/audio/123', { header: { token: '123' } }).then(res => {
   if (res.statusCode === 200) {
     console.log('上传成功')
   }
@@ -83,10 +83,6 @@ wxUpload('/upload')
 wxDownload('/download')
 ```
 
-## 兼容
-
-小程序中使用 async/await 需要安装 [regenerator-runtime@0.11.1](https://www.npmjs.com/package/regenerator-runtime/v/0.11.1)，框架包一般会内置这个依赖，如果没有，请自行安装，使用方式请在对应论坛进行查找。此外，由于包都是 ES6 版本的，在某些手机上可能有兼容性问题，你可以[查阅这里编译代码](/compatible?id=webpack-chain)
-
 ## 请求配置项
 
 上传、请求配置项一致
@@ -107,16 +103,22 @@ wxDownload('/download')
 示例:
 
 ```ts
-interface Request {
-  name?: string
-  filePath?: string
-  formData?: CommonObject
-  timeout?: number
+declare module '@prequest/types' {
+  interface PreQuestRequest {
+    name?: string
+    filePath?: string
+    formData?: CommonObject
+    timeout?: number
+  }
+
+  interface PreQuestResponse {
+    header: any
+    cookies: string[]
+    profile: any
+  }
 }
 
-interface Response {}
-
-const instance = createDownload<Request, Response>(wx.downloadFile, {
+const instance = createDownload(wx.downloadFile, {
   baseURL: 'http://localhost:3000'
   name: 'filename' // You can get intelliSense here
 })
@@ -127,3 +129,7 @@ instance.use(async (ctx, next) => {
   await next()
 })
 ```
+
+## 兼容
+
+小程序中使用 async/await 需要安装 [regenerator-runtime@0.11.1](https://www.npmjs.com/package/regenerator-runtime/v/0.11.1)，框架包一般会内置这个依赖，如果没有，请自行安装，使用方式请在对应论坛进行查找。此外，由于包都是 ES6 版本的，在某些手机上可能有兼容性问题，你可以[查阅这里编译代码](https://pre-quest.vercel.app/#/compatible?id=webpack-chain)

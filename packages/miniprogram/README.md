@@ -60,18 +60,21 @@ prequest('/api', {
 示例:
 
 ```ts
-interface Request {
-  enableHttp2?: boolean
-  enableCache?: boolean
+
+declare module '@prequest/types' {
+  interface PreQuestRequest {
+    enableHttp2?: boolean
+    enableCache?: boolean
+  }
+
+  interface PreQuestResponse {
+    header: any
+    cookies: string[]
+    profile: any
+  }
 }
 
-interface Response {
-  header: any
-  cookies: string[]
-  profile: any
-}
-
-const instance = create<Request, Response>(wx.request, {
+const instance = create(wx.request, {
   baseURL: 'http://localhost:3000'
   enableHttp2: true // You can get intelliSense here
 })

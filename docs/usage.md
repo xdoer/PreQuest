@@ -30,20 +30,6 @@ const prequest3 = create({
 })
 ```
 
-当使用 TypeScript 开发时，建议使用 `create` 方法创建的请求实例，因为这样可以很方便的注入请求参数，在开发时可以获得智能提示
-
-```ts
-import { create } from '@prequest/xhr'
-
-interface Inject {
-  enableHttp2: boolean
-}
-
-const prequest = create<Inject, {}>()
-
-prequest({ enableHttp2: true })
-```
-
 在类小程序的请求库中，稍有些区别，为了满足兼容不同的类小程序平台，创建实例的时候，需要将原生请求方法传入。
 
 ```ts
@@ -158,9 +144,9 @@ prequest({ url: 'http://localhost:3000/audio/123' })
 ### 全局中间件
 
 ```ts
-import { PreQuest, Request, Response } from '@prequest/xhr'
+import { PreQuest } from '@prequest/xhr'
 
-PreQuest.use<Request, Response>(async (ctx, next) => {
+PreQuest.use(async (ctx, next) => {
   // 在这里，你可以修改请求参数
   console.log(ctx.request)
 

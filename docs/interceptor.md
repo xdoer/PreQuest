@@ -1,4 +1,4 @@
-# 拦截器
+# @prequest/interceptor
 
 拦截器中间件。
 
@@ -13,10 +13,10 @@ npm install @prequest/interceptor
 ## 使用
 
 ```ts
-import { prequest, Request, Response } from '@prequest/xhr'
+import { prequest } from '@prequest/xhr'
 import interceptorMiddleware from '@prequest/interceptor'
 
-const interceptor = new InterceptorMiddleware<Request, Response>()
+const interceptor = new InterceptorMiddleware()
 
 // 修改请求参数
 interceptor.request.use(

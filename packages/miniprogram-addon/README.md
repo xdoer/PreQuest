@@ -40,7 +40,7 @@ import { createUpload } from '@prequest/miniprogram-addon'
 // 传入原生方法。这样可以适配各个小程序平台
 const prequest = createUpload(wx.uploadFile, { baseURL: 'http://localhost:3000' })
 
-prequest('/audio/123', { headers: { token: '123' } }).then(res => {
+prequest('/audio/123', { header: { token: '123' } }).then(res => {
   if (res.statusCode === 200) {
     console.log('上传成功')
   }
@@ -103,16 +103,22 @@ wxDownload('/download')
 示例:
 
 ```ts
-interface Request {
-  name?: string
-  filePath?: string
-  formData?: CommonObject
-  timeout?: number
+declare module '@prequest/types' {
+  interface PreQuestRequest {
+    name?: string
+    filePath?: string
+    formData?: CommonObject
+    timeout?: number
+  }
+
+  interface PreQuestResponse {
+    header: any
+    cookies: string[]
+    profile: any
+  }
 }
 
-interface Response {}
-
-const instance = createDownload<Request, Response>(wx.downloadFile, {
+const instance = createDownload(wx.downloadFile, {
   baseURL: 'http://localhost:3000'
   name: 'filename' // You can get intelliSense here
 })

@@ -11,8 +11,8 @@ npm install @prequest/cache
 ## 使用
 
 ```ts
-import { create, Request, Response } from '@prequest/xhr'
-import createCache, { CacheInject } from '@prequest/cache'
+import { create } from '@prequest/xhr'
+import createCache from '@prequest/cache'
 
 const cache = createCache({
   ttl: 60000,
@@ -35,7 +35,7 @@ const cache = createCache({
   },
 })
 
-const prequest = create<CacheInject>({ useCache: true }, cache)
+const prequest = create({ useCache: true }, cache)
 ```
 
 ## 配置项

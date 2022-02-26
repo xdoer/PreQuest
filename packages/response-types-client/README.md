@@ -25,11 +25,11 @@ npm install @prequest/response-types-client
 ### 配置中间件
 
 ```ts
-import { create, Request, Response } from '@prequest/xhr'
-import generatorMiddleware, { TypesGeneratorInject } from '@prequest/response-types-client'
+import { create } from '@prequest/xhr'
+import generatorMiddleware from '@prequest/response-types-client'
 
 const httpAgent = create({ path: 'http://localhost:10010/' })
-const middleware = generatorMiddlewareWrapper<Request, Response>({
+const middleware = generatorMiddlewareWrapper({
   enable: process.env.NODE_ENV === 'development',
   httpAgent: httpAgent,
   outPutDir: 'src/api-types',
@@ -51,15 +51,15 @@ const middleware = generatorMiddlewareWrapper<Request, Response>({
   },
 })
 
-export const prequest = create<TypesGeneratorInject, {}>({ baseURL: 'http://localhost:3000' })
+export const prequest = create({ baseURL: 'http://localhost:3000' })
 prequest.use(middleware)
 ```
 
 在小程序项目中使用应当注意，需要配置中间件将真正服务端的响应返回
 
 ```ts
-import { create, Request, Response } from '@prequest/miniprogram'
-import generatorMiddleware, { TypesGeneratorInject } from '@prequest/response-types-client'
+import { create } from '@prequest/miniprogram'
+import generatorMiddleware, {  } from '@prequest/response-types-client'
 
 const httpAgent = create(wx.request, { path: 'http://localhost:10010/' })
 
@@ -72,16 +72,16 @@ httpAgent.use(async (ctx, next) => {
   }
 })
 
-const middleware = generatorMiddlewareWrapper<Request, Response>({
+const middleware = generatorMiddlewareWrapper({
   enable: process.env.NODE_ENV === 'development',
   httpAgent: httpAgent,
   // 其他参数...
 }
 ```
 
-### 请求参数注入
+### 请求参数
 
-上面在生成 `prequest` 实例的时候，注入了 `TypesGeneratorInject` 类型，类型中提供了 `rewriteType` 参数，可以强制复写已生成的类型文件。即每次请求,都会重新生成一份新的类型文件
+上面在生成 `prequest` 实例的时候，类型中提供了 `rewriteType` 参数，可以强制复写已生成的类型文件。即每次请求,都会重新生成一份新的类型文件
 
 ```ts
 prequest('/user', { rewriteType: true })

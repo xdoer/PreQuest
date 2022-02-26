@@ -10,7 +10,7 @@ npm install @prequest/miniprogram
 
 ## 使用
 
-由于在不同平台上使用基本一致，所以基本使用文档，请查阅 [这里](/usage)
+由于在不同平台上使用基本一致，所以基本使用文档，请查阅 [这里](https://pre-quest.vercel.app/#/usage)
 
 ### 原生请求实例
 
@@ -33,7 +33,7 @@ prequest('/api', {
 
 ## 兼容
 
-小程序中使用 async/await 需要安装 [regenerator-runtime@0.11.1](https://www.npmjs.com/package/regenerator-runtime/v/0.11.1)，框架包一般会内置这个依赖，如果没有，请自行安装，使用方式请在对应论坛进行查找。此外，由于包都是 ES6 版本的，在某些手机上可能有兼容性问题，你可以[查阅这里编译代码](/compatible?id=webpack-chain)
+小程序中使用 async/await 需要安装 [regenerator-runtime@0.11.1](https://www.npmjs.com/package/regenerator-runtime/v/0.11.1)，框架包一般会内置这个依赖，如果没有，请自行安装，使用方式请在对应论坛进行查找。此外，由于包都是 ES6 版本的，在某些手机上可能有兼容性问题，你可以[查阅这里编译代码](https://pre-quest.vercel.app/#/compatible?id=webpack-chain)
 
 ## 请求配置项
 
@@ -60,18 +60,21 @@ prequest('/api', {
 示例:
 
 ```ts
-interface Request {
-  enableHttp2?: boolean
-  enableCache?: boolean
+
+declare module '@prequest/types' {
+  interface PreQuestRequest {
+    enableHttp2?: boolean
+    enableCache?: boolean
+  }
+
+  interface PreQuestResponse {
+    header: any
+    cookies: string[]
+    profile: any
+  }
 }
 
-interface Response {
-  header: any
-  cookies: string[]
-  profile: any
-}
-
-const instance = create<Request, Response>(wx.request, {
+const instance = create(wx.request, {
   baseURL: 'http://localhost:3000'
   enableHttp2: true // You can get intelliSense here
 })

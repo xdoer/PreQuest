@@ -32,14 +32,14 @@ Web、小程序、ReactNative、快应用等
 下面以 @prequest/xhr 为例，介绍使用方法
 
 ```ts
-import { PreQuest, create, Request, Response } from '@prequest/xhr'
-import TimeoutMiddleware, { TimeoutInject } from '@prequest/timeout'
+import { PreQuest, create } from '@prequest/xhr'
+import TimeoutMiddleware from '@prequest/timeout'
 
 // 全局配置
 PreQuest.defaults.baseURL = 'http://locahost:8080'
 
 // 全局中间件
-PreQuest.use<Request, Response>((ctx, next) => {
+PreQuest.use((ctx, next) => {
   // 在这里，你可以全局修改请求参数
   console.log(ctx.request)
 
@@ -49,11 +49,8 @@ PreQuest.use<Request, Response>((ctx, next) => {
   console.log(ctx.response)
 })
 
-/**
- * 创建实例
- * 注入类型, 可在调用时获得类型提示
- */
-const prequest = create<TimeoutInject, {}>({
+// 创建实例
+const prequest = create({
   headers: {
     'Content-Type': 'application/json; charset=utf-8',
   },

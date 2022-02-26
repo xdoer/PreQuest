@@ -12,13 +12,13 @@ npm install @prequest/use-request
 
 ```ts
 import createQueryHook from '@prequest/use-request'
-import { create, PreQuest, Request, Response } from '@prequest/xhr'
+import { create, PreQuest } from '@prequest/xhr'
 
 const prequest = create({
   baseURL: 'http://localhost:3001',
 })
 
-const useQuery = createQueryHook<Request, Response>(prequest)
+const useQuery = createQueryHook(prequest)
 ```
 
 同时你也可以不受影响的使用 PreQuest 的能力。
@@ -44,15 +44,17 @@ prequest.use(async (ctx, next) => {
 ### 基本使用
 
 ```ts
+declare module '@prequest/types' {
+  // 接口响应
+  interface PreQuestResponse<T> {
+    success: boolean
+    data: T
+  }
+}
+
 // 组件 props
 interface UserProps {
   id: number
-}
-
-interface Response<T> {
-  success: boolean
-  data: T
-  error: any
 }
 
 // 接口响应的数据类型
@@ -63,7 +65,7 @@ interface UserRes {
 }
 
 const User: FC<UserProps> = ({ id }) => {
-  const { response, loading, error } = useQuery<Response<UserRes>>('/user', {
+  const { response, loading, error } = useQuery<UserRes>('/user', {
     params: { id },
   })
 

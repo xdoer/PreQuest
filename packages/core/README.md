@@ -67,26 +67,27 @@ prequest.use(async (ctx, next) => {
 
 首先，根据需求，完成一个 `adapter` 函数。
 
-定义请求和响应参数类型，以便用户在使用时，可以获得智能提示。
+扩展请求和响应参数类型，以便用户在使用时，可以获得智能提示。
 
 ```ts
-interface Request {
-  path: string
-  method?: string
-  baseURL?: string
-}
+declare module '@prequest/types' {
+  interface PreQuestRequest {
+    baseURL?: string
+  }
 
-interface Response {
-  data: string
-  status: number
+  interface PreQuestResponse {
+    data: string
+    status: number
+  }
 }
-
-type Adapter = (opt: Request) => Promise<Response>
+export {}
 ```
 
 接着，进行 `adapter` 函数实现
 
 ```ts
+import { Adapter } from '@prequest/types'
+
 const adapter: Adapter = opt => {
   const { path, baseURL, ...options } = opt
   const url = baseURL + path
@@ -104,7 +105,7 @@ PreQuest 将会合并 `PreQuest.defaults`, `PreQuest.create(adapter, opt)` 和 `
 import { PreQuest } from '@prequest/core'
 
 const opt = { baseURL: 'http://localhost:3000' }
-const prequest = PreQuest.create<Request, Response>(adapter, opt)
+const prequest = PreQuest.create(adapter, opt)
 ```
 
 ### 执行请求
@@ -160,7 +161,7 @@ PreQuest.defaults.baseURL = 'http://localhost:3000'
 import { PreQuest } from '@prequest/core'
 
 // 全局中间件
-PreQuest.use<Request, Response>(async (ctx, next) => {
+PreQuest.use(async (ctx, next) => {
   ctx.request.path = '/prefix' + ctx.request.path
   await next()
   ctx.response.data = JSON.parse(ctx.response.data)

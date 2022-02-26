@@ -10,24 +10,22 @@ npm install @prequest/error-retry
 
 ## 使用
 
-### 类型注入
-
-类型注入需要创建实例，通过类型注入，可以在写代码时，获得智能提示。
+### 创建请求实例
 
 ```ts
-import { create, Request, Response } from '@prequest/xhr'
-import errorRetryMiddleware, { ErrorRetryInject } from '@prequest/error-retry'
-
-const prequest = create<ErrorRetryInject>()
-```
-
-### 统一控制
-
-```ts
-import { prequest, Request, Response } from '@prequest/xhr'
+import { create } from '@prequest/xhr'
 import errorRetryMiddleware from '@prequest/error-retry'
 
-const middleware = errorRetryMiddleware<Request, Response>({
+const prequest = create()
+```
+
+### 创建中间件
+
+```ts
+import { prequest } from '@prequest/xhr'
+import errorRetryMiddleware from '@prequest/error-retry'
+
+const middleware = errorRetryMiddleware({
   // 错误重试次数
   retryCount: 2,
 
@@ -51,17 +49,10 @@ prequest.use(middleware)
 
 ### 单一控制
 
-注册错误重试中间件后，每一个请求也可以单独配置错误请求次数、和错误请求控制
+注册错误重试中间件后，每一个请求也可以单独配置错误请求次数
 
 ```ts
-prequest('/api', {
-  errorRetry: 1,
-  retryControl(_, e) {
-    if (e.message === '测试') {
-      return false
-    }
-  },
-})
+prequest('/api', { errorRetry: 1 })
 ```
 
 ## 配置项
