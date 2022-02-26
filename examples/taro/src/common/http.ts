@@ -1,34 +1,25 @@
 import Taro, { getStorageSync, navigateTo, removeStorageSync, setStorageSync } from '@tarojs/taro'
-import { create, PreQuest, Request, Response } from '@prequest/miniprogram'
+import { create, PreQuest } from '@prequest/miniprogram'
 import errorRetryMiddleware from '@prequest/error-retry'
-import timeoutMiddleware, { TimeoutInject } from '@prequest/timeout'
+import timeoutMiddleware from '@prequest/timeout'
 import InterceptorMiddleware from '@prequest/interceptor'
 import Lock from '@prequest/lock'
-
-// 注入自定义请求类型
-interface CustomRequest {
-  skipTokenCheck?: boolean
-}
-
-type InjectRequest = CustomRequest & TimeoutInject<Request>
-type RequestOption = Request & InjectRequest
 
 // 全局配置
 PreQuest.defaults.baseURL = 'http://localhost:3000'
 PreQuest.defaults.header = {}
 
 // 全局中间件
-PreQuest.use<RequestOption, Response>(async (ctx, next) => {
-  console.log(ctx.request)
+PreQuest.use(async (ctx, next) => {
   await next()
-  console.log(ctx.response)
+  console.log(ctx.response.data)
 })
 
-export const prequest = create<InjectRequest, {}>(Taro.request, { method: 'GET', timeout: 5000 })
+export const prequest = create(Taro.request, { method: 'GET' })
 
 // 中间件
 // 错误重试中间件
-const errorRetry = errorRetryMiddleware<RequestOption, {}>({
+const errorRetry = errorRetryMiddleware({
   retryCount: 3,
   retryControl(opt, e) {
     // 这个错误是下面 parse 中间件抛出的
@@ -65,7 +56,7 @@ const refreshToken = async (ctx, next) => {
 // 超时中间件
 const timeout = timeoutMiddleware({
   timeout: 5000,
-  timeoutControl() {
+  timeoutControl(e) {
     // 只有微信小程序端的 timeout 由中间件处理
     // 其他端的由内核处理
     return process.env.TARO_ENV === 'weapp'
@@ -91,7 +82,7 @@ prequest
   .use(parse)
 
 // 如果你习惯 axios 拦截器
-const interceptor = new InterceptorMiddleware<RequestOption, Response>()
+const interceptor = new InterceptorMiddleware()
 // 请求拦截器
 interceptor.request.use(
   (req) => {
