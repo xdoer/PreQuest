@@ -1,5 +1,4 @@
-import { CommonObject, SetRequired } from '.'
-import { Method } from './common'
+import { Method, CommonObject } from './common'
 
 export type MethodsCallback = {
   [k in Method]: <Q>(path: string, option?: Config) => Promise<PreQuestResponse<Q>>
