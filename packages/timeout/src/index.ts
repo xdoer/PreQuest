@@ -1,6 +1,5 @@
 import { MiddlewareCallback } from '@prequest/types'
 import { createError, ErrorCode } from '@prequest/helper'
-import { TimeoutOptions } from './types'
 
 function timeoutThrow(timeout: number, config: any) {
   return new Promise((_, reject) =>
@@ -10,21 +9,16 @@ function timeoutThrow(timeout: number, config: any) {
   )
 }
 
-const defaultOptions = {
-  timeout: 5000,
-  timeoutControl: () => true,
+export default <MiddlewareCallback>async function(ctx, next) {
+  const { timeout = -1 } = ctx.request
+
+  if (timeout <= 0) return next()
+
+  await Promise.race([timeoutThrow(timeout, ctx.request), next()])
 }
 
-export default function timeoutMiddleware(opt?: TimeoutOptions): MiddlewareCallback {
-  const options = Object.assign({}, defaultOptions, opt)
-
-  return async function(ctx, next) {
-    const { timeout } = Object.assign({}, options, ctx.request)
-
-    if (!options.timeoutControl(ctx.request)) return next()
-
-    if (timeout <= 0) return next()
-
-    await Promise.race([timeoutThrow(timeout, ctx.request), next()])
+declare module '@prequest/types' {
+  export interface PreQuestRequest {
+    timeout?: number
   }
 }
