@@ -1,13 +1,14 @@
 import React, { FC, useEffect, useState } from 'react'
-import prequest, { Request, Response } from '@prequest/xhr'
+import prequest, { create } from '@prequest/xhr'
 import Uploader from '@prequest/uploader'
+import '@prequest/types'
 
 
 const uploader = new Uploader({
   request(formData) {
     return prequest.post('/upload', {
       baseURL: 'http://localhost:8080',
-      data: formData
+      data: formData,
     })
   }
 })

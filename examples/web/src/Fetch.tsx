@@ -1,12 +1,13 @@
 import React, { FC, useEffect } from 'react'
-import prequest, { Request, Response, create } from '@prequest/fetch'
+import prequest, { create } from '@prequest/fetch'
 import generatorMiddlewareWrapper from '@prequest/response-types-client'
+import { PQRequest } from '@prequest/types'
 
-const defaultOutPutFileName = (requestOption: Request) => {
+const defaultOutPutFileName = (requestOption: PQRequest) => {
   return requestOption.path?.replace(/.*\/(\w+)/, (_, __) => __) || ''
 }
 
-const defaultRootInterfaceName = (requestOption: Request) => {
+const defaultRootInterfaceName = (requestOption: PQRequest) => {
   return (
     requestOption.path
       ?.replace(/.*\/(\w+)/, (_, __) => __)
@@ -15,16 +16,20 @@ const defaultRootInterfaceName = (requestOption: Request) => {
 }
 
 const middleware = generatorMiddlewareWrapper({
-  requestAgent: create(),
-  endpoint: 'http://localhost:10010/api',
+  httpAgent: create(),
+  outPutDir: '',
+  enable: false,
   typesGeneratorConfig(req, res) {
     const outputName = defaultOutPutFileName(req)
     const rootInterfaceName = defaultRootInterfaceName(req)
 
     return {
-      data: res.data,
+      data: res.data as any,
+      outPutName: '',
+      overwrite: false,
       outPutPath: `/Users/luckyhh/Desktop/project/prequest2/examples/web/src/types/${outputName}.ts`,
-      rootInterfaceName: rootInterfaceName
+      rootInterfaceName: rootInterfaceName,
+      interfaceName: '',
     }
   }
 })
@@ -40,7 +45,7 @@ export const FetchComponent: FC<{}> = ({ }) => {
         cid: '73b1430d-faa0-44eb-899e-36cf5cbfaec8'
       }
     }).then(res => {
-      console.log('查看值', res)
+      console.log('查看值')
     })
   }, [])
 
