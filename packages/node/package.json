@@ -1,5 +1,5 @@
 {
-  "version": "1.3.3-alpha.0",
+  "version": "1.3.3",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -60,10 +60,10 @@
     }
   ],
   "dependencies": {
-    "@prequest/core": "^1.3.3-alpha.0",
-    "@prequest/helper": "^1.3.3-alpha.0",
-    "@prequest/types": "^1.3.3-alpha.0",
-    "@prequest/utils": "^1.3.3-alpha.0",
+    "@prequest/core": "^1.3.3",
+    "@prequest/helper": "^1.3.3",
+    "@prequest/types": "^1.3.3",
+    "@prequest/utils": "^1.3.3",
     "follow-redirects": "^1.14.1"
   },
   "devDependencies": {
