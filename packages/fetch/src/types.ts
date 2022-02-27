@@ -1,18 +1,19 @@
-import { BaseOption, CancelToken, CommonObject } from '@prequest/types'
+/// <reference types="@prequest/types" />
+import CancelToken from '@prequest/cancel-token'
 
 declare module '@prequest/types' {
-  interface PreQuestRequest extends BaseOption {
+  interface PQRequest extends PQ.PresetOption {
     requestType?: 'json' | 'form' | ({} & string)
     cancelToken?: CancelToken
     onDownloadProgress?(e: { loaded: number; total: number }): void
-    headers?: CommonObject
+    headers?: PQ.Common
     responseType?: 'json' | 'text' | 'arraybuffer' | 'blob' | ({} & string)
   }
 
-  interface PreQuestResponse<T = any> {
+  interface PQResponse<T = any> {
     data: T
     status: number
     statusText: string
-    headers: CommonObject
+    headers: PQ.Common
   }
 }

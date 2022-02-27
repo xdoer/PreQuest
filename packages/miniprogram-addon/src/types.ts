@@ -1,12 +1,13 @@
-import { CommonObject, CancelToken } from '@prequest/types'
+/// <reference types="@prequest/types" />
+import CancelToken from '@prequest/cancel-token'
 
 export type RequestCore = any
 
 declare module '@prequest/types' {
-  interface PreQuestRequest {
+  interface PQRequest {
     baseURL?: string
-    header?: CommonObject
-    params?: CommonObject
+    header?: PQ.Common
+    params?: PQ.Common
     getNativeRequestInstance?(value: Promise<RequestCore>): void
     cancelToken?: CancelToken
   }

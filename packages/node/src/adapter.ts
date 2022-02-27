@@ -3,12 +3,12 @@ import https from 'https'
 import { http as redirectHttp, https as redirectHttps } from 'follow-redirects'
 import { URL } from 'url'
 import { createError, createRequestUrl, enhanceError, ErrorCode } from '@prequest/helper'
-import { Config, PreQuestRequest, PreQuestResponse } from '@prequest/types'
+import { Config, PQRequest, PQResponse } from '@prequest/types'
 import { stripBOM, getRequestBody, isStream, setProxy, isHttpsReg } from './helper'
 
-export function adapter(config: Config): Promise<PreQuestResponse> {
+export function adapter(config: Config): Promise<PQResponse> {
   return new Promise((resolve, reject) => {
-    const finalOptions = (config || {}) as PreQuestRequest
+    const finalOptions = (config || {}) as PQRequest
     const url = createRequestUrl(finalOptions)
     const parsedURL = new URL(url)
     const {

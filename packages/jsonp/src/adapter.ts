@@ -1,13 +1,13 @@
 import { createError, createRequestUrl, ErrorCode } from '@prequest/helper'
-import { Config, PreQuestRequest, PreQuestResponse } from '@prequest/types'
+import { Config, PQRequest, PQResponse } from '@prequest/types'
 
 const ctx: any = globalThis
 
 export function adapter() {
-  return (opt: Config): Promise<PreQuestResponse> => {
+  return (opt: Config): Promise<PQResponse> => {
     let jsonpId = 1
     return new Promise((resolve, reject) => {
-      const finalOption = (opt || {}) as PreQuestRequest
+      const finalOption = (opt || {}) as PQRequest
       const { callbackParamName, cancelToken, params } = finalOption
 
       let isAbort = false
@@ -17,7 +17,7 @@ export function adapter() {
       const jsonp = 'JsonpCallback' + jsonpId++
       const oldJsonp = ctx[jsonp]
 
-      ctx[jsonp] = function(responseData: PreQuestResponse) {
+      ctx[jsonp] = function(responseData: PQResponse) {
         if (isAbort) return
         ctx[jsonp] = oldJsonp
 

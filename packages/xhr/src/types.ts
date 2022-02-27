@@ -1,7 +1,8 @@
-import { BaseOption, CancelToken, CommonObject } from '@prequest/types'
+/// <reference types="@prequest/types" />
+import CancelToken from '@prequest/cancel-token'
 
 declare module '@prequest/types' {
-  interface PreQuestRequest extends BaseOption {
+  interface PQRequest extends PQ.PresetOption {
     timeout?: number
     withCredentials?: boolean
     requestType?: 'json' | 'form' | ({} & string)
@@ -12,10 +13,10 @@ declare module '@prequest/types' {
     onUploadProgress?(e: any): void
   }
 
-  interface PreQuestResponse<T> {
+  interface PQResponse<T> {
     data: T
     status: number
     statusText: string
-    headers: CommonObject
+    headers: PQ.Common
   }
 }

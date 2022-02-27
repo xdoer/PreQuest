@@ -1,13 +1,14 @@
-import { CommonObject, CancelToken } from '@prequest/types'
+/// <reference types="@prequest/types" />
+import CancelToken from '@prequest/cancel-token'
 
 declare module '@prequest/types' {
-  interface PreQuestRequest {
+  interface PQRequest {
     baseURL?: string
-    params?: CommonObject
+    params?: PQ.Common
     callbackParamName?: string
     cancelToken?: CancelToken
   }
-  interface PreQuestResponse<T = any> {
+  interface PQResponse<T = any> {
     data: T
     statusCode: number
   }

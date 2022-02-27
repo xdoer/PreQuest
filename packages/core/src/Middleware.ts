@@ -1,11 +1,11 @@
-import { CommonObject, Context, MiddlewareCallback } from '@prequest/types'
+import { MiddlewareCallback, Common, Context } from '@prequest/types'
 
 export class Middleware {
   protected cbs: MiddlewareCallback[] = []
 
   static globalCbs: any = []
 
-  protected exec(ctx: Context, next: MiddlewareCallback, injectOpt: CommonObject = {}) {
+  protected exec(ctx: Context, next: MiddlewareCallback, injectOpt: Common = {}) {
     let times = -1
     const cbs = <MiddlewareCallback[]>[...Middleware.globalCbs, ...this.cbs]
     const dispatch = (pointer = 0): Promise<any> => {

@@ -1,14 +1,14 @@
-import { merge } from '@prequest/utils'
 import {
-  Context,
+  Adapter,
   Config,
   MethodsCallback,
-  Adapter,
-  MiddlewareInjectOptions,
+  PQRequest,
+  PQResponse,
   PreQuestInstance,
-  PreQuestResponse,
-  PreQuestRequest,
+  Context,
+  MiddlewareInjectOptions,
 } from '@prequest/types'
+import { merge } from '@prequest/utils'
 import { Middleware } from './Middleware'
 import { METHODS } from './constant'
 
@@ -23,7 +23,7 @@ export class PreQuest extends Middleware {
 
     METHODS.forEach(method => {
       preQuest[method] = (path: string, config?: Config) => {
-        const request = <PreQuestRequest>(
+        const request = <PQRequest>(
           merge(
             PreQuest.defaults,
             this.config,
@@ -31,24 +31,21 @@ export class PreQuest extends Middleware {
             config!
           )
         )
-        const response = <PreQuestResponse>{}
+        const response = <PQResponse>{}
         return this.controller({ request, response, context: this })
       }
     })
   }
 
-  request<Q>(path: string | Config, config?: Config): Promise<PreQuestResponse<Q>> {
-    const request = <PreQuestRequest>(
+  request<Q>(path: string | Config, config?: Config): Promise<PQResponse<Q>> {
+    const request = <PQRequest>(
       merge(PreQuest.defaults, this.config, typeof path === 'string' ? { path, ...config } : path)
     )
-    const response = <PreQuestResponse>{}
+    const response = <PQResponse>{}
     return this.controller<Q>({ request, response, context: this })
   }
 
-  async controller<Q>(
-    ctx: Context,
-    opt: MiddlewareInjectOptions = {}
-  ): Promise<PreQuestResponse<Q>> {
+  async controller<Q>(ctx: Context, opt: MiddlewareInjectOptions = {}): Promise<PQResponse<Q>> {
     await this.exec(
       ctx,
       async ctx => {

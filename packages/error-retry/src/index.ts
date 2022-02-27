@@ -1,4 +1,5 @@
-import { MiddlewareCallback, PreQuestError } from '@prequest/types'
+import { MiddlewareCallback, PQError } from '@prequest/types'
+import { merge } from '@prequest/utils'
 import { MiddlewareOptions } from './types'
 
 const defaultOptions: MiddlewareOptions = {
@@ -7,15 +8,15 @@ const defaultOptions: MiddlewareOptions = {
 }
 
 export default function errorRetryMiddleware(opt?: MiddlewareOptions): MiddlewareCallback {
-  const options = Object.assign({}, defaultOptions, opt)
+  const options = merge<MiddlewareOptions>(defaultOptions, opt)
 
   return async function(ctx, next, injectOpt) {
     try {
       await next()
     } catch (e) {
-      const { retryCount = 1 } = Object.assign({}, options, ctx.request, injectOpt)
+      const { retryCount = 1 } = merge<MiddlewareOptions>(options, ctx.request, injectOpt)
 
-      const control = await options.retryControl!(ctx.request, e as PreQuestError)
+      const control = await options.retryControl!(ctx.request, e as PQError)
 
       if (retryCount < 1 || !control) throw e
 

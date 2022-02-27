@@ -1,24 +1,19 @@
-import { Adapter, PreQuestRequest } from '@prequest/types'
+import { merge } from '@prequest/utils'
+import { PQRequest, Adapter, Config } from '@prequest/types'
 import { Options } from './types'
 
-function getOptions(options?: Options): Required<Options> {
-  return Object.assign(
-    {},
-    {
-      ttl: 60000,
-      cacheKernel: new Map<string, string>(),
-      getCacheKey: (opt: any) => opt.path,
-      validateCache: (opt: any) => !opt.method || opt.method === 'GET',
-    },
-    options
-  )
+const defaultOptions = {
+  ttl: 60000,
+  cacheKernel: new Map<string, string>(),
+  getCacheKey: (opt: PQRequest) => opt.path,
+  validateCache: (opt: PQRequest) => !opt.method || opt.method === 'GET',
 }
 
 export default function(options?: Options) {
-  const { cacheKernel, getCacheKey, ttl, validateCache } = getOptions(options)
+  const { cacheKernel, getCacheKey, ttl, validateCache } = merge(defaultOptions, options)
   return function(core: Adapter): Adapter {
-    return async function(opt: PreQuestRequest) {
-      const { useCache = false } = opt as any
+    return async function(opt: Config) {
+      const { useCache = false } = opt
 
       if (useCache && validateCache(opt)) {
         const cacheKey = getCacheKey(opt)

@@ -67,15 +67,15 @@ prequest.use(async (ctx, next) => {
 
 首先，根据需求，完成一个 `adapter` 函数。
 
-扩展请求和响应参数类型，以便用户在使用时，可以获得智能提示。
+扩展请求和响应参数类型，以便在使用时，可以获得提示。
 
 ```ts
 declare module '@prequest/types' {
-  interface PreQuestRequest {
+  interface PQRequest {
     baseURL?: string
   }
 
-  interface PreQuestResponse {
+  interface PQResponse {
     data: string
     status: number
   }

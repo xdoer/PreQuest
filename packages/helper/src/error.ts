@@ -1,15 +1,15 @@
 import { Config } from '@prequest/types'
 
-interface PQError {
+interface PQErrorOptions {
   code: ErrorCode
   config: Config
 }
 
-export class PreQuestError extends Error {
+export class PQError extends Error {
   code?: ErrorCode
   config?: Config
 
-  constructor(private opt?: Partial<PQError>) {
+  constructor(private opt?: Partial<PQErrorOptions>) {
     super()
     const { code, config } = this.opt || {}
     this.code = code
@@ -28,7 +28,7 @@ export function createError(code: ErrorCode, message: string, opt: Config) {
   return enhanceError(error, code, opt)
 }
 
-export function enhanceError(error: PreQuestError, code: ErrorCode, opt: Config) {
+export function enhanceError(error: PQError, code: ErrorCode, opt: Config) {
   error.code = code
   error.config = opt
 

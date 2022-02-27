@@ -58,3 +58,8 @@ export const asyncPool = async <T, N>(
 }
 
 export const upFirst = (value: string) => value.replace(/^[a-z]/, g => g.toUpperCase())
+
+// reference: https://github.com/axios/axios/blob/master/lib/helpers/isAbsoluteURL.js
+export function isAbsoluteURL(url: string) {
+  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url)
+}

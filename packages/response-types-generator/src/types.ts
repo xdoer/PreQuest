@@ -1,18 +1,18 @@
-import { PreQuestRequest } from '@prequest/types'
+import { PQRequest } from '@prequest/types'
 
 export interface Options {
-  requestOptions?: PreQuestRequest
+  requestOptions?: PQRequest
   outPutDir?: string
   requestPoolLimit?: number
   parseResponse?(res: any): string | Record<string, any>
-  customOutPutFileName?(requestOptions: PreQuestRequest): string
-  customRootInterfaceName?(requestOptions: PreQuestRequest): string
+  customOutPutFileName?(requestOptions: PQRequest): string
+  customRootInterfaceName?(requestOptions: PQRequest): string
   data: Item[]
 }
 
 export interface Item {
   path: string
-  requestOptions?: PreQuestRequest
+  requestOptions?: PQRequest
   outPutFileName?: string
   rootInterfaceName?: string
   customInterfaceName?(key: string, value: any, data: any): string | void

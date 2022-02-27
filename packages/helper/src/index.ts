@@ -1,16 +1,16 @@
 import { stringify } from 'qs'
-import { elementType, merge } from '@prequest/utils'
-import { BaseOption, CommonObject, PreQuestRequest } from '@prequest/types'
+import { elementType, merge, isAbsoluteURL } from '@prequest/utils'
+import { PresetOption, Common, PQRequest } from '@prequest/types'
 
 export * from './error'
 
-export const baseOption: BaseOption = {
+export const baseOption: PresetOption = {
   path: '/',
   method: 'GET',
 }
 
 export function createRequestUrl<
-  T extends { baseURL?: string; path: string; url?: string; params?: CommonObject }
+  T extends { baseURL?: string; path: string; url?: string; params?: Common }
 >(req: T): string {
   const { baseURL, path, params } = req
 
@@ -28,7 +28,7 @@ export function createRequestUrl<
   return url
 }
 
-export function requestId(options: PreQuestRequest): string {
+export function requestId(options: PQRequest): string {
   return createRequestUrl({ ...options, params: {} })
 }
 
@@ -45,11 +45,11 @@ export function isEmpty(value: any) {
 }
 
 // 参考: https://github.com/umijs/umi-request/blob/master/src/middleware/simplePost.js
-export function formatRequestBodyAndHeaders(opt: PreQuestRequest) {
+export function formatRequestBodyAndHeaders(opt: PQRequest) {
   const options: any = opt
   const bodyType = elementType(options.data)
 
-  const headers: CommonObject = {}
+  const headers: Common = {}
   let data = options.data
 
   if (bodyType === 'object' || bodyType === 'array') {
@@ -65,10 +65,5 @@ export function formatRequestBodyAndHeaders(opt: PreQuestRequest) {
     }
   }
 
-  return { data, headers: merge<CommonObject>(headers, options.headers) }
-}
-
-// reference: https://github.com/axios/axios/blob/master/lib/helpers/isAbsoluteURL.js
-export function isAbsoluteURL(url: string) {
-  return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url)
+  return { data, headers: merge<Common>(headers, options.headers) }
 }

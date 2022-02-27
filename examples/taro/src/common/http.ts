@@ -1,9 +1,15 @@
 import Taro, { getStorageSync, navigateTo, removeStorageSync, setStorageSync } from '@tarojs/taro'
 import { create, PreQuest } from '@prequest/miniprogram'
 import errorRetryMiddleware from '@prequest/error-retry'
-import timeoutMiddleware from '@prequest/timeout'
+import timeout from '@prequest/timeout'
 import InterceptorMiddleware from '@prequest/interceptor'
 import Lock from '@prequest/lock'
+
+declare module '@prequest/types' {
+  interface PQRequest {
+    skipTokenCheck?: boolean
+  }
+}
 
 // 全局配置
 PreQuest.defaults.baseURL = 'http://localhost:3000'
@@ -27,6 +33,7 @@ const errorRetry = errorRetryMiddleware({
       // 如果是 401 请求未认证报错，则清除 token, 这样会重新请求 token 接口，拿到最新的 token 值
       lock.clear()
     }
+
     // 只有 GET 请求才走错误重试
     return opt.method === 'GET'
   }
@@ -52,16 +59,6 @@ const refreshToken = async (ctx, next) => {
   ctx.request.header['Authorization'] = token
   await next()
 }
-
-// 超时中间件
-const timeout = timeoutMiddleware({
-  timeout: 5000,
-  timeoutControl(e) {
-    // 只有微信小程序端的 timeout 由中间件处理
-    // 其他端的由内核处理
-    return process.env.TARO_ENV === 'weapp'
-  }
-})
 
 // 解析响应
 const parse = async (ctx, next) => {

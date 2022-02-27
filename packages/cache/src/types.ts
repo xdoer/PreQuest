@@ -1,4 +1,4 @@
-import { PreQuestRequest } from '@prequest/types'
+import { PQRequest } from '@prequest/types'
 
 interface CacheValue {
   createdAt: number
@@ -10,8 +10,8 @@ type SetValue = (key: string, value: CacheValue) => void
 
 export interface Options {
   ttl?: number
-  getCacheKey?: (opt: PreQuestRequest) => string
-  validateCache?: (opt: PreQuestRequest) => boolean
+  getCacheKey?: (opt: PQRequest) => string
+  validateCache?: (opt: PQRequest) => boolean
   cacheKernel?: {
     get: GetValue
     set: SetValue
@@ -19,7 +19,7 @@ export interface Options {
 }
 
 declare module '@prequest/types' {
-  export interface PreQuestRequest {
+  export interface PQRequest {
     useCache?: boolean
   }
 }

@@ -1,5 +1,5 @@
 import { asyncPool, merge } from '@prequest/utils'
-import { CallbackOption, Options, PreQuestRequest } from './types'
+import { CallbackOption, Options, PQRequest } from './types'
 
 const DEFAULT_OPTIONS: Options = {
   chipSize: 10 * 1024 * 1024,
@@ -13,9 +13,9 @@ const DEFAULT_OPTIONS: Options = {
 }
 
 export default class Uploader<N> {
-  private options: PreQuestRequest<N> & Options
+  private options: PQRequest<N> & Options
 
-  constructor(opt?: Partial<Options & PreQuestRequest<N>>) {
+  constructor(opt?: Partial<Options & PQRequest<N>>) {
     this.options = merge(DEFAULT_OPTIONS, opt)
   }
 

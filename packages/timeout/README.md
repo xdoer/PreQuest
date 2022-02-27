@@ -14,13 +14,13 @@ npm install @prequest/timeout
 
 ```ts
 import { create, PreQuest } from '@prequest/xhr'
+import timeout from '@prequest/timeout'
 
-// 全局超时
+PreQuest.use(timeout)
+
 PreQuest.defaults.timeout = 1000
 
-// 实例超时
 const prequest = create({ timeout: 6000 })
 
-// 单个超时
 prequest('/api', { timeout: 1000 })
 ```

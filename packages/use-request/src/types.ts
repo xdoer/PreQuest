@@ -1,9 +1,9 @@
-import { PreQuestRequest, PreQuestResponse } from '@prequest/types'
+import { PQRequest, PQResponse } from '@prequest/types'
 
 export type GlobalCache = { [key: string]: Cache }
 
 interface ToFetchConfig<Q> {
-  onUpdate?: (prev: PreQuestResponse<Q>, value: PreQuestResponse<Q>) => PreQuestResponse<Q>
+  onUpdate?: (prev: PQResponse<Q>, value: PQResponse<Q>) => PQResponse<Q>
 }
 
 export type Cache<Q = any> = {
@@ -11,13 +11,10 @@ export type Cache<Q = any> = {
   valid: boolean
   loading: boolean
   error: any
-  request: PreQuestRequest
-  response: PreQuestResponse<Q>
+  request: PQRequest
+  response: PQResponse<Q>
   stopLoop(): void
-  toFetch(
-    opt?: PreQuestRequest | ((o: PreQuestRequest) => PreQuestRequest),
-    config?: ToFetchConfig<Q>
-  ): void
+  toFetch(opt?: PQRequest | ((o: PQRequest) => PQRequest), config?: ToFetchConfig<Q>): void
   deps: any[]
   depsIsChanged: boolean
 }
@@ -27,5 +24,5 @@ export interface Config<Q = any> {
   deps?: any[]
   lazy?: boolean
   loop?: number
-  onUpdate?: (prev: PreQuestResponse<Q>, value: PreQuestResponse<Q>) => PreQuestResponse<Q>
+  onUpdate?: (prev: PQResponse<Q>, value: PQResponse<Q>) => PQResponse<Q>
 }

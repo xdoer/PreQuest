@@ -104,14 +104,14 @@ wxDownload('/download')
 
 ```ts
 declare module '@prequest/types' {
-  interface PreQuestRequest {
+  interface PQRequest {
     name?: string
     filePath?: string
-    formData?: CommonObject
+    formData?: Common
     timeout?: number
   }
 
-  interface PreQuestResponse {
+  interface PQResponse {
     header: any
     cookies: string[]
     profile: any

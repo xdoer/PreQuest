@@ -1,10 +1,9 @@
 import { PreQuest } from '../src'
 
 declare module '@prequest/types' {
-  interface PreQuestRequest {
+  interface PQRequest {
     baseURL: string
   }
-  interface PreQuestResponse {}
 }
 
 const prequest = PreQuest.create(() => Promise.resolve(1), {

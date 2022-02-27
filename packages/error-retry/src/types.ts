@@ -1,14 +1,14 @@
-import { PreQuestError, PreQuestRequest } from '@prequest/types'
+import { PQError, PQRequest } from '@prequest/types'
 
-declare module '@prequest/types' {
-  export interface PreQuestRequest {
-    retryCount?: number
-  }
-}
-
-export type RetryControl = (opt: PreQuestRequest, err: PreQuestError) => boolean
+export type RetryControl = (opt: PQRequest, err: PQError) => boolean
 
 export interface MiddlewareOptions {
   retryCount?: number
   retryControl?: RetryControl
+}
+
+declare module '@prequest/types' {
+  export interface PQRequest {
+    retryCount?: number
+  }
 }

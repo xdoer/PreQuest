@@ -3,7 +3,7 @@ type executorCallback = () => void
 export default class CancelToken {
   private resolvePromise: any
 
-  promise = new Promise(resolve => (this.resolvePromise = resolve))
+  promise = new Promise<string>(resolve => (this.resolvePromise = resolve))
 
   private __CANCEL__ = false
 

@@ -63,7 +63,8 @@
     "@prequest/core": "^1.3.3-alpha.0",
     "@prequest/helper": "^1.3.3-alpha.0",
     "@prequest/types": "^1.3.3-alpha.0",
-    "@prequest/utils": "^1.3.3-alpha.0"
+    "@prequest/utils": "^1.3.3-alpha.0",
+    "@prequest/cancel-token": "^1.3.3-alpha.0"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",

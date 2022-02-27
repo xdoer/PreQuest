@@ -18,7 +18,7 @@ export default <MiddlewareCallback>async function(ctx, next) {
 }
 
 declare module '@prequest/types' {
-  export interface PreQuestRequest {
+  export interface PQRequest {
     timeout?: number
   }
 }

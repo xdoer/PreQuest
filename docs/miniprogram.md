@@ -62,12 +62,12 @@ prequest('/api', {
 ```ts
 
 declare module '@prequest/types' {
-  interface PreQuestRequest {
+  interface PQRequest {
     enableHttp2?: boolean
     enableCache?: boolean
   }
 
-  interface PreQuestResponse {
+  interface PQResponse {
     header: any
     cookies: string[]
     profile: any

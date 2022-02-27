@@ -1,14 +1,9 @@
-import {
-  MiddlewareCallback,
-  PreQuestError,
-  PreQuestRequest,
-  PreQuestResponse,
-} from '@prequest/types'
+import { MiddlewareCallback, PQError, PQRequest, PQResponse } from '@prequest/types'
 import { Interceptor } from './Interceptor'
 
 export default class InterceptorMiddleware {
-  request = new Interceptor<PreQuestRequest, PreQuestError>()
-  response = new Interceptor<PreQuestResponse, PreQuestError>()
+  request = new Interceptor<PQRequest, PQError>()
+  response = new Interceptor<PQResponse, PQError>()
 
   run: MiddlewareCallback = async (ctx, next) => {
     ctx.request = await this.request.exec(ctx.request)

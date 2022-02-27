@@ -5,11 +5,11 @@ import {
   ErrorCode,
   formatRequestBodyAndHeaders,
 } from '@prequest/helper'
-import { Config, PreQuestRequest, PreQuestResponse } from '@prequest/types'
+import { Config, PQRequest, PQResponse } from '@prequest/types'
 import { createResponse } from './helper'
 
-export function adapter(options: Config): Promise<PreQuestResponse> {
-  const finalOptions = (options || {}) as PreQuestRequest
+export function adapter(options: Config): Promise<PQResponse> {
+  const finalOptions = (options || {}) as PQRequest
   const url = createRequestUrl(finalOptions)
   const { data, headers } = formatRequestBodyAndHeaders(finalOptions)
   const {

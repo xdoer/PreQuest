@@ -71,11 +71,11 @@ prequest.use(async (ctx, next) => {
 
 ```ts
 declare module '@prequest/types' {
-  interface PreQuestRequest {
+  interface PQRequest {
     baseURL?: string
   }
 
-  interface PreQuestResponse {
+  interface PQResponse {
     data: string
     status: number
   }

@@ -46,7 +46,7 @@ prequest.use(async (ctx, next) => {
 ```ts
 declare module '@prequest/types' {
   // 接口响应
-  interface PreQuestResponse<T> {
+  interface PQResponse<T> {
     success: boolean
     data: T
   }

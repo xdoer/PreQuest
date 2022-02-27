@@ -1,4 +1,4 @@
-import { Config, PreQuestResponse, PreQuestRequest } from '@prequest/types'
+import { Config, PQResponse, PQRequest } from '@prequest/types'
 import {
   createError,
   createRequestUrl,
@@ -7,8 +7,8 @@ import {
 } from '@prequest/helper'
 import { parseResBody } from './helper'
 
-export function adapter(options: Config): Promise<PreQuestResponse> {
-  const finalOptions = (options || {}) as PreQuestRequest
+export function adapter(options: Config): Promise<PQResponse> {
+  const finalOptions = (options || {}) as PQRequest
   const url = createRequestUrl(finalOptions!)
   const { data, headers } = formatRequestBodyAndHeaders(finalOptions)
   const { cancelToken, onDownloadProgress, ...rest } = finalOptions!

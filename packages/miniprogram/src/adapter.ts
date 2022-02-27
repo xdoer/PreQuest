@@ -1,11 +1,11 @@
 import { createError, createRequestUrl, ErrorCode } from '@prequest/helper'
-import { Config, PreQuestRequest, PreQuestResponse } from '@prequest/types'
+import { Config, PQRequest, PQResponse } from '@prequest/types'
 import { RequestCore } from './types'
 
 export function adapter(request: RequestCore) {
-  return (opt: Config): Promise<PreQuestResponse> => {
+  return (opt: Config): Promise<PQResponse> => {
     return new Promise((resolve, reject) => {
-      const finalOption = (opt || {}) as PreQuestRequest
+      const finalOption = (opt || {}) as PQRequest
       const url = createRequestUrl(finalOption)
       const { getNativeRequestInstance, cancelToken, ...rest } = finalOption
 

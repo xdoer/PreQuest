@@ -1,13 +1,4 @@
-import { isAbsoluteURL, isEmpty, createRequestUrl, formatRequestBodyAndHeaders } from '../src'
-
-test('isAbsoluteURL', () => {
-  expect(isAbsoluteURL('http://localhost')).toBeTruthy()
-  expect(isAbsoluteURL('http://localhost:3000')).toBeTruthy()
-  expect(isAbsoluteURL('https://localhost')).toBeTruthy()
-  expect(isAbsoluteURL('https://localhost:3000')).toBeTruthy()
-  expect(isAbsoluteURL('ftp://localhost')).toBeTruthy()
-  expect(isAbsoluteURL('ftp://192.168.1.1')).toBeTruthy()
-})
+import { isEmpty, createRequestUrl, formatRequestBodyAndHeaders } from '../src'
 
 test('isEmpty', () => {
   expect(isEmpty([])).toBeTruthy()

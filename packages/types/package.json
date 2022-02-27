@@ -2,6 +2,7 @@
   "version": "1.3.3-alpha.0",
   "license": "MIT",
   "name": "@prequest/types",
+  "types": "index.d.ts",
   "author": "xdoer",
   "repository": {
     "type": "git",

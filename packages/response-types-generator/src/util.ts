@@ -1,10 +1,10 @@
-import { PreQuestRequest } from '@prequest/types'
+import { PQRequest } from '@prequest/types'
 
-export const defaultOutPutFileName = (requestOption: PreQuestRequest) => {
+export const defaultOutPutFileName = (requestOption: PQRequest) => {
   return requestOption.path?.replace(/.*\/(\w+)/, (_, __) => __) || ''
 }
 
-export const defaultRootInterfaceName = (requestOption: PreQuestRequest) => {
+export const defaultRootInterfaceName = (requestOption: PQRequest) => {
   return (
     requestOption.path
       ?.replace(/.*\/(\w+)/, (_, __) => __)

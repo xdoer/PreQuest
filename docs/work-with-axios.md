@@ -35,6 +35,11 @@ function adapter(opt) {
 import { PreQuest } from '@prequest/core'
 import { AxiosRequestConfig, AxiosResponse } from 'axios'
 
+declare module '@prequest/types' {
+  interface PQRequest extends AxiosRequestConfig {}
+  interface PQResponse extends AxiosResponse {}
+}
+
 const prequest = PreQuest.create<AxiosRequestConfig, AxiosResponse>(adapter)
 ```
 
