@@ -33,7 +33,7 @@ Web、小程序、ReactNative、快应用等
 
 ```ts
 import { PreQuest, create } from '@prequest/xhr'
-import TimeoutMiddleware from '@prequest/timeout'
+import timeoutMiddleware from '@prequest/timeout'
 
 // 全局配置
 PreQuest.defaults.baseURL = 'http://locahost:8080'
@@ -57,8 +57,7 @@ const prequest = create({
 })
 
 // 实例中间件
-const middleware = TimeoutMiddleware()
-prequest.use(middleware)
+prequest.use(timeoutMiddleware)
 
 // 请求调用
 prequest('/user')
