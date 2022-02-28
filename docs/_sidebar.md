@@ -1,6 +1,7 @@
 - [介绍](/introduce 'PreQuest')
 - [项目](/project)
 - [使用](/usage)
+- [类型](/type)
 - [兼容](/compatible)
 - [核心](/core)
 - [超时](/timeout)
