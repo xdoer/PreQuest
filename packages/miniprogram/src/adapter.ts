@@ -22,14 +22,14 @@ export function adapter(request: RequestCore) {
       })
 
       if (cancelToken) {
-        cancelToken.promise.then(() => {
+        cancelToken.promise.then(cancel => {
           if (!instance) return
 
           // 如果支持取消方法
           if (instance.abort) return instance.abort()
 
           // 如果不支持，则直接抛出错误
-          reject(createError(ErrorCode.abort, 'aborted', opt))
+          reject(createError(ErrorCode.abort, cancel, opt))
         })
       }
 

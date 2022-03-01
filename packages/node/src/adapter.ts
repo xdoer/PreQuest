@@ -172,9 +172,9 @@ export function adapter(config: Config): Promise<PQResponse> {
     })
 
     if (cancelToken) {
-      cancelToken.promise.then(() => {
+      cancelToken.promise.then(cancel => {
         req.destroy()
-        reject(createError(ErrorCode.abort, 'abort', options))
+        reject(createError(ErrorCode.abort, cancel, options))
       })
     }
 
