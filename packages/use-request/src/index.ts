@@ -69,11 +69,11 @@ export default function createQueryHook(prequest: PreQuestInstance) {
     }, [])
 
     useEffect(() => {
-      cache.depsIsChanged = deps.some((v, i) => cache.deps[i] !== v)
-      cache.deps = cache.depsIsChanged ? deps : cache.deps
+      const depsChanged = deps.some((v, i) => cache.deps[i] !== v)
+      cache.deps = depsChanged ? deps : cache.deps
 
       // 已经初始化过了
-      if (cache.called && !cache.depsIsChanged) return
+      if (cache.called && !depsChanged) return
 
       // lazy 模式只允许手动触发请求
       if (lazy) return
