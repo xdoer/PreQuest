@@ -38,7 +38,6 @@ export default function createQueryHook(prequest: PreQuestInstance) {
       stopLoop: noop,
       toFetch: noop,
       deps: [],
-      depsIsChanged: false,
       timerId: -1,
     }
     return (globalCache[key] = cache)
