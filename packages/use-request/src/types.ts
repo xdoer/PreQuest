@@ -17,6 +17,7 @@ export type Cache<Q = any> = {
   toFetch(opt?: PQRequest | ((o: PQRequest) => PQRequest), config?: ToFetchConfig<Q>): void
   deps: any[]
   depsIsChanged: boolean
+  timerId: number
 }
 
 export interface Config<Q = any> {

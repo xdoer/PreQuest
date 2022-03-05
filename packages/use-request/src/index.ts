@@ -1,7 +1,7 @@
 import { PreQuestInstance, Config as PreQuestConfig } from '@prequest/types'
 import { StateBusManager } from '@xdoer/state-bus'
 import { setTimeoutInterval, clearTimeoutInterval } from '@xdoer/timeout-interval'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { Config, Cache, GlobalCache } from './types'
 import { noop } from './utils'
 
@@ -39,6 +39,7 @@ export default function createQueryHook(prequest: PreQuestInstance) {
       toFetch: noop,
       deps: [],
       depsIsChanged: false,
+      timerId: -1,
     }
     return (globalCache[key] = cache)
   }
@@ -51,21 +52,20 @@ export default function createQueryHook(prequest: PreQuestInstance) {
     config?: Config<Q>
   ) {
     const { onUpdate, deps = [], loop, lazy, key } = config || {}
-    const cacheKey = key || path
-    const cache = getCache<Q>(cacheKey, opt)
-    const store = smb.init(cacheKey, {})
+    const _key = key || path
+    const cache = getCache<Q>(_key, opt)
+    const store = smb.init(_key, {})
     const rerender = store.useState()[1]
-    const timerRef = useRef<any>()
 
     // 所有组件卸载后，删除缓存
     store.hooks.onUnMount = () => {
-      delete globalCache[cacheKey]
+      delete globalCache[_key]
     }
 
     // 记录初始的依赖
     useEffect(() => {
       cache.deps = deps
-      return () => clearTimeoutInterval(timerRef.current)
+      return () => clearTimeoutInterval(cache.timerId)
     }, [])
 
     useEffect(() => {
@@ -87,8 +87,8 @@ export default function createQueryHook(prequest: PreQuestInstance) {
         makeFetch()
         return
       }
-      if (typeof timerRef.current == 'undefined') {
-        timerRef.current = setTimeoutInterval(makeFetch, loop)
+      if (cache.timerId === -1) {
+        cache.timerId = setTimeoutInterval(makeFetch, loop)
       }
     }, [cache.valid, ...deps])
 
@@ -107,8 +107,8 @@ export default function createQueryHook(prequest: PreQuestInstance) {
 
     // 停止循环
     cache.stopLoop = () => {
-      clearTimeoutInterval(timerRef.current)
-      timerRef.current = undefined
+      clearTimeoutInterval(cache.timerId)
+      cache.timerId = -1
     }
 
     // 手动执行请求
