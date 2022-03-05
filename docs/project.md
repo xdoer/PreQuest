@@ -40,4 +40,3 @@
 > - [@prequest/core](/core ':target=_self'): PreQuest 核心能力
 > - [@prequest/cancel-token](/cancel-token ':target=_self'): 取消请求解决方案
 > - [@prequest/helper](https://github.com/xdoer/PreQuest/tree/main/packages/helper ':target=_blank'): 一些有用的参数处理、响应处理的工具包
-> - [@prequest/utils](https://github.com/xdoer/PreQuest/tree/main/packages/utils ':target=_blank'): 常规函数工具包

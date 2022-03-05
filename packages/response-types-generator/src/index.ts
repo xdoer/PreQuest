@@ -1,6 +1,6 @@
 import jsonTypesGenerator from 'json-types-generator'
 import { prequest } from '@prequest/node'
-import { asyncPool, merge } from '@prequest/utils'
+import { asyncPool, merge } from '@xdoer/x'
 import { resolve } from 'path'
 import { Options, Item } from './types'
 import { defaultRootInterfaceName, defaultParseResponse, defaultOutPutFileName } from './util'

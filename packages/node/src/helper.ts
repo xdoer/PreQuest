@@ -1,4 +1,4 @@
-import { elementType } from '@prequest/utils'
+import { is } from '@xdoer/x'
 import { Proxy } from './types'
 
 function isObject(val: any) {
@@ -6,7 +6,7 @@ function isObject(val: any) {
 }
 
 function isFunction(val: any) {
-  return elementType(val) === 'function'
+  return is(val) === 'function'
 }
 
 export function isStream(val: any) {
@@ -16,9 +16,9 @@ export function isStream(val: any) {
 export function getRequestBody(data: any) {
   if (isStream(data)) return data
 
-  if (elementType(data) === 'arraybuffer') return Buffer.from(new Uint8Array(data))
+  if (is(data) === 'arraybuffer') return Buffer.from(new Uint8Array(data))
 
-  if (elementType(data) === 'string') return Buffer.from(data, 'utf-8')
+  if (is(data) === 'string') return Buffer.from(data, 'utf-8')
 
   return null
 }

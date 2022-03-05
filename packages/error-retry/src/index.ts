@@ -1,5 +1,5 @@
 import { MiddlewareCallback, PQError } from '@prequest/types'
-import { merge } from '@prequest/utils'
+import { merge } from '@xdoer/x'
 import { MiddlewareOptions } from './types'
 
 const defaultOptions: MiddlewareOptions = {

@@ -1,12 +1,4 @@
-import { isEmpty, createRequestUrl, formatRequestBodyAndHeaders } from '../src'
-
-test('isEmpty', () => {
-  expect(isEmpty([])).toBeTruthy()
-  expect(isEmpty({})).toBeTruthy()
-  expect(isEmpty(null)).toBeTruthy()
-  expect(isEmpty(undefined)).toBeTruthy()
-  expect(isEmpty(0)).toBeTruthy()
-})
+import { createRequestUrl, formatRequestBodyAndHeaders } from '../src'
 
 test('createRequestUrl', () => {
   const baseURL = 'http://localhost:3000'

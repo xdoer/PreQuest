@@ -1,4 +1,4 @@
-import { merge } from '@prequest/utils'
+import { merge } from '@xdoer/x'
 import { PQRequest, Adapter, Config } from '@prequest/types'
 import { Options } from './types'
 

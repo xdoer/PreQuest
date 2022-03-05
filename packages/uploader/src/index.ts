@@ -1,4 +1,4 @@
-import { asyncPool, merge } from '@prequest/utils'
+import { asyncPool, merge } from '@xdoer/x'
 import { CallbackOption, Options, PQRequest } from './types'
 
 const DEFAULT_OPTIONS: Options = {

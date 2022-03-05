@@ -8,7 +8,7 @@ import {
   Context,
   MiddlewareInjectOptions,
 } from '@prequest/types'
-import { merge } from '@prequest/utils'
+import { merge } from '@xdoer/x'
 import { Middleware } from './Middleware'
 import { METHODS } from './constant'
 

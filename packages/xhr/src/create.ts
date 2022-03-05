@@ -1,6 +1,6 @@
 import { PreQuest } from '@prequest/core'
 import { baseOption } from '@prequest/helper'
-import { merge } from '@prequest/utils'
+import { merge } from '@xdoer/x'
 import { adapter } from './adapter'
 import { Adapter, Config } from '@prequest/types'
 

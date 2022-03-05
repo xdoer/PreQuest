@@ -1,5 +1,5 @@
 import { stringify } from 'qs'
-import { elementType, merge, isAbsoluteURL } from '@prequest/utils'
+import { is, merge, isAbsoluteURL, isEmpty } from '@xdoer/x'
 import { PresetOption, Common, PQRequest } from '@prequest/types'
 
 export * from './error'
@@ -32,22 +32,10 @@ export function requestId(options: PQRequest): string {
   return createRequestUrl({ ...options, params: {} })
 }
 
-export function isEmpty(value: any) {
-  const type = elementType(value)
-  switch (type) {
-    case 'object':
-      return !Reflect.ownKeys(value).length && value.constructor === Object
-    case 'array':
-      return !value.length
-    default:
-      return !value
-  }
-}
-
 // 参考: https://github.com/umijs/umi-request/blob/master/src/middleware/simplePost.js
 export function formatRequestBodyAndHeaders(opt: PQRequest) {
   const options: any = opt
-  const bodyType = elementType(options.data)
+  const bodyType = is(options.data)
 
   const headers: Common = {}
   let data = options.data
