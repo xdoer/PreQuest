@@ -3,7 +3,7 @@ import { StateBusManager } from '@xdoer/state-bus'
 import { setTimeoutInterval, clearTimeoutInterval } from '@xdoer/timeout-interval'
 import { useEffect } from 'react'
 import { Config, Cache, GlobalCache } from './types'
-import { noop } from './utils'
+import { noop } from '@xdoer/x'
 
 export default function createQueryHook(prequest: PreQuestInstance) {
   const globalCache: GlobalCache = {}

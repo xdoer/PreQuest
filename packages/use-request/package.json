@@ -58,7 +58,8 @@
     "@prequest/core": "^1.3.3",
     "@prequest/types": "^1.3.3",
     "@xdoer/state-bus": "2.0.0",
-    "@xdoer/timeout-interval": "^1.0.2"
+    "@xdoer/timeout-interval": "^1.0.2",
+    "@xdoer/x": "^0.0.4"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.11.0",
