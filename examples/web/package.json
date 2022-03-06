@@ -14,7 +14,7 @@
     "@prequest/response-types-client": "^1.3.3",
     "@prequest/response-types-server": "^1.3.3",
     "@prequest/uploader": "^1.3.3",
-    "@xdoer/x": "^0.0.4",
+    "@xdoer/x": "^0.0.6",
     "@prequest/wrapper": "^1.3.3",
     "@prequest/xhr": "^1.3.3",
     "axios": "^0.21.1",
