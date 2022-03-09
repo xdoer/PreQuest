@@ -87,14 +87,14 @@ wxDownload('/download')
 
 上传、请求配置项一致
 
-| Option Name              | Type                                       | Default | Required | Meaning        | Example                           |
-| ------------------------ | ------------------------------------------ | ------- | -------- | -------------- | --------------------------------- |
-| path                     | string                                     | none    | Y        | 接口地址       | /audio/123                        |
-| baseURL                  | string                                     | none    | N        | 服务端地址     | 'http://localhost:3000'           |
-| url                      | string                                     | none    | N        | 服务端接口地址 | 'http://localhost:3000/audio/123' |
-| getNativeRequestInstance | (value: Promise\<NativeInstance\>) => void | none    | N        | 获取原生请求   |                                   |
-| cancelToken              | CancelToken                                | none    | N        | 取消请求       |                                   |
-| header                   | object                                     | none    | N        | 请求头         | { token: 'aaaaa'}                 |
+| Option Name              | Type                        | Default | Required | Meaning        | Example                           |
+| ------------------------ | --------------------------- | ------- | -------- | -------------- | --------------------------------- |
+| path                     | string                      | none    | Y        | 接口地址       | /audio/123                        |
+| baseURL                  | string                      | none    | N        | 服务端地址     | 'http://localhost:3000'           |
+| url                      | string                      | none    | N        | 服务端接口地址 | 'http://localhost:3000/audio/123' |
+| getNativeRequestInstance | (value: wx.Request) => void | none    | N        | 获取原生请求   |                                   |
+| cancelToken              | CancelToken                 | none    | N        | 取消请求       |                                   |
+| header                   | object                      | none    | N        | 请求头         | { token: 'aaaaa'}                 |
 
 ---
 

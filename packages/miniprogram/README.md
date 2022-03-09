@@ -20,12 +20,9 @@ import { PreQuest, create } from '@prequest/miniprogram'
 const prequest = create(wx.request)
 
 prequest('/api', {
-  getNativeRequestInstance(promise) {
-    promise.then(nativeRequest => {
-      // nativeRequest 为实际发起请求的 wx.request
-      nativeRequest.onHeadersReceived(res => {
-        console.log('响应头', res.header)
-      })
+  getNativeRequestInstance(nativeRequest) {
+    nativeRequest.onHeadersReceived(res => {
+      console.log('响应头', res.header)
     })
   },
 })

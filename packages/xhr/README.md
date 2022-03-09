@@ -18,11 +18,9 @@ npm install @prequest/xhr
 import { prequest } from '@prequest/xhr'
 
 prequest.post('/api', {
-  getNativeRequestInstance(promise) {
-    promise.then(xhr => {
-      // 仅做示例，推荐使用 cancelToken 取消请求
-      xhr.abort()
-    })
+  getNativeRequestInstance(xhr) {
+    // 仅做示例，推荐使用 cancelToken 取消请求
+    xhr.abort()
   },
 })
 ```

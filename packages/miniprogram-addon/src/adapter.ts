@@ -9,16 +9,11 @@ export function adapter<T, N>(request: RequestCore) {
       const url = createRequestUrl(finalOption)
       const { getNativeRequestInstance, cancelToken, ...rest } = finalOption
 
-      let instance = request({
+      const instance = request({
         ...rest,
         url,
-        success(res: any) {
-          resolve(res)
-        },
-        fail(e: any) {
-          reject(e)
-          instance = null
-        },
+        success: resolve,
+        fail: reject,
       })
 
       if (cancelToken) {
@@ -33,13 +28,7 @@ export function adapter<T, N>(request: RequestCore) {
         })
       }
 
-      if (getNativeRequestInstance) {
-        let resolvePromise: any
-        let promise = new Promise(resolve => (resolvePromise = resolve))
-        getNativeRequestInstance(promise)
-
-        resolvePromise?.(instance)
-      }
+      getNativeRequestInstance?.(instance)
     })
   }
 }

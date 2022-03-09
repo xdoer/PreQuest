@@ -23,9 +23,6 @@ export function adapter(options: Config): Promise<PQResponse> {
     onUploadProgress,
   } = finalOptions
 
-  let resolvePromise: any
-  getNativeRequestInstance?.(new Promise(resolve => (resolvePromise = resolve)))
-
   return new Promise((resolve, reject) => {
     let xhr: any = new XMLHttpRequest()
     xhr.open(method, url, true)
@@ -81,7 +78,7 @@ export function adapter(options: Config): Promise<PQResponse> {
 
     xhr.addEventListener('abort', (e: any) => reject(enhanceError(e, ErrorCode.abort, options)))
 
-    resolvePromise?.(xhr)
+    getNativeRequestInstance?.(xhr)
 
     xhr.send(data)
   })

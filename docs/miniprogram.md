@@ -20,12 +20,10 @@ import { PreQuest, create } from '@prequest/miniprogram'
 const prequest = create(wx.request)
 
 prequest('/api', {
-  getNativeRequestInstance(promise) {
-    promise.then(nativeRequest => {
-      // nativeRequest 为实际发起请求的 wx.request
-      nativeRequest.onHeadersReceived(res => {
-        console.log('响应头', res.header)
-      })
+  getNativeRequestInstance(nativeRequest) {
+    // nativeRequest 为实际发起请求的 wx.request
+    nativeRequest.onHeadersReceived(res => {
+      console.log('响应头', res.header)
     })
   },
 })
@@ -44,7 +42,7 @@ prequest('/api', {
 | path                     | string                            | none    | Y        | 👍     | server interface path                   |
 | method                   | string                            | GET     | N        | 👎     | request method                          |
 | baseURL                  | string                            | none    | N        | 👍     | base server interface address           |
-| getNativeRequestInstance | (value: Promise\<any\>) => void   | none    | N        | 👍     | get native request instance             |
+| getNativeRequestInstance | (value: wx.Request) => void       | none    | N        | 👍     | get native request instance             |
 | cancelToken              | CancelToken                       | none    | N        | 👍     | cancel a request                        |
 | timeout                  | number                            | none    | N        | 👎     | request timeout                         |
 | params                   | object                            | none    | N        | 👍     | url parameters                          |
