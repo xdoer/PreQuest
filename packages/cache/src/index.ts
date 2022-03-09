@@ -3,7 +3,7 @@ import { PQRequest, Adapter, Config } from '@prequest/types'
 import { Options } from './types'
 
 const defaultOptions = {
-  ttl: 60000,
+  ttl: 1000 * 60,
   cacheKernel: new Map<string, string>(),
   getCacheKey: (opt: PQRequest) => opt.path,
   validateCache: (opt: PQRequest) => !opt.method || opt.method === 'GET',
