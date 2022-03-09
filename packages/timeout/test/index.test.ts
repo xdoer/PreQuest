@@ -1,11 +1,7 @@
-import TimeoutMiddleware from '../src'
-
-const timeoutMiddleware = TimeoutMiddleware<any, any>({
-  timeout: 1000,
-})
+import timeoutMiddleware from '../src'
 
 test('TimeoutMiddleware', async () => {
-  const ctx: any = { request: { method: 'GET' }, response: {} }
+  const ctx: any = { request: { method: 'GET', timeout: 100 }, response: {} }
 
   try {
     await timeoutMiddleware(ctx, async () => {
@@ -18,7 +14,7 @@ test('TimeoutMiddleware', async () => {
   }
 })
 
-const sleep = (t = 3000) => {
+const sleep = (t = 200) => {
   return new Promise(resolve => {
     setTimeout(resolve, t)
   })
