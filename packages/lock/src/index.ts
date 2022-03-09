@@ -1,3 +1,4 @@
+import { createAsyncPromise } from '@xdoer/x'
 import { Options } from './types'
 
 export type LockOptions = Options
@@ -5,7 +6,11 @@ export type LockOptions = Options
 export default class Lock {
   on = false
 
-  constructor(private opt: Options) {}
+  constructor(private opt: Options) {
+    const { promise, resolve } = createAsyncPromise()
+    this.promise = promise
+    this.resolvePromise = resolve
+  }
 
   async getValue() {
     return this.opt.getValue()
@@ -17,13 +22,14 @@ export default class Lock {
 
   async clear() {
     if (this.on) return
-    this.on = false
-    this.promise = new Promise(resolve => (this.resolvePromise = resolve))
+    const { promise, resolve } = createAsyncPromise()
+    this.promise = promise
+    this.resolvePromise = resolve
     return this.opt.clearValue()
   }
 
   resolvePromise: any
-  promise = new Promise(resolve => (this.resolvePromise = resolve))
+  promise: Promise<any>
 
   static createLockWrapper(lock: Lock) {
     return async function(fn: () => Promise<any>) {
