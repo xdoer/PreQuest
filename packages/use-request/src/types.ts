@@ -14,7 +14,10 @@ export type Cache<Q = any> = {
   request: PQRequest
   response: PQResponse<Q>
   stopLoop(): void
-  toFetch(opt?: PQRequest | ((o: PQRequest) => PQRequest), config?: ToFetchConfig<Q>): void
+  toFetch(
+    opt?: Partial<PQRequest> | ((o: PQRequest) => Partial<PQRequest>),
+    config?: ToFetchConfig<Q>
+  ): void
   deps: any[]
   timerId: number
 }
