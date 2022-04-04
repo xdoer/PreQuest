@@ -27,5 +27,5 @@ export interface Config<Q = any> {
   deps?: any[]
   lazy?: boolean
   loop?: number
-  onUpdate?: (prev: PQResponse<Q>, value: PQResponse<Q>) => PQResponse<Q>
+  onUpdate?: (value: PQResponse<Q>, prev: PQResponse<Q>) => PQResponse<Q>
 }
