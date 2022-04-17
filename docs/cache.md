@@ -10,23 +10,16 @@ npm install @prequest/cache
 
 ## 使用
 
+下面的示例表示在一分钟内，发起的相同的路径的 GET 请求，都只会调用一次接口，响应相同的数据。
+
 ```ts
 import { create } from '@prequest/xhr'
-import createCache from '@prequest/cache'
+import createCacheAdapter from '@prequest/cache'
 
-const cache = createCache({
+const cache = createCacheAdapter({
   ttl: 60000,
-  getCacheKey: opt => opt.path + opt.method,
-  validateCache: opt => opt.method === 'GET',
-  cacheKernel: {
-    set: (key, value) => {
-      localStorage.setItem(key, JSON.stringify(value))
-    },
-    get: key => {
-      const value = localStorage.getItem(key)
-      return JSON.parse(value)
-    },
-  },
+  getCacheKey: opt => opt.path,
+  validateCache: opt => !opt.method || opt.method === 'GET',
 })
 
 const prequest = create({ useCache: true }, cache)
@@ -34,11 +27,10 @@ const prequest = create({ useCache: true }, cache)
 
 ## 配置项
 
-| Option Name   | Type                                                                | Default                     | Required | Meaning                      |
-| ------------- | ------------------------------------------------------------------- | --------------------------- | -------- | ---------------------------- |
-| ttl           | number                                                              | 60000                       | false    | 默认一分钟缓存失效           |
-| getCacheKey   | (opt: any) => string                                                | (opt) => opt.path           | false    | 默认以请求路径作为缓存的 key |
-| validateCache | (opt: any) => boolean                                               | opt => opt.method === 'GET' | false    | 默认 GET 请求才会缓存        |
-| cacheKernel   | { get: key => Promise\<any\>, set: (key, value) => Promise\<void\>} | opt => new Map()            | false    | 默认存到 map 数据结构中      |
+| Option Name   | Type                  | Default            | Required | Meaning                      |
+| ------------- | --------------------- | ------------------ | -------- | ---------------------------- |
+| ttl           | number                | 60000              | false    | 默认一分钟缓存失效           |
+| getCacheKey   | (opt: any) => string  | (opt) => opt.path  | false    | 默认以请求路径作为缓存的 key |
+| validateCache | (opt: any) => boolean | opt => !opt.method |          | opt.method === 'GET'         | false | 默认 GET 请求才会缓存 |
 
 同时，发情请求时，设置 `useCache` 为 `true`，且 `validateCache` 校验通过，则会缓存请求数据。
