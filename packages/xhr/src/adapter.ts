@@ -33,7 +33,7 @@ export function adapter(options: Config): Promise<PQResponse> {
      * https://github.com/axios/axios/blob/master/lib/adapters/xhr.js
      * https://stackoverflow.com/questions/36265554/how-to-check-ajax-response-string-when-type-is-set-to-json
      */
-    if (responseType !== 'json') {
+    if (responseType && responseType !== 'json') {
       xhr.responseType = responseType
     }
 
@@ -41,21 +41,20 @@ export function adapter(options: Config): Promise<PQResponse> {
     Object.entries(headers).forEach(([key, value]) => xhr.setRequestHeader(key, <string>value))
 
     if (xhr.onloadend) {
-      xhr.addEventListener('loadend', () => {
-        if (xhr.readyState === 4) {
-          onloadend()
-        }
-      })
+      xhr.addEventListener('loadend', onloadend)
     } else {
       xhr.addEventListener('readystatechange', () => {
-        if (xhr.readyState === 4) {
-          setTimeout(onloadend)
+        if (xhr?.readyState !== 4) return
+        if (xhr.status === 0 && !(xhr.responseURL && xhr.responseURL.indexOf('file:') === 0)) {
+          return
         }
+        setTimeout(onloadend)
       })
     }
 
     function onloadend() {
       resolve(createResponse(xhr, responseType) as any)
+      xhr = null
     }
 
     xhr.addEventListener('timeout', (e: any) => reject(enhanceError(e, ErrorCode.timeout, options)))

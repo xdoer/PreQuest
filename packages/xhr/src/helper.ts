@@ -1,7 +1,9 @@
 import { PQResponse } from '@prequest/types'
 
 export function createResponse(ctx: XMLHttpRequest, responseType?: string): PQResponse {
-  const { responseText, status, statusText, response } = ctx
+  // @ts-ignore
+  if (!ctx) return
+  const { responseText, status, statusText, response } = ctx || {}
   const data =
     !responseType || responseType === 'text' || responseType === 'json' ? responseText : response
   return {
