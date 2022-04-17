@@ -24,7 +24,7 @@ npm install @prequest/fetch
 | data               | object                                     | none    | N        | 请求头传输数据                     | { id: 10}               |
 | responseType       | json \| text \| arraybuffer \|...          | none    | N        | 响应的数据类型                     | json                    |
 | requestType        | json \| text \| arraybuffer \|...          | none    | N        | 请求的数据类型，用以自动设置请求头 | json                    |
-| header             | object                                     | none    | N        | 请求头                             | { token: 'aaaaa'}       |
+| headers            | object                                     | none    | N        | 请求头                             | { token: 'aaaaa'}       |
 | onDownloadProgress | ({ loaded: number, total: number}) => void | none    | N        | 下载进度                           |                         |
 
 其他 fetch 原生支持的参数也支持传入

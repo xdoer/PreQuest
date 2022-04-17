@@ -62,8 +62,8 @@ prequest.use(async (ctx, next) => {
   if (ctx.request.skipTokenCheck) return next()
 
   const token = await wrapper(getToken)
-    ctx.request.header = ctx.request.header || {}
-  ctx.request.header['Authorization'] = `bearer ${token}`
+  ctx.request.headers = ctx.request.headers || {}
+  ctx.request.headers['Authorization'] = `bearer ${token}`
   await next()
 })
 

@@ -23,7 +23,7 @@ npm install @prequest/node
 | params           | object                            | none    | N        | url 参数                  | { id: 10}               |
 | data             | object                            | none    | N        | 请求头传输数据            | { id: 10}               |
 | responseType     | json \| text \| arraybuffer \|... | none    | N        | 响应的数据类型            | json                    |
-| header           | object                            | none    | N        | 请求头                    | { token: 'aaaaa'}       |
+| headers          | object                            | none    | N        | 请求头                    | { token: 'aaaaa'}       |
 | cancelToken      | CancelToken                       | none    | N        | 取消请求                  |                         |
 | responseEncoding | BufferEncoding                    | utf-8   | N        | 解码响应的编码            |                         |
 | socketPath       | string                            | none    | N        | 使用的 UNIX 套接字        | '/var/run/docker.sock'  |

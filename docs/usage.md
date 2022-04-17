@@ -24,7 +24,7 @@ const prequest2 = create()
 // 你可以初始化默认参数
 const prequest3 = create({
   baseURL: 'http://localhost:8080',
-  header: {
+  headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
   },
 })
@@ -49,7 +49,7 @@ const prequest2 = create(swan.request)
 // 同样可以初始化默认参数
 const prequest3 = create(wx.request, {
   baseURL: 'http://localhost:8080',
-  header: {
+  headers: {
     'Content-Type': 'application/x-www-form-urlencoded',
   },
 })
