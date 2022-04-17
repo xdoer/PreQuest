@@ -1,6 +1,6 @@
 {
   "name": "@prequest/example-node",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "description": "",
   "private": true,
   "main": "index.js",
@@ -10,7 +10,7 @@
   "keywords": [],
   "author": "Thomas Trainset",
   "dependencies": {
-    "@prequest/response-types-generator": "^1.3.6"
+    "@prequest/response-types-generator": "^1.3.7"
   },
   "license": "ISC",
   "gitHead": "aef1ddda3dec6a2110d9a6aef9b8cec46b5d0a96"
