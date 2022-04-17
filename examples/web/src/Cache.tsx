@@ -5,6 +5,17 @@ import createCache from '@prequest/cache'
 const cache = createCache({
   ttl: 6000,
   validateCache: opt => true,
+  cacheKernel: {
+    set: (key, value) => {
+      console.log('---', key, value)
+      localStorage.setItem(key, JSON.stringify(value))
+    },
+    get: (key) => {
+      const value = localStorage.getItem(key)
+      console.log('2---', value)
+      return JSON.parse(value)
+    }
+  }
 })
 const prequest = create({ useCache: true }, cache)
 
