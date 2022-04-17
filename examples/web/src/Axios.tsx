@@ -1,15 +1,29 @@
 import React, { FC, useEffect, useState } from 'react'
-import oldAxios, { AxiosRequestConfig, AxiosResponse } from 'axios'
-import { PreQuest } from '@prequest/core'
+import oldAxios from 'axios'
 
-const prequest = PreQuest.create<AxiosRequestConfig, AxiosResponse>(oldAxios)
+export const AxiosComponent: FC<{}> = ({ }) => {
 
-export const FetchComponent: FC<{}> = ({ }) => {
+  useEffect(() => {
+    oldAxios('https://webspiderr.herokuapp.com/crawl/api', {
+      params: {
+        user: 'xdoer',
+        cid: '73b1430d-faa0-44eb-899e-36cf5cbfaec8'
+      },
+      // responseType: 'text'
+    }).then(res => {
+      console.log('查看响应', res)
+
+    })
+  }, [])
 
   async function onClick() {
     try {
-      const res = await prequest({
-        url: 'http://localhost:8080/api'
+      const res = await oldAxios('https://webspiderr.herokuapp.com/crawl/api', {
+        params: {
+          user: 'xdoer',
+          cid: '73b1430d-faa0-44eb-899e-36cf5cbfaec8'
+        },
+        responseType: 'text'
       })
       console.log('查看响应', res)
     } catch (e) {

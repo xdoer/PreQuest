@@ -3,7 +3,7 @@
   "version": "1.3.6",
   "private": true,
   "scripts": {
-    "dev": "scr & vite"
+    "dev": "vite"
   },
   "dependencies": {
     "@prequest/core": "^1.3.6",

@@ -34,7 +34,7 @@ const middleware = generatorMiddlewareWrapper({
   }
 })
 
-prequest.use(middleware)
+// prequest.use(middleware)
 
 export const FetchComponent: FC<{}> = ({ }) => {
 
@@ -43,9 +43,16 @@ export const FetchComponent: FC<{}> = ({ }) => {
       params: {
         user: 'xdoer',
         cid: '73b1430d-faa0-44eb-899e-36cf5cbfaec8'
-      }
+      },
+      headers: {
+        ['Content-Type']: 'json'
+      },
+      responseType: 'json'
     }).then(res => {
-      console.log('查看值')
+      console.log('查看值', res)
+      // return res.json()
+    }).then(res => {
+      console.log(res)
     })
   }, [])
 
