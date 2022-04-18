@@ -7,14 +7,6 @@ export default class CancelToken {
 
   private __CANCEL__ = false
 
-  get abortController() {
-    try {
-      return new AbortController()
-    } catch (e) {
-      return null
-    }
-  }
-
   constructor(private executor: (cb: executorCallback) => void) {
     const { resolve, promise } = createAsyncPromise<string>()
 
