@@ -2,6 +2,8 @@ import React, { FC, useEffect } from 'react'
 import prequest, { create } from '@prequest/fetch'
 import generatorMiddlewareWrapper from '@prequest/response-types-client'
 import { PQRequest } from '@prequest/types'
+import CancelToken from '@prequest/cancel-token'
+
 
 const defaultOutPutFileName = (requestOption: PQRequest) => {
   return requestOption.path?.replace(/.*\/(\w+)/, (_, __) => __) || ''
@@ -34,26 +36,27 @@ const middleware = generatorMiddlewareWrapper({
   }
 })
 
-// prequest.use(middleware)
-
 export const FetchComponent: FC<{}> = ({ }) => {
 
   useEffect(() => {
+    const cancel = CancelToken.source()
+
     prequest('https://webspiderr.herokuapp.com/crawl/api', {
       params: {
         user: 'xdoer',
         cid: '73b1430d-faa0-44eb-899e-36cf5cbfaec8'
       },
-      headers: {
-        ['Content-Type']: 'json'
-      },
-      responseType: 'json'
-    }).then(res => {
-      console.log('查看值', res)
-      // return res.json()
-    }).then(res => {
-      console.log(res)
+      responseType: 'json',
+      cancelToken: cancel.token
     })
+      .then(console.log)
+      .catch(e => {
+        console.log(111, e.code)
+      })
+    setTimeout(() => cancel.cancel(), 4000)
+    // cancel.cancel()
+
+
   }, [])
 
   return (
@@ -62,4 +65,3 @@ export const FetchComponent: FC<{}> = ({ }) => {
     </div>
   )
 }
-
