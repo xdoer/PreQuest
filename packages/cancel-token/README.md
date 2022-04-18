@@ -70,20 +70,16 @@ interface Request {
 function adapter(opt) {
   const { cancelToken } = opt
 
-  if (cancelToken) {
-    cancelToken.promise.then(() => {
-      // 调用原生请求的方法，取消请求。一般用于请求内核提供了取消请求方法的情况下
-      nativeRequest.abort()
+  return new Promise((resolve, reject) => {
+    if (cancelToken) {
+      cancelToken.promise.then(() => {
+        // 调用原生请求的方法，取消请求。一般用于请求内核提供了取消请求方法的情况下
+        nativeRequest.abort()
 
-      // 利用 abortController 取消请求. fetch 请求
-      cancelToken.abortController?.abort()
-
-      // 如果环境不支持 AbortController 对象，则需要抛出异常。属于假取消请求
-      if (!cancelToken.abortController) {
-        throw new Error('cancel')
-      }
-    })
-  }
+        reject(new Error('cancel'))
+      })
+    }
+  })
 
   // ...some code
 }
