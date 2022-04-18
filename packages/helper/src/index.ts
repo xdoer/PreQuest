@@ -41,7 +41,7 @@ export function formatRequestBodyAndHeaders(opt: PQRequest) {
   let data = options.data
 
   if (bodyType === 'object' || bodyType === 'array') {
-    if (options.requestType === 'json') {
+    if (!options.requestType || options.requestType === 'json') {
       headers['Content-Type'] = 'application/json;charset=UTF-8'
       data = JSON.stringify(options.data)
     } else {
