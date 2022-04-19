@@ -3,7 +3,9 @@ import prequest, { create } from '@prequest/fetch'
 import generatorMiddlewareWrapper from '@prequest/response-types-client'
 import { PQRequest } from '@prequest/types'
 import CancelToken from '@prequest/cancel-token'
+import timeout from '@prequest/timeout'
 
+prequest.use(timeout)
 
 const defaultOutPutFileName = (requestOption: PQRequest) => {
   return requestOption.path?.replace(/.*\/(\w+)/, (_, __) => __) || ''
@@ -47,13 +49,14 @@ export const FetchComponent: FC<{}> = ({ }) => {
         cid: '73b1430d-faa0-44eb-899e-36cf5cbfaec8'
       },
       responseType: 'json',
-      cancelToken: cancel.token
+      cancelToken: cancel.token,
+      timeout: 100
     })
       .then(console.log)
       .catch(e => {
         console.log(111, e.code)
       })
-    setTimeout(() => cancel.cancel(), 4000)
+    // setTimeout(() => cancel.cancel(), 1000)
     // cancel.cancel()
 
 
