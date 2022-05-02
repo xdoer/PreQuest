@@ -61,13 +61,12 @@ export class PreQuest extends Middleware {
   static create(adapter: Adapter, config?: Config): PreQuestInstance {
     const instance = new PreQuest(adapter, config)
 
-    return new Proxy(adapter as any, {
-      get(_, name) {
-        return Reflect.get(instance, name) || Reflect.get(adapter, name)
-      },
-      apply(_, __, args) {
-        return Reflect.apply(instance.request, instance, args)
-      },
-    })
+    const request: any = (path: string | Config, config?: Config) => {
+      return instance.request(path, config)
+    }
+
+    Reflect.setPrototypeOf(request, instance)
+
+    return request
   }
 }
