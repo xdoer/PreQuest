@@ -63,7 +63,7 @@
     "@prequest/core": "^1.4.0",
     "@prequest/helper": "^1.4.0",
     "@prequest/types": "^1.4.0",
-    "@xdoer/x": "^0.0.6",
+    "@xdoer/x": "^1.0.0",
     "follow-redirects": "^1.14.1"
   },
   "devDependencies": {
