@@ -4,8 +4,19 @@ export function createResponse(ctx: XMLHttpRequest, responseType?: string): PQRe
   // @ts-ignore
   if (!ctx) return
   const { responseText, status, statusText, response } = ctx || {}
-  const data =
-    !responseType || responseType === 'text' || responseType === 'json' ? responseText : response
+
+  // 默认为 json 类型
+  const needJSONParsing = !responseType || responseType === 'json'
+
+  let data
+
+  try {
+    data = !responseType || responseType === 'text' || responseType === 'json' ? responseText : response
+    if (needJSONParsing) data = JSON.parse(data)
+  } catch (e) {
+    console.error('JSON parse fail')
+  }
+
   return {
     data,
     status,
