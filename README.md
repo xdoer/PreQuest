@@ -37,6 +37,8 @@ import timeoutMiddleware from '@prequest/timeout'
 
 // 全局配置
 PreQuest.defaults.baseURL = 'http://locahost:8080'
+// 项目中如果有设置 header 的需求，建议先初始化有个空对象
+PreQuest.defaults.headers = {}
 
 // 全局中间件
 PreQuest.use((ctx, next) => {
