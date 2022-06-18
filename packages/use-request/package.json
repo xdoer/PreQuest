@@ -1,5 +1,5 @@
 {
-  "version": "1.4.1",
+  "version": "1.5.0",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -55,8 +55,8 @@
     }
   ],
   "dependencies": {
-    "@prequest/core": "^1.4.1",
-    "@prequest/types": "^1.4.1",
+    "@prequest/core": "^1.5.0",
+    "@prequest/types": "^1.5.0",
     "@xdoer/state-bus": "2.0.0",
     "@xdoer/timeout-interval": "^1.0.2",
     "@xdoer/x": "^1.0.0"
