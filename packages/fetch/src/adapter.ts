@@ -1,17 +1,11 @@
 import { Config, PQResponse, PQRequest } from '@prequest/types'
-import {
-  createError,
-  createRequestUrl,
-  ErrorCode,
-  formatRequestBodyAndHeaders,
-} from '@prequest/helper'
+import { createError, createRequestUrl, ErrorCode } from '@prequest/helper'
 import { parseResBody } from './helper'
 
 export async function adapter(options: Config): Promise<PQResponse> {
   const finalOptions = (options || {}) as PQRequest
   const url = createRequestUrl(finalOptions!)
-  const { data, headers } = formatRequestBodyAndHeaders(finalOptions)
-  const { cancelToken, onDownloadProgress, ...rest } = finalOptions!
+  const { cancelToken, onDownloadProgress, data, headers, ...rest } = finalOptions!
 
   const config = { ...rest, body: data, headers } as any
 

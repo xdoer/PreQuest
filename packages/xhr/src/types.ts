@@ -3,9 +3,9 @@ import CancelToken from '@prequest/cancel-token'
 
 declare module '@prequest/types' {
   interface PQRequest extends PQ.PresetOption {
+    headers?: PQ.Common
     timeout?: number
     withCredentials?: boolean
-    requestType?: 'json' | 'form' | ({} & string)
     responseType?: XMLHttpRequestResponseType
     getNativeRequestInstance?(promise: Promise<XMLHttpRequest>): void
     cancelToken?: CancelToken

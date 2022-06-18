@@ -3,7 +3,6 @@ import CancelToken from '@prequest/cancel-token'
 
 declare module '@prequest/types' {
   interface PQRequest extends PQ.PresetOption {
-    requestType?: 'json' | 'form' | ({} & string)
     cancelToken?: CancelToken
     onDownloadProgress?(e: { loaded: number; total: number }): void
     headers?: PQ.Common

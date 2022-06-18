@@ -1,4 +1,4 @@
-import { createRequestUrl, formatRequestBodyAndHeaders } from '../src'
+import { createRequestUrl } from '../src'
 
 test('createRequestUrl', () => {
   const baseURL = 'http://localhost:3000'
@@ -14,13 +14,4 @@ test('createRequestUrl', () => {
   expect(createRequestUrl({ url, path: '' })).toEqual(url)
 
   expect(createRequestUrl({ url, path: '', params })).toEqual(url + '?a=1')
-})
-
-test('formatRequestBodyAndHeaders', () => {
-  const ctx = { headers: {}, data: { a: 1 }, requestType: 'json' }
-
-  const { data, headers } = formatRequestBodyAndHeaders(ctx as any)
-
-  expect(data).toEqual('{"a":1}')
-  expect(headers).toMatchObject({ 'Content-Type': 'application/json;charset=UTF-8' })
 })
