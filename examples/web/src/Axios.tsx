@@ -1,10 +1,24 @@
 import React, { FC, useEffect, useState } from 'react'
-import oldAxios from 'axios'
+import oldAxios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import { PreQuest } from '@prequest/core'
+
+declare module '@prequest/types' {
+  interface PQRequest extends AxiosRequestConfig { }
+  interface PQResponse extends AxiosResponse { }
+}
+
+const prequest = PreQuest.create(
+  (opt) => {
+    const { path, ...rest } = opt
+    // @ts-ignore
+    return oldAxios(path!, rest)
+  }
+)
 
 export const AxiosComponent: FC<{}> = ({ }) => {
 
   useEffect(() => {
-    oldAxios('https://webspiderr.herokuapp.com/crawl/api', {
+    prequest('https://webspiderr.herokuapp.com/crawl/api', {
       params: {
         user: 'xdoer',
         cid: '73b1430d-faa0-44eb-899e-36cf5cbfaec8'
@@ -18,7 +32,7 @@ export const AxiosComponent: FC<{}> = ({ }) => {
 
   async function onClick() {
     try {
-      const res = await oldAxios('https://webspiderr.herokuapp.com/crawl/api', {
+      const res = await prequest('https://webspiderr.herokuapp.com/crawl/api', {
         params: {
           user: 'xdoer',
           cid: '73b1430d-faa0-44eb-899e-36cf5cbfaec8'
