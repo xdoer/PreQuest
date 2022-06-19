@@ -40,7 +40,7 @@ declare module '@prequest/types' {
   interface PQResponse extends AxiosResponse {}
 }
 
-const prequest = PreQuest.create<AxiosRequestConfig, AxiosResponse>(adapter)
+const prequest = PreQuest.create(adapter)
 ```
 
 通过 PreQuest 创建的实例，兼具了 axios 与 PreQuest 的特点。
@@ -128,7 +128,7 @@ import { PreQuest } from '@prequest/core'
 import ErrorRetryMiddleware from '@prequest/error-retry'
 import { axiosInstance } from './http'
 
-export const prequest = PreQuest.create<AxiosRequestConfig, AxiosResponse>(opt => axiosInstance(opt.path, opt))
+export const prequest = PreQuest.create(opt => axiosInstance(opt.path, opt))
 
 // 错误重试中间件
 const errorRetryMiddleware = ErrorRetryMiddleware()
