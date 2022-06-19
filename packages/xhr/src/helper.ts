@@ -3,7 +3,7 @@ import { PQResponse } from '@prequest/types'
 export function createResponse(ctx: XMLHttpRequest, responseType?: string): PQResponse {
   // @ts-ignore
   if (!ctx) return
-  const { responseText, status, statusText, response } = ctx || {}
+  const { status, statusText } = ctx || {}
 
   // 默认为 json 类型
   const needJSONParsing = !responseType || responseType === 'json'
@@ -11,7 +11,10 @@ export function createResponse(ctx: XMLHttpRequest, responseType?: string): PQRe
   let data
 
   try {
-    data = !responseType || responseType === 'text' || responseType === 'json' ? responseText : response
+    data =
+      !responseType || responseType === 'text' || responseType === 'json'
+        ? ctx.responseText
+        : ctx.response
     if (needJSONParsing) data = JSON.parse(data)
   } catch (e) {
     console.error('JSON parse fail')
