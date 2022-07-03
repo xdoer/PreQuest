@@ -31,10 +31,8 @@ export default function(options?: Options) {
 
         caches.set(cacheKey, { time: Date.now(), promise: promise.promise })
 
-        const newValue = await core(opt)
-
         try {
-          const value = await verifyResponse(newValue)
+          const value = await verifyResponse(await core(opt))
           promise.resolve(value)
           return value
         } catch (e) {
