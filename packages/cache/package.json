@@ -1,5 +1,5 @@
 {
-  "version": "1.5.0",
+  "version": "1.5.1",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -60,7 +60,7 @@
     }
   ],
   "dependencies": {
-    "@prequest/types": "^1.5.0",
+    "@prequest/types": "^1.5.1",
     "@xdoer/x": "^1.0.1"
   },
   "devDependencies": {
