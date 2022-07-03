@@ -1,22 +1,27 @@
-import { merge, createAsyncPromise } from '@xdoer/x'
+import { merge, createAsyncPromise, fallback } from '@xdoer/x'
 import { PQRequest, Adapter, Config } from '@prequest/types'
 import { Options } from './types'
 
-const defaultOptions = {
+const defaultOptions: Options = {
   ttl: 1000 * 60,
   getCacheKey: (opt: PQRequest) => opt.path,
-  validateCache: (opt: PQRequest) => !opt.method || opt.method === 'GET',
+  verifyRequest: (opt: PQRequest) => !opt.method || opt.method === 'GET',
+  verifyResponse: fallback,
 }
 
 export default function(options?: Options) {
-  const { getCacheKey, ttl, validateCache } = merge(defaultOptions, options)
+  const { getCacheKey, ttl, verifyRequest, verifyResponse } = merge<Required<Options>>(
+    defaultOptions,
+    options
+  )
   return function(core: Adapter): Adapter {
     const caches = new Map<string, { promise: Promise<any>; time: number }>()
     return async function(opt: Config) {
       const { useCache = false } = opt
+      const _opt = opt as PQRequest
 
-      if (useCache && validateCache(opt)) {
-        const cacheKey = getCacheKey(opt)
+      if (useCache && verifyRequest(_opt)) {
+        const cacheKey = getCacheKey!(_opt)
         const cache = caches.get(cacheKey)
 
         // if cache is valid
@@ -28,10 +33,14 @@ export default function(options?: Options) {
 
         const newValue = await core(opt)
 
-        // resolve valid cache promise
-        promise.resolve(newValue)
-
-        return newValue
+        try {
+          const value = await verifyResponse(newValue)
+          promise.resolve(value)
+          return value
+        } catch (e) {
+          promise.reject(e)
+          throw e
+        }
       }
 
       return core(opt)
