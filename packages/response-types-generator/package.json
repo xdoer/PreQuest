@@ -62,7 +62,7 @@
   "dependencies": {
     "@prequest/node": "^1.5.0",
     "@prequest/types": "^1.5.0",
-    "@xdoer/x": "^1.0.0",
+    "@xdoer/x": "^1.0.1",
     "json-types-generator": "^0.0.5"
   },
   "devDependencies": {

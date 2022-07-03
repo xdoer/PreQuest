@@ -60,7 +60,7 @@
     }
   ],
   "dependencies": {
-    "@xdoer/x": "^1.0.0"
+    "@xdoer/x": "^1.0.1"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^4.10.2",
