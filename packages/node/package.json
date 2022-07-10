@@ -1,5 +1,5 @@
 {
-  "version": "1.5.1",
+  "version": "1.5.2",
   "license": "MIT",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -60,9 +60,9 @@
     }
   ],
   "dependencies": {
-    "@prequest/core": "^1.5.1",
-    "@prequest/helper": "^1.5.1",
-    "@prequest/types": "^1.5.1",
+    "@prequest/core": "^1.5.2",
+    "@prequest/helper": "^1.5.2",
+    "@prequest/types": "^1.5.2",
     "@xdoer/x": "^1.0.1",
     "follow-redirects": "^1.14.1"
   },
