@@ -1,4 +1,4 @@
-import { merge, createAsyncPromise, fallback } from '@xdoer/x'
+import { merge, AsyncPromise, fallback } from '@xdoer/x'
 import { PQRequest, Adapter, Config } from '@prequest/types'
 import { Options } from './types'
 
@@ -27,7 +27,7 @@ export default function(options?: Options) {
         // if cache is valid
         if (cache && Date.now() - cache.time < ttl) return cache.promise
 
-        const promise = createAsyncPromise()
+        const promise = new AsyncPromise()
 
         caches.set(cacheKey, { time: Date.now(), promise: promise.promise })
 

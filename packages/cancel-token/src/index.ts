@@ -1,4 +1,4 @@
-import { createAsyncPromise } from '@xdoer/x'
+import { AsyncPromise } from '@xdoer/x'
 
 type executorCallback = () => void
 
@@ -8,7 +8,7 @@ export default class CancelToken {
   private __CANCEL__ = false
 
   constructor(private executor: (cb: executorCallback) => void) {
-    const { resolve, promise } = createAsyncPromise<string>()
+    const { resolve, promise } = new AsyncPromise<string>()
 
     this.promise = promise
 

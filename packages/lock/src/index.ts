@@ -1,4 +1,4 @@
-import { createAsyncPromise } from '@xdoer/x'
+import { AsyncPromise } from '@xdoer/x'
 import { Options } from './types'
 
 export type LockOptions = Options
@@ -7,7 +7,7 @@ export default class Lock {
   on = false
 
   constructor(private opt: Options) {
-    const { promise, resolve } = createAsyncPromise()
+    const { promise, resolve } = new AsyncPromise()
     this.promise = promise
     this.resolvePromise = resolve
   }
@@ -22,7 +22,7 @@ export default class Lock {
 
   async clear() {
     if (this.on) return
-    const { promise, resolve } = createAsyncPromise()
+    const { promise, resolve } = new AsyncPromise()
     this.promise = promise
     this.resolvePromise = resolve
     return this.opt.clearValue()
