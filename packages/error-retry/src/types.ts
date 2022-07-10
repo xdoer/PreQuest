@@ -1,6 +1,6 @@
 import { PQError, PQRequest } from '@prequest/types'
 
-export type RetryControl = (opt: PQRequest, err: PQError) => boolean
+export type RetryControl = (opt: PQRequest, err: PQError) => Promise<boolean>
 
 export interface MiddlewareOptions {
   retryCount?: number

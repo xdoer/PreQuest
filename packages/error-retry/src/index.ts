@@ -4,7 +4,7 @@ import { MiddlewareOptions } from './types'
 
 const defaultOptions: MiddlewareOptions = {
   retryCount: 1,
-  retryControl: ({ method }) => /^get$/i.test(method) || !method,
+  retryControl: ({ method }) => Promise.resolve(/^get$/i.test(method) || !method),
 }
 
 export default function errorRetryMiddleware(opt?: MiddlewareOptions): MiddlewareCallback {
