@@ -1,4 +1,4 @@
-import { PreQuestInstance, Config as PreQuestConfig } from '@prequest/types'
+import { PreQuestInstance, Config as PreQuestConfig, PQRequest } from '@prequest/types'
 import { StateBusManager } from '@xdoer/state-bus'
 import { setTimeoutInterval, clearTimeoutInterval } from '@xdoer/timeout-interval'
 import { useEffect } from 'react'
@@ -116,10 +116,9 @@ export default function createQueryHook(prequest: PreQuestInstance) {
 
       if (fetchOpt) {
         if (typeof fetchOpt === 'function') {
-          // @ts-ignore
-          newCache.request = fetchOpt(newCache.request)
+          newCache.request = fetchOpt(newCache.request) as PQRequest
         } else {
-          newCache.request = fetchOpt
+          newCache.request = fetchOpt as PQRequest
         }
       }
 
