@@ -43,7 +43,10 @@ export function formatRequestBodyAndHeaders(opt: PQRequest) {
   for (let [key, value] of Object.entries(options.headers)) {
     const _value = value as string
     if (/^Content-Type$/i.test(key)) {
-      if (hasContentType) break
+      if (hasContentType) {
+        delete options.headers[key]
+        break
+      }
       hasContentType = true
       if (data !== void 0 && bodyType !== 'string') {
         if (/^application\/x-www-form-urlencoded/i.test(_value)) {
