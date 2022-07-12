@@ -39,22 +39,21 @@ export function formatRequestBodyAndHeaders(opt: PQRequest) {
 
   const bodyType = is(data)
 
-  let hasContentType: boolean = bodyType === 'formdata'
+  let hasContentType: boolean = false
   for (let [key, value] of Object.entries(options.headers)) {
     const _value = value as string
     if (/^Content-Type$/i.test(key)) {
-      if (hasContentType) {
-        delete options.headers[key]
-        break
-      }
       hasContentType = true
-      if (data !== void 0 && bodyType !== 'string') {
+      if (bodyType === 'formdata') {
+        delete options.headers[key]
+      } else if (data !== void 0 && bodyType !== 'string') {
         if (/^application\/x-www-form-urlencoded/i.test(_value)) {
           data = stringify(data)
         } else if (/^application\/json/i.test(_value)) {
           data = JSON.stringify(data)
         }
       }
+      break
     }
   }
   if (!hasContentType && data !== void 0 && bodyType !== 'string') {
