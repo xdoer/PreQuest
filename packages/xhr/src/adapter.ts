@@ -1,13 +1,12 @@
-import { createError, createRequestUrl, enhanceError, ErrorCode } from '@prequest/helper'
+import { createError, createRequestUrl, enhanceError, ErrorCode, formatRequestBodyAndHeaders } from '@prequest/helper'
 import { Config, PQRequest, PQResponse } from '@prequest/types'
 import { createResponse } from './helper'
 
 export function adapter(options: Config): Promise<PQResponse> {
   const finalOptions = (options || {}) as PQRequest
   const url = createRequestUrl(finalOptions)
+  const { data, headers } = formatRequestBodyAndHeaders(finalOptions)
   const {
-    data,
-    headers = {},
     timeout,
     withCredentials,
     responseType,
