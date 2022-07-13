@@ -4,7 +4,7 @@ export interface Options {
   ttl?: number
   getCacheKey?: (opt: PQRequest) => string
   verifyRequest?: (opt: PQRequest) => boolean
-  verifyResponse?: (response: PQResponse) => any
+  verifyResponse?: (res: PQResponse) => boolean
 }
 
 declare module '@prequest/types' {
