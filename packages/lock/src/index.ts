@@ -37,7 +37,11 @@ export default class Lock {
 
       lock.on = true
 
-      const value = (await lock.getValue()) || (await fn())
+      let value = await lock.getValue()
+      if (value === undefined) {
+        value = await fn()
+      }
+
       await lock.setValue(value)
 
       lock.on = false
