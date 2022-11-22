@@ -1,4 +1,4 @@
-type SuccessHandler<T> = (res: T) => T
+type SuccessHandler<T> = ((res: T) => T) | ((res: T) => Promise<T>)
 type ErrorHandler<N> = (err: N) => any
 
 interface Handles<T, N> {
