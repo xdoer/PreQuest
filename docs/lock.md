@@ -31,20 +31,21 @@ const lock = new Lock({
 })
 const wrapper = Lock.createLockWrapper(lock)
 
-// 添加 token
-prequest.use(async (ctx, next) => {
-  const token = await wrapper(getToken)
-  ctx.request.headers = ctx.request.headers || {}
-  ctx.request.headers['Authorization'] = `bearer ${token}`
-  await next()
-})
-
-// 创建一个获取 token、不走中间件的实例
+// 创建一个获取`token`, 不走中间件的实例
 const tokenRequest = create()
 
 function getToken() {
   return tokenRequest('http://localhost:3000/token').then(res => res.data.token)
 }
+
+// 创建带`token`的请求实例
+const request = create()
+request.use(async (ctx, next) => {
+  const token = await wrapper(getToken)
+  ctx.request.headers = ctx.request.headers || {}
+  ctx.request.headers['Authorization'] = `bearer ${token}`
+  await next()
+})
 ```
 
 或者，你不想创建新的请求 Token 实例的话，你可以设计传参，跳过添加 token 的步骤
